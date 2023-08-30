@@ -31,10 +31,4 @@ class MainController extends AbstractController
             'packages' => $packages,
         ]);
     }
-
-    #[Route('/components')]
-    public function componentsRedirect(): RedirectResponse
-    {
-        return $this->redirectToRoute('app_all_packages', [], Response::HTTP_MOVED_PERMANENTLY);
-    }
 }

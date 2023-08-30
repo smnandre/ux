@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Twig UI Components{% endblock %}
+
+{% block tailwind_demo %}
+    <html>
+        <head>
+            <link rel="stylesheet" href="{{ asset('styles/tailwind.css') }}">
+
+            {{ importmap() }}
+        </head>
+        <body {{ stimulus_controller('dispatch') }}>
+            <div class="flex justify-center border-black-3 mt-3">
+                <button
+                    class="bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 text-sm"
+                    {{ stimulus_action('dispatch', 'dispatch', parameters={
+                        target: '#demo-modal',
+                        event: 'modal:open'
+                    }) }}
+                >
+                    Open that modal!
+                </button>
+            </div>
+
+            <twig:tailwind:Modal id="demo-modal">
+                <twig:block name="header">
+                    <h3 class="text-lg text-center font-medium text-black-9">
+                        Check out this sweet code:
+                    </h3>
+                </twig:block>
+
+                <div class="prose dark:prose-invert px-3 pb-3">
+                    <pre><code>const foo = 'bar';
+console.log(foo);</code></pre>
+                </div>
+
+                <div class="flex justify-center border-t border-black-3 dark:border-black-6">
+                    <button {{ stimulus_action('modal', 'close') }} class="bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 text-sm my-3">Close</button>
+                </div>
+            </twig:tailwind:Modal>
+        </body>
+    </html>
+{% endblock %}
+
+{% block body %}
+    <h1>Modal</h1>
+
+    <iframe style="width: 50%; height: 300px; margin: 40px; border: 1px solid; border-radius: 5px;" {{ stimulus_controller('iframe-content', {
+        content: block('tailwind_demo')
+    }) }}></iframe>
+{% endblock %}
