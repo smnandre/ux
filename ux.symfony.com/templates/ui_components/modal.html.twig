@@ -9,33 +9,40 @@
 
             {{ importmap() }}
         </head>
-        <body {{ stimulus_controller('dispatch') }}>
+        <body>
             <div class="flex justify-center border-black-3 mt-3">
-                <button
-                    class="bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 text-sm"
-                    {{ stimulus_action('dispatch', 'dispatch', parameters={
-                        target: '#demo-modal',
-                        event: 'modal:open'
-                    }) }}
-                >
-                    Open that modal!
-                </button>
+            <button
+                class="bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 text-sm"
+                data-controller="modal"
+                data-modal-target-value="demo-modal"
+            >
+                Open Modal
+            </button>
             </div>
 
             <twig:tailwind:Modal id="demo-modal">
                 <twig:block name="header">
-                    <h3 class="text-lg text-center font-medium text-black-9">
-                        Check out this sweet code:
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Important Content Below
                     </h3>
                 </twig:block>
 
-                <div class="prose dark:prose-invert px-3 pb-3">
-                    <pre><code>const foo = 'bar';
-console.log(foo);</code></pre>
-                </div>
+                <div class="p-6 space-y-6">
+                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                        With only three weeks remaining until National Unicorn Day, enthusiasts and experts alike are gearing up to celebrate these mythical creatures in all their rainbow-sparkling glory.
+                    </p>
+                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                        From whimsical parades featuring unicorn floats to scholarly discussions on the aerodynamics of magical flight, the event promises to be the highlight of the unicorn calendar year.
+                    </p>
 
-                <div class="flex justify-center border-t border-black-3 dark:border-black-6">
-                    <button {{ stimulus_action('modal', 'close') }} class="bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 text-sm my-3">Close</button>
+                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                        Will you be attending?
+                    </p>
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    <button {{ stimulus_action('modal-component', 'close') }} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Definitely!</button>
+                    <button {{ stimulus_action('modal-component', 'close') }} class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Too busy</button>
                 </div>
             </twig:tailwind:Modal>
         </body>
@@ -45,7 +52,7 @@ console.log(foo);</code></pre>
 {% block body %}
     <h1>Modal</h1>
 
-    <iframe style="width: 50%; height: 300px; margin: 40px; border: 1px solid; border-radius: 5px;" {{ stimulus_controller('iframe-content', {
+    <iframe style="width: 50%; height: 500px; margin: 40px; border: 1px solid; border-radius: 5px;" {{ stimulus_controller('iframe-content', {
         content: block('tailwind_demo')
     }) }}></iframe>
 {% endblock %}
