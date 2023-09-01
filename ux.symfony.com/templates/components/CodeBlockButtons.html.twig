@@ -1,11 +1,10 @@
 <div {{ stimulus_controller('ux-clipboard', {
-    source: source,
-})|stimulus_controller('tooltips') }}
-    data-ux-clipboard-success-content="Copied!"
-    class="code-buttons"
+        source: source,
+    })|stimulus_controller('tooltips') }}
+        data-ux-clipboard-success-content="Copied!"
+        class="code-buttons"
 >
-    <a
-        href="{{ link }}"
+    <a href="{{ link }}"
         type="button"
         rel="external noopener noreferrer"
         target="_blank"
@@ -13,12 +12,9 @@
         data-bs-toggle="tooltip"
         data-bs-placement="bottom"
         title="View on GitHub"
-    ><twig:Icon name="github" /></a>
-    <button
-        type="button"
-        class="btn btn-copy btn-sm"
-        {{ stimulus_action('ux-clipboard', 'copy') }}
-    ><twig:Icon name="copy"/>
+    ><twig:Icon name="github"/></a>
+    <button type="button"  class="btn btn-copy btn-sm" {{ stimulus_action('ux-clipboard', 'copy') }}>
+        <twig:Icon name="copy"/>
         <span {{ stimulus_target('ux-clipboard', 'button') }}> Copy</span>
     </button>
 </div>

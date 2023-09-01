@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\UxPackage;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Asset\Packages;
@@ -41,7 +41,7 @@ class CropperController extends AbstractController
             $croppedThumbnail = sprintf('data:image/jpeg;base64,%s', base64_encode($crop->getCroppedThumbnail(200, 150)));
         }
 
-        return $this->render('cropper/cropper.html.twig', [
+        return $this->render('ux_packages/cropper.html.twig', [
             'form' => $form,
             'croppedImage' => $croppedImage,
             'croppedThumbnail' => $croppedThumbnail,

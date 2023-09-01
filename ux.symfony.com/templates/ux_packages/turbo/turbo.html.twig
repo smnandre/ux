@@ -124,14 +124,14 @@
                     {% block demo_content %}
                         <div style="height: 150px; overflow: auto;">
                             <ul class="list-unstyled" id="chat-box">
-                                {{ include('turbo/_chatList.html.twig') }}
+                                {{ include('ux_packages/turbo/_chatList.html.twig') }}
                             </ul>
                         </div>
                     {% endblock %}
                     {% block demo_content_secondary %}
                     <div class="demo-container-inner-secondary p-4">
                         <form id="chat-form" action="{{ path('app_turbo_chat') }}" method="POST">
-                            {{ include('turbo/_chatForm.html.twig') }}
+                            {{ include('ux_packages/turbo/_chatForm.html.twig') }}
                         </form>
                     </div>
                     {% endblock %}

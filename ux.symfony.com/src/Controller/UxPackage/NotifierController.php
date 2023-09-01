@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\UxPackage;
 
 use App\Form\SendNotificationForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,7 +33,7 @@ class NotifierController extends AbstractController
             return $this->redirectToRoute('app_notify');
         }
 
-        return $this->render('notifier/notify.html.twig', [
+        return $this->render('ux_packages/notify.html.twig', [
             'form' => $form,
         ]);
     }

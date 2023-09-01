@@ -6,7 +6,8 @@
             {# set this in the child template #}
             {% for filename in files %}
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link {{ loop.first ? 'active' }}" data-bs-toggle="tab" data-bs-target="#{{ this.getItemId(filename) }}" type="button" role="tab" aria-controls="{{ this.getItemId(filename) }}" aria-selected="{{ loop.first ? 'true' : 'false' }}">{{ filename }}</button>
+                  <button class="nav-link {{ loop.first ? 'active' }}" data-bs-toggle="tab" data-bs-target="#{{ this.getItemId(filename) }}"
+                          type="button" role="tab" aria-controls="{{ this.getItemId(filename) }}" aria-selected="{{ loop.first ? 'true' : 'false' }}">{{ filename }}</button>
                 </li>
             {% endfor %}
         </ul>

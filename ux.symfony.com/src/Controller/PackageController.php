@@ -2,20 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Food;
-use App\Form\DropzoneForm;
-use App\Form\TimeForAMealForm;
-use App\Form\TogglePasswordForm;
 use App\Service\PackageRepository;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Asset\Packages;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class UxPackagesController extends AbstractController
+class PackageController extends AbstractController
 {
     public function __construct(
         private NormalizerInterface $normalizer,
@@ -75,89 +69,10 @@ class UxPackagesController extends AbstractController
         return $this->render('ux_packages/typed.html.twig');
     }
 
-    #[Route('/autocomplete', name: 'app_autocomplete')]
-    public function autocomplete(Request $request): Response
-    {
-        $form = $this->createForm(TimeForAMealForm::class);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-
-            $this->addFlash(
-                'autocomplete_success',
-                $this->generateEatingMessage(
-                    $data['foods'],
-                    $data['name']
-                )
-            );
-
-            return $this->redirectToRoute('app_autocomplete');
-        }
-
-        return $this->render('ux_packages/autocomplete.html.twig', [
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/dropzone', name: 'app_dropzone')]
-    public function dropzone(Request $request): Response
-    {
-        $form = $this->createForm(DropzoneForm::class);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('dropzone_success', 'File uploaded! Then immediately discarded... since this is a demo server.');
-
-            return $this->redirectToRoute('app_dropzone');
-        }
-
-        return $this->render('ux_packages/dropzone.html.twig', [
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/translator', name: 'app_translator')]
     public function translator(): Response
     {
         return $this->render('ux_packages/translator.html.twig');
-    }
-
-    #[Route('/toggle-password', name: 'app_toggle_password')]
-    public function togglePassword(): Response
-    {
-        return $this->render('ux_packages/toggle_password.html.twig', [
-            'form' => $this->createForm(TogglePasswordForm::class),
-        ]);
-    }
-
-    private function getDeliciousWord(): string
-    {
-        $words = ['delicious', 'scrumptious', 'mouth-watering', 'life-changing', 'world-beating', 'freshly-squeezed'];
-
-        return $words[array_rand($words)];
-    }
-
-    private function generateEatingMessage(Collection $foods, string $name): string
-    {
-        $i = 0;
-        $foodStrings = $foods->map(function (Food $food) use (&$i, $foods) {
-            ++$i;
-            $str = $food->getName();
-
-            if ($i === \count($foods) && $i > 1) {
-                $str = 'and '.$str;
-            }
-
-            return $str;
-        });
-
-        return sprintf('Time for %s! Enjoy %s %s %s!',
-            $name,
-            \count($foodStrings) > 1 ? 'some' : 'a',
-            $this->getDeliciousWord(),
-            implode(\count($foodStrings) > 2 ? ', ' : ' ', $foodStrings->toArray())
-        );
     }
 
     private function getNormalizedPackages(PackageRepository $packageRepository): array

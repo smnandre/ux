@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\UxPackage;
 
 use App\Service\PackageRepository;
 use Pagerfanta\Adapter\ArrayAdapter;
@@ -20,7 +20,7 @@ class SwupController extends AbstractController
             4
         );
 
-        return $this->render('swup/swup.html.twig', [
+        return $this->render('ux_packages/swup.html.twig', [
             'pager' => $pagerfanta,
         ]);
     }

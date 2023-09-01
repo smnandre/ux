@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\UxPackage;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +39,7 @@ class ChartController extends AbstractController
             'maintainAspectRatio' => false,
         ]);
 
-        return $this->render('chart/chartjs.html.twig', [
+        return $this->render('ux_packages/chartjs.html.twig', [
             'chart' => $chart,
         ]);
     }

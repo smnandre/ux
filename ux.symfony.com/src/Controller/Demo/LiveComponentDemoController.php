@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Demo;
 
 use App\Entity\Invoice;
 use App\Entity\TodoItem;
@@ -20,7 +20,7 @@ class LiveComponentDemoController extends AbstractController
     #[Route('/auto-validating-form', name: 'app_live_components_demo_auto_validating_form')]
     public function demoAutoValidatingForm(LiveDemoRepository $liveDemoRepository): Response
     {
-        return $this->render('live_component_demo/auto_validating_form.html.twig', [
+        return $this->render('demo/live_component/auto_validating_form.html.twig', [
             'demo' => $liveDemoRepository->find('auto-validating-form'),
         ]);
     }
@@ -44,7 +44,7 @@ class LiveComponentDemoController extends AbstractController
             ]);
         }
 
-        return $this->render('live_component_demo/form_collection_type.html.twig', [
+        return $this->render('demo/live_component/form_collection_type.html.twig', [
             'form' => $form,
             'todoList' => $todoList,
             'demo' => $liveDemoRepository->find('form-collection-type'),
@@ -54,7 +54,7 @@ class LiveComponentDemoController extends AbstractController
     #[Route('/dependent-form-fields', name: 'app_live_components_demo_dependent_form_fields')]
     public function demoDependentFormFields(LiveDemoRepository $liveDemoRepository): Response
     {
-        return $this->render('live_component_demo/dependent_form_fields.html.twig', [
+        return $this->render('demo/live_component/dependent_form_fields.html.twig', [
             'demo' => $liveDemoRepository->find('dependent-form-fields'),
         ]);
     }
@@ -62,7 +62,7 @@ class LiveComponentDemoController extends AbstractController
     #[Route('/voting', name: 'app_live_components_demo_voting')]
     public function demoVoting(LiveDemoRepository $liveDemoRepository, FoodRepository $foodRepository): Response
     {
-        return $this->render('live_component_demo/voting.html.twig', [
+        return $this->render('demo/live_component/voting.html.twig', [
             'demo' => $liveDemoRepository->find('voting'),
             'foods' => $foodRepository->findAll(),
         ]);
@@ -76,7 +76,7 @@ class LiveComponentDemoController extends AbstractController
             throw $this->createNotFoundException('No food found - try running "php bin/console app:load-data"');
         }
 
-        return $this->render('live_component_demo/inline_edit.html.twig', parameters: [
+        return $this->render('demo/live_component/inline_edit.html.twig', parameters: [
             'demo' => $liveDemoRepository->find('inline_edit'),
             'food' => $foodRepository->findOneBy([]),
         ]);
@@ -85,7 +85,7 @@ class LiveComponentDemoController extends AbstractController
     #[Route('/chartjs', name: 'app_live_components_demo_chartjs')]
     public function chartJs(LiveDemoRepository $liveDemoRepository): Response
     {
-        return $this->render('live_component_demo/chartjs.html.twig', parameters: [
+        return $this->render('demo/live_component/chartjs.html.twig', parameters: [
             'demo' => $liveDemoRepository->find('chartjs_updating'),
         ]);
     }
@@ -95,7 +95,7 @@ class LiveComponentDemoController extends AbstractController
     {
         $invoice = $invoice ?? new Invoice();
 
-        return $this->render('live_component_demo/invoice.html.twig', parameters: [
+        return $this->render('demo/live_component/invoice.html.twig', parameters: [
             'demo' => $liveDemoRepository->find('invoice'),
             'invoice' => $invoice,
         ]);
@@ -104,7 +104,7 @@ class LiveComponentDemoController extends AbstractController
     #[Route('/product-form', name: 'app_live_components_product_form')]
     public function productForm(LiveDemoRepository $liveDemoRepository): Response
     {
-        return $this->render('live_component_demo/product_form.html.twig', parameters: [
+        return $this->render('demo/live_component/product_form.html.twig', parameters: [
             'demo' => $liveDemoRepository->find('product_form'),
         ]);
     }
@@ -112,7 +112,7 @@ class LiveComponentDemoController extends AbstractController
     #[Route('/upload', name: 'app_live_components_upload')]
     public function uploadFiles(LiveDemoRepository $liveDemoRepository): Response
     {
-        return $this->render('live_component_demo/upload.html.twig', parameters: [
+        return $this->render('demo/live_component/upload.html.twig', parameters: [
             'demo' => $liveDemoRepository->find('upload'),
         ]);
     }

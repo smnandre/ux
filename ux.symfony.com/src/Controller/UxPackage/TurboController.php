@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\UxPackage;
 
 use App\Entity\Chat;
 use App\Form\AddTodoItemForm;
@@ -47,7 +47,7 @@ class TurboController extends AbstractController
             );
         }
 
-        return $this->render('turbo/turbo.html.twig', [
+        return $this->render('ux_packages/turbo/turbo.html.twig', [
             'form' => $form,
             'name' => $name,
             'animal' => $animal,
@@ -64,7 +64,7 @@ class TurboController extends AbstractController
         $session = $request->getSession();
         $this->initializeTodos($session);
 
-        return $this->render('turbo/todos.html.twig', [
+        return $this->render('ux_packages/turbo/todos.html.twig', [
             'todos' => $session->get('todos'),
         ]);
     }
@@ -85,7 +85,7 @@ class TurboController extends AbstractController
             return $this->redirect($this->generateUrl('app_turbo_todo_list'));
         }
 
-        return $this->renderForm('turbo/add_todo.html.twig', [
+        return $this->renderForm('ux_packages/turbo/add_todo.html.twig', [
             'form' => $form,
         ]);
     }
@@ -121,7 +121,7 @@ class TurboController extends AbstractController
         // send an update to ALL users viewing this page to add the new chat & update header count
         $hub->publish(new Update(
             'chat',
-            $this->renderView('turbo/all_users_chat_success.stream.html.twig', [
+            $this->renderView('ux_packages/turbo/all_users_chat_success.stream.html.twig', [
                 'messages' => $this->getChatMessages($chatRepository),
                 'messageCount' => $chatRepository->count([]),
             ])
@@ -131,7 +131,7 @@ class TurboController extends AbstractController
         if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
-            return $this->render('turbo/chat_success.stream.html.twig', [
+            return $this->render('ux_packages/turbo/chat_success.stream.html.twig', [
                 'messageChoices' => self::$messages,
             ]);
         }
