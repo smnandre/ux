@@ -657,6 +657,9 @@
     "symfonycasts/sass-bundle": {
         "version": "v0.1.0"
     },
+    "symfonycasts/tailwind-bundle": {
+        "version": "v0.1.5"
+    },
     "theseer/tokenizer": {
         "version": "1.2.1"
     },

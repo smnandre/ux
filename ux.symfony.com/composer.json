@@ -50,6 +50,7 @@
         "symfony/validator": "^6.3.1",
         "symfony/yaml": "^6.3.0",
         "symfonycasts/sass-bundle": "^0.2.0",
+        "symfonycasts/tailwind-bundle": "^0.1.5",
         "twbs/bootstrap": "^5.3",
         "twig/extra-bundle": "^2.12|^3.6.1",
         "twig/intl-extra": "^3.6",
