@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tooltop Twig Component{% endblock %}
+
+{% block tailwind_demo %}
+    <twig:TailwindDemoIframePage>
+        <twig:tailwind:Tooltip text="A default tooltip!">
+            <!-- add a stimulus target called "aim" for a tooltip controller -->
+            <button data-tooltip-target="aim">Hello Tooltip</button>
+        </twig:tailwind:Tooltip>
+    </twig:TailwindDemoIframePage>
+{% endblock %}
+
+{% block body %}
+    <h1>Tooltip</h1>
+
+    <iframe style="width: 50%; height: 500px; margin: 40px; border: 1px solid; border-radius: 5px;" {{ stimulus_controller('iframe-content', {
+        content: block('tailwind_demo')
+    }) }}></iframe>
+{% endblock %}

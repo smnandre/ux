@@ -1,0 +1,17 @@
+{% props offset=10, placement='bottom', text %}
+
+<span {{ attributes.add(stimulus_controller('tooltip', {
+    'offset': offset,
+    'placement': placement,
+})) }}>
+    {% block content %}{% endblock %}
+
+    <div {{ stimulus_target('tooltip', 'block') }} class="hidden absolute z-50 inline-block p-2 text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+        {% block tooltip %}
+            <div class="text-center">
+                {% block tooltip_content %}{{ text }}{% endblock %}
+            </div>
+        {% endblock %}
+        <div {{ stimulus_target('tooltip', 'arrow') }} class="w-[10px] h-[10px] z-10 absolute bg-white dark:bg-gray-800 rotate-45"></div>
+    </div>
+</span>
