@@ -11,6 +11,7 @@
         </twig:tailwind:Tooltip>
 
         <hr class="my-8">
+
         <twig:tailwind:Tooltip text="I'm on top" placement="top">
             <button
                 class="px-4 py-2 bg-blue-500 text-white rounded dark:bg-blue-600 dark:text-gray-200"
@@ -30,6 +31,29 @@
             <button
                 class="px-4 py-2 bg-blue-500 text-white rounded dark:bg-blue-600 dark:text-gray-200"
             >right tooltip</button>
+        </twig:tailwind:Tooltip>
+
+        <hr class="my-8">
+
+        <twig:tailwind:Tooltip>
+            <button
+                class="px-4 py-2 bg-blue-500 text-white rounded dark:bg-blue-600 dark:text-gray-200"
+            >Custom HTML</button>
+
+            <twig:block name="tooltip">
+                <div class="flex flex-row items-center">
+                    <div class="mr-4">
+                        <h5>We can write <strong>whatever</strong> <code>HTML</code> we want!</h5>
+                        <p>Isn't that cool?</p>
+                    </div>
+                    <div>
+                        <twig:Icon
+                            name="circle-check"
+                            class="fill-lime-500 inline-block w-5 ml-2"
+                        />
+                    </div>
+                </div>
+            </twig:block>
         </twig:tailwind:Tooltip>
     </twig:TailwindDemoIframePage>
 {% endblock %}
