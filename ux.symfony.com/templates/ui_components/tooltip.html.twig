@@ -4,10 +4,14 @@
 
 {% block tailwind_demo %}
     <twig:TailwindDemoIframePage>
-        <twig:tailwind:Tooltip text="A default tooltip!">
+        <twig:tailwind:Tooltip text="That's amazing!" placement="top-start">
             <!-- add a stimulus target called "aim" for a tooltip controller -->
-            <button data-tooltip-target="aim">Hello Tooltip</button>
+            <button
+                class="px-4 py-2 bg-blue-500 text-white rounded dark:bg-blue-600 dark:text-gray-200"
+            >Default Tooltip</button>
         </twig:tailwind:Tooltip>
+
+        <hr class="my-8">
     </twig:TailwindDemoIframePage>
 {% endblock %}
 
