@@ -49,6 +49,7 @@
         "symfony/ux-vue": "2.x-dev",
         "symfony/validator": "^6.3.1",
         "symfony/yaml": "^6.3.0",
+        "symfonycasts/dynamic-forms": "^0.1.0",
         "symfonycasts/sass-bundle": "^0.2.0",
         "symfonycasts/tailwind-bundle": "^0.1.5",
         "twbs/bootstrap": "^5.3",
