@@ -5,20 +5,39 @@
 {% block tailwind_demo %}
     <twig:TailwindDemoIframePage>
         <twig:tailwind:Tooltip text="That's amazing!" placement="top-start">
-            <!-- add a stimulus target called "aim" for a tooltip controller -->
             <button
                 class="px-4 py-2 bg-blue-500 text-white rounded dark:bg-blue-600 dark:text-gray-200"
             >Default Tooltip</button>
         </twig:tailwind:Tooltip>
 
         <hr class="my-8">
+        <twig:tailwind:Tooltip text="I'm on top" placement="top">
+            <button
+                class="px-4 py-2 bg-blue-500 text-white rounded dark:bg-blue-600 dark:text-gray-200"
+            >top tooltip</button>
+        </twig:tailwind:Tooltip>
+        <twig:tailwind:Tooltip text="I'm on bottom" placement="bottom">
+            <button
+                class="px-4 py-2 bg-blue-500 text-white rounded dark:bg-blue-600 dark:text-gray-200"
+            >bottom tooltip</button>
+        </twig:tailwind:Tooltip>
+        <twig:tailwind:Tooltip text="I'm on the left" placement="left">
+            <button
+                class="px-4 py-2 bg-blue-500 text-white rounded dark:bg-blue-600 dark:text-gray-200"
+            >left tooltip</button>
+        </twig:tailwind:Tooltip>
+        <twig:tailwind:Tooltip text="I'm on the right" placement="right">
+            <button
+                class="px-4 py-2 bg-blue-500 text-white rounded dark:bg-blue-600 dark:text-gray-200"
+            >right tooltip</button>
+        </twig:tailwind:Tooltip>
     </twig:TailwindDemoIframePage>
 {% endblock %}
 
 {% block body %}
     <h1>Tooltip</h1>
 
-    <iframe style="width: 50%; height: 500px; margin: 40px; border: 1px solid; border-radius: 5px;" {{ stimulus_controller('iframe-content', {
+    <iframe style="width: 70%; height: 500px; margin: 40px; border: 1px solid; border-radius: 5px;" {{ stimulus_controller('iframe-content', {
         content: block('tailwind_demo')
     }) }}></iframe>
 {% endblock %}
