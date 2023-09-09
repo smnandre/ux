@@ -25,7 +25,9 @@ use Symfony\UX\TwigComponent\ComponentRenderer;
 use Symfony\UX\TwigComponent\ComponentRendererInterface;
 use Symfony\UX\TwigComponent\ComponentStack;
 use Symfony\UX\TwigComponent\ComponentTemplateFinder;
+use Symfony\UX\TwigComponent\DataCollector\TwigComponentDataCollector;
 use Symfony\UX\TwigComponent\DependencyInjection\Compiler\TwigComponentPass;
+use Symfony\UX\TwigComponent\EventListener\TwigComponentLoggerListener;
 use Symfony\UX\TwigComponent\Twig\ComponentExtension;
 use Symfony\UX\TwigComponent\Twig\ComponentLexer;
 use Symfony\UX\TwigComponent\Twig\TwigEnvironmentConfigurator;
@@ -105,5 +107,24 @@ final class TwigComponentExtension extends Extension
             ])
             ->addTag('console.command')
         ;
+
+        $container->register('ux.twig_component.component_logger_listener', TwigComponentLoggerListener::class)
+            ->addTag('kernel.event_subscriber');
+        if ($container->hasParameter('kernel.debug') && $container->getParameter('kernel.debug')) {
+            $container->register('ux.twig_component.logger_listener', TwigComponentLoggerListener::class)
+                ->setArguments([new Reference('debug.stopwatch')])
+                ->addTag('kernel.event_subscriber');
+
+            $container->register('ux.twig_component.data_collector', TwigComponentDataCollector::class)
+                ->setArguments([
+                    new Reference('ux.twig_component.logger_listener'),
+                    new Reference('twig'),
+                ])
+                ->addTag('data_collector', [
+                    'template' => '@TwigComponent/Collector/twig_component.html.twig',
+                    'id' => 'twig_component',
+                    'priority' => 256,
+                ]);
+        }
     }
 }
