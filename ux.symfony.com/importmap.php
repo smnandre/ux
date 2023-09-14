@@ -1,13 +1,14 @@
 <?php
 
 /**
- * Returns the import map for this application.
+ * Returns the importmap for this application.
  *
  * - "path" is a path inside the asset mapper system. Use the
  *     "debug:asset-map" command to see the full list of paths.
  *
- * - "preload" set to true for any modules that are loaded on the initial
- *     page load to help the browser download them earlier.
+ * - "preload"
+ *     For JavaScript: adds a modulepreload link to help the browser download it earlier.
+ *     For CSS: adds a <link rel="stylesheet" tag for the CSS.
  *
  * The "importmap:require" command can be used to add new entries to this file.
  *
@@ -120,5 +121,8 @@ return [
     ],
     'stimulus-use' => [
         'url' => 'https://cdn.jsdelivr.net/npm/stimulus-use@0.52.0/+esm',
+    ],
+    '@floating-ui/dom' => [
+        'url' => 'https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.5.1/+esm',
     ],
 ];

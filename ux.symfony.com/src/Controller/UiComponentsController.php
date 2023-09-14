@@ -19,4 +19,10 @@ class UiComponentsController extends AbstractController
     {
         return $this->render('ui_components/modal.html.twig');
     }
+
+    #[Route('/components/tooltip', name: 'app_ui_component_tooltip')]
+    public function tooltip(): Response
+    {
+        return $this->render('ui_components/tooltip.html.twig');
+    }
 }

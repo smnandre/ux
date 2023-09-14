@@ -28,9 +28,6 @@ export default class extends Controller {
         }
     }
 
-    /**
-     * @param {MouseEvent} event
-     */
     close(event) {
         event.preventDefault();
 
