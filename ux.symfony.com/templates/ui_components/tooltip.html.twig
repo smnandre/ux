@@ -2,8 +2,10 @@
 
 {% block title %}Tooltop Twig Component{% endblock %}
 
-{% block tailwind_demo %}
-    <twig:TailwindDemoIframePage>
+{% block body %}
+    <h1>Tooltip</h1>
+
+    <twig:UiDemoIframe css="tailwind">
         <twig:tailwind:Tooltip text="That's amazing!" placement="top-start">
             <button
                 class="px-4 py-2 bg-blue-500 text-white rounded dark:bg-blue-600 dark:text-gray-200"
@@ -55,13 +57,5 @@
                 </div>
             </twig:block>
         </twig:tailwind:Tooltip>
-    </twig:TailwindDemoIframePage>
-{% endblock %}
-
-{% block body %}
-    <h1>Tooltip</h1>
-
-    <iframe style="width: 70%; height: 500px; margin: 40px; border: 1px solid; border-radius: 5px;" {{ stimulus_controller('iframe-content', {
-        content: block('tailwind_demo')
-    }) }}></iframe>
+    </twig:UiDemoIframe>
 {% endblock %}

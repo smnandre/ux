@@ -25,4 +25,10 @@ class UiComponentsController extends AbstractController
     {
         return $this->render('ui_components/tooltip.html.twig');
     }
+
+    #[Route('/components/button', name: 'app_ui_component_button')]
+    public function button(): Response
+    {
+        return $this->render('ui_components/button.html.twig');
+    }
 }

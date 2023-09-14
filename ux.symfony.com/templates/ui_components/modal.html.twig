@@ -2,8 +2,10 @@
 
 {% block title %}Modal Twig Component{% endblock %}
 
-{% block tailwind_demo %}
-    <twig:TailwindDemoIframePage>
+{% block body %}
+    <h1>Modal</h1>
+
+    <twig:UiDemoIframe css="tailwind">
         <div class="flex justify-center border-black-3 mt-3">
             <button
                 class="bg-sky-500 text-white font-semibold rounded-lg px-4 py-2 text-sm"
@@ -37,13 +39,5 @@
                 <button {{ stimulus_action('modal-component', 'close') }} class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Too busy</button>
             </div>
         </twig:tailwind:Modal>
-    </twig:TailwindDemoIframePage>
-{% endblock %}
-
-{% block body %}
-    <h1>Modal</h1>
-
-    <iframe style="width: 70%; height: 500px; margin: 40px; border: 1px solid; border-radius: 5px;" {{ stimulus_controller('iframe-content', {
-        content: block('tailwind_demo')
-    }) }}></iframe>
+    </twig:UiDemoIframe>
 {% endblock %}

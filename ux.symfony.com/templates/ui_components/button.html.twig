@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Button Twig Component{% endblock %}
+
+{% block body %}
+    <h1>Buttons</h1>
+
+    <twig:UiDemoIframe css="tailwind">
+        <twig:Tailwind:Button>Default Button!</twig:Tailwind:Button>
+
+        <twig:Tailwind:Button color="alternative">Alternative Button!</twig:Tailwind:Button>
+
+        <twig:Tailwind:Button color="red">Red Button!</twig:Tailwind:Button>
+
+        <twig:Tailwind:Button color="purple">Purple Button!</twig:Tailwind:Button>
+    </twig:UiDemoIframe>
+{% endblock %}
