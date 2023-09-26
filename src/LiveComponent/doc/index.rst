@@ -242,7 +242,7 @@ LiveProp Data Types
 
 LiveProps must be a value that can be sent to JavaScript. Supported values
 are scalars (int, float, string, bool, null), arrays (of scalar values), enums,
-DateTime objects & Doctrine entity objects.
+DateTime objects, Doctrine entity objects, DTOs, or array of DTOs.
 
 See :ref:`hydration` for handling more complex data.
 
@@ -622,16 +622,44 @@ Note that being able to change the "identity" of an object is something
 that works only for objects that are dehydrated to a scalar value (like
 persisted entities, which dehydrate to an ``id``).
 
-Hydration, DTO's & the Serializer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Using DTO's on a LiveProp
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you try to use a ``LiveProp`` for some unsupported type (e.g.a DTO object),
-it will fail. A best practice is to use simple data.
+.. versionadded:: 2.12
 
-But there are two options to make this work:
+    The automatic (de)hydration of DTO objects was introduced in LiveComponents 2.12.
 
-1) Hydrating with the Serializer
-................................
+You can also use a DTO (i.e. data transfer object / any simple class) with LiveProp as long as the property has the correct type::
+
+    class ComponentWithAddressDto
+    {
+        public AddressDto $addressDto;
+    }
+
+To work with a collection of DTOs, specify the collection type inside PHPDoc::
+
+    class ComponentWithAddressDto
+    {
+        /**
+         * @var AddressDto[]
+        /*
+        public array $addressDtoCollection;
+    }
+
+Here is how the (de)hydration of DTO objects works:
+
+- All "properties" (public properties or fake properties via
+  getter/setter methods) are read & dehydrated. If a property is settable
+  but not gettable (or vice versa), an error will be thrown.
+- The PropertyAccess component is used to get/set the value, which means
+  getter and setter methods are supported, in addition to public properties.
+- The DTO cannot have any constructor arguments.
+
+If this solution doesn't fit your need there are two others options to
+make this work:
+
+Hydrating with the Serializer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 2.8
 
@@ -648,8 +676,8 @@ option::
 
 You can also set a ``serializationContext`` option on the ``LiveProp``.
 
-2) Hydrating with Methods: hydrateWith & dehydrateWith
-......................................................
+Hydrating with Methods: hydrateWith & dehydrateWith
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can take full control of the hydration process by setting the ``hydrateWith``
 and ``dehydrateWith`` options on ``LiveProp``::
@@ -3063,6 +3091,60 @@ Then specify this new route on your component:
           use DefaultActionTrait;
       }
 
+Add a Hook on LiveProp Update
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 2.12
+
+    The ``onUpdated`` option was added in LiveComponents 2.12.
+
+If you want to run custom code after a specific LiveProp is updated,
+you can do it by adding an ``onUpdated`` option set to a public method name
+on the component::
+
+    #[AsLiveComponent]
+    class ProductSearch
+    {
+        #[LiveProp(writable: true, onUpdated: 'onQueryUpdated')]
+        public string $query = '';
+
+        // ...
+
+        public function onQueryUpdated($previousValue): void
+        {
+            // $this->query already contains a new value
+            // and its previous value is passed as an argument
+        }
+    }
+
+As soon as the ``query`` LiveProp is updated, the ``onQueryUpdated()`` method
+will be called. The previous value is passed there as the first argument.
+
+If you're allowing object properties to be writable, you can also listen to
+the change of one specific key::
+
+    use App\Entity\Post;
+
+    #[AsLiveComponent]
+    class EditPost
+    {
+        #[LiveProp(writable: ['title', 'content'], onUpdated: ['title' => 'onTitleUpdated'])]
+        public Post $post;
+
+        // ...
+
+        public function onTitleUpdated($previousValue): void
+        {
+            // ...
+        }
+    }
+
+Debugging Components
+--------------------
+
+Need to list or debug some component issues.
+The `Twig Component debug command`_ can help you.
+
 Test Helper
 -----------
 
@@ -3172,3 +3254,4 @@ bound to Symfony's BC policy for the moment.
 .. _`How to Work with Form Themes`: https://symfony.com/doc/current/form/form_themes.html
 .. _`Symfony's built-in form theming techniques`: https://symfony.com/doc/current/form/form_themes.html
 .. _`pass content to Twig Components`: https://symfony.com/bundles/ux-twig-component/current/index.html#passing-blocks
+.. _`Twig Component debug command`: https://symfony.com/bundles/ux-twig-component/current/index.html#debugging-components

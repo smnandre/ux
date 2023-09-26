@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 2.12.0
+
+-   Add support for (de)hydrating DTO classes in `LiveProp`.
+-   Fixed `emit()` method of `TestLiveComponent` to properly test events.
+-   Add `actionAs()` to `TestLiveComponent`.
+-   Fixed rendering bug when using Chrome's translation feature.
+-   Add `onUpdated()` hook for `LiveProp`.
+-   Fix support for Alpine.js & live components.
+
 ## 2.11.0
 
 -   Add helper for testing live components.

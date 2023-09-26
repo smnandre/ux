@@ -19,7 +19,9 @@ use Symfony\UX\LiveComponent\Metadata\LiveComponentMetadata;
 use Symfony\UX\LiveComponent\Metadata\LiveComponentMetadataFactory;
 use Symfony\UX\LiveComponent\Tests\Fixtures\Component\Component2;
 use Symfony\UX\LiveComponent\Tests\Fixtures\Component\Component3;
+use Symfony\UX\LiveComponent\Tests\Fixtures\Dto\Address;
 use Symfony\UX\LiveComponent\Tests\Fixtures\Dto\BlogPostWithSerializationContext;
+use Symfony\UX\LiveComponent\Tests\Fixtures\Dto\CustomerDetails;
 use Symfony\UX\LiveComponent\Tests\Fixtures\Dto\Embeddable2;
 use Symfony\UX\LiveComponent\Tests\Fixtures\Dto\Money;
 use Symfony\UX\LiveComponent\Tests\Fixtures\Dto\Temperature;
@@ -144,6 +146,90 @@ final class LiveComponentHydratorTest extends KernelTestCase
 
     public function provideDehydrationHydrationTests(): iterable
     {
+        yield 'onUpdated: exception if method not exists' => [function () {
+            return HydrationTest::create(new class() {
+                #[LiveProp(writable: true, onUpdated: 'onFirstNameUpdated')]
+                public string $firstName;
+            })
+                ->mountWith(['firstName' => 'Ryan'])
+                ->userUpdatesProps(['firstName' => 'Victor'])
+                ->expectsExceptionDuringHydration(\Exception::class, '/onFirstNameUpdated\(\)" specified as LiveProp "onUpdated" hook does not exist/');
+        }];
+
+        yield 'onUpdated: with scalar value' => [function () {
+            return HydrationTest::create(new class() {
+                #[LiveProp(writable: true, onUpdated: 'onFirstNameUpdated')]
+                public string $firstName;
+
+                public function onFirstNameUpdated($oldValue)
+                {
+                    if ('Victor' === $this->firstName) {
+                        $this->firstName = 'Revert to '.$oldValue;
+                    }
+                }
+            })
+                ->mountWith(['firstName' => 'Ryan'])
+                ->userUpdatesProps(['firstName' => 'Victor'])
+                ->assertObjectAfterHydration(function (object $object) {
+                    $this->assertSame('Revert to Ryan', $object->firstName);
+                });
+        }];
+
+        yield 'onUpdated: set to an array' => [function () {
+            $product = create(ProductFixtureEntity::class, [
+                'name' => 'Chicken',
+            ])->object();
+
+            return HydrationTest::create(new class() {
+                #[LiveProp(writable: ['name'], onUpdated: ['name' => 'onNameUpdated'])]
+                public ProductFixtureEntity $product;
+
+                public function onNameUpdated($oldValue)
+                {
+                    if ('Rabbit' === $this->product->name) {
+                        $this->product->name = 'Revert to '.$oldValue;
+                    }
+                }
+            })
+                ->mountWith(['product' => $product])
+                ->userUpdatesProps(['product.name' => 'Rabbit'])
+                ->assertObjectAfterHydration(function (object $object) {
+                    $this->assertSame('Revert to Chicken', $object->product->name);
+                });
+        }];
+
+        yield 'onUpdated: with IDENTITY' => [function () {
+            $entityOriginal = create(Entity1::class)->object();
+            $entityNext = create(Entity1::class)->object();
+            \assert($entityOriginal instanceof Entity1);
+            \assert($entityNext instanceof Entity1);
+
+            return HydrationTest::create(new class() {
+                #[LiveProp(writable: [LiveProp::IDENTITY], onUpdated: [LiveProp::IDENTITY => 'onEntireEntityUpdated'])]
+                public Entity1 $entity1;
+
+                public function onEntireEntityUpdated($oldValue)
+                {
+                    // Sanity check
+                    if ($this->entity1 === $oldValue) {
+                        throw new \Exception('Old value is the same entity?!');
+                    }
+                    if (2 === $this->entity1->id) {
+                        // Revert the value
+                        $this->entity1 = $oldValue;
+                    }
+                }
+            })
+                ->mountWith(['entity1' => $entityOriginal])
+                ->userUpdatesProps(['entity1' => $entityNext->id])
+                ->assertObjectAfterHydration(function (object $object) use ($entityOriginal) {
+                    $this->assertSame(
+                        $entityOriginal->id,
+                        $object->entity1->id
+                    );
+                });
+        }];
+
         yield 'string: (de)hydrates correctly' => [function () {
             return HydrationTest::create(new class() {
                 #[LiveProp()]
@@ -782,6 +868,106 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 })
             ;
         }, 80100];
+
+        yield 'Object: (de)hydrates DTO correctly' => [function () {
+            return HydrationTest::create(new class() {
+                #[LiveProp(writable: true)]
+                public ?Address $address = null;
+
+                public function mount()
+                {
+                    $this->address = new Address();
+                    $this->address->address = '1 rue du Bac';
+                    $this->address->city = 'Paris';
+                }
+            })
+                ->mountWith([])
+                ->assertDehydratesTo([
+                    'address' => [
+                        'address' => '1 rue du Bac',
+                        'city' => 'Paris',
+                    ],
+                ])
+                ->userUpdatesProps(['address' => ['address' => '4 rue des lilas', 'city' => 'Asnieres']])
+                ->assertObjectAfterHydration(function (object $object) {
+                    $this->assertSame($object->address->address, '4 rue des lilas');
+                    $this->assertSame($object->address->city, 'Asnieres');
+                })
+            ;
+        }];
+
+        yield 'Object: (de)hydrates correctly multidementional DTO' => [function () {
+            return HydrationTest::create(new class() {
+                #[LiveProp(writable: true)]
+                public ?CustomerDetails $customerDetails = null;
+
+                public function mount()
+                {
+                    $this->customerDetails = new CustomerDetails();
+                    $this->customerDetails->lastName = 'Matheo';
+                    $this->customerDetails->firstName = 'Daninos';
+                    $this->customerDetails->address = new Address();
+                    $this->customerDetails->address->address = '1 rue du Bac';
+                    $this->customerDetails->address->city = 'Paris';
+                }
+            })
+                ->mountWith([])
+                ->assertDehydratesTo([
+                    'customerDetails' => [
+                        'lastName' => 'Matheo',
+                        'firstName' => 'Daninos',
+                        'address' => [
+                            'address' => '1 rue du Bac',
+                            'city' => 'Paris',
+                        ],
+                    ],
+                ])
+                ->userUpdatesProps(['customerDetails' => ['lastName' => 'Matheo', 'firstName' => 'Daninos', 'address' => ['address' => '3 rue du Bac', 'city' => 'Paris']]])
+                ->assertObjectAfterHydration(function (object $object) {
+                    $this->assertSame($object->customerDetails->address->address, '3 rue du Bac');
+                    $this->assertSame($object->customerDetails->address->city, 'Paris');
+                });
+        }];
+
+        yield 'Object: (de)hydrates correctly array of DTO' => [function () {
+            return HydrationTest::create(new class() {
+                /**
+                 * @var Symfony\UX\LiveComponent\Tests\Fixtures\Dto\CustomerDetails[] $customerDetailsCollection
+                 */
+                #[LiveProp(writable: true)]
+                public array $customerDetailsCollection = [];
+
+                public function mount()
+                {
+                    $customerDetails = new CustomerDetails();
+                    $customerDetails->lastName = 'Matheo';
+                    $customerDetails->firstName = 'Daninos';
+                    $customerDetails->address = new Address();
+                    $customerDetails->address->address = '1 rue du Bac';
+                    $customerDetails->address->city = 'Paris';
+
+                    $this->customerDetailsCollection[] = $customerDetails;
+                }
+            })
+                ->mountWith([])
+                ->assertDehydratesTo([
+                    'customerDetailsCollection' => [
+                        [
+                            'lastName' => 'Matheo',
+                            'firstName' => 'Daninos',
+                            'address' => [
+                                'address' => '1 rue du Bac',
+                                'city' => 'Paris',
+                            ],
+                        ],
+                    ],
+                ])
+                ->userUpdatesProps(['customerDetailsCollection' => [['lastName' => 'Matheo', 'firstName' => 'Daninos', 'address' => ['address' => '3 rue du Bac', 'city' => 'Paris']]]])
+                ->assertObjectAfterHydration(function (object $object) {
+                    $this->assertSame($object->customerDetailsCollection[0]->address->address, '3 rue du Bac');
+                    $this->assertSame($object->customerDetailsCollection[0]->address->city, 'Paris');
+                });
+        }];
 
         yield 'Object: using custom normalizer (de)hydrates correctly' => [function () {
             return HydrationTest::create(new class() {
