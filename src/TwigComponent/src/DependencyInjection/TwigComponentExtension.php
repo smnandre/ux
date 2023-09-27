@@ -14,6 +14,7 @@ namespace Symfony\UX\TwigComponent\DependencyInjection;
 use Symfony\Component\DependencyInjection\Argument\AbstractArgument;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Parameter;
@@ -32,6 +33,7 @@ use Symfony\UX\TwigComponent\Twig\ComponentExtension;
 use Symfony\UX\TwigComponent\Twig\ComponentLexer;
 use Symfony\UX\TwigComponent\Twig\TwigEnvironmentConfigurator;
 
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 /**
@@ -112,7 +114,9 @@ final class TwigComponentExtension extends Extension
             ->addTag('kernel.event_subscriber');
         if ($container->hasParameter('kernel.debug') && $container->getParameter('kernel.debug')) {
             $container->register('ux.twig_component.logger_listener', TwigComponentLoggerListener::class)
-                ->setArguments([new Reference('debug.stopwatch')])
+                ->setArguments([
+                    new Reference('debug.stopwatch', ContainerInterface::IGNORE_ON_INVALID_REFERENCE),
+                ])
                 ->addTag('kernel.event_subscriber');
 
             $container->register('ux.twig_component.data_collector', TwigComponentDataCollector::class)

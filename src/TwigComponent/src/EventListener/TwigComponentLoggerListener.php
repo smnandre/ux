@@ -27,7 +27,7 @@ class TwigComponentLoggerListener implements EventSubscriberInterface, ResetInte
 {
     private array $events = [];
 
-    public function __construct(private Stopwatch $stopwatch)
+    public function __construct(private ?Stopwatch $stopwatch = null)
     {
     }
 
@@ -54,14 +54,19 @@ class TwigComponentLoggerListener implements EventSubscriberInterface, ResetInte
 
     public function onPreCreateForRender(PreCreateForRenderEvent $event): void
     {
-        $this->stopwatch->start($event->getName(), 'twig_component');
+        $this->stopwatch?->start($event->getName(), 'twig_component');
         $this->logEvent($event);
+    }
+
+    private function logEvent(object $event): void
+    {
+        $this->events[] = [$event, [microtime(true), memory_get_usage(true)]];
     }
 
     public function onPostCreateForRender(PreCreateForRenderEvent $event): void
     {
         if (\is_string($event->getRenderedString())) {
-            $this->stopwatch->stop($event->getName());
+            $this->stopwatch?->stop($event->getName());
             $this->logEvent($event);
         }
     }
@@ -83,7 +88,7 @@ class TwigComponentLoggerListener implements EventSubscriberInterface, ResetInte
 
     public function onPostRender(PostRenderEvent $event): void
     {
-        if ($this->stopwatch->isStarted($name = $event->getMountedComponent()->getName())) {
+        if ($this->stopwatch?->isStarted($name = $event->getMountedComponent()->getName())) {
             $this->stopwatch->stop($name);
         }
         $this->logEvent($event);
@@ -92,10 +97,5 @@ class TwigComponentLoggerListener implements EventSubscriberInterface, ResetInte
     public function reset(): void
     {
         $this->events = [];
-    }
-
-    private function logEvent(object $event): void
-    {
-        $this->events[] = [$event, [microtime(true), memory_get_usage(true)]];
     }
 }

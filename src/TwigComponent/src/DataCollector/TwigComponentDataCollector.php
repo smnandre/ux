@@ -40,12 +40,13 @@ class TwigComponentDataCollector extends AbstractDataCollector implements LateDa
 
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
-        $this->collectDataFromLogger();
     }
 
     public function lateCollect(): void
     {
-        $this->data = $this->cloneVar($this->data);
+        $this->collectDataFromLogger();
+        $this->data['components'] = $this->cloneVar($this->data['components']);
+        $this->data['renders'] = $this->cloneVar($this->data['renders']);
     }
 
     public function getData(): array|Data
@@ -102,7 +103,8 @@ class TwigComponentDataCollector extends AbstractDataCollector implements LateDa
 
         foreach ($this->logger->getEvents() as [$event, $profile]) {
             if ($event instanceof PreCreateForRenderEvent) {
-                // TODO two case if with or without string rendered
+                $componentName = $event->getName();
+                // $components[$componentName]
             }
 
             if ($event instanceof PreRenderEvent) {
@@ -174,7 +176,7 @@ class TwigComponentDataCollector extends AbstractDataCollector implements LateDa
         $rootRenders = array_filter($renders, fn (array $r) => 0 === $r['depth']);
         $this->data['render_time'] = array_sum(array_column($rootRenders, 'render_time'));
 
-        $this->data['peak_memory_usage'] = max(...array_column($renders, 'render_memory'));
+        $this->data['peak_memory_usage'] = max([0, ...array_column($renders, 'render_memory')]);
     }
 
     private function resolveTemplatePath(string $logicalName): ?string
