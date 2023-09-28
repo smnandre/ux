@@ -45,8 +45,7 @@ class TwigComponentDataCollector extends AbstractDataCollector implements LateDa
     public function lateCollect(): void
     {
         $this->collectDataFromLogger();
-        $this->data['components'] = $this->cloneVar($this->data['components']);
-        $this->data['renders'] = $this->cloneVar($this->data['renders']);
+        $this->data = $this->cloneVar($this->data);
     }
 
     public function getData(): array|Data
