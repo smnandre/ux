@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\UX\TwigComponent\Tests\Unit;
+namespace Symfony\UX\TwigComponent\Tests\Unit\EventListener;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\UX\TwigComponent\ComponentAttributes;
@@ -22,6 +22,9 @@ use Symfony\UX\TwigComponent\Event\PreRenderEvent;
 use Symfony\UX\TwigComponent\EventListener\TwigComponentLoggerListener;
 use Symfony\UX\TwigComponent\MountedComponent;
 
+/**
+ * @author Simon André <smn.andre@gmail.com>
+ */
 class TwigComponentLoggerListenerTest extends TestCase
 {
     public function testLoggerStoreEvents(): void

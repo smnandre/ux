@@ -226,7 +226,11 @@
                 <tr>
                     <td>{{ component.name }}</td>
                     <td>
-                        {{ profiler_dump(component.class_stub) }}
+                        {% if component.class == 'Symfony\\UX\\TwigComponent\\AnonymousComponent' %}
+                            <pre class="sf-dump"><span class="text-muted">AnonymousComponent</span></pre>
+                        {% else %}
+                            {{ profiler_dump(component.class_stub) }}
+                        {% endif %}
                         {% if component.template_path %}
                             <a class=text-muted" href="{{ component.template_path|file_link(1) }}">
                                 {{- component.template -}}
@@ -250,13 +254,19 @@
     <div class="twig-component-renders">
         {% for render in collector.renders %}
             <table class="twig-component-render" style="--render-depth:{{ render.depth }};">
-                <thead class="sf-toggle sf-toggle-off"
+                <thead class="sf-toggle {{ loop.index == 1 ? 'sf-toggle-on' : 'sf-toggle-off' }}"
                        data-toggle-selector="#render-{{ loop.index }}--details"
-                       data-toggle-initial=""
+                       data-toggle-initial="{{ loop.index == 1 ? 'display' }}"
                 >
                     <tr>
                         <th class="key">{{ render.depth ? source('@TwigComponent/Collector/chevron-down.svg') }}{{ render.name }}</th>
-                        <th>{{ render.class }}</th>
+                        <th>
+                            {% if render.class == 'Symfony\\UX\\TwigComponent\\AnonymousComponent' %}
+                                <pre class="sf-dump"><span class="text-muted">[Anonymous] {{ render.name }}</span></pre>
+                            {% else %}
+                                {{ render.class }}
+                            {% endif %}
+                        </th>
                         <th class="cell-right renderTime">
                             {% if render.render_memory %}
                                 {{ (render.render_memory / 1024 / 1024)|number_format(1) }}

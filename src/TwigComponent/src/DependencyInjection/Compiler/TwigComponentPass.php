@@ -16,7 +16,6 @@ use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
@@ -62,9 +61,5 @@ final class TwigComponentPass implements CompilerPassInterface
         $factoryDefinition->setArgument(1, ServiceLocatorTagPass::register($container, $componentReferences));
         $factoryDefinition->setArgument(4, $componentConfig);
         $factoryDefinition->setArgument(5, $componentClassMap);
-
-        if ($container->getParameter('kernel.debug') && class_exists(Stopwatch::class) && $container->has('debug.stopwatch')) {
-            
-        }
     }
 }

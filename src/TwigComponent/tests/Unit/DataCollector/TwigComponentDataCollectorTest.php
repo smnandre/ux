@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\UX\TwigComponent\Tests\Unit;
+namespace Symfony\UX\TwigComponent\Tests\Unit\DataCollector;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +18,9 @@ use Symfony\UX\TwigComponent\DataCollector\TwigComponentDataCollector;
 use Symfony\UX\TwigComponent\EventListener\TwigComponentLoggerListener;
 use Twig\Environment;
 
+/**
+ * @author Simon André <smn.andre@gmail.com>
+ */
 class TwigComponentDataCollectorTest extends TestCase
 {
     public function testCollectDoesNothing(): void
