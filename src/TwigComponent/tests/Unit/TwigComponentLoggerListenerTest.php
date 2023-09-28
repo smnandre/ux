@@ -12,7 +12,6 @@
 namespace Symfony\UX\TwigComponent\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\UX\TwigComponent\ComponentAttributes;
 use Symfony\UX\TwigComponent\ComponentMetadata;
 use Symfony\UX\TwigComponent\Event\PostMountEvent;
@@ -27,36 +26,32 @@ class TwigComponentLoggerListenerTest extends TestCase
 {
     public function testLoggerStoreEvents(): void
     {
-        $stopwatch = $this->createMock(Stopwatch::class);
-        $logger = new TwigComponentLoggerListener($stopwatch);
+        $logger = new TwigComponentLoggerListener();
         $this->assertSame([], $logger->getEvents());
 
         $eventA = new PreCreateForRenderEvent('a');
         $logger->onPreCreateForRender($eventA);
-        $this->assertSame([$eventA], array_column($logger->getEvents(), 0));
 
         $eventB = new PreCreateForRenderEvent('b');
         $logger->onPreCreateForRender($eventB);
-        $this->assertSame([$eventA, $eventB], array_column($logger->getEvents(), 0));
 
         $eventC = new PreMountEvent(new \stdClass(), []);
         $logger->onPreMount($eventC);
         $eventD = new PostMountEvent(new \stdClass(), []);
         $logger->onPostMount($eventD);
-        $this->assertSame([$eventA, $eventB, $eventC, $eventD], array_column($logger->getEvents(), 0));
 
         $mounted = new MountedComponent('foo', new \stdClass(), new ComponentAttributes([]));
         $eventE = new PreRenderEvent($mounted, new ComponentMetadata(['template' => 'bar']), []);
         $logger->onPreRender($eventE);
         $eventF = new PostRenderEvent($mounted);
         $logger->onPostRender($eventF);
+
         $this->assertSame([$eventA, $eventB, $eventC, $eventD, $eventE, $eventF], array_column($logger->getEvents(), 0));
     }
 
     public function testLoggerReset(): void
     {
-        $stopwatch = $this->createMock(Stopwatch::class);
-        $logger = new TwigComponentLoggerListener($stopwatch);
+        $logger = new TwigComponentLoggerListener();
 
         $logger->onPreCreateForRender(new PreCreateForRenderEvent('foo'));
         $this->assertNotSame([], $logger->getEvents());
