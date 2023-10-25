@@ -23,7 +23,13 @@ use Twig\Node\Expression\AbstractExpression;
  */
 final class ComponentNode extends EmbedNode
 {
-    public function __construct(string $component, string $template, int $index, AbstractExpression $variables, bool $only, int $lineno, string $tag)
+    /**
+     * @param string $component The component name (ie: Button, Foo:Bar)
+     * @param string $template The template path (ie: components/Button.html.twig)
+     * @param string $tag
+     */
+    public function __construct(string $component, string $template, int $index, AbstractExpression $variables, bool $only,
+        int $lineno, string $tag)
     {
         parent::__construct($template, $index, $variables, $only, false, $lineno, $tag);
 
@@ -33,6 +39,14 @@ final class ComponentNode extends EmbedNode
     public function compile(Compiler $compiler): void
     {
         $compiler->addDebugInfo($this);
+
+        $compiler
+            ->write('$template = $this->extensions[')
+            ->string(ComponentExtension::class)
+            ->raw(']->getTemplate(')
+            ->subcompile($this->getNode('expr'))
+            ->raw(");\n");
+            //->string($this->getAttribute('component'))
 
         $compiler
             ->write('$preRendered = $this->extensions[')
@@ -67,8 +81,9 @@ final class ComponentNode extends EmbedNode
             ->subcompile($this->getNode('variables'))
             ->raw('), ')
             ->raw($this->getAttribute('only') ? '[]' : '$context')
-            ->raw(', ')
-            ->string(TemplateNameParser::parse($this->getAttribute('name')))
+            // ->raw(', ')
+            // ->string(TemplateNameParser::parse($this->getAttribute('name')))
+            ->raw('$template')
             ->raw(', ')
             ->raw($this->getAttribute('index'))
             ->raw(");\n")

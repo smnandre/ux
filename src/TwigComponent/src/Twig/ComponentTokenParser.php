@@ -29,34 +29,30 @@ use Twig\TokenParser\AbstractTokenParser;
  */
 final class ComponentTokenParser extends AbstractTokenParser
 {
-    /** @var ComponentFactory|callable():ComponentFactory */
-    private $factory;
-
     private array $lineAndFileCounts = [];
-
-    /**
-     * @param callable():ComponentFactory $factory
-     */
-    public function __construct(callable $factory)
-    {
-        $this->factory = $factory;
-    }
 
     public function parse(Token $token): Node
     {
         $stream = $this->parser->getStream();
         $parent = $this->parser->getExpressionParser()->parseExpression();
-        $componentName = $this->componentName($parent);
-        $componentMetadata = $this->factory()->metadataFor($componentName);
+
+        // $componentName = $this->componentName($parent);
+        // $componentMetadata = $this->factory()->metadataFor($componentName);
 
         [$variables, $only] = $this->parseArguments();
-
-        if (null === $variables) {
-            $variables = new ArrayExpression([], $parent->getTemplateLine());
+        $parentToken = $fakeParentToken = new Token(/* Token::STRING_TYPE */ 7, '__parent__', $token->getLine());
+        if ($parent instanceof ConstantExpression) {
+            $parentToken = new Token(/* Token::STRING_TYPE */ 7, $parent->getAttribute('value'), $token->getLine());
+        } elseif ($parent instanceof NameExpression) {
+            $parentToken = new Token(/* Token::NAME_TYPE */ 5, $parent->getAttribute('name'), $token->getLine());
         }
 
-        $parentToken = new Token(Token::STRING_TYPE, $componentMetadata->getTemplate(), $token->getLine());
-        $fakeParentToken = new Token(Token::STRING_TYPE, '__parent__', $token->getLine());
+        // if (null === $variables) {
+        //     $variables = new ArrayExpression([], $parent->getTemplateLine());
+        // }
+        // $parentToken = new Token(Token::STRING_TYPE, $componentMetadata->getTemplate(), $token->getLine());
+        // $parentToken = new Token(Token::STRING_TYPE, $parent->getTemplateName(), $token->getLine());
+        // $fakeParentToken = new Token(Token::STRING_TYPE, '__parent__', $token->getLine());
 
         // inject a fake parent to make the parent() function work
         $stream->injectTokens([
@@ -77,7 +73,8 @@ final class ComponentTokenParser extends AbstractTokenParser
             new Token(Token::BLOCK_END_TYPE, '', $token->getLine()),
         ]);
 
-        $module = $this->parser->parse($stream, fn (Token $token) => $token->test("end{$this->getTag()}"), true);
+        // $module = $this->parser->parse($stream, fn (Token $token) => $token->test("end{$this->getTag()}"), true);
+        $module = $this->parser->parse($stream, [$this, 'decideBlockEnd'], true);
 
         // override the parent with the correct one
         if ($fakeParentToken === $parentToken) {
@@ -87,11 +84,11 @@ final class ComponentTokenParser extends AbstractTokenParser
         $this->parser->embedTemplate($module);
 
         // use deterministic index for the embedded template, so it can be loaded in a controlled manner
-        $module->setAttribute('index', $this->generateEmbeddedTemplateIndex(TemplateNameParser::parse($stream->getSourceContext()->getName()), $token->getLine()));
+        // $module->setAttribute('index', $this->generateEmbeddedTemplateIndex(TemplateNameParser::parse($stream->getSourceContext()->getName()), $token->getLine()));
 
         $stream->expect(Token::BLOCK_END_TYPE);
 
-        return new ComponentNode($componentName, $module->getTemplateName(), $module->getAttribute('index'), $variables, $only, $token->getLine(), $this->getTag());
+        return new ComponentNode($module->getTemplateName(), $module->getAttribute('index'), $variables, $only, $token->getLine(), $this->getTag());
     }
 
     public function getTag(): string
@@ -99,26 +96,9 @@ final class ComponentTokenParser extends AbstractTokenParser
         return 'component';
     }
 
-    private function componentName(AbstractExpression $expression): string
+    public function decideBlockEnd(Token $token): bool
     {
-        if ($expression instanceof ConstantExpression) { // using {% component 'name' %}
-            return $expression->getAttribute('value');
-        }
-
-        if ($expression instanceof NameExpression) { // using {% component name %}
-            return $expression->getAttribute('name');
-        }
-
-        throw new \LogicException('Could not parse component name.');
-    }
-
-    private function factory(): ComponentFactory
-    {
-        if (\is_callable($this->factory)) {
-            $this->factory = ($this->factory)();
-        }
-
-        return $this->factory;
+        return $token->test('endcomponent');
     }
 
     private function parseArguments(): array
@@ -126,18 +106,15 @@ final class ComponentTokenParser extends AbstractTokenParser
         $stream = $this->parser->getStream();
 
         $variables = null;
-
-        if ($stream->nextIf(Token::NAME_TYPE, 'with')) {
+        if ($stream->nextIf(/* Token::NAME_TYPE */ 5, 'with')) {
             $variables = $this->parser->getExpressionParser()->parseExpression();
         }
 
         $only = false;
-
-        if ($stream->nextIf(Token::NAME_TYPE, 'only')) {
+        if ($stream->nextIf(/* Token::NAME_TYPE */ 5, 'only')) {
             $only = true;
         }
-
-        $stream->expect(Token::BLOCK_END_TYPE);
+        $stream->expect(/* Token::BLOCK_END_TYPE */ 3);
 
         return [$variables, $only];
     }

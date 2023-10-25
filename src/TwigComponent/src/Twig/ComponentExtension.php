@@ -48,9 +48,17 @@ final class ComponentExtension extends AbstractExtension implements ServiceSubsc
     public function getTokenParsers(): array
     {
         return [
-            new ComponentTokenParser(fn () => $this->container->get(ComponentFactory::class)),
+            new ComponentTokenParser(),
             new PropsTokenParser(),
         ];
+    }
+
+    public function getTemplate(string $name): string
+    {
+        /** @var ComponentFactory $factory */
+        $factory = $this->container->get(ComponentFactory::class);
+
+        return $factory->metadataFor($name)->getTemplate();
     }
 
     public function render(string $name, array $props = []): string
