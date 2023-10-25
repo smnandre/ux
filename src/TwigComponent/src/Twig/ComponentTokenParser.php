@@ -36,10 +36,8 @@ final class ComponentTokenParser extends AbstractTokenParser
         $stream = $this->parser->getStream();
         $parent = $this->parser->getExpressionParser()->parseExpression();
 
-        // $componentName = $this->componentName($parent);
-        // $componentMetadata = $this->factory()->metadataFor($componentName);
-
         [$variables, $only] = $this->parseArguments();
+
         $parentToken = $fakeParentToken = new Token(/* Token::STRING_TYPE */ 7, '__parent__', $token->getLine());
         if ($parent instanceof ConstantExpression) {
             $parentToken = new Token(/* Token::STRING_TYPE */ 7, $parent->getAttribute('value'), $token->getLine());
@@ -47,12 +45,9 @@ final class ComponentTokenParser extends AbstractTokenParser
             $parentToken = new Token(/* Token::NAME_TYPE */ 5, $parent->getAttribute('name'), $token->getLine());
         }
 
-        // if (null === $variables) {
-        //     $variables = new ArrayExpression([], $parent->getTemplateLine());
-        // }
-        // $parentToken = new Token(Token::STRING_TYPE, $componentMetadata->getTemplate(), $token->getLine());
-        // $parentToken = new Token(Token::STRING_TYPE, $parent->getTemplateName(), $token->getLine());
-        // $fakeParentToken = new Token(Token::STRING_TYPE, '__parent__', $token->getLine());
+        if (null === $variables) {
+            $variables = new ArrayExpression([], $parent->getTemplateLine());
+        }
 
         // inject a fake parent to make the parent() function work
         $stream->injectTokens([
@@ -61,8 +56,8 @@ final class ComponentTokenParser extends AbstractTokenParser
             $parentToken,
             new Token(Token::BLOCK_END_TYPE, '', $token->getLine()),
 
-            // Add an empty block which can act as a fallback for when an outer
-            // block is referenced that is not passed in from the embedded component.
+            // // Add an empty block which can act as a fallback for when an outer
+            // // block is referenced that is not passed in from the embedded component.
             // See BlockStack::__call()
             new Token(Token::BLOCK_START_TYPE, '', $token->getLine()),
             new Token(Token::NAME_TYPE, 'block', $token->getLine()),
@@ -73,8 +68,7 @@ final class ComponentTokenParser extends AbstractTokenParser
             new Token(Token::BLOCK_END_TYPE, '', $token->getLine()),
         ]);
 
-        // $module = $this->parser->parse($stream, fn (Token $token) => $token->test("end{$this->getTag()}"), true);
-        $module = $this->parser->parse($stream, [$this, 'decideBlockEnd'], true);
+        $module = $this->parser->parse($stream, fn (Token $token) => $token->test("end{$this->getTag()}"), true);
 
         // override the parent with the correct one
         if ($fakeParentToken === $parentToken) {
@@ -88,17 +82,20 @@ final class ComponentTokenParser extends AbstractTokenParser
 
         $stream->expect(Token::BLOCK_END_TYPE);
 
-        return new ComponentNode($module->getTemplateName(), $module->getAttribute('index'), $variables, $only, $token->getLine(), $this->getTag());
+        return new ComponentNode(
+            $parentToken->getValue(),
+            $module->getTemplateName(),
+            $module->getAttribute('index'),
+            $variables,
+            $only,
+            $token->getLine(),
+            $this->getTag()
+        );
     }
 
     public function getTag(): string
     {
         return 'component';
-    }
-
-    public function decideBlockEnd(Token $token): bool
-    {
-        return $token->test('endcomponent');
     }
 
     private function parseArguments(): array

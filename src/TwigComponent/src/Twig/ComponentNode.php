@@ -28,10 +28,17 @@ final class ComponentNode extends EmbedNode
      * @param string $template The template path (ie: components/Button.html.twig)
      * @param string $tag
      */
-    public function __construct(string $component, string $template, int $index, AbstractExpression $variables, bool $only,
-        int $lineno, string $tag)
+    public function __construct(
+        string $component,
+        string $template,
+        int $index,
+        ?AbstractExpression $variables,
+        bool $only,
+        int $lineno,
+        string $tag
+    )
     {
-        parent::__construct($template, $index, $variables, $only, false, $lineno, $tag);
+        parent::__construct($component, $index, $variables, $only, false, $lineno, null);
 
         $this->setAttribute('component', $component);
     }
@@ -45,6 +52,7 @@ final class ComponentNode extends EmbedNode
             ->string(ComponentExtension::class)
             ->raw(']->getTemplate(')
             ->subcompile($this->getNode('expr'))
+            // ->subcompile($this->getNode('name'))
             ->raw(");\n");
             //->string($this->getAttribute('component'))
 
@@ -53,12 +61,16 @@ final class ComponentNode extends EmbedNode
             ->string(ComponentExtension::class)
             ->raw(']->preRender(')
             ->string($this->getAttribute('component'))
-            ->raw(', ')
-            ->raw('twig_to_array(')
-            ->subcompile($this->getNode('variables'))
-            ->raw(')')
-            ->raw(");\n")
-        ;
+            ->raw(', ');
+        if (!$this->hasNode('variables')) {
+            $compiler->raw('$content');
+        } else {
+            $compiler
+                ->raw('twig_to_array(')
+                ->subcompile($this->getNode('variables'))
+                ->raw(')');
+        }
+        $compiler->raw(");\n");
 
         $compiler
             ->write('if (null !== $preRendered) {')
@@ -77,11 +89,19 @@ final class ComponentNode extends EmbedNode
             ->string(ComponentExtension::class)
             ->raw(']->embeddedContext(')
             ->string($this->getAttribute('component'))
-            ->raw(', twig_to_array(')
-            ->subcompile($this->getNode('variables'))
-            ->raw('), ')
+            ->raw(', ');
+        if (!$this->hasNode('variables')) {
+            $compiler->raw('$content');
+        } else {
+            $compiler
+                ->raw('twig_to_array(')
+                ->subcompile($this->getNode('variables'))
+                ->raw(')');
+        }
+        $compiler
+            ->raw(', ')
             ->raw($this->getAttribute('only') ? '[]' : '$context')
-            // ->raw(', ')
+            ->raw(', ')
             // ->string(TemplateNameParser::parse($this->getAttribute('name')))
             ->raw('$template')
             ->raw(', ')
