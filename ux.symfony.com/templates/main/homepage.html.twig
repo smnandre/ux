@@ -3,30 +3,37 @@
 {% block body %}
 
     <div>
-        {{ component('Button', {label: 'LABEBEL'}) }}
+        {{ component('Button', {label: 'LABEButtonBEL'}) }}
     </div>
 
     <div>
-        {{ component('BigButton', {label: 'LABEBEL'}) }}
+        {{ component('BigButton', {label: 'LABEBigButtonBEL'}) }}
     </div>
 
     <div>
-        <twig:Button label="Good">AA</twig:Button>
+        <twig:ButtonXYZ label="Label ButtonXYZ Bel"/>
     </div>
 
-    <div>
-        <twig:ButtonXYZ label="Good XZY"/>
-    </div>
-
-
-    <div>
-        <twig:Button label="Good"></twig:Button>
-    </div>
+    {# ANONYMOUS. CANNOT WORK WITH EVENT #}
+{#    <div>#}
+{#        <twig:ButtonButtonXYZ label="Good XZY"/>#}
+{#    </div>#}
 
 
 {#    <div>#}
-{#        {% component 'Button' %}{% endcomponent %}#}
+{#        {% component 'Button' %}AA{% endcomponent %}#}
 {#    </div>#}
+    <div>
+        <twig:Button label="LAGoodBEL">UUUUUU</twig:Button>
+    </div>
+
+{#    <div>#}
+{#        <twig:Button label="Good">AA</twig:Button>#}
+{#    </div>#}
+
+
+
+
 
 {#    <twig:Button></twig:Button>#}
 

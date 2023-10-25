@@ -56,9 +56,9 @@ final class ComponentTokenParser extends AbstractTokenParser
             $parentToken,
             new Token(Token::BLOCK_END_TYPE, '', $token->getLine()),
 
-            // // Add an empty block which can act as a fallback for when an outer
-            // // block is referenced that is not passed in from the embedded component.
-            // See BlockStack::__call()
+            // // // Add an empty block which can act as a fallback for when an outer
+            // // // block is referenced that is not passed in from the embedded component.
+            // // See BlockStack::__call()
             new Token(Token::BLOCK_START_TYPE, '', $token->getLine()),
             new Token(Token::NAME_TYPE, 'block', $token->getLine()),
             new Token(Token::NAME_TYPE, BlockStack::OUTER_BLOCK_FALLBACK_NAME, $token->getLine()),
@@ -78,7 +78,7 @@ final class ComponentTokenParser extends AbstractTokenParser
         $this->parser->embedTemplate($module);
 
         // use deterministic index for the embedded template, so it can be loaded in a controlled manner
-        // $module->setAttribute('index', $this->generateEmbeddedTemplateIndex(TemplateNameParser::parse($stream->getSourceContext()->getName()), $token->getLine()));
+        $module->setAttribute('index', $this->generateEmbeddedTemplateIndex($stream->getSourceContext()->getName(), $token->getLine()));
 
         $stream->expect(Token::BLOCK_END_TYPE);
 

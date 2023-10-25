@@ -38,9 +38,10 @@ final class ComponentNode extends EmbedNode
         string $tag
     )
     {
-        parent::__construct($component, $index, $variables, $only, false, $lineno, null);
+        parent::__construct($template, $index, $variables, $only, false, $lineno, $tag);
 
         $this->setAttribute('component', $component);
+        $this->setAttribute('lineno', $lineno);
     }
 
     public function compile(Compiler $compiler): void
@@ -51,7 +52,9 @@ final class ComponentNode extends EmbedNode
             ->write('$template = $this->extensions[')
             ->string(ComponentExtension::class)
             ->raw(']->getTemplate(')
-            ->subcompile($this->getNode('expr'))
+            // TODO
+            // ->subcompile($this->getAttribute('expr'))
+            ->string($this->getAttribute('component'))
             // ->subcompile($this->getNode('name'))
             ->raw(");\n");
             //->string($this->getAttribute('component'))
@@ -131,5 +134,19 @@ final class ComponentNode extends EmbedNode
             ->write('}')
             ->raw("\n")
         ;
+    }
+
+    protected function addGetTemplate(Compiler $compiler): void
+    {
+        $compiler
+            ->write('$this->loadTemplate(')
+            ->raw('$template')
+            ->raw(', ')
+            ->repr($this->getTemplateName())
+            ->raw(', ')
+            ->repr($this->getAttribute('lineno'))
+            ->raw(', ')
+            ->string($this->getAttribute('index'))
+            ->raw(')');
     }
 }
