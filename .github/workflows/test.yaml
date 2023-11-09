@@ -24,18 +24,13 @@ jobs:
         name: JavaScript Coding Style
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-            - name: Get yarn cache directory path
-              id: yarn-cache-dir-path
-              run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-            - uses: actions/cache@v3
-              id: yarn-cache
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v3
               with:
-                  path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-                  key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-yarn-
-            - run: yarn --frozen-lockfile
+                node-version: '16'
+                cache: 'yarn'
+                cache-dependency-path: '**/package.json'
+            - run: yarn install --frozen-lockfile
             - run: yarn check-lint
             - run: yarn check-format
 
@@ -43,23 +38,18 @@ jobs:
         name: Check for UnBuilt JS Dist Files
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-            - name: Get yarn cache directory path
-              id: yarn-cache-dir-path
-              run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-            - uses: actions/cache@v3
-              id: yarn-cache
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v3
               with:
-                  path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-                  key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-yarn-
-            - run: yarn --frozen-lockfile && yarn build
+                node-version: '16'
+                cache: 'yarn'
+                cache-dependency-path: '**/package.json'
+            - run: yarn install --frozen-lockfile
+            - run: yarn build
             - name: Check if js dist files are current
               id: changes
               run: |
                 echo "STATUS=$(git status --porcelain)" >> $GITHUB_OUTPUT
-
             - name: No changes found
               if: steps.changes.outputs.STATUS == ''
               run: |
