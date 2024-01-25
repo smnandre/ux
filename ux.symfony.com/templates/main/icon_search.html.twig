@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% set meta = {
+    title: "Search Icons",
+    description: "Search for icons on iconify.design.",
+    canonical: url('app_icon_search'),
+} %}
+
+{% block content %}
+
+    <div class="hero">
+        <div class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">
+            <h1 class="text-center ubuntu mt-5">Search Icons</h1>
+        </div>
+    </div>
+
+    <div class="container-fluid container-xxl px-4 py-4 py-md-5">
+        <twig:SearchIcons />
+    </div>
+
+{% endblock %}

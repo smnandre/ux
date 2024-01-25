@@ -1,0 +1,31 @@
+<div{{ attributes }}>
+    <input
+        autofocus
+        type="text"
+        data-model="query"
+        placeholder="Results update as you type..."
+        class="form-control"
+    >
+
+    {% if computed.icons|length > 0 %}
+        <div data-loading="addClass(opacity-50)" class="mt-3 row">
+            {% for icon, url in computed.icons %}
+                <div class="col-12 col-md-6 col-lg-4 mb-2">
+                    <div class="components-container p-2">
+                        <div class="d-flex">
+                            <div class="live-component-img d-flex justify-content-center align-items-center">
+                                <img width="32px" height="32px" src="{{ url }}" alt="SVG for {{ icon }}">
+                            </div>
+                            <div class="ps-2 pe-2">
+                                <h4 class="ubuntu-title align-self-center">{{ icon }}</h4>
+                                <div class="text-nowrap"><small><code>symfony console ux:icons:import {{ icon }}</code></small></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% elseif query %}
+        <div class="pt-3">Ah! No icons found matching "{{ query }}"</div>
+    {% endif %}
+</div>

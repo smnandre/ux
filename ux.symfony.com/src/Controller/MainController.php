@@ -29,4 +29,10 @@ class MainController extends AbstractController
             'recipeFileTree' => new RecipeFileTree(),
         ]);
     }
+
+    #[Route('/icon-search', name: 'app_icon_search')]
+    public function iconSearch(): Response
+    {
+        return $this->render('main/icon_search.html.twig');
+    }
 }
