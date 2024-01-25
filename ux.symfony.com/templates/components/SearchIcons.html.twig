@@ -1,11 +1,22 @@
 <div{{ attributes }}>
-    <input
-        autofocus
-        type="text"
-        data-model="query"
-        placeholder="Results update as you type..."
-        class="form-control"
-    >
+    <div class="d-flex">
+        <select
+            class="form-control w-25"
+            data-model="set"
+        >
+            <option value="0">All</option>
+            {% for name,value in computed.sets %}
+                <option value="{{ name }}">{{ value.name }}</option>
+            {% endfor %}
+        </select>
+        <input
+            autofocus
+            type="text"
+            data-model="query"
+            placeholder="Results update as you type..."
+            class="form-control ms-3"
+        >
+    </div>
 
     {% if computed.icons|length > 0 %}
         <div data-loading="addClass(opacity-50)" class="mt-3 row">
