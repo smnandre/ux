@@ -28,8 +28,11 @@ class ComponentLexer extends Lexer
 {
     public function tokenize(Source $source): TokenStream
     {
-        $preLexer = new TwigPreLexer();
-        $preparsed = $preLexer->preLexComponents($source->getCode());
+        $processor = new TwigProcessor();
+        $preparsed = $processor->process($source->getCode());
+
+        // $preLexer = new TwigPreLexer();
+        //$preparsed = $preLexer->preLexComponents($source->getCode());
 
         return parent::tokenize(
             new Source(

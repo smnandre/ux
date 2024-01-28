@@ -15,6 +15,7 @@ use Psr\Container\ContainerInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\UX\TwigComponent\ComponentRenderer;
 use Symfony\UX\TwigComponent\Event\PreRenderEvent;
+use Symfony\UX\TwigComponent\Twig\NodeVisitor\ComponentNodeVisitor;
 use Twig\Error\RuntimeError;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -41,6 +42,13 @@ final class ComponentExtension extends AbstractExtension implements ServiceSubsc
     {
         return [
             new TwigFunction('component', [$this, 'render'], ['is_safe' => ['all']]),
+        ];
+    }
+
+    public function getNodeVisitors(): array
+    {
+        return [
+            new ComponentNodeVisitor(),
         ];
     }
 
