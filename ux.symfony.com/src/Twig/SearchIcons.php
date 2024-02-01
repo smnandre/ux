@@ -12,8 +12,6 @@
 namespace App\Twig;
 
 use App\Iconify;
-use Symfony\Contracts\Cache\CacheInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
@@ -23,10 +21,10 @@ class SearchIcons
 {
     use DefaultActionTrait;
 
-    #[LiveProp(writable: true)]
+    #[LiveProp(writable: true, url: true)]
     public ?string $query = null;
 
-    #[LiveProp(writable: true)]
+    #[LiveProp(writable: true, url: true)]
     public ?string $set = null;
 
     #[LiveProp]
