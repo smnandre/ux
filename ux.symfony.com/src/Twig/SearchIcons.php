@@ -29,6 +29,9 @@ class SearchIcons
     #[LiveProp(writable: true)]
     public ?string $set = null;
 
+    #[LiveProp]
+    public bool $hideSelect = false;
+
     public function __construct(private Iconify $iconify)
     {
     }

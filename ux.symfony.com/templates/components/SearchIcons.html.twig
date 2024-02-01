@@ -1,14 +1,16 @@
 <div{{ attributes }}>
     <div class="d-flex">
-        <select
-            class="form-control w-25"
-            data-model="set"
-        >
-            <option value="0">All</option>
-            {% for name,value in computed.collections %}
-                <option value="{{ name }}">{{ value.name }}</option>
-            {% endfor %}
-        </select>
+        {% if not hideSelect %}
+            <select
+                    class="form-control w-25"
+                    data-model="set"
+            >
+                <option value="0">All</option>
+                {% for name,value in computed.collections %}
+                    <option value="{{ name }}">{{ value.name }}</option>
+                {% endfor %}
+            </select>
+        {% endif %}
         <input
             autofocus
             type="text"
