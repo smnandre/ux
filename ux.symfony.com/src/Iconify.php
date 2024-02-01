@@ -30,6 +30,11 @@ final class Iconify
         ;
     }
 
+    public function collection(string $name): ?array
+    {
+        return $this->collections()[$name] ?? null;
+    }
+
     public function collections(): array
     {
         return $this->cache->get('iconify-collections', function () {

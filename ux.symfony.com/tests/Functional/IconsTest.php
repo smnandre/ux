@@ -32,7 +32,11 @@ final class IconsTest extends KernelTestCase
      */
     public function can_view_pack_details_page(): void
     {
-        $this->markTestIncomplete();
+        $this->browser()
+            ->visit('/icons/flowbite')
+            ->assertSuccessful()
+            ->assertSeeIn('h1', 'Flowbite Icons')
+        ;
     }
 
     /**
@@ -40,7 +44,10 @@ final class IconsTest extends KernelTestCase
      */
     public function invalid_pack(): void
     {
-        $this->markTestIncomplete();
+        $this->browser()
+            ->visit('/icons/invalid')
+            ->assertStatus(404)
+        ;
     }
 
     /**

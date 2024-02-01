@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% set meta = {
+    title: 'Icon Collection: ' ~ collection.name,
+    description: '',
+    canonical: url('app_icon_collection', {prefix: prefix}),
+} %}
+
+{% block content %}
+
+    <div class="hero">
+        <div class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">
+            <h1 class="text-center ubuntu mt-5">Icon Collection: {{ collection.name }}</h1>
+        </div>
+    </div>
+
+    <div class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">
+        {{ dump(collection) }}
+    </div>
+
+{% endblock %}
