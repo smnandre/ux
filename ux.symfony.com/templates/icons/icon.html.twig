@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% set meta = {
+    title: 'Icon: ' ~ fullName,
+    description: '',
+    canonical: url('app_icon', {prefix: prefix, name: name}),
+} %}
+
+{% block content %}
+
+    <div class="hero">
+        <div class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">
+            <h1 class="text-center ubuntu mt-5">Icon <code>{{ fullName }}</code></h1>
+            <ul>
+                <li>(breadcrumbs)</li>
+                <li><a href="{{ path('app_icons') }}">All</a></li>
+                <li><a href="{{ path('app_icon_collection', {prefix: prefix}) }}">{{ collection.name }}</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">
+        {{ svg|raw }}
+
+        {{ dump(collection) }}
+    </div>
+
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace App;
 
 use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
@@ -37,10 +38,25 @@ final class Iconify
 
     public function collections(): array
     {
-        return $this->cache->get('iconify-collections', function () {
+        return $this->cache->get('iconify-collections', function (ItemInterface $item) {
+            $item->expiresAfter(604800); // 1 week
+
             return $this->http->request('GET', 'https://api.iconify.design/collections')
                 ->toArray()
             ;
+        });
+    }
+
+    public function svg(string $prefix, string $name): ?string
+    {
+        return $this->cache->get("iconify-svg-{$prefix}-{$name}", function (ItemInterface $item) use ($prefix, $name) {
+            $item->expiresAfter(604800); // 1 week
+
+            $svg = $this->http->request('GET', "https://api.iconify.design/{$prefix}/{$name}.svg")
+                ->getContent()
+            ;
+
+            return str_contains($svg, '<svg') ? $svg : null;
         });
     }
 }

@@ -55,7 +55,11 @@ final class IconsTest extends KernelTestCase
      */
     public function can_view_icon_details_page(): void
     {
-        $this->markTestIncomplete();
+        $this->browser()
+            ->visit('/icons/mdi/user')
+            ->assertSuccessful()
+            ->assertSeeIn('h1', 'mdi:user')
+        ;
     }
 
     /**
@@ -63,7 +67,12 @@ final class IconsTest extends KernelTestCase
      */
     public function invalid_icon(): void
     {
-        $this->markTestIncomplete();
+        $this->browser()
+            ->visit('/icons/invalid/invalid')
+            ->assertStatus(404)
+            ->visit('/icons/mdi/invalid')
+            ->assertStatus(404)
+        ;
     }
 
     /**
@@ -71,6 +80,11 @@ final class IconsTest extends KernelTestCase
      */
     public function icon_as_pack_name_redirects_to_icon_details(): void
     {
-        $this->markTestIncomplete();
+        $this->browser()
+            ->interceptRedirects()
+            ->visit('/icons/mdi:user')
+            ->assertRedirectedTo('/icons/mdi/user')
+            ->assertSuccessful()
+        ;
     }
 }
