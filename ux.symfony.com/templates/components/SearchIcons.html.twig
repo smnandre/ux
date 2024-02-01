@@ -5,7 +5,7 @@
             data-model="set"
         >
             <option value="0">All</option>
-            {% for name,value in computed.sets %}
+            {% for name,value in computed.collections %}
                 <option value="{{ name }}">{{ value.name }}</option>
             {% endfor %}
         </select>

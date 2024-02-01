@@ -11,6 +11,7 @@
 
 namespace App\Twig;
 
+use App\Iconify;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -28,30 +29,17 @@ class SearchIcons
     #[LiveProp(writable: true)]
     public ?string $set = null;
 
-    public function __construct(
-        private HttpClientInterface $http,
-        private CacheInterface $cache,
-    ) {
+    public function __construct(private Iconify $iconify)
+    {
     }
 
-    public function getIcons(): array
+    public function icons(): array
     {
         if (!$this->query) {
             return [];
         }
 
-        dump($this->set);
-
-        $icons = $this->http
-            ->request('GET', 'https://api.iconify.design/search', [
-                'query' => array_filter([
-                    'query' => $this->query,
-                    'limit' => 32,
-                    'prefix' => $this->set,
-                ]),
-            ])
-            ->toArray()['icons']
-        ;
+        $icons = $this->iconify->search($this->query, $this->set)['icons'];
 
         return array_map(
             fn (string $icon) => sprintf('https://api.iconify.design/%s.svg', str_replace(':', '/', $icon)),
@@ -59,12 +47,8 @@ class SearchIcons
         );
     }
 
-    public function getSets(): array
+    public function collections(): array
     {
-        return $this->cache->get('iconify_sets', function () {
-            return $this->http->request('GET', 'https://api.iconify.design/collections')
-                ->toArray()
-            ;
-        });
+        return $this->iconify->collections();
     }
 }
