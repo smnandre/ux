@@ -33,8 +33,12 @@ final class CacheIconRegistry implements IconRegistryInterface, CacheWarmerInter
 
     public function get(string $name, bool $refresh = false): Icon
     {
+        if (!Icon::isValidName($name)) {
+            throw new IconNotFoundException(sprintf('The icon name "%s" is not valid.', $name));
+        }
+
         return $this->cache->get(
-            sprintf('ux-icon-%s', str_replace([':', '/'], ['-', '-'], $name)),
+            sprintf('ux-icon-%s', Icon::nameToId($name)),
             function () use ($name) {
                 foreach ($this->registries as $registry) {
                     try {
