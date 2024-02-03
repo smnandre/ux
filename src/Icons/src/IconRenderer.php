@@ -11,6 +11,8 @@
 
 namespace Symfony\UX\Icons;
 
+use Symfony\Ux\Icons\Svg\Icon;
+
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  *
@@ -29,8 +31,21 @@ final class IconRenderer
      */
     public function renderIcon(string $name, array $attributes = []): string
     {
+        $deferred = $attributes['defer'] ?? false;
+        unset($attributes['defer']);
         [$content, $iconAttr] = $this->registry->get($name);
 
+        if ($deferred) {
+            $this->stack->push($name);
+
+            return (new Icon('<use xlink:href="#'.self::idFor($name).'"/>'))
+                ->withAttributes($attributes)
+                ->toHtml();
+        }
+
+        return $this->getIcon($name)
+                ->withAttributes($attributes)
+                ->toHtml();
         $iconAttr = array_merge($iconAttr, $this->defaultIconAttributes);
 
         return sprintf(

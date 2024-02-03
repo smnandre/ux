@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfony\UX\Svg;
+namespace Symfony\UX\Icons\Svg;
 
 /**
  *
