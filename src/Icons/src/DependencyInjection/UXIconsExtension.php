@@ -81,5 +81,11 @@ final class UXIconsExtension extends ConfigurableExtension implements Configurat
                 'template' => '@UXIcons/Icon.html.twig',
             ])
         ;
+
+        $container->getDefinition('.ux_icons.command.lint_icon')
+            ->setArguments([
+                $mergedConfig['icon_dir'],
+            ])
+        ;
     }
 }

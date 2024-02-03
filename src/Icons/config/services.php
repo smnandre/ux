@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use Symfony\UX\Icons\Command\LintIconCommand;
 use Symfony\UX\Icons\IconRenderer;
 use Symfony\UX\Icons\Registry\CacheIconRegistry;
 use Symfony\UX\Icons\Registry\LocalSvgIconRegistry;
@@ -33,6 +34,12 @@ return static function (ContainerConfigurator $container): void {
             ])
 
         ->alias('.ux_icons.icon_registry', '.ux_icons.cache_icon_registry')
+
+        ->set('.ux_icons.command.lint_icon', LintIconCommand::class)
+            ->args([
+                abstract_arg('icon_dir'),
+            ])
+            ->tag('console.command')
 
         ->set('.ux_icons.twig_icon_extension', UXIconExtension::class)
             ->tag('twig.extension')
