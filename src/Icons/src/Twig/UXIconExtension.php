@@ -22,10 +22,27 @@ use Twig\TwigFunction;
  */
 final class UXIconExtension extends AbstractExtension
 {
+    public function __construct(
+        private readonly ?string $componentName = null,
+    )
+    {
+    }
+
     public function getFunctions(): array
     {
         return [
             new TwigFunction('ux_icon', [IconRenderer::class, 'renderIcon'], ['is_safe' => ['html']]),
+        ];
+    }
+
+    public function getNodeVisitors(): array
+    {
+        if (null === $this->componentName) {
+            return [];
+        }
+
+        return [
+            new UXIconNodeVisitor($this->componentName,'ux_icon'),
         ];
     }
 }
