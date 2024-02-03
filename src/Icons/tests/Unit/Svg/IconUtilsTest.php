@@ -3,16 +3,16 @@
 namespace Symfony\UX\Icons\Tests\Unit\Svg;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\UX\Icons\Svg\SvgUtils;
+use Symfony\UX\Icons\Svg\Icon;
 
-class SvgUtilsTest extends TestCase
+class IconUtilsTest extends TestCase
 {
      /**
      * @dataProvider provideIdToName
      */
     public function testIdToName(string $id, string $name)
     {
-        $this->assertSame($name, SvgUtils::idToName($id));
+        $this->assertSame($name, Icon::idToName($id));
     }
 
     /**
@@ -23,7 +23,7 @@ class SvgUtilsTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The id "'.$id.'" is not a valid id.');
 
-        SvgUtils::idToName($id);
+        Icon::idToName($id);
     }
 
     /**
@@ -31,7 +31,7 @@ class SvgUtilsTest extends TestCase
      */
     public function testNameToId(string $name, string $id)
     {
-        $this->assertEquals($id, SvgUtils::nameToId($name));
+        $this->assertEquals($id, Icon::nameToId($name));
     }
 
     /**
@@ -42,7 +42,7 @@ class SvgUtilsTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The name "'.$name.'" is not a valid name.');
 
-        SvgUtils::nameToId($name);
+        Icon::nameToId($name);
     }
 
     /**
@@ -50,7 +50,7 @@ class SvgUtilsTest extends TestCase
      */
     public function testIsValidIdWithValidIds(string $id): void
     {
-        $this->assertTrue(SvgUtils::isValidId($id));
+        $this->assertTrue(Icon::isValidId($id));
     }
 
     /**
@@ -58,7 +58,7 @@ class SvgUtilsTest extends TestCase
      */
     public function testIsValidIdWithInvalidIds(string $id): void
     {
-        $this->assertFalse(SvgUtils::isValidId($id));
+        $this->assertFalse(Icon::isValidId($id));
     }
 
     /**
@@ -66,7 +66,7 @@ class SvgUtilsTest extends TestCase
      */
     public function testIsValidNameWithValidNames(string $name): void
     {
-        $this->assertTrue(SvgUtils::isValidName($name));
+        $this->assertTrue(Icon::isValidName($name));
     }
 
     /**
@@ -74,7 +74,7 @@ class SvgUtilsTest extends TestCase
      */
     public function testIsValidNameWithInvalidNames(string $name): void
     {
-        $this->assertFalse(SvgUtils::isValidName($name));
+        $this->assertFalse(Icon::isValidName($name));
     }
 
     /**
@@ -85,8 +85,8 @@ class SvgUtilsTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The id "'.$id.'" is not a valid id.');
 
-        $this->assertFalse(SvgUtils::isValidId($id));
-        SvgUtils::idToName($id);
+        $this->assertFalse(Icon::isValidId($id));
+        Icon::idToName($id);
     }
 
     public static function provideIdToName(): iterable

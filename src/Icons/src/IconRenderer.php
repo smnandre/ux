@@ -11,7 +11,7 @@
 
 namespace Symfony\UX\Icons;
 
-use Symfony\Ux\Icons\Svg\Icon;
+use Symfony\UX\Icons\Svg\Icon;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
@@ -31,47 +31,13 @@ final class IconRenderer
      */
     public function renderIcon(string $name, array $attributes = []): string
     {
-        $deferred = $attributes['defer'] ?? false;
-        unset($attributes['defer']);
-        [$content, $iconAttr] = $this->registry->get($name);
-
-        if ($deferred) {
-            $this->stack->push($name);
-
-            return (new Icon('<use xlink:href="#'.self::idFor($name).'"/>'))
-                ->withAttributes($attributes)
-                ->toHtml();
-        }
-
         return $this->getIcon($name)
-                ->withAttributes($attributes)
+                ->withAttributes([...$this->defaultIconAttributes, ...$attributes])
                 ->toHtml();
-        $iconAttr = array_merge($iconAttr, $this->defaultIconAttributes);
-
-        return sprintf(
-            '<svg%s>%s</svg>',
-            self::normalizeAttributes([...$iconAttr, ...$attributes]),
-            $content,
-        );
     }
 
-    /**
-     * @param array<string,string|bool> $attributes
-     */
-    private static function normalizeAttributes(array $attributes): string
+    private function getIcon(string $name): Icon
     {
-        return array_reduce(
-            array_keys($attributes),
-            static function (string $carry, string $key) use ($attributes) {
-                $value = $attributes[$key];
-
-                return match ($value) {
-                    true => "{$carry} {$key}",
-                    false => $carry,
-                    default => sprintf('%s %s="%s"', $carry, $key, $value),
-                };
-            },
-            ''
-        );
+        return $this->registry->get($name);
     }
 }
