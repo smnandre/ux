@@ -29,6 +29,12 @@ final class IconRenderer
      */
     public function renderIcon(string $name, array $attributes = []): string
     {
+        // TODO generate class name(s)
+        // TODO add role/aria
+
+        // TODO catch IconNotFoundException
+        // --> only possible if we add a new method to IconRegistryInterface
+
         return $this->registry->get($name)
             ->withAttributes([...$this->defaultIconAttributes, ...$attributes])
             ->toHtml()
