@@ -86,7 +86,7 @@ final class Icon implements \Stringable, \Serializable, \ArrayAccess
             }
             $htmlAttributes .= ' '.$name;
             if (true !== $value) {
-                $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+                $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
                 $htmlAttributes .= '="'. $value .'"';
             }
         }
