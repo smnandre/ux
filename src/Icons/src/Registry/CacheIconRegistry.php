@@ -15,6 +15,7 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\UX\Icons\Exception\IconNotFoundException;
 use Symfony\UX\Icons\IconRegistryInterface;
+use Symfony\UX\Icons\Svg\Icon;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
@@ -30,7 +31,7 @@ final class CacheIconRegistry implements IconRegistryInterface, CacheWarmerInter
     {
     }
 
-    public function get(string $name, bool $refresh = false): array
+    public function get(string $name, bool $refresh = false): Icon
     {
         return $this->cache->get(
             sprintf('ux-icon-%s', str_replace([':', '/'], ['-', '-'], $name)),
