@@ -11,8 +11,6 @@
 
 namespace Symfony\UX\Icons;
 
-use Symfony\UX\Icons\Svg\Icon;
-
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  *
@@ -31,13 +29,9 @@ final class IconRenderer
      */
     public function renderIcon(string $name, array $attributes = []): string
     {
-        return $this->getIcon($name)
-                ->withAttributes([...$this->defaultIconAttributes, ...$attributes])
-                ->toHtml();
-    }
-
-    private function getIcon(string $name): Icon
-    {
-        return $this->registry->get($name);
+        return $this->registry->get($name)
+            ->withAttributes([...$this->defaultIconAttributes, ...$attributes])
+            ->toHtml()
+        ;
     }
 }
