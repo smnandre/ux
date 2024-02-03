@@ -10,17 +10,17 @@ use Symfony\UX\TwigComponent\Event\PreCreateForRenderEvent;
  *
  * @internal
  */
-final class UxIconComponentListener
+final class UXIconComponentListener
 {
     public function __construct(
         private IconRenderer $iconRenderer,
-    )
-    {
+        private string $componentName,
+    ) {
     }
 
     public function onPreCreateForRender(PreCreateForRenderEvent $event): void
     {
-        if ('Icon' !== $event->getName()) {
+        if ($this->componentName !== $event->getName()) {
             return;
         }
 
