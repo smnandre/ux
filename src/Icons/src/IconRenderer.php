@@ -11,6 +11,8 @@
 
 namespace Symfony\UX\Icons;
 
+use Symfony\Ux\Icons\Svg\Icon;
+
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  *
@@ -19,8 +21,8 @@ namespace Symfony\UX\Icons;
 final class IconRenderer
 {
     public function __construct(
-        private IconRegistryInterface $registry,
-        private IconStack $stack,
+        private readonly IconRegistryInterface $registry,
+        private readonly IconStack $stack,
         private array $defaultIconAttributes = [],
         private array $defaultDeferredAttributes = [],
     ) {
@@ -32,22 +34,19 @@ final class IconRenderer
     public function renderIcon(string $name, array $attributes = []): string
     {
         $deferred = $attributes['defer'] ?? false;
-
         unset($attributes['defer']);
 
         if ($deferred) {
             $this->stack->push($name);
 
-            return sprintf('<svg%s><use xlink:href="#%s"/></svg>', self::normalizeAttributes($attributes), self::idFor($name));
+            return (new Icon('<use xlink:href="#'.self::idFor($name).'"/>'))
+                ->withAttributes($attributes)
+                ->toHtml();
         }
 
-        [$content, $iconAttr] = $this->getIcon($name);
-
-        return sprintf(
-            '<svg%s>%s</svg>',
-            self::normalizeAttributes([...$iconAttr, ...$attributes]),
-            $content,
-        );
+        return $this->getIcon($name)
+                ->withAttributes($attributes)
+                ->toHtml();
     }
 
     /**
@@ -71,17 +70,15 @@ final class IconRenderer
         return $return.'</svg>';
     }
 
-    private function getIcon(string $name): array
+    private function getIcon(string $name): Icon
     {
-        [$content, $iconAttr] = $this->registry->get($name);
-
-        $iconAttr = array_merge($iconAttr, $this->defaultIconAttributes);
-
-        return [$content, $iconAttr];
+        return $this->registry->get($name)->withAttributes($this->defaultIconAttributes);
     }
 
     private static function idFor(string $name): string
     {
+        // @todo Icon::idFor ?
+
         return 'ux-icon-'.str_replace(['/', ':'], ['-', '--'], $name);
     }
 

@@ -16,6 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\UX\Icons\Exception\IconNotFoundException;
 use Symfony\UX\Icons\IconRegistryInterface;
+use Symfony\UX\Icons\Svg\Icon;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
@@ -28,7 +29,7 @@ final class LocalSvgIconRegistry implements IconRegistryInterface
     {
     }
 
-    public function get(string $name): array
+    public function get(string $name): Icon
     {
         if (!file_exists($filename = sprintf('%s/%s.svg', $this->iconDir, $name))) {
             throw new IconNotFoundException(sprintf('The icon "%s" (%s) does not exist.', $name, $filename));
@@ -43,7 +44,7 @@ final class LocalSvgIconRegistry implements IconRegistryInterface
             $attributes['viewBox'] = $viewBox;
         }
 
-        return [$crawler->html(), $attributes];
+        return new Icon($crawler->html(), $attributes);
     }
 
     /**
