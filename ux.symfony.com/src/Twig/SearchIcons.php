@@ -43,7 +43,7 @@ class SearchIcons
         }
 
         if (!$this->query && $this->set) {
-            $icons = array_slice($this->iconify->collectionIcons($this->set), 0, 128);
+            $icons = array_slice($this->iconify->collectionIcons($this->set), 0, 256);
 
             $result = [];
             foreach ($icons as $icon) {
@@ -53,7 +53,7 @@ class SearchIcons
             return $result;
         }
 
-        $icons = $this->iconify->search($this->query, $this->set, 128)['icons'];
+        $icons = $this->iconify->search($this->query, $this->set, 256)['icons'];
 
         return array_map(
             fn (string $icon) => sprintf('https://api.iconify.design/%s.svg', str_replace(':', '/', $icon)),
