@@ -37,10 +37,23 @@ class SearchIcons
     public function icons(): array
     {
         if (!$this->query) {
-            return [];
+            if (!$this->set) {
+               return [];
+            }
         }
 
-        $icons = $this->iconify->search($this->query, $this->set)['icons'];
+        if (!$this->query && $this->set) {
+            $icons = array_slice($this->iconify->collectionIcons($this->set), 0, 128);
+
+            $result = [];
+            foreach ($icons as $icon) {
+                $icon = $this->set.':'.$icon;
+                $result[$icon] = sprintf('https://api.iconify.design/%s.svg', $icon);
+            }
+            return $result;
+        }
+
+        $icons = $this->iconify->search($this->query, $this->set, 128)['icons'];
 
         return array_map(
             fn (string $icon) => sprintf('https://api.iconify.design/%s.svg', str_replace(':', '/', $icon)),

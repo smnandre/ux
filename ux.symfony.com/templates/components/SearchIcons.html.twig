@@ -1,42 +1,65 @@
 <div{{ attributes }}>
-    <div class="d-flex">
-        {% if not hideSelect %}
-            <select
-                    class="form-control w-25"
-                    data-model="set"
+
+    <div class="p-4 markdown-container background-glass shadow-blur shadow-blur--rainbow  mt-5 row" style="border-radius: .75rem">
+        <fieldset class="d-flex">
+            {% if not hideSelect %}
+                <select
+                        class="form-control w-25"
+                        data-model="set"
+                >
+                    <option value="0">All</option>
+                    {% for name,value in computed.collections %}
+                        <option value="{{ name }}">{{ value.name }}</option>
+                    {% endfor %}
+                </select>
+            {% endif %}
+            {% if categories|default %}
+                <select
+                        class="form-control w-25"
+                        data-model="set"
+                >
+                    <option value="0">All</option>
+                    {% for category in categories %}
+                        <option value="{{ category }}">{{ category }}</option>
+                    {% endfor %}
+                </select>
+            {% endif %}
+            <input
+                autofocus
+                type="search"
+                data-model="query"
+                placeholder="Results update as you type..."
+                class="form-control ms-3"
             >
-                <option value="0">All</option>
-                {% for name,value in computed.collections %}
-                    <option value="{{ name }}">{{ value.name }}</option>
-                {% endfor %}
-            </select>
-        {% endif %}
-        <input
-            autofocus
-            type="text"
-            data-model="query"
-            placeholder="Results update as you type..."
-            class="form-control ms-3"
-        >
+        </fieldset>
     </div>
 
     {% if computed.icons|length > 0 %}
-        <div data-loading="addClass(opacity-50)" class="mt-3 row">
-            {% for icon, url in computed.icons %}
-                <div class="col-12 col-md-6 col-lg-4 mb-2">
-                    <div class="components-container p-2">
-                        <div class="d-flex">
-                            <div class="live-component-img d-flex justify-content-center align-items-center">
-                                <img width="32px" height="32px" src="{{ url }}" alt="SVG for {{ icon }}">
-                            </div>
-                            <div class="ps-2 pe-2">
-                                <h4 class="ubuntu-title align-self-center">{{ icon }}</h4>
-                                <div class="text-nowrap"><small><code>symfony console ux:icons:import {{ icon }}</code></small></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+        <div data-loading="addClass(opacity-50)" class="mt-5 row">
+
+            {{ include('icons/_icon_list.html.twig', {icons: computed.icons}) }}
+
+{#            {% for icon, url in computed.icons %}#}
+{#                <div class="col-12 col-md-6 col-lg-4 mb-2">#}
+{#                    <div class="components-container p-2">#}
+{#                        {% set iconParts = icon|split(':') %}#}
+{#                        {% set prefix = iconParts[0] %}#}
+{#                        {% set name = iconParts[1] %}#}
+{#                        <div class="d-flex">#}
+{#                            <div class="live-component-img d-flex justify-content-center align-items-center">#}
+{#                                <a href="{{ url('app_icon', {prefix: prefix, name: name}) }}">#}
+{#                                    <img width="32px" height="32px" src="{{ url }}" alt="SVG for {{ icon }}">#}
+{#                                </a>#}
+{#                            </div>#}
+{#                            <div class="ps-2 pe-2">#}
+{#                                <h4 class="ubuntu-title align-self-center">{{ icon }}</h4>#}
+{#                                <div class="text-nowrap"><small><code>symfony console ux:icons:import {{ icon }}</code></small></div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+
         </div>
     {% elseif query %}
         <div class="pt-3">Ah! No icons found matching "{{ query }}"</div>

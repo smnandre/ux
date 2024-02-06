@@ -1,0 +1,16 @@
+<div class="Icons">
+    {% for icon, url in icons %}
+
+        {% set iconParts = icon|split(':') %}
+        {% set prefix = iconParts[0] %}
+        {% set name = iconParts[1] %}
+        <div class="Icons-icon" title="{{ icon }}">
+            <a href="{{ url('app_icon', {prefix: icon|split(':')[0], name: icon|split(':')[1]}) }}">
+
+                <img width="32px" height="32px" src="{{ url }}" alt="SVG for {{ icon }}">
+
+            </a>
+        </div>
+
+    {% endfor %}
+</div>
