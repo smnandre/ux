@@ -18,7 +18,17 @@ final class IconsController extends AbstractController
     public function index(IconSetRepository $iconSetRepository): Response
     {
 
-        $iconSets = array_slice($iconSetRepository->findAll(), 0, 12);
+        $favorites = [
+            'ri',
+            'tabler',
+            'bi',
+            'lucide',
+            'iconoir',
+            'bx',
+            'octoicons',
+        ];
+        $iconSets = array_slice($iconSetRepository->findAll(), 0, 24);
+        $iconSets = array_filter($iconSets, fn(IconSet $iconSet) => in_array($iconSet->getIdentifier(), $favorites));
 
         return $this->render('icons/index.html.twig', [
             'iconSets' => $iconSets,
