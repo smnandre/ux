@@ -2367,6 +2367,28 @@ class StandardElementDriver {
     }
 }
 
+class IntersectPlugin {
+    constructor() {
+        this.intersectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.dispatchEvent(new CustomEvent('live:intersect', { detail: entry }));
+                    console.log('Intersecting', entry);
+                    entry.target.classList.add('loading');
+                }
+            });
+        });
+    }
+    attachToComponent(component) {
+        component.on('connect', () => {
+            this.intersectionObserver.observe(component.element);
+        });
+        component.on('disconnect', () => {
+            this.intersectionObserver.unobserve(component.element);
+        });
+    }
+}
+
 class LoadingPlugin {
     attachToComponent(component) {
         component.on('loading.state:started', (element, request) => {
@@ -2932,6 +2954,7 @@ class LiveControllerDefault extends Controller {
         }
         const plugins = [
             new LoadingPlugin(),
+            new IntersectPlugin(),
             new ValidatedFieldsPlugin(),
             new PageUnloadingPlugin(),
             new PollingPlugin(),

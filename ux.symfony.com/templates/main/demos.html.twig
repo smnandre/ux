@@ -14,12 +14,167 @@
         </div>
     </div>
 
-    <div class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">
-        <div style="display: grid; gap: 3rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));">
-            {% for demo in liveComponentDemos %}
-                <twig:DemoCard demo="{{ demo }}" />
-            {% endfor %}
+    <style>
+        @keyframes infinite-spinning {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes flash {
+          0% {
+            opacity: 1;
+            }
+            50% {
+            opacity: 0;
+            }
+            100% {
+            opacity: 1;
+            }
+        }
+        @keyframes bounce-in {
+            0% {
+            opacity: 0;
+            transform: scale(.3);
+            }
+            50% {
+            transform: scale(1.05);
+            }
+            70% {
+            transform: scale(.9);
+            }
+            100% {
+            opacity: 1;
+            transform: scale(1);
+            }
+        }
+    </style>
+
+    <style>
+      .LazyFoo {
+        min-height: 4rem;
+        background: rgba(0 0 0 / .05);
+        padding: 3rem;
+      }
+      @keyframes loader {
+            from {
+                left:-100%;
+            }
+            to {
+                left:0;
+            }
+        }
+      .loading {
+        position: relative;
+        overflow: hidden;
+      }
+      .loading::before {
+        content: '';
+        position: absolute;
+        top:0;
+        left:0;
+        width: 100%;
+        bottom: 0;
+        background: orange !important;
+        animation: loader 3s;
+        }
+        h1 strong {
+            filter: invert(100%);
+        }
+    </style>
+
+     <section style="background: #1a1d20; padding: 2rem;">
+         <div class="container-fluid container-xxl p-4" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+
+             <div style="padding: 4rem; background: #f8f9fa; text-align: center;">
+                <h2 class="ubuntu">Defer</h2>
+                <h1>{{ 'now'|date('H:i:s:v') }}</h1>
+
+                 {# Call the component with its default loading block #}
+                <twig:LazyFoo defer="true" />
+            </div>
+
+            <div style="padding: 4rem; background: #f8f9fa; text-align: center;">
+                <h2 class="ubuntu">Defer + loadingContent</h2>
+                <h1>{{ 'now'|date('H:i:s:v') }}</h1>
+
+                {# Custom manual loading content #}
+                <twig:LazyFoo defer="true">
+                    <twig:block name="loadingContent">
+                        <h1>MANUAL LOADING...</h1>
+                    </twig:block>
+                </twig:LazyFoo>
+            </div>
+
         </div>
-    </div>
+    </section>
+
+    {% for i in 0..4 %}
+        <section style="background: #e2e6ea; padding: 2rem;">
+         <div class="container-fluid container-xxl p-4" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+             <div style="padding: 4rem; background: #f8f9fa; text-align: center;">
+                <h2 class="ubuntu">Lazy</h2>
+                <h1>{{ 'now'|date('H:i:s:v') }}</h1>
+                 {# Call the component with its default loading block #}
+                <twig:LazyFoo defer="true" />
+            </div>
+            <div style="padding: 4rem; background: #f8f9fa; text-align: center;">
+                <h2 class="ubuntu">Lazy + loadingContent</h2>
+                <h1>{{ 'now'|date('H:i:s:v') }}</h1>
+                {# Custom manual loading content #}
+                <twig:LazyFoo defer="true">
+                    <twig:block name="loadingContent">
+                        <h1>MANUAL LOADING...</h1>
+                    </twig:block>
+                </twig:LazyFoo>
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+
+
+{#    <section style="background: #1a1d20; padding: 2rem;">#}
+{#        <div class="container-fluid container-xxl p-4">#}
+{#            <div style="padding: 4rem; background: #f8f9fa; text-align: center;">#}
+{#                <h2 class="ubuntu">Default</h2>#}
+{#                <div>{{ 'now'|date('H:i:s:v') }}</div>#}
+{#                <twig:LazyFoo />#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+
+{#    <section style="background: #e2e6ea; padding: 2rem;">#}
+{#        <div class="container-fluid container-xxl p-4">#}
+{#            <div style="padding: 4rem; background: #f8f9fa; text-align: center;">#}
+{#                <h2 class="ubuntu">Defer</h2>#}
+{#                <div>{{ 'now'|date('H:i:s:v') }}</div>#}
+{#                <twig:LazyFoo loading="defer" />#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+
+{#    <section style="background: #1a1d20; padding: 2rem;">#}
+{#         <div class="container-fluid container-xxl p-4">#}
+{#            <div style="padding: 4rem; background: #f8f9fa; text-align: center;">#}
+{#                <h2 class="ubuntu">Defer + loadingContent</h2>#}
+{#                <h1>{{ 'now'|date('H:i:s:v') }}</h1>#}
+{#                <twig:LazyFoo defer="true">#}
+{#                    <twig:block name="loadingContent">#}
+{#                        <div class="spinner-border text-primary" role="status" style="background: red;">#}
+{#                            <span class="visually-hidden">Loading...</span>#}
+{#                        </div>#}
+{#                    </twig:block>#}
+{#                </twig:LazyFoo>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+
+{#        <div style="display: grid; gap: 3rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));">#}
+{#            {% for demo in liveComponentDemos %}#}
+{#                <twig:DemoCard demo="{{ demo }}" />#}
+{#            {% endfor %}#}
+{#        </div>#}
 
 {% endblock %}

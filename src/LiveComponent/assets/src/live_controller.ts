@@ -10,6 +10,7 @@ import {
 import Component, { proxifyComponent } from './Component';
 import Backend from './Backend/Backend';
 import { StandardElementDriver } from './Component/ElementDriver';
+import IntersectPlugin from "./Component/plugins/IntersectPlugin";
 import LoadingPlugin from './Component/plugins/LoadingPlugin';
 import ValidatedFieldsPlugin from './Component/plugins/ValidatedFieldsPlugin';
 import PageUnloadingPlugin from './Component/plugins/PageUnloadingPlugin';
@@ -103,6 +104,7 @@ export default class LiveControllerDefault extends Controller<HTMLElement> imple
 
         const plugins: PluginInterface[] = [
             new LoadingPlugin(),
+            new IntersectPlugin(),
             new ValidatedFieldsPlugin(),
             new PageUnloadingPlugin(),
             new PollingPlugin(),
