@@ -1,0 +1,17 @@
+<div {{ attributes }} class="LazyFoo">
+    {# Real content of the component #}
+    <div style="border: 2px dashed red;">
+        <h1 class="render-time">
+            {{ this.generate()|markdown_to_html }}
+        </h1>
+    </div>
+</div>
+
+{% if false %}
+    {# Default loading block when defered/lazy #}
+    {% block loadingContent %}
+        <div style="border: 2px dashed blue;" data-loading="addClass(loading)">
+            <h1>Default Loading defined in the Component</h1>
+        </div>
+    {% endblock %}
+{% endif %}
