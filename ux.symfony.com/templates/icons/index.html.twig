@@ -16,33 +16,33 @@
     </div>
 
     <section class="container-fluid container-xxl px-4 py-4 py-md-5">
-        {% set icons = [
-            'bi:bounding-box-circles',
-            'bi:calendar',
-            'bi:file-earmark',
-            'octicon:repo',
-            'octicon:star',
-            'octicon:git-branch',
-            'lucide:cake',
-            'lucide:command',
-            'lucide:scan-barcode',
-            'lucide:circle-dots',
-        ] %}
-        <div style="position: relative;display: grid;align-items: center;justify-content: center; height: 0;">
-            {% for icon in [...icons, ...icons] %}
-                {% set x = random(range(-10, 10)) * 5 %}
-                {% set y = random(range(-10, 10)) * 5 %}
-                {% set scale = random(range(8, 12)) / 10 %}
-                {% set rotate = random(1,10) * 36 %}
-                <div style="transform: translate({{ x }}vmin, {{ y }}vmin) rotate({{ rotate }}deg) scale({{ scale }});">
-                    <img
-                        style="opacity: {{ scale * 0.10 }}"
-                        src="https://api.iconify.design/{{ icon|replace({':': '/' }) }}.svg" width="24" height="24"
-                    >
-                </div>
-            {% endfor %}
-        </div>
-        <twig:SearchIcons />
+{#        {% set icons = [#}
+{#            'bi:bounding-box-circles',#}
+{#            'bi:calendar',#}
+{#            'bi:file-earmark',#}
+{#            'octicon:repo',#}
+{#            'octicon:star',#}
+{#            'octicon:git-branch',#}
+{#            'lucide:cake',#}
+{#            'lucide:command',#}
+{#            'lucide:scan-barcode',#}
+{#            'lucide:circle-dots',#}
+{#        ] %}#}
+{#        <div style="position: relative;display: grid;align-items: center;justify-content: center; height: 0;">#}
+{#            {% for icon in [...icons, ...icons] %}#}
+{#                {% set x = random(range(-10, 10)) * 5 %}#}
+{#                {% set y = random(range(-10, 10)) * 5 %}#}
+{#                {% set scale = random(range(8, 12)) / 10 %}#}
+{#                {% set rotate = random(1,10) * 36 %}#}
+{#                <div style="transform: translate({{ x }}vmin, {{ y }}vmin) rotate({{ rotate }}deg) scale({{ scale }});">#}
+{#                    <img#}
+{#                        style="opacity: {{ scale * 0.10 }}"#}
+{#                        src="https://api.iconify.design/{{ icon|replace({':': '/' }) }}.svg" width="24" height="24"#}
+{#                    >#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+        <twig:Icon:IconSearch />
     </section>
 
     <section class="container-fluid container-xxl px-4 py-4 py-md-5">
@@ -55,9 +55,16 @@
             </a>
         </div>
         <div class="mt-3 mt-md-5">
-            {{ include('icons/_icon_set_list.html.twig') }}
+
+            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem;">
+                {% for iconSet in iconSets %}
+                    <twig:Icon:IconSetCard iconSet="{{ iconSet }}" index="{{ loop.index }}" samples="15" />
+                {% endfor %}
+            </div>
+
         </div>
     </section>
+
 
 {#    <section class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">#}
 {#        <div>#}
@@ -69,5 +76,9 @@
 {#            </div>#}
 {#        </div>#}
 {#    </section>#}
+
+
+    {{ include('icons/_package_links.html.twig') }}
+
 
 {% endblock %}

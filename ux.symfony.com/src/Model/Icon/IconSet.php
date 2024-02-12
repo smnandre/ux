@@ -27,6 +27,8 @@ class IconSet
         private ?string $category = null,
         private ?array $tags = [],
         private ?bool $palette = null,
+        private ?array $suffixes = [],
+        private ?array $categories = [],
     ) {
     }
 
@@ -88,6 +90,21 @@ class IconSet
     public function getPalette(): ?bool
     {
         return $this->palette;
+    }
+
+    public function getSuffixes(): ?array
+    {
+        return $this->suffixes;
+    }
+
+    public function getCategories(): ?array
+    {
+        return $this->categories;
+    }
+
+    public function getIndex(): int
+    {
+        return abs(crc32($this->identifier)) % 100;
     }
 
 }

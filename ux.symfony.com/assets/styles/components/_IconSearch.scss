@@ -1,0 +1,18 @@
+// -----------------------------------------------------------------
+// IconSearch
+// -----------------------------------------------------------------
+
+.IconSearch {
+
+}
+
+.IconSearch__Input {
+
+  border: 1px solid var(--bs-secondary-bg-subtle);
+
+  &:focus {
+    border-color: var(--bs-primary);
+    box-shadow: none;
+    outline: revert;
+  }
+}

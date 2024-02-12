@@ -1,0 +1,73 @@
+
+.IconCard {
+  display: grid;
+  border-radius: 0.75rem;
+  border: 1px solid var(--bs-secondary-bg-subtle);
+  background: rgb(255 255 255 / 50%);
+  padding: 0.5rem;
+  aspect-ratio: 1;
+  position: relative;
+  transition: 150ms linear;
+}
+.IconCard:hover {
+  transition: 250ms ease-in-out;
+  transform: scale(1.05);
+}
+
+.IconCard a {
+  padding-block-end: 1rem;
+  display: grid;
+  place-items: center;
+  align-content: center;
+}
+.Icons-icon a::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    content: "";
+}
+.IconCard__icon {
+  width: 50%;
+  max-width: 2.5rem;
+  height: auto;
+  display: block;
+}
+.IconCard__prefix {
+    position: absolute;
+    inset: .5rem .5rem auto;
+    display: block;
+    text-align: center;
+    font-size: .7rem;
+    font-family: var(--font-family-code);
+    letter-spacing: -1px;
+    opacity: .25;
+    line-height: 1.1;
+}
+.IconCard__name {
+  position: absolute;
+  inset: auto .5rem .5rem;
+  display: block;
+  text-align: center;
+  font-size: .7rem;
+  font-family: var(--font-family-code);
+  opacity: .25;
+  line-height: 1.1;
+}
+
+
+
+[data-bs-theme="dark"] {
+  .IconCard {
+    background: rgb(0 0 0 / 50%);
+  }
+  .IconCard__icon {
+    filter: invert(1) hue-rotate(180deg);
+  }
+}
+
+.Icons-icon:hover {
+  fill: #f4645f;
+}

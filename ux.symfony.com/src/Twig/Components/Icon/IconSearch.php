@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Twig;
+namespace App\Twig\Components\Icon;
 
-use App\Iconify;
+use App\Service\Icon\Iconify;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
-#[AsLiveComponent]
-class SearchIcons
+#[AsLiveComponent('Icon:IconSearch')]
+class IconSearch
 {
     use DefaultActionTrait;
 
@@ -26,6 +26,9 @@ class SearchIcons
 
     #[LiveProp(writable: true, url: true)]
     public ?string $set = null;
+
+    #[LiveProp(writable: true)]
+    public ?string $style = null;
 
     #[LiveProp]
     public bool $hideSelect = false;
@@ -64,5 +67,29 @@ class SearchIcons
     public function collections(): array
     {
         return $this->iconify->collections();
+    }
+
+    public function getCategories(): array
+    {
+        if (!$this->set) {
+            return [];
+        }
+
+        return $this->iconify->collectionCategories($this->set);
+    }
+
+    public function getStyles(): array
+    {
+        if (!$this->set) {
+            return [];
+        }
+
+
+        $styles = [];
+        foreach($this->iconify->collectionStyles($this->set) as $type => $fixes) {
+            $styles = $styles + $fixes;
+        }
+
+        return $styles;
     }
 }

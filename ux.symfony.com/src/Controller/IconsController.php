@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Iconify;
 use App\Model\Icon\IconSet;
+use App\Service\Icon\Iconify;
 use App\Service\Icon\IconSetRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,6 @@ final class IconsController extends AbstractController
     #[Route('/icons', name: 'app_icons')]
     public function index(IconSetRepository $iconSetRepository): Response
     {
-
         $favorites = [
             'ri',
             'tabler',
@@ -40,17 +39,21 @@ final class IconsController extends AbstractController
     {
         $iconSets = $iconSetRepository->findAll();
         $iconSets = array_filter($iconSets, function(IconSet $iconSet) {
-            if (str_contains($iconSet->getName(), 'crypto')) {
-                return false;
-            }
-            if (str_contains($iconSet->getName(), 'moji')) {
+            if ('General' !== $iconSet->getCategory()) {
                 return false;
             }
             if ($iconSet->getPalette()=== true) {
                 return false;
             }
+            foreach (['crypto', 'coin', 'emoji'] as $prefix) {
+                if (str_contains($iconSet->getIdentifier(), $prefix)) {
+                    return false;
+                }
+            }
             return true;
         });
+
+        usort($iconSets, fn(IconSet $a, IconSet $b) => $b->getTotal() <=> $a->getTotal());
 
         return $this->render('icons/sets.html.twig', [
             'iconSets' => $iconSets,

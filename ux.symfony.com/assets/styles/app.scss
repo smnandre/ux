@@ -28,7 +28,7 @@
 @import "../../vendor/twbs/bootstrap/scss/buttons";
 @import "../../vendor/twbs/bootstrap/scss/transitions";
 @import "../../vendor/twbs/bootstrap/scss/dropdown";
-// @import "../../vendor/twbs/bootstrap/scss/button-group";
+ @import "../../vendor/twbs/bootstrap/scss/button-group";
 @import "../../vendor/twbs/bootstrap/scss/nav";
 @import "../../vendor/twbs/bootstrap/scss/navbar";
 @import "../../vendor/twbs/bootstrap/scss/card";
@@ -68,12 +68,15 @@
 @import "components/DocsLink";
 @import "components/file_tree";
 @import "components/Icon";
+@import "components/IconGrid";
+@import "components/IconCard";
+@import "components/IconSearch";
+@import "components/IconSetCard";
 @import "components/PackageHeader";
 @import "components/PackageBox";
 @import "components/Terminal";
 @import "components/TerminalCommand";
 @import "components/ThemeSwitcher";
-@import "components/Icons";
 
 // Utilities
 @import "utilities/arrow";

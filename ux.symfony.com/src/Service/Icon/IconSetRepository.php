@@ -11,7 +11,6 @@
 
 namespace App\Service\Icon;
 
-use App\Iconify;
 use App\Model\Icon\IconSet;
 
 class IconSetRepository
@@ -35,10 +34,19 @@ class IconSetRepository
 
         $iconSets = [];
         foreach ($this->iconify->collections() as $identifier => $data) {
+            // TODO not every time !! Need findAll without all data
+            $collection = $this->iconify->collection($identifier);
+            $data['suffixes'] = $collection['suffixes'] ?? [];
+            $data['categories'] = array_keys($collection['categories'] ?? []);
             $iconSets[$identifier] = self::createIconSet($identifier, $data);
         }
 
         return $this->iconSets = $iconSets;
+    }
+
+    public function load(string $identifier): IconSet
+    {
+        return self::createIconSet($identifier, $this->iconify->collection($identifier));
     }
 
     public function getPrevious(string $identifier, bool $loop = false): ?IconSet
@@ -111,6 +119,8 @@ class IconSetRepository
             $data['category'] ?? null,
             $data['tags'] ?? [],
             $data['palette'] ?? null,
+            $data['suffixes'] ?? null,
+            $data['categories'] ?? null,
         );
     }
 }

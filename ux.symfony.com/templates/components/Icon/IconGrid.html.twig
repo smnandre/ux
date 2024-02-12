@@ -1,0 +1,26 @@
+<div class="IconGrid">
+
+    {% for icon, url in icons %}
+
+        {% set iconParts = icon|split(':') %}
+        {% set prefix = iconParts[0] %}
+        {% set name = iconParts[1] %}
+
+        <div class="IconCard" title="{{ icon }}">
+            <a href="{{ url('app_icon', {prefix: icon|split(':')[0], name: icon|split(':')[1]}) }}">
+
+                {% if iconSet is not defined %}
+                    <span class="IconCard__prefix">{{ prefix }}</span>
+                {% endif %}
+
+                <img class="IconCard__icon" width="32" height="32" src="{{ url }}" alt="Icon {{ prefix }} {{ name|humanize }}">
+                <span class="IconCard__name">{{ name }}</span>
+            </a>
+        </div>
+
+    {% endfor %}
+
+</div>
+
+
+<twig:Icon:IconModal />

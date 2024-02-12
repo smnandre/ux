@@ -1,16 +1,21 @@
-<div class="Icons">
-    {% for icon, url in icons %}
 
-        {% set iconParts = icon|split(':') %}
-        {% set prefix = iconParts[0] %}
-        {% set name = iconParts[1] %}
-        <div class="Icons-icon" title="{{ icon }}">
-            <a href="{{ url('app_icon', {prefix: icon|split(':')[0], name: icon|split(':')[1]}) }}">
-
-                <img width="32px" height="32px" src="{{ url }}" alt="SVG for {{ icon }}">
-
-            </a>
-        </div>
-
-    {% endfor %}
-</div>
+{#            {% for icon, url in computed.icons %}#}
+{#                <div class="col-12 col-md-6 col-lg-4 mb-2">#}
+{#                    <div class="components-container p-2">#}
+{#                        {% set iconParts = icon|split(':') %}#}
+{#                        {% set prefix = iconParts[0] %}#}
+{#                        {% set name = iconParts[1] %}#}
+{#                        <div class="d-flex">#}
+{#                            <div class="live-component-img d-flex justify-content-center align-items-center">#}
+{#                                <a href="{{ url('app_icon', {prefix: prefix, name: name}) }}">#}
+{#                                    <img width="32px" height="32px" src="{{ url }}" alt="SVG for {{ icon }}">#}
+{#                                </a>#}
+{#                            </div>#}
+{#                            <div class="ps-2 pe-2">#}
+{#                                <h4 class="ubuntu-title align-self-center">{{ icon }}</h4>#}
+{#                                <div class="text-nowrap"><small><code>symfony console ux:icons:import {{ icon }}</code></small></div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}

@@ -1,35 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% set meta = {
-    title: '%s - UX Icons '|format(collection.name),
+    title: '%s - UX Icons '|format(iconSet.name),
     description: '',
     canonical: url('app_icon_collection', {prefix: prefix}),
 } %}
 
 {% block content %}
 
-
     <div class="hero">
         <div class="container-fluid container-xxl px-4 pt-5 px-md-5 pt-md-5">
             <p class="eyebrows text-center">
-                <a href="{{ path('app_icons') }}">UX Icons</a>
+                <a href="{{ url('app_icons') }}">UX Icons</a> /
+                <a href="{{ url('app_icon_sets') }}">Icon Sets</a>
             </p>
             <h1 class="text-center ubuntu mt-3">
                 <a href="{{ url('app_icon_collection', {prefix: prefix}) }}">
-                    {{ collection.name }}{{ 'icon' not in collection.name|lower ? ' Icons' }}
+                    {{ iconSet.name }}{{ 'icon' not in iconSet.name|lower ? ' Icons' }}
                 </a>
             </h1>
             <div style="font-size: 1rem; line-height: 1.75rem;" class="mt-4 text-center">
                 <p>
-                    {% if collection.total|default %}
+                    {% if iconSet.total|default %}
                         <span>
                             <span>Icons</span>
                             <code>
-                                {{ collection.total }}
+                                {{ iconSet.total }}
                             </code>
                         </span>
                     {% endif %}
                     {% if categories|default %}
+                        <span>・</span>
                         <span>
                             <span>Categories</span>
                             <code>
@@ -38,6 +39,7 @@
                         </span>
                     {% endif %}
                     {% if collection.version|default %}
+                        <span>・</span>
                         <span>
                             <span>Version</span>
                             <code>
@@ -45,22 +47,24 @@
                             </code>
                         </span>
                     {% endif %}
-                    {% if collection.license.url|default %}
+                    {% if iconSet.license.url|default %}
+                        <span>・</span>
                         <span>
                             <span>License</span>
                             <code>
-                                <a href="{{ collection.license.url }}" rel="external nofollow">
-                                    {{ collection.license.title }}
+                                <a href="{{ iconSet.license.url }}" rel="external nofollow">
+                                    {{ iconSet.license.title }}
                                 </a>
                             </code>
                         </span>
                     {% endif %}
-                    {% if collection.author.url|default %}
+                    {% if iconSet.author.url|default %}
+                        <span>・</span>
                         <span>
                             <span>Authors</span>
                             <code>
-                                <a href="{{ collection.author.url }}" rel="external nofollow">
-                                    {{ collection.author.name }}
+                                <a href="{{ iconSet.author.url }}" rel="external nofollow">
+                                    {{ iconSet.author.name }}
                                 </a>
                             </code>
                         </span>
@@ -70,16 +74,25 @@
         </div>
     </div>
 
-    <div class="container-fluid container-xxl px-4 py-4 py-md-5">
-        <twig:SearchIcons :set="prefix" hideSelect />
+    <div class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">
+        <div class="d-flex flex-wrap">
+        {% for category, count in categories %}
+            <button class="btn btn-outline-primary btn-sm me-2 mb-2" type="button">
+                <a href="{{ url('app_icon_collection', {prefix: prefix, category: category}) }}">
+                    <span class="">{{ category }}</span>
+
+                    <span>{{ count }}</span>
+                </a>
+            </button>
+        {% endfor %}
+            </div>
     </div>
 
-    <div class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">
-        {{ dump(categories) }}
-    </div>
-
-    <div class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">
-        {{ dump(icons|slice(0, 64)) }}
+    <div class="container-fluid container-xxl px-4 px-md-5">
+        <twig:Icon:IconSearch
+            :set="prefix"
+            hideSelect
+        />
     </div>
 
 {% endblock %}

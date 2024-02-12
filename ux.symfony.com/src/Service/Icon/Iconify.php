@@ -1,8 +1,7 @@
 <?php
 
-namespace App;
+namespace App\Service\Icon;
 
-use App\Model\Icon\IconSet;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -34,7 +33,18 @@ final class Iconify
 
     public function collection(string $name): ?array
     {
+        return $this->collectionData($name);
         return $this->collections()[$name] ?? null;
+    }
+
+    public function collectionStyles(string $prefix): array
+    {
+        $data = $this->collectionData($prefix);
+        $styles = [];
+        $styles['prefixes'] = $data['prefixes'] ?? [];
+        $styles['suffixes'] = $data['suffixes'] ?? [];
+
+        return $styles;
     }
 
     public function collectionCategories(string $prefix): array
@@ -59,7 +69,7 @@ final class Iconify
 
             return $this->http
                 ->request('GET', 'https://api.iconify.design/collection', [
-                    'query' => ['prefix' => $prefix],
+                    'query' => ['prefix' => $prefix, 'info' => 'true'],
                 ])
                 ->toArray();
         });
@@ -88,7 +98,7 @@ final class Iconify
         return $this->cache->get('iconify-collections', function (ItemInterface $item) {
             $item->expiresAfter(604800); // 1 week
 
-            $this->http->request('GET', 'https://api.iconify.design/collections')
+            return $this->http->request('GET', 'https://api.iconify.design/collections')
                 ->toArray()
             ;
         });

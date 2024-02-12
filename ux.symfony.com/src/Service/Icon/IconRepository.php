@@ -11,7 +11,6 @@
 
 namespace App\Service\Icon;
 
-use App\Iconify;
 use App\Model\Icon\Icon;
 use App\Model\Icon\IconSet;
 

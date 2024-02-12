@@ -12,28 +12,30 @@
         <div class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">
             <p class="eyebrows text-center">
                 <a href="{{ path('app_icons') }}">UX Icons</a> /
-                <a href="{{ path('app_icon_collection', {prefix: prefix}) }}">{{ collection.name }}</a>
+                <a href="{{ path('app_icon_collection', {prefix: prefix}) }}">{{ iconSet.name }}</a>
             </p>
             <h1 class="text-center ubuntu mt-2"><code style="--bs-code-color: var(--color)">{{ prefix }}:</code><code>{{ name }}</code></h1>
             <div style="font-size: 1rem; line-height: 1.75rem;" class="mt-4 text-center">
                 <p>
-                    {% if collection.total|default %}
+                    {% if iconSet.total|default %}
                         <span>
                             <span>Icon Set</span>
                             <code>
-                                {{ collection.name }}
+                                {{ iconSet.name }}
                             </code>
                         </span>
                     {% endif %}
-                    {% if collection.total|default %}
+                    {% if iconSet.total|default %}
+                        <span>・</span>
                         <span>
                             <span>Icons</span>
                             <code>
-                                {{ collection.total }}
+                                {{ iconSet.total }}
                             </code>
                         </span>
                     {% endif %}
                     {% if categories|default %}
+                        <span>・</span>
                         <span>
                             <span>Categories</span>
                             <code>
@@ -42,6 +44,7 @@
                         </span>
                     {% endif %}
                     {% if collection.license.url|default %}
+                        <span>・</span>
                         <span>
                             <span>License</span>
                             <code>
@@ -200,5 +203,5 @@
 {% block aside %}
     <aside style="background-color: var(--bs-secondary-bg-subtle);" class="mt-5">
         <twig:Icon:PrevNextIconSet iconSet="{{ iconSet }}" />
-    </aside>>
+    </aside>
 {% endblock %}
