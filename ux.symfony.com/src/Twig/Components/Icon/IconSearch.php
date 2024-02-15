@@ -15,6 +15,9 @@ use App\Service\Icon\Iconify;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
+use Symfony\UX\TwigComponent\Attribute\PostMount;
+use Symfony\UX\TwigComponent\Attribute\PreMount;
 
 #[AsLiveComponent('Icon:IconSearch')]
 class IconSearch
@@ -37,6 +40,11 @@ class IconSearch
     {
     }
 
+    #[PreMount]
+    public function preMount(array $props = [])
+    {
+    }
+
     public function icons(): array
     {
         if (!$this->query) {
@@ -44,7 +52,6 @@ class IconSearch
                return [];
             }
         }
-
         if (!$this->query && $this->set) {
             $icons = array_slice($this->iconify->collectionIcons($this->set), 0, 256);
 

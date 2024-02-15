@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Model\Icon\IconSet;
 use App\Service\Icon\Iconify;
 use App\Service\Icon\IconSetRepository;
+use App\Service\Icon\IconSetSampler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -34,6 +35,12 @@ final class IconsController extends AbstractController
         ]);
     }
 
+    #[Route('/icons/selection', name: 'app_icon_selection')]
+    public function selection(): Response
+    {
+        return $this->render('icons/selection.html.twig');
+    }
+
     #[Route('/icons/sets', name: 'app_icon_sets')]
     public function collections(IconSetRepository $iconSetRepository): Response
     {
@@ -61,8 +68,10 @@ final class IconsController extends AbstractController
     }
 
     #[Route('/icons/{prefix}', name: 'app_icon_collection')]
-    public function collection(string $prefix, IconSetRepository $iconSetRepository, Iconify $iconify): Response
+    public function collection(string $prefix, IconSetRepository $iconSetRepository, Iconify $iconify, IconSetSampler $iconSetSampler): Response
     {
+        // TODO use SetSampler in Repo/Factory
+
         if (2 === count($parts = explode(':', $prefix))) {
             return $this->redirectToRoute('app_icon', ['prefix' => $parts[0], 'name' => $parts[1]]);
         }
@@ -78,6 +87,7 @@ final class IconsController extends AbstractController
             'collection' => $iconify->collection($prefix) ?? throw $this->createNotFoundException(),
             'categories' => $iconify->collectionCategories($prefix),
             'icons' => $iconify->collectionIcons($prefix),
+            'samples' => $iconSetSampler->getSampleIcons($iconSet),
         ]);
     }
 
@@ -88,7 +98,6 @@ final class IconsController extends AbstractController
         if (null === $iconSet) {
             throw $this->createNotFoundException(sprintf('IconSet not found for prefix "%s".', $prefix));
         }
-
 
         return $this->render('icons/icon.html.twig', [
             'prefix' => $prefix,

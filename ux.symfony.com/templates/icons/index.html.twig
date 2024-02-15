@@ -16,33 +16,7 @@
     </div>
 
     <section class="container-fluid container-xxl px-4 py-4 py-md-5">
-{#        {% set icons = [#}
-{#            'bi:bounding-box-circles',#}
-{#            'bi:calendar',#}
-{#            'bi:file-earmark',#}
-{#            'octicon:repo',#}
-{#            'octicon:star',#}
-{#            'octicon:git-branch',#}
-{#            'lucide:cake',#}
-{#            'lucide:command',#}
-{#            'lucide:scan-barcode',#}
-{#            'lucide:circle-dots',#}
-{#        ] %}#}
-{#        <div style="position: relative;display: grid;align-items: center;justify-content: center; height: 0;">#}
-{#            {% for icon in [...icons, ...icons] %}#}
-{#                {% set x = random(range(-10, 10)) * 5 %}#}
-{#                {% set y = random(range(-10, 10)) * 5 %}#}
-{#                {% set scale = random(range(8, 12)) / 10 %}#}
-{#                {% set rotate = random(1,10) * 36 %}#}
-{#                <div style="transform: translate({{ x }}vmin, {{ y }}vmin) rotate({{ rotate }}deg) scale({{ scale }});">#}
-{#                    <img#}
-{#                        style="opacity: {{ scale * 0.10 }}"#}
-{#                        src="https://api.iconify.design/{{ icon|replace({':': '/' }) }}.svg" width="24" height="24"#}
-{#                    >#}
-{#                </div>#}
-{#            {% endfor %}#}
-{#        </div>#}
-        <twig:Icon:IconSearch />
+        <twig:Icon:IconSearch  />
     </section>
 
     <section class="container-fluid container-xxl px-4 py-4 py-md-5">
@@ -61,7 +35,6 @@
                     <twig:Icon:IconSetCard iconSet="{{ iconSet }}" index="{{ loop.index }}" samples="15" />
                 {% endfor %}
             </div>
-
         </div>
     </section>
 
@@ -79,6 +52,49 @@
 
 
     {{ include('icons/_package_links.html.twig') }}
+
+{% endblock %}
+
+
+{% block foo_bar %}
+    <twig:Icon:IconModal  />
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const iconSearchResults = document.querySelector('#IconSearchResults');
+
+        const dialog = document.querySelector('dialog#IconModal');
+        dialog.addEventListener("click", e => {
+          const dialogDimensions = dialog.getBoundingClientRect()
+          if (
+            e.clientX < dialogDimensions.left ||
+            e.clientX > dialogDimensions.right ||
+            e.clientY < dialogDimensions.top ||
+            e.clientY > dialogDimensions.bottom
+          ) {
+            dialog.close()
+          }
+        });
+        const dialogClose = dialog.querySelector('.close');
+        if (dialogClose) {
+            dialogClose.addEventListener('click', () => {
+                e.preventDefault();
+                dialog.close();
+            });
+        }
+
+        iconSearchResults.addEventListener('click', ev => {
+            const iconCard = ev.target.closest('.IconCard');
+            if (!iconCard) {
+                return;
+            }
+            ev.preventDefault();
+            dialog.querySelector('input').value = iconCard.title;
+            dialog.querySelector('input').dispatchEvent(new Event('change', { bubbles: true }));
+        });
+    });
+</script>
 
 
 {% endblock %}

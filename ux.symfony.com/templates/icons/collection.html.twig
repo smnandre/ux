@@ -8,6 +8,15 @@
 
 {% block content %}
 
+{#    <div style="position: absolute; top: 0;left: 50%;margin-left: -25%;width: 50%;">#}
+{#    {% for _sample in samples %}#}
+{#        <div style="width: 48px; height: 48px; background: lightgoldenrodyellow; display: flex; place-content: center;">#}
+{#            <img src="https://api.iconify.design/{{ prefix }}:{{ _sample }}.svg" alt="{{ _sample }}"#}
+{#            style="width: 24px; height: 24px; display: inline-block; margin: 0 4px;" />#}
+{#        </div>#}
+{#    {% endfor %}#}
+{#    </div>#}
+
     <div class="hero">
         <div class="container-fluid container-xxl px-4 pt-5 px-md-5 pt-md-5">
             <p class="eyebrows text-center">
@@ -101,5 +110,10 @@
 {% block aside %}
     <aside style="background-color: var(--bs-secondary-bg-subtle);" class="mt-5">
         <twig:Icon:PrevNextIconSet iconSet="{{ iconSet }}" />
-    </aside>>
+    </aside>
+{% endblock %}
+
+
+{% block foo_bar %}
+    <twig:Icon:IconModal />
 {% endblock %}

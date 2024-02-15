@@ -70,6 +70,7 @@
 @import "components/Icon";
 @import "components/IconGrid";
 @import "components/IconCard";
+@import "components/IconModal";
 @import "components/IconSearch";
 @import "components/IconSetCard";
 @import "components/PackageHeader";
@@ -106,10 +107,10 @@
     left: 0;
     width: 100%;
     color: rgb(156 163 175);
-    background-color: rgb(55 65 81);
+    background-color: rgb(9, 10, 11);
 }
 .btn-expand-code:hover, .btn-expand-code:active {
-    background-color: rgb(55 65 81) !important;
+    background-color: rgb(9, 10, 11) !important;
     color: #fff !important;
 }
 .code-description a {

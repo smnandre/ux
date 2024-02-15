@@ -1,8 +1,18 @@
 .IconGrid {
-  --min: 10rem;
+  --min: 5rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--min), 1fr));
   gap: 1.5rem;
   justify-content: center;
   align-items: center;
+
+  transition: all 250ms ease;
+}
+
+[data-icon-size="large"] .IconGrid {
+  --min: 10rem;
+}
+
+.IconCard {
+  transition: width 250ms ease;
 }

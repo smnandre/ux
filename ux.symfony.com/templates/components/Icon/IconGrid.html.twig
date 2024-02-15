@@ -7,6 +7,11 @@
         {% set name = iconParts[1] %}
 
         <div class="IconCard" title="{{ icon }}">
+
+{#            <button type="button" class="btn">#}
+{#                <twig:Icon name="icon-folder-plus" />#}
+{#            </button>#}
+
             <a href="{{ url('app_icon', {prefix: icon|split(':')[0], name: icon|split(':')[1]}) }}">
 
                 {% if iconSet is not defined %}
@@ -15,6 +20,11 @@
 
                 <img class="IconCard__icon" width="32" height="32" src="{{ url }}" alt="Icon {{ prefix }} {{ name|humanize }}">
                 <span class="IconCard__name">{{ name }}</span>
+
+{#                <button type="button">#}
+{#                    <twig:Icon name="copy" class="IconCard__copy" />#}
+{#                </button>#}
+
             </a>
         </div>
 
@@ -22,5 +32,3 @@
 
 </div>
 
-
-<twig:Icon:IconModal />
