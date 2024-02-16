@@ -27,7 +27,6 @@ return static function (ContainerConfigurator $container): void {
                 service('.ux_icons.local_svg_icon_registry'),
                 service('cache.system'),
             ])
-            ->tag('kernel.cache_warmer')
 
         ->set('.ux_icons.local_svg_icon_registry', LocalSvgIconRegistry::class)
             ->args([

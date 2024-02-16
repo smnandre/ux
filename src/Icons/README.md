@@ -57,8 +57,6 @@ site.
 
 To avoid having to parse icon files on every request, icons are cached.
 
-During container warmup (`cache:warmup` and `cache:clear`), the icon cache is warmed.
-
 > [!NOTE]
 > During development, if you change an icon, you will need to clear the cache (`bin/console cache:clear`)
 > to see the changes.

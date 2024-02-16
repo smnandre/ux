@@ -11,7 +11,6 @@
 
 namespace Symfony\UX\Icons\Registry;
 
-use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\UX\Icons\Exception\IconNotFoundException;
 use Symfony\UX\Icons\IconRegistryInterface;
@@ -22,7 +21,7 @@ use Symfony\UX\Icons\Svg\Icon;
  *
  * @internal
  */
-final class CacheIconRegistry implements IconRegistryInterface, CacheWarmerInterface
+final class CacheIconRegistry implements IconRegistryInterface
 {
     public function __construct(private IconRegistryInterface $inner, private CacheInterface $cache)
     {
@@ -31,25 +30,6 @@ final class CacheIconRegistry implements IconRegistryInterface, CacheWarmerInter
     public function get(string $name): Icon
     {
         return $this->fetchIcon($name);
-    }
-
-    public function getIterator(): \Traversable
-    {
-        yield from $this->inner;
-    }
-
-    public function isOptional(): bool
-    {
-        return true;
-    }
-
-    public function warmUp(string $cacheDir, ?string $buildDir = null): array
-    {
-        foreach ($this as $name) {
-            $this->fetchIcon($name, refresh: true);
-        }
-
-        return [];
     }
 
     private function fetchIcon(string $name, bool $refresh = false): Icon

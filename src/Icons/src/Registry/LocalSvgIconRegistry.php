@@ -83,17 +83,6 @@ final class LocalSvgIconRegistry implements IconRegistryInterface
         (new Filesystem())->dumpFile($filename, $svg);
     }
 
-    public function getIterator(): \Traversable
-    {
-        if (!is_dir($this->iconDir)) {
-            return new \EmptyIterator();
-        }
-
-        foreach ($this->finder()->sortByName() as $file) {
-            yield str_replace(['.svg', '/'], ['', ':'], $file->getRelativePathname());
-        }
-    }
-
     private function finder(): Finder
     {
         return Finder::create()->in($this->iconDir)->files()->name('*.svg');

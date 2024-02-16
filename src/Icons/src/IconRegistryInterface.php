@@ -21,7 +21,7 @@ use Symfony\UX\Icons\Svg\Icon;
  *
  * @internal
  */
-interface IconRegistryInterface extends \IteratorAggregate
+interface IconRegistryInterface
 {
     /**
      * @throws IconNotFoundException
