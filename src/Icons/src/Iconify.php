@@ -11,6 +11,8 @@
 
 namespace Symfony\UX\Icons;
 
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpClient\ScopingHttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\UX\Icons\Exception\IconNotFoundException;
 
@@ -21,13 +23,24 @@ use Symfony\UX\Icons\Exception\IconNotFoundException;
  */
 final class Iconify
 {
-    public function __construct(private ?HttpClientInterface $httpClient = null)
-    {
+    private HttpClientInterface $http;
+
+    public function __construct(
+        string $endpoint = 'https://api.iconify.design',
+        ?HttpClientInterface $http = null,
+    ) {
+        if (!class_exists(HttpClient::class)) {
+            throw new \LogicException('You must install "symfony/http-client" to use Iconify. Try running "composer require symfony/http-client".');
+        }
+
+        $this->http = new ScopingHttpClient($http ?? HttpClient::create(), [
+            'base_uri' => $endpoint,
+        ]);
     }
 
     public function fetchSvg(string $prefix, string $name): string
     {
-        $content = $this->http()
+        $content = $this->http
             ->request('GET', sprintf('https://api.iconify.design/%s/%s.svg', $prefix, $name))
             ->getContent()
         ;
@@ -37,10 +50,5 @@ final class Iconify
         }
 
         return $content;
-    }
-
-    private function http(): HttpClientInterface
-    {
-        return $this->httpClient ?? throw new \LogicException('You must install "symfony/http-client" to import icons. Try running "composer require symfony/http-client".');
     }
 }

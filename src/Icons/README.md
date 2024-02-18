@@ -72,4 +72,11 @@ ux_icons:
     default_icon_attributes:
         # Default:
         fill: currentColor
+
+    # Configuration for the Iconify.design functionality.
+    iconify:
+       enabled:              true
+
+       # The endpoint for the Iconify API.
+       endpoint:             'https://api.iconify.design'
 ```

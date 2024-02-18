@@ -17,6 +17,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
@@ -39,6 +40,17 @@ final class UXIconsExtension extends ConfigurableExtension implements Configurat
                 ->variableNode('default_icon_attributes')
                     ->info('Default attributes to add to all icons.')
                     ->defaultValue(['fill' => 'currentColor'])
+                ->end()
+                ->arrayNode('iconify')
+                    ->info('Configuration for the Iconify.design functionality.')
+                    ->{interface_exists(HttpClientInterface::class) ? 'canBeDisabled' : 'canBeEnabled'}()
+                    ->children()
+                        ->scalarNode('endpoint')
+                            ->info('The endpoint for the Iconify API.')
+                            ->defaultValue('https://api.iconify.design')
+                            ->cannotBeEmpty()
+                        ->end()
+                    ->end()
                 ->end()
             ->end()
         ;
@@ -65,6 +77,14 @@ final class UXIconsExtension extends ConfigurableExtension implements Configurat
         $container->getDefinition('.ux_icons.icon_renderer')
             ->setArgument(1, $mergedConfig['default_icon_attributes'])
         ;
+
+        if ($mergedConfig['iconify']['enabled']) {
+            $loader->load('iconify.php');
+
+            $container->getDefinition('.ux_icons.iconify')
+                ->setArgument(0, $mergedConfig['iconify']['endpoint'])
+            ;
+        }
 
         if (!$container->getParameter('kernel.debug')) {
             $container->removeDefinition('.ux_icons.command.import');
