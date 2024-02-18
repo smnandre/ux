@@ -26,9 +26,20 @@ final class DeferLiveComponentSubscriber implements EventSubscriberInterface
     public function onPostMount(PostMountEvent $event): void
     {
         $data = $event->getData();
+
         if (\array_key_exists('defer', $data)) {
-            $event->addExtraMetadata('defer', true);
+            if ($data['defer']) {
+                $event->addExtraMetadata('defer', true);
+            }
             unset($data['defer']);
+        }
+
+        if (\array_key_exists('lazy', $data)) {
+            if ($data['lazy']) {
+                $event->addExtraMetadata('defer', true);
+                $event->addExtraMetadata('lazy', true);
+            }
+            unset($data['lazy']);
         }
 
         if (\array_key_exists('loading-template', $data)) {
@@ -48,7 +59,7 @@ final class DeferLiveComponentSubscriber implements EventSubscriberInterface
     {
         $mountedComponent = $event->getMountedComponent();
 
-        if (!$mountedComponent->hasExtraMetadata('defer')) {
+        if (!$mountedComponent->hasExtraMetadata('defer') || !$mountedComponent->getExtraMetadata('defer')) {
             return;
         }
 
@@ -58,6 +69,8 @@ final class DeferLiveComponentSubscriber implements EventSubscriberInterface
         $variables = $event->getVariables();
         $variables['loadingTemplate'] = self::DEFAULT_LOADING_TEMPLATE;
         $variables['loadingTag'] = self::DEFAULT_LOADING_TAG;
+        $variables['lazy'] = $mountedComponent->hasExtraMetadata('lazy');
+
         $variables['componentTemplate'] = $componentTemplate;
 
         if ($mountedComponent->hasExtraMetadata('loading-template')) {

@@ -1,10 +1,16 @@
-<{{ loadingTag }} {{ attributes }} data-action="live:connect->live#$render">
+<{{ loadingTag }} {{ attributes }} loading="{{ lazy ? 'lazy'}}"
+{#    data-action="live:{{ lazy ? 'appear' : 'connect' }}->live#$render"#}
+>
 
     {% block loadingContent %}
-        {% if loadingTemplate != null %}
+        IN THE BLOCK !!
+        {% if loadingTemplate %}
             {{ include(loadingTemplate) }}
         {% elseif componentTemplate != null and (block("loadingContent", componentTemplate) is defined) %}
-            {{ block("loadingContent", componentTemplate) }}
+            {% with {lazy: true} %}
+                {{ componentTemplate }}
+                {{ block("loadingContent", componentTemplate) }}
+            {% endwith %}
         {% endif %}
     {% endblock %}
 
