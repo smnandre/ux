@@ -1,0 +1,48 @@
+// -----------------------------------------------------------------
+// EmojiGrid
+// -----------------------------------------------------------------
+
+:root {
+  --emoji-size: 2rem;
+}
+
+.EmojiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.EmojiGrid.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.EmojiGrid__item {
+  display: grid;
+  aspect-ratio: 1;
+  justify-items: stretch;
+  align-content: stretch;
+  position: relative;
+  background: #fff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  font-size: var(--emoji-size);
+}
+
+.EmojiGrid__emoji {
+  display: grid;
+  place-content: center;
+  position: relative;
+}
+
+//.EmojiGrid__item:before {
+//  content: attr(data-emoji);
+//  position: absolute;
+//  inset: 0;
+//  display: grid;
+//  z-index: 0;
+//  place-content: center;
+//  overflow: hidden;
+//  filter: blur(5px);
+//  transform: scale(8);
+//}

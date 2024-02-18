@@ -25,4 +25,12 @@ class DemosController extends AbstractController
             'liveComponentDemos' => $liveDemoRepository->findAll(),
         ]);
     }
+
+    #[Route('/demos2', name: 'app_demos2')]
+    public function demos2(LiveDemoRepository $liveDemoRepository): Response
+    {
+        return $this->render('main/demos2.html.twig', [
+            'liveComponentDemos' => $liveDemoRepository->findAll(),
+        ]);
+    }
 }

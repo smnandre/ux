@@ -66,6 +66,7 @@
 @import "components/demo-container";
 @import "components/DemoCard";
 @import "components/DocsLink";
+@import "components/EmojiGrid";
 @import "components/file_tree";
 @import "components/Icon";
 @import "components/PackageHeader";
@@ -75,6 +76,7 @@
 @import "components/ThemeSwitcher";
 
 // Utilities
+@import "utilities/animations";
 @import "utilities/arrow";
 @import "utilities/background";
 @import "utilities/info-tooltips";

@@ -1,0 +1,32 @@
+<div>
+    <dl>
+        <dt>Tags:</dt>
+        <dd>
+            {% for tag in tags|default %}
+                <a href="{{ tag.url }}">{{ tag.name }}</a>
+            {% endfor %}
+        </dd>
+
+        <dt>Package:</dt>
+        <dd>
+            {% for package in packages|default %}
+                <a href="{{ package.url }}">{{ package.name }}</a>
+            {% endfor %}
+        </dd>
+
+        <dt>Author:</dt>
+        <dd>
+            {% if author|default %}
+            @<a href="https://github.com/{{ author }}">{{ author }}</a>
+            {% endif %}
+        </dd>
+
+        <dt>Date:</dt>
+        <dd>
+            {% if date|default %}
+                {{ date|format_date }}
+            {% endif %}
+        </dd>
+
+    </dl>
+</div>

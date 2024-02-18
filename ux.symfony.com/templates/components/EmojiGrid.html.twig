@@ -1,0 +1,29 @@
+<div {{ attributes.without('class') }} class="EmojiGrid" data-loading="addClass(loading)">
+    {% for emoji in this.emojis %}
+        <div class="EmojiGrid__item" data-emoji="{{ emoji }}">
+            <span class="EmojiGrid__emoji">{{ emoji }}</span>
+        </div>
+    {% endfor %}
+
+    <button class="btn btn-outline-primary"
+            data-action="live#action"
+            data-action-name="prev">Prev</button>
+
+    <button class="btn btn-outline-primary"
+            data-action="live#action"
+            data-action-name="next">Next</button>
+
+    {{ 'now'|date('H:i:s') }}
+</div>
+
+{#{% set _prototype_ %}#}
+{#    {% block loadingContent %}#}
+{#        <div class="EmojiGrid">#}
+{#            {% for i in 0..8 %}#}
+{#                #}{#  rainbow emoji: 🌈 #}
+{#                <div class="EmojiGrid__item" data-emoji="🌈">#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    {% endblock %}#}
+{#{% endset %}#}

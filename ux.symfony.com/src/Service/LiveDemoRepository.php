@@ -46,6 +46,16 @@ A Memorable Game UX with Live Components! Discover how to use Live Components to
 EOF,
             ),
             new LiveDemo(
+                'lazy-loading',
+                name: 'Lazy Loading',
+                description: 'TODO',
+                route: 'app_demo_live_component_lazy_loading',
+                longDescription: <<<EOF
+TODO
+EOF,
+            ),
+
+            new LiveDemo(
                 'form-collection-type',
                 name: 'Embedded CollectionType Form',
                 description: 'Create embedded forms with functional "add" and "remove" buttons all in Twig.',

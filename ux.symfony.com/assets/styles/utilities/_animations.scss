@@ -1,0 +1,21 @@
+@keyframes ux-spin {
+
+}
+
+:root {
+  --ux-pulse: 1;
+}
+
+.ux-pulse {
+  animation: ux-scale 1s infinite alternate;
+}
+
+.-scale-1 {
+  animation: ux-pulse 1s infinite;
+}
+
+@keyframes ux-pulse {
+  to {
+    transform: scale3d(var(--ux-scale), var(--ux-scale), var(--ux-scale));
+  }
+}

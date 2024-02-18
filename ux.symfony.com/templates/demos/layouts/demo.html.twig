@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% set meta = {
+    title: demo.name,
+    title_suffix: " - Symfony UX Demo",
+    description: demo.description,
+    canonical: url(demo.route),
+} %}
+
+{% block header %}
+    {{ include('demos/layouts/_header.html.twig') }}
+{% endblock %}
+
+{% block main %}
+    <main>
+        {% block demo_title %}
+            {{ include('demos/layouts/_title.html.twig') }}
+        {% endblock %}
+
+        {% block demo_toc %}
+            {{ include('demos/layouts/_toc.html.twig') }}
+        {% endblock %}
+
+        {% block demo_content %}
+
+        {% endblock %}
+
+        {% block demo_metadata %}
+            {{ include('demos/layouts/_metadata.html.twig') }}
+        {% endblock %}
+    </main>
+{% endblock %}
+
+{% block aside %}
+    {{ include('demos/layouts/_aside.html.twig') }}
+{% endblock %}

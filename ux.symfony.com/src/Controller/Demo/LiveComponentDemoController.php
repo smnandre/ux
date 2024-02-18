@@ -131,4 +131,12 @@ class LiveComponentDemoController extends AbstractController
             'demo' => $liveDemoRepository->find('upload'),
         ]);
     }
+
+    #[Route('/lazy-loading', name: 'app_demo_live_component_lazy_loading')]
+    public function redirectDemo(LiveDemoRepository $liveDemoRepository): Response
+    {
+         return $this->render('demos/live_component/lazy_loading.html.twig', parameters: [
+            'demo' => $liveDemoRepository->find('lazy-loading'),
+        ]);
+    }
 }

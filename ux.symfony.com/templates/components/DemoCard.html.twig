@@ -18,6 +18,13 @@
         <p class="DemoCard__description">
             {{ demo.description }}
         </p>
+        <div>
+            {% for tag in ['Form', 'Chart'] %}
+            <span class="Tag">
+                {{ tag }}
+            </span>
+            {% endfor %}
+        </div>
     </div>
 
 </article>
