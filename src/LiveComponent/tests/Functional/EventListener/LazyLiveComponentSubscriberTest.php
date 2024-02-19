@@ -28,7 +28,6 @@ final class LazyLiveComponentSubscriberTest extends KernelTestCase
             ->visit('/render-template/render_lazy_component')
             ->assertSuccessful()
             ->crawler();
-        ;
 
         $div = $crawler->filter('div');
 
@@ -64,8 +63,7 @@ final class LazyLiveComponentSubscriberTest extends KernelTestCase
         $crawler = $this->browser()
             ->visit('/render-template/render_lazy_component')
             ->assertSuccessful()
-            ->crawler()
-        ;
+            ->crawler();
 
         $componentDiv = $crawler->filter('div');
         $this->assertEmpty(trim($componentDiv->html()));
