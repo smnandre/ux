@@ -37,7 +37,7 @@ A real-time product search component might look like this::
         }
     }
 
-.. code-block:: html+twig
+.. code-block:: twig
 
     {# templates/components/ProductSearch.html.twig #}
     {# for the Live Component to work, there must be a single root element
@@ -2281,7 +2281,7 @@ Loading "defer" (Ajax on Load)
 If a component is heavy to render, you can defer rendering it until after
 the page has loaded. To do this, add a ``loading="defer"`` attribute:
 
-.. code-block:: html+twig
+.. code-block:: twig
 
     {# With the component function #}
     <twig:SomeHeavyComponent loading="defer" />
@@ -2344,7 +2344,7 @@ inside the component template (the ``placeholder`` macro) or from the calling te
 In the component template, define a ``placeholder`` macro, outside of the
 component's main content. This macro will be called when the component is deferred:
 
-.. code-block:: html+twig
+.. code-block:: twig
 
     {# templates/recommended-products.html.twig #}
     <div {{ attributes }}>
@@ -2394,7 +2394,7 @@ the ``loading-template`` option to point to a template:
 
 Or override the ``loadingContent`` block:
 
-.. code-block:: html+twig
+.. code-block:: twig
 
     {# With the HTML syntax #}
     <twig:SomeHeavyComponent loading="defer">
