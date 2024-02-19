@@ -27,12 +27,7 @@ final class CacheIconRegistry implements IconRegistryInterface
     {
     }
 
-    public function get(string $name): Icon
-    {
-        return $this->fetchIcon($name);
-    }
-
-    private function fetchIcon(string $name, bool $refresh = false): Icon
+    public function get(string $name, bool $refresh = false): Icon
     {
         if (!Icon::isValidName($name)) {
             throw new IconNotFoundException(sprintf('The icon name "%s" is not valid.', $name));

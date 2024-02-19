@@ -39,6 +39,10 @@ final class TestKernel extends Kernel
             'http_client' => true,
         ]);
 
+        $c->extension('twig', [
+            'default_path' => __DIR__.'/templates',
+        ]);
+
         $c->extension('twig_component', [
             'defaults' => [],
             'anonymous_template_directory' => 'components',

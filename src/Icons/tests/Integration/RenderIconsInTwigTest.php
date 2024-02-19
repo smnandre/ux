@@ -21,17 +21,7 @@ final class RenderIconsInTwigTest extends KernelTestCase
 {
     public function testRenderIcons(): void
     {
-        $output = self::getContainer()->get(Environment::class)->createTemplate(<<<TWIG
-            <ul class="svg">
-                <li id="first">{{ ux_icon('user', {class: 'h-8 w-8'}) }}</li>
-                <li id="second">{{ ux_icon('user') }}</li>
-                <li id="third">{{ ux_icon('sub:check', {'data-action': 'string "with" quotes'}) }}</li>
-                <li id="fifth"><twig:UX:Icon name="user" class="h-8 w-8" /></li>
-                <li id="sixth"><twig:UX:Icon name="sub:check" /></li>
-                <li id="seventh"><twig:UX:Icon :name="'sub:'~'check'" /></li>
-            </ul>
-            TWIG
-        )->render();
+        $output = self::getContainer()->get(Environment::class)->render('template1.html.twig');
 
         $this->assertSame(<<<HTML
             <ul class="svg">
@@ -43,7 +33,7 @@ final class RenderIconsInTwigTest extends KernelTestCase
                 <li id="seventh"><svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd"></path></svg></li>
             </ul>
             HTML,
-            preg_replace("#(\s+)</li>#m", '</li>', $output)
+            trim($output)
         );
     }
 }

@@ -57,6 +57,14 @@ site.
 
 To avoid having to parse icon files on every request, icons are cached.
 
+In production, you can pre-warm the cache by running the following command:
+
+```bash
+bin/console ux:icons:warm-cache
+```
+
+This command looks in all your twig templates for `ux_icon` calls and caches the icons it finds.
+
 > [!NOTE]
 > During development, if you change an icon, you will need to clear the cache (`bin/console cache:clear`)
 > to see the changes.

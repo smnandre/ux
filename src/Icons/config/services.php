@@ -11,9 +11,11 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use Symfony\UX\Icons\Command\WarmCacheCommand;
 use Symfony\UX\Icons\IconRenderer;
 use Symfony\UX\Icons\Registry\CacheIconRegistry;
 use Symfony\UX\Icons\Registry\LocalSvgIconRegistry;
+use Symfony\UX\Icons\Twig\IconFinder;
 use Symfony\UX\Icons\Twig\UXIconComponent;
 use Symfony\UX\Icons\Twig\UXIconComponentListener;
 use Symfony\UX\Icons\Twig\UXIconExtension;
@@ -53,5 +55,17 @@ return static function (ContainerConfigurator $container): void {
 
         ->set('.ux_icons.twig_component.icon', UXIconComponent::class)
             ->tag('twig.component', ['key' => 'UX:Icon'])
+
+        ->set('.ux_icons.twig_icon_finder', IconFinder::class)
+            ->args([
+                service('twig'),
+            ])
+
+        ->set('.ux_icons.command.warm_cache', WarmCacheCommand::class)
+            ->args([
+                service('.ux_icons.cache_icon_registry'),
+                service('.ux_icons.twig_icon_finder'),
+            ])
+            ->tag('console.command')
     ;
 };
