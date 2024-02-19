@@ -11,10 +11,12 @@
 
 namespace Symfony\UX\Icons;
 
+use Symfony\Component\HttpClient\Exception\JsonException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\ScopingHttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\UX\Icons\Exception\IconNotFoundException;
+use Symfony\UX\Icons\Svg\Icon;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
@@ -33,15 +35,32 @@ final class Iconify
             throw new \LogicException('You must install "symfony/http-client" to use Iconify. Try running "composer require symfony/http-client".');
         }
 
-        $this->http = new ScopingHttpClient($http ?? HttpClient::create(), [
-            'base_uri' => $endpoint,
+        $this->http = ScopingHttpClient::forBaseUri($http ?? HttpClient::create(), $endpoint);
+    }
+
+    public function fetchIcon(string $prefix, string $name): Icon
+    {
+        $response = $this->http->request('GET', sprintf('/%s.json?icons=%s', $prefix, $name));
+
+        try {
+            $data = $response->toArray();
+        } catch (JsonException) {
+            throw new IconNotFoundException(sprintf('The icon "%s:%s" does not exist on iconify.design.', $prefix, $name));
+        }
+
+        if (!isset($data['icons'][$name]['body'])) {
+            throw new IconNotFoundException(sprintf('The icon "%s:%s" does not exist on iconify.design.', $prefix, $name));
+        }
+
+        return new Icon($data['icons'][$name]['body'], [
+            'viewBox' => sprintf('0 0 %s %s', $data['width'], $data['height']),
         ]);
     }
 
     public function fetchSvg(string $prefix, string $name): string
     {
         $content = $this->http
-            ->request('GET', sprintf('https://api.iconify.design/%s/%s.svg', $prefix, $name))
+            ->request('GET', sprintf('/%s/%s.svg', $prefix, $name))
             ->getContent()
         ;
 
