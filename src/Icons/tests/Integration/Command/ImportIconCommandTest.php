@@ -23,7 +23,7 @@ final class ImportIconCommandTest extends KernelTestCase
     use InteractsWithConsole;
 
     private const ICON_DIR = __DIR__.'/../../Fixtures/icons';
-    private const ICONS = ['dashboard.svg', 'renamed.svg'];
+    private const ICONS = ['uiw/dashboard.svg'];
 
     /**
      * @before
@@ -41,25 +41,12 @@ final class ImportIconCommandTest extends KernelTestCase
 
     public function testCanImportIcon(): void
     {
-        $this->assertFileDoesNotExist($expectedFile = self::ICON_DIR.'/dashboard.svg');
+        $this->assertFileDoesNotExist($expectedFile = self::ICON_DIR.'/uiw/dashboard.svg');
 
         $this->executeConsoleCommand('ux:icons:import uiw:dashboard')
             ->assertSuccessful()
-            ->assertOutputContains('Importing uiw:dashboard as dashboard')
-            ->assertOutputContains("Imported uiw:dashboard (License: MIT), render with {{ ux_icon('dashboard') }}")
-        ;
-
-        $this->assertFileExists($expectedFile);
-    }
-
-    public function testCanImportIconAndRename(): void
-    {
-        $this->assertFileDoesNotExist($expectedFile = self::ICON_DIR.'/renamed.svg');
-
-        $this->executeConsoleCommand('ux:icons:import uiw:dashboard@renamed')
-            ->assertSuccessful()
-            ->assertOutputContains('Importing uiw:dashboard as renamed')
-            ->assertOutputContains("render with {{ ux_icon('renamed') }}")
+            ->assertOutputContains('Importing uiw:dashboard')
+            ->assertOutputContains("Imported uiw:dashboard (License: MIT), render with {{ ux_icon('uiw:dashboard') }}")
         ;
 
         $this->assertFileExists($expectedFile);

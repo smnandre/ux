@@ -37,10 +37,7 @@ This package provides a way to include any icon found on this site _on-demand_.
 You can import any icon from Iconify to your local directory using the `ux:icons:import` command:
 
  ```bash
- bin/console ux:icons:import flowbite:user-solid # saved as `user-solid.svg` and name is `user-solid`
-
- # adjust the local name
- bin/console ux:icons:import flowbite:user-solid@user # saved as `user.svg` and name is `user`
+ bin/console ux:icons:import flowbite:user-solid # saved as `flowbite/user-solid.svg` and name is `flowbite:user-solid`
 
  # import several at a time
  bin/console ux:icons:import flowbite:user-solid flowbite:home-solid

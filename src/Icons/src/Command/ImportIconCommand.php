@@ -55,17 +55,16 @@ final class ImportIconCommand extends Command
         $result = Command::SUCCESS;
 
         foreach ($names as $name) {
-            if (!preg_match('#^(([\w-]+):([\w-]+))(@([\w-]+))?$#', $name, $matches)) {
+            if (!preg_match('#^([\w-]+):([\w-]+)$#', $name, $matches)) {
                 $io->error(sprintf('Invalid icon name "%s".', $name));
                 $result = Command::FAILURE;
 
                 continue;
             }
 
-            [,,$prefix, $name] = $matches;
-            $localName = $matches[5] ?? $name;
+            [$fullName, $prefix, $name] = $matches;
 
-            $io->comment(sprintf('Importing <info>%s:%s</info> as <info>%s</info>...', $prefix, $name, $localName));
+            $io->comment(sprintf('Importing <info>%s</info>...', $fullName));
 
             try {
                 $svg = $this->iconify->fetchSvg($prefix, $name);
@@ -76,17 +75,16 @@ final class ImportIconCommand extends Command
                 continue;
             }
 
-            $this->registry->add($localName, $svg);
+            $this->registry->add(sprintf('%s/%s', $prefix, $name), $svg);
 
             $license = $this->iconify->metadataFor($prefix)['license'];
 
             $io->text(sprintf(
-                "Imported <info>%s:%s</info> (License: <href=%s>%s</>), render with <comment>{{ ux_icon('%s') }}</comment>.",
-                $prefix,
-                $name,
+                "Imported <info>%s</info> (License: <href=%s>%s</>), render with <comment>{{ ux_icon('%s') }}</comment>.",
+                $fullName,
                 $license['url'],
                 $license['title'],
-                $localName,
+                $fullName,
             ));
             $io->newLine();
         }
