@@ -35,7 +35,11 @@ final class IconFinder
     {
         $found = [];
 
+        $twig = $this->twig;
+        $twig->addNodeVisitor(new NodeVisitor\IconExtractorNodeVisitor());
+
         foreach ($this->files($this->twig->getLoader()) as $file) {
+
             $contents = file_get_contents($file);
 
             if (preg_match_all('#ux_icon\(["\']([\w:-]+)["\']#', $contents, $matches)) {
