@@ -38,6 +38,13 @@ final class Iconify
         $this->http = ScopingHttpClient::forBaseUri($http ?? HttpClient::create(), $endpoint);
     }
 
+    public function metadataFor(string $prefix): array
+    {
+        $response = $this->http->request('GET', sprintf('/collections?prefix=%s', $prefix));
+
+        return $response->toArray()[$prefix] ?? throw new \RuntimeException(sprintf('The icon prefix "%s" does not exist on iconify.design.', $prefix));
+    }
+
     public function fetchIcon(string $prefix, string $name): Icon
     {
         $response = $this->http->request('GET', sprintf('/%s.json?icons=%s', $prefix, $name));

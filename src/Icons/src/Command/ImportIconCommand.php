@@ -78,7 +78,16 @@ final class ImportIconCommand extends Command
 
             $this->registry->add($localName, $svg);
 
-            $io->text(sprintf("<info>Imported Icon</info>, render with <comment>{{ ux_icon('%s') }}</comment>.", $localName));
+            $license = $this->iconify->metadataFor($prefix)['license'];
+
+            $io->text(sprintf(
+                "Imported <info>%s:%s</info> (License: <href=%s>%s</>), render with <comment>{{ ux_icon('%s') }}</comment>.",
+                $prefix,
+                $name,
+                $license['url'],
+                $license['title'],
+                $localName,
+            ));
             $io->newLine();
         }
 

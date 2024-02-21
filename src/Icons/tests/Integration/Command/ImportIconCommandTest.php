@@ -46,7 +46,7 @@ final class ImportIconCommandTest extends KernelTestCase
         $this->executeConsoleCommand('ux:icons:import uiw:dashboard')
             ->assertSuccessful()
             ->assertOutputContains('Importing uiw:dashboard as dashboard')
-            ->assertOutputContains("render with {{ ux_icon('dashboard') }}")
+            ->assertOutputContains("Imported uiw:dashboard (License: MIT), render with {{ ux_icon('dashboard') }}")
         ;
 
         $this->assertFileExists($expectedFile);
