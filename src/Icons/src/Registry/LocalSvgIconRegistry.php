@@ -12,7 +12,6 @@
 namespace Symfony\UX\Icons\Registry;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
 use Symfony\UX\Icons\Exception\IconNotFoundException;
 use Symfony\UX\Icons\IconRegistryInterface;
 use Symfony\UX\Icons\Svg\Icon;
@@ -34,42 +33,7 @@ final class LocalSvgIconRegistry implements IconRegistryInterface
             throw new IconNotFoundException(sprintf('The icon "%s" (%s) does not exist.', $name, $filename));
         }
 
-        $svg = file_get_contents($filename) ?: throw new \RuntimeException(sprintf('The icon file "%s" could not be read.', $filename));
-
-        $doc = new \DOMDocument();
-        $doc->preserveWhiteSpace = false;
-
-        try {
-            $doc->loadXML($svg);
-        } catch (\Throwable $e) {
-            throw new \RuntimeException(sprintf('The icon file "%s" does not contain a valid SVG.', $filename), previous: $e);
-        }
-
-        $svgElements = $doc->getElementsByTagName('svg');
-
-        if (0 === $svgElements->length) {
-            throw new \RuntimeException(sprintf('The icon file "%s" does not contain a valid SVG.', $filename));
-        }
-
-        if (1 !== $svgElements->length) {
-            throw new \RuntimeException(sprintf('The icon file "%s" contains more than one SVG.', $filename));
-        }
-
-        $svgElement = $svgElements->item(0) ?? throw new \RuntimeException(sprintf('The icon file "%s" does not contain a valid SVG.', $filename));
-
-        $innerSvg = '';
-
-        foreach ($svgElement->childNodes as $child) {
-            $innerSvg .= $doc->saveHTML($child);
-        }
-
-        if (!$innerSvg) {
-            throw new \RuntimeException(sprintf('The icon file "%s" contains an empty SVG.', $filename));
-        }
-
-        $attributes = array_map(static fn (\DOMAttr $a) => $a->value, [...$svgElement->attributes]);
-
-        return new Icon($innerSvg, $attributes);
+        return Icon::fromFile($filename);
     }
 
     public function add(string $name, string $svg): void
@@ -77,10 +41,5 @@ final class LocalSvgIconRegistry implements IconRegistryInterface
         $filename = sprintf('%s/%s.svg', $this->iconDir, $name);
 
         (new Filesystem())->dumpFile($filename, $svg);
-    }
-
-    private function finder(): Finder
-    {
-        return Finder::create()->in($this->iconDir)->files()->name('*.svg');
     }
 }
