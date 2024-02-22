@@ -1,4 +1,31 @@
 twig_component:
     defaults:
-        App\Twig\: 'components/'
-    anonymous_template_directory: 'components/'
+        namespace: 'App\Twig\Components'
+        templates: 'components/'
+        anonymous: false
+
+    components:
+        Blog: 'App\Blog\Components'
+            # namespace: 'App\Blog\Components'
+            # templates: 'component/blog/'
+            # anonymous: false
+
+        AcmeDemo: 'Acme\DemoBundle\Components'
+
+        AcmeFoo:
+            namespace: Acme\FooBundle\Twig\Components
+            templates: '@AcmeFoo/Components'
+            anonymous: '@AcmeFoo/Anonymous'
+
+        AcmeBlog: Acme\BlogBundle\Twig\Components
+
+
+    # For every bundle with a templates/components or a src/Twig/Components directory
+    # the configuration is automatically added
+
+    # AcmeForm:
+        # namespace: Acme\FormBundle\Twig\Components
+        # templates: '@AcmeBar/components'
+        # anonymous: true
+
+

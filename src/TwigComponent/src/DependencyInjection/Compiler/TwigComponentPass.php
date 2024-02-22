@@ -36,6 +36,25 @@ final class TwigComponentPass implements CompilerPassInterface
         $legacyAutoNaming = $container->hasParameter('ux.twig_component.legacy_autonaming');
         $container->getParameterBag()->remove('ux.twig_component.legacy_autonaming');
 
+        $bundles = [];
+        foreach ($container->getParameter('kernel.bundles_metadata') as $name => $bundle) {
+            if (str_ends_with($name, 'Bundle')) {
+                $name = substr($name, 0, -6);
+            }
+            if (str_starts_with($bundle['namespace'], 'Symfony\\')) {
+                continue;
+            }
+            $bundles[$name] = [
+                'name_prefix' => $name,
+                'template_directory' => '@'.$name.'/components',
+                'namespace' => $bundle['namespace'].'\\Twig\\Components\\',
+            ];
+            if (!$legacyAutoNaming) {
+                //$bundles[$name]['namespace'] = $bundle['namespace'].'\\';
+                $componentDefaults[$bundle['namespace'].'\\Twig\\Components\\'] = $bundles[$name];
+            }
+        }
+
         foreach ($container->findTaggedServiceIds('twig.component') as $id => $tags) {
             $definition = $container->findDefinition($id);
 
@@ -68,6 +87,9 @@ final class TwigComponentPass implements CompilerPassInterface
                 $tag['service_id'] = $id;
                 $tag['class'] = $definition->getClass();
                 $tag['template'] = $tag['template'] ?? $this->calculateTemplate($tag['key'], $defaults);
+
+                $this->ensureBundleNamespace($tag, $bundles);
+
                 $componentConfig[$tag['key']] = $tag;
                 $componentReferences[$tag['key']] = new Reference($id);
                 $componentNames[] = $tag['key'];
@@ -82,6 +104,17 @@ final class TwigComponentPass implements CompilerPassInterface
 
         $debugCommandDefinition = $container->findDefinition('ux.twig_component.command.debug');
         $debugCommandDefinition->setArgument(3, $componentClassMap);
+    }
+
+    private function ensureBundleNamespace(array &$tag, array $bundles): void
+    {
+        foreach ($bundles as $bundle) {
+            if (str_starts_with($tag['class'], $bundle['namespace'])) {
+                $tag['name_prefix'] = $bundle['name_prefix'];
+                $tag['template_directory'] = $bundle['template_directory'];
+                break;
+            }
+        }
     }
 
     private function findMatchingDefaults(string $className, array $componentDefaults): ?array

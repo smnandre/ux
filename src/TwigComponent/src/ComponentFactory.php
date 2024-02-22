@@ -26,6 +26,7 @@ use Symfony\UX\TwigComponent\Event\PreMountEvent;
 final class ComponentFactory
 {
     /**
+     * @param ServiceLocator<string, object> $components
      * @param array<string, array>        $config
      * @param array<class-string, string> $classMap
      */

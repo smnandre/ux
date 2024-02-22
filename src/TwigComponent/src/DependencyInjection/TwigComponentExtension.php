@@ -47,14 +47,15 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
 
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'));
-
         if (!isset($container->getParameter('kernel.bundles')['TwigBundle'])) {
             throw new LogicException('The TwigBundle is not registered in your application. Try running "composer require symfony/twig-bundle".');
         }
 
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'));
+
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
+
         $defaults = $config['defaults'];
         if ($defaults === [self::DEPRECATED_DEFAULT_KEY]) {
             trigger_deprecation('symfony/ux-twig-component', '2.13', 'Not setting the "twig_component.defaults" config option is deprecated. Check the documentation for an example configuration.');
@@ -64,13 +65,6 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
         }
         $container->setParameter('ux.twig_component.component_defaults', $defaults);
 
-        $container->register('ux.twig_component.component_template_finder', ComponentTemplateFinder::class)
-            ->setArguments([
-                new Reference('twig.loader'),
-                $config['anonymous_template_directory'],
-            ]);
-        $container->setAlias(ComponentRendererInterface::class, 'ux.twig_component.component_renderer');
-
         $container->registerAttributeForAutoconfiguration(
             AsTwigComponent::class,
             static function (ChildDefinition $definition, AsTwigComponent $attribute) {
@@ -78,52 +72,15 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
             }
         );
 
-        $container->register('ux.twig_component.component_factory', ComponentFactory::class)
-            ->setArguments([
-                new Reference('ux.twig_component.component_template_finder'),
-                class_exists(AbstractArgument::class) ? new AbstractArgument(sprintf('Added in %s.', TwigComponentPass::class)) : null,
-                new Reference('property_accessor'),
-                new Reference('event_dispatcher'),
-                class_exists(AbstractArgument::class) ? new AbstractArgument(sprintf('Added in %s.', TwigComponentPass::class)) : [],
-            ])
+        $container
+            ->getDefinition('ux.twig_component.component_template_finder')
+            ->replaceArgument(1,  $config['anonymous_template_directory'])
         ;
 
-        $container->register('ux.twig_component.component_stack', ComponentStack::class);
-
-        $container->register('ux.twig_component.component_renderer', ComponentRenderer::class)
-            ->setArguments([
-                new Reference('twig'),
-                new Reference('event_dispatcher'),
-                new Reference('ux.twig_component.component_factory'),
-                new Reference('property_accessor'),
-                new Reference('ux.twig_component.component_stack'),
-            ])
+        $container
+            ->getDefinition('ux.twig_component.command.debug')
+            ->replaceArgument(3, $config['anonymous_template_directory'])
         ;
-
-        $container->register('ux.twig_component.twig.component_extension', ComponentExtension::class)
-            ->addTag('twig.extension')
-            ->addTag('container.service_subscriber', ['key' => ComponentRenderer::class, 'id' => 'ux.twig_component.component_renderer'])
-        ;
-
-        $container->register('ux.twig_component.twig.lexer', ComponentLexer::class);
-
-        $container->register('ux.twig_component.twig.environment_configurator', TwigEnvironmentConfigurator::class)
-            ->setDecoratedService(new Reference('twig.configurator.environment'))
-            ->setArguments([new Reference('ux.twig_component.twig.environment_configurator.inner')]);
-
-        $container->register('ux.twig_component.command.debug', TwigComponentDebugCommand::class)
-            ->setArguments([
-                new Parameter('twig.default_path'),
-                new Reference('ux.twig_component.component_factory'),
-                new Reference('twig'),
-                class_exists(AbstractArgument::class) ? new AbstractArgument(sprintf('Added in %s.', TwigComponentPass::class)) : [],
-                $config['anonymous_template_directory'],
-            ])
-            ->addTag('console.command')
-        ;
-
-        $container->setAlias('console.command.stimulus_component_debug', 'ux.twig_component.command.debug')
-            ->setDeprecated('symfony/ux-twig-component', '2.13', '%alias_id%');
 
         if ($container->getParameter('kernel.debug')) {
             $loader->load('debug.php');
@@ -136,6 +93,21 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
         $rootNode = $treeBuilder->getRootNode();
         \assert($rootNode instanceof ArrayNodeDefinition);
 
+        $rootNode
+            ->children()
+                ->scalarNode('controllers_json')
+                    ->defaultValue('%kernel.project_dir%/assets/controllers.json')
+                ->end()
+            ->end();
+
+        $this->addDefaultsSection($rootNode);
+        $this->addBundleSection($rootNode);
+
+        return $treeBuilder;
+    }
+
+    private function addDefaultsSection(ArrayNodeDefinition $rootNode): void
+    {
         $rootNode
             ->validate()
             ->always(function ($v) {
@@ -182,12 +154,42 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
                 ->scalarNode('anonymous_template_directory')
                     ->info('Defaults to `components`')
                 ->end()
-                ->scalarNode('controllers_json')
-                    ->defaultValue('%kernel.project_dir%/assets/controllers.json')
+            ->end();
+    }
+
+    private function addBundleSection(ArrayNodeDefinition $rootNode): void
+    {
+        # AcmeFoo
+            #  templates: @AcmeFoo/components
+            #  namespace: Acme\FooBundle\Twig\Components
+            #  anonymous: true
+            #  anonymous: false
+            #  anonymous: @AcmeFoo/components
+
+
+
+        # Component: <twig:AcmeFoo:Bar />
+        # Template:  @AcmeFoo/components/Bar.html.twig
+        # Class:     Acme\FooBundle\Twig\Components\Bar
+
+        $rootNode
+            ->children()
+                ->arrayNode('bundles')
+                    ->normalizeKeys(false)
+                    ->useAttributeAsKey('name')
+                    ->arrayPrototype()
+                        ->children()
+                            ->scalarNode('templates')
+                                ->defaultValue('components')
+                                ->info('The directory where the components templates are stored')
+                            ->end()
+                            ->scalarNode('namespace')
+                                ->defaultValue('\\AcmeDemo\\Twig\\Components\\')
+                            ->end()
+                        ->end()
+                    ->end()
                 ->end()
             ->end();
-
-        return $treeBuilder;
     }
 
     public function getConfiguration(array $config, ContainerBuilder $container): ConfigurationInterface

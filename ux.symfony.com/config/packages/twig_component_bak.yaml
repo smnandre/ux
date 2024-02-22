@@ -1,0 +1,11 @@
+twig_component:
+    defaults:
+        namespace: 'App\Twig\Components'
+        templates: 'components/'
+        anonymous: true
+
+    components:
+        # AcmeFoo:
+            # namespace: Acme\FooBundle\Twig\Components
+            # templates: '@AcmeFoo/Components'
+            # anonymous: '@AcmeFoo/Anonymous'

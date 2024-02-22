@@ -22,7 +22,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Symfony\\UX\\TwigComponent\\Tests\\": "tests/"
+            "Symfony\\UX\\TwigComponent\\Tests\\": "tests/",
+            "Acme\\BlogBundle\\": "tests/Fixtures/vendor/acme/blog-bundle/src/",
+            "Acme\\FormBundle\\": "tests/Fixtures/vendor/acme/form-bundle/src/"
         }
     },
     "require": {

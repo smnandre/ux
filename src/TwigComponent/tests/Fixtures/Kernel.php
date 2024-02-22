@@ -11,6 +11,8 @@
 
 namespace Symfony\UX\TwigComponent\Tests\Fixtures;
 
+use Acme\BlogBundle\AcmeBlogBundle;
+use Acme\FormBundle\AcmeFormBundle;
 use Psr\Log\NullLogger;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -32,6 +34,8 @@ final class Kernel extends BaseKernel
         yield new FrameworkBundle();
         yield new TwigBundle();
         yield new TwigComponentBundle();
+        yield new AcmeBlogBundle();
+        yield new AcmeFormBundle();
     }
 
     protected function configureContainer(ContainerConfigurator $c): void
@@ -54,7 +58,7 @@ final class Kernel extends BaseKernel
         ]);
 
         $twigComponentConfig = [];
-        if ('legacy_autonaming' != $this->environment) {
+        if ('legacy_autonaming' !== $this->environment) {
             $acmeDefaults = [
                 'name_prefix' => 'AcmePrefix',
             ];
@@ -65,11 +69,16 @@ final class Kernel extends BaseKernel
                 'Symfony\UX\TwigComponent\Tests\Fixtures\Component\\' => 'components/',
                 'Symfony\UX\TwigComponent\Tests\Fixtures\AcmeComponent\\' => $acmeDefaults,
             ];
+            $twigComponentConfig['imports'] = [
+                'AcmeDemo' => 'Acme\BlogBundle\Twig\Components\\',
+
+                '%kernel.project_dir%/tests/Fixtures/templates/acme_components' => 'Symfony\UX\TwigComponent\Tests\Fixtures\AcmeComponent\\',
+            ];
         }
 
-        if ('legacy_anonymous' != $this->environment) {
+        if ('legacy_anonymous' !== $this->environment) {
             $twigComponentConfig['anonymous_template_directory'] = 'components';
-            if ('anonymous_directory' == $this->environment) {
+            if ('anonymous_directory' === $this->environment) {
                 $twigComponentConfig['anonymous_template_directory'] = 'anonymous';
             }
         }
