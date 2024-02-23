@@ -2,13 +2,13 @@
 // IconModal
 // -----------------------------------------------------------------
 
-.IconModal[open] {
-  display: block;
-}
+//.IconModal[data-open="open"] {
+//  display: block;
+//}
 
 .IconModal {
   position: fixed;
-  display: none;
+  //display: none;
   inset: 0;
   margin: auto;
   width: 54rem;
@@ -22,6 +22,7 @@
   border-radius: .75rem;
   box-shadow: 0 0 1rem 0 #0000004a;
   border: 1px solid var(--bs-secondary-border-subtle);
+  // A couple of years later, I'm still not sure why I need to set this to 0
 }
 
 .IconModal__header {
@@ -37,6 +38,7 @@
 .IconModal__title {
   font-size: 1rem;
   font-family: var(--font-family-code);
+  margin: 0;
 }
 
 .IconModal__header button {
@@ -171,14 +173,15 @@
   line-height: 1;
   color: var(--bs-body-color);
   font-family: var(--font-family-text);
-  font-size: .9rem;
+  font-size: 1rem;
   font-weight: 300;
   letter-spacing: 0;
-  opacity: 0.75;
-  margin-bottom: 0.35rem;
+  opacity: 0.95;
+  margin-bottom: 0.75rem;
   font-stretch: semi-condensed;
 }
 
 .IconModal__main h3:first-child {
   padding-top: 0;
 }
+

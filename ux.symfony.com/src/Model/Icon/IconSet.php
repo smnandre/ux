@@ -59,7 +59,7 @@ class IconSet
         return $this->total;
     }
 
-    public function getVersion(): string
+    public function getVersion(): ?string
     {
         return $this->version;
     }

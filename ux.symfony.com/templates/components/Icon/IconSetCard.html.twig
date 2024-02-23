@@ -16,6 +16,9 @@
 
     <div class="IconSetCard__content">
         <h3 class="IconSetCard__title">
+            <button type="button" class="IconCard__copy">
+                <twig:Icon name="copy" />
+            </button>
             <a class="stretched-link" href="{{ path('app_icon_set', {prefix: iconSet.identifier}) }}">
                 {{ iconSet.name }}
             </a>

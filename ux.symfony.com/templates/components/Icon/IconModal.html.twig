@@ -4,18 +4,24 @@
     "data-open": this.icon ? "open" : null
 }).defaults(stimulus_controller('icon-modal')) }}>
 
-    <input type="hidden" name="icon" value="{{ this.icon }}" data-model="on(change)|icon"/>
+    <input type="hidden" name="icon" value="{{ this.icon }}" data-model="on(change)|icon" />
 
     {% if not this.icon %}
 
-        {#  Noop  #}
+        <div class="IconModal__header">
+            <p class="IconModal__title"></p>
+            <button type="button" class="btn close" data-action="icon-modal#close">
+                <twig:Icon name="cross"/>
+            </button>
+        </div>
 
     {% else %}
 
+    <div class="Tabs">
         <div class="IconModal__header">
-            <a class="IconModal__title">
+            <p class="IconModal__title">
                 <span>{{ this.prefix }}</span><span>:</span><span>{{ this.name }}</span>
-            </a>
+            </p>
             <button type="button" class="btn close" data-action="icon-modal#close">
                 <twig:Icon name="cross"/>
             </button>
@@ -40,41 +46,72 @@
             </div>
 
             <div class="IconModal__main">
+                <div class="Tabs" data-controller="tabs" data-tabs-tab-value="icon" data-tabs-active-class="active">
+                    <nav class="TabHead">
+                        <button class="TabControl" data-tabs-target="control" data-action="tabs#show" data-tabs-tab-param="icon">SVG Icon</button>
+                        <button class="TabControl" data-tabs-target="control" data-action="tabs#show" data-tabs-tab-param="advanced">Advanced</button>
+                        <button class="TabControl" data-tabs-target="control" data-action="tabs#show" data-tabs-tab-param="svg">SVG code</button>
+                        <button class="TabControl" data-tabs-target="control" data-action="tabs#show" data-tabs-tab-param="meta">Metadata</button>
+                    </nav>
+                    <div class="TabBody">
+                        <div class="TabPanel" data-tabs-target="tab" id="IconModal-Tab-Icon"  data-tab="icon">
+                            <h3>Import Icon</h3>
+                            <div class="IconModal__code">
+                                <pre><code>symfony console ux:icon:import <span>{{ this.icon }}</span></code></pre>
+                                <button class="btn btn-sm IconModal__copy">
+                                    <twig:Icon name="copy"/>
+                                </button>
+                            </div>
 
-                <h3>Twig Component</h3>
-                <div class="IconModal__code">
-                    <pre><code>{{ '{{' }} ux_icon('<span>{{ this.icon }}</span>') {{ '}}' }}</code></pre>
-                    <button class="btn btn-sm IconModal__copy">
-                        <twig:Icon name="copy"/>
-                    </button>
+                            <h3>Render Icon</h3>
+                            <div class="IconModal__code">
+                                <pre><code>{{ '<%s'|format('twig') }}:ux:icon name="<span>{{ this.icon }}</span>" /></code></pre>
+                                <button class="btn btn-sm IconModal__copy">
+                                    <twig:Icon name="copy"/>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="TabPanel" data-tabs-target="tab" id="IconModal-Tab-Advanced" data-tab="advanced">
+                            <h3>Twig Component</h3>
+                            <div class="IconModal__code">
+                                <pre><code>{{ '{{' }} ux_icon('<span>{{ this.icon }}</span>') {{ '}}' }}</code></pre>
+                                <button class="btn btn-sm IconModal__copy">
+                                    <twig:Icon name="copy"/>
+                                </button>
+                            </div>
+
+                            <h3>Render Icon</h3>
+                            <div class="IconModal__code">
+                                <pre><code>{{ '<%s'|format('twig') }}:ux:icon name="<span>{{ this.icon }}</span>" /></code></pre>
+                                <button class="btn btn-sm IconModal__copy">
+                                    <twig:Icon name="copy"/>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="TabPanel" data-tabs-target="tab" id="IconModal-Tab-Svg" data-tab="svg">
+                            <h3>SVG Icon</h3>
+                            <div class="IconModal__code">
+                                <pre><code>{{ this.svg }}</code></pre>
+                                <button class="btn btn-sm IconModal__copy">
+                                    <twig:Icon name="copy"/>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="TabPanel" data-tabs-target="tab" id="IconModal-Tab-Meta" data-tab="meta">
+                            <h3>Metadata</h3>
+                            <div class="IconModal__code">
+                                {# TODO credits / licence #}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <h3>Render Icon</h3>
-                <div class="IconModal__code">
-                    <pre><code>{{ '<%s'|format('twig') }}:ux:icon name="<span>{{ this.icon }}</span>" /></code></pre>
-                    <button class="btn btn-sm IconModal__copy">
-                        <twig:Icon name="copy"/>
-                    </button>
-                </div>
-
-                <h3>Import Icon</h3>
-                <div class="IconModal__code">
-                    <pre><code>symfony console ux:icon:import <span>{{ this.icon }}</span></code></pre>
-                    <button class="btn btn-sm IconModal__copy">
-                        <twig:Icon name="copy"/>
-                    </button>
-                </div>
-
-                <h3>SVG Icon</h3>
-                <div class="IconModal__code">
-                    <pre><code>{{ this.svg }}</code></pre>
-                    <button class="btn btn-sm IconModal__copy">
-                        <twig:Icon name="copy"/>
-                    </button>
-                </div>
 
             </div>
         </div>
+
+    </div>
 
     {% endif %}
 </dialog>

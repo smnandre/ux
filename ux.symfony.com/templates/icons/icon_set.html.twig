@@ -28,7 +28,7 @@
                 <twig:DataList items="{{ {
                     "Icons": iconSet.total|default,
                     "Categories": (iconSet.categories|length < 2) ? null : iconSet.categories|length,
-                    "Version": (iconSet.version is defined) ? iconSet.version : null,
+                    "Version": (iconSet.version is defined) ? iconSet.version|default(null),
                     "Authors": {
                         href: iconSet.author.url|default,
                         title: iconSet.author.name|default

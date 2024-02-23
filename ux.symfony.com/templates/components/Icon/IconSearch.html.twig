@@ -42,7 +42,7 @@
                     </select>
                 </div>
 
-                {% if computed.categories|default %}
+                {% if computed.categories|default and computed.categories|length > 2  %}
                     <div class="input-group" style="max-width: 200px;">
                         <label class="input-group-text" for="IconSearch-Category">
                             <twig:Icon name="icon-tag"/>

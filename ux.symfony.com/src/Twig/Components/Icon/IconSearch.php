@@ -19,6 +19,8 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 #[AsLiveComponent('Icon:IconSearch')]
 class IconSearch
 {
+    private const PER_PAGE = 128;
+
     use DefaultActionTrait;
 
     #[LiveProp(writable: true, url: true)]
@@ -52,7 +54,8 @@ class IconSearch
             }
         }
         if (!$this->query && $this->set) {
-            $icons = array_slice($this->iconify->collectionIcons($this->set), 0, 256);
+
+            $icons = array_slice($this->iconify->collectionIcons($this->set), 0, self::PER_PAGE);
 
             $result = [];
             foreach ($icons as $icon) {
@@ -62,7 +65,7 @@ class IconSearch
             return $result;
         }
 
-        $icons = $this->iconify->search($this->query, $this->set, 256)['icons'];
+        $icons = $this->iconify->search($this->query, $this->set, self::PER_PAGE)['icons'];
 
         return array_map(
             fn (string $icon) => sprintf('https://api.iconify.design/%s.svg', str_replace(':', '/', $icon)),
