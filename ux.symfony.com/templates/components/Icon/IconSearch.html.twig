@@ -1,12 +1,13 @@
 <div{{ attributes.defaults({class: 'IconSearch'}) }}>
 
     <div class="IconSearchBox">
-        <div class="p-4 markdown-container background-glass shadow-blur shadow-blur--rainbow  mt-5" style="border-radius: .75rem">
+        <div class="p-4 markdown-container background-glass shadow-blur shadow-blur--rainbow  mt-5"
+             style="border-radius: .75rem">
             <fieldset class="d-flex d-flex gap-4">
 
                 <div class="input-group" style="max-width: 200px;">
                     <label class="input-group-text" for="IconSearch-Set">
-                        <twig:Icon name="icon-sets" />
+                        <twig:Icon name="icon-sets"/>
                     </label>
                     <select class="form-control" data-model="set" id="IconSearch-Set">
                         <option value="0">All sets</option>
@@ -19,7 +20,7 @@
                 {% if categories|default %}
                     <div class="input-group" style="max-width: 200px;">
                         <label class="input-group-text" for="IconSearch-Tag">
-                            <twig:Icon name="icon-tag" />
+                            <twig:Icon name="icon-tag"/>
                         </label>
                         <select class="form-control" data-model="tag" id="IconSearch-Tag">
                             <option value="">All tags</option>
@@ -33,7 +34,7 @@
                 {% if this.styles|default %}
                     <div class="input-group" style="max-width: 200px;">
                         <label class="input-group-text" for="IconSearch-Style">
-                            <twig:Icon name="icon-style" />
+                            <twig:Icon name="icon-style"/>
                         </label>
                         <select class="form-control" data-model="style" id="IconSearch-Style">
                             <option value="">All styles</option>
@@ -47,7 +48,7 @@
                 {% if this.sizes|default %}
                     <div class="input-group" style="max-width: 200px;">
                         <label class="input-group-text" for="IconSearch-Size">
-                            <twig:Icon name="icon-size" />
+                            <twig:Icon name="icon-size"/>
                         </label>
                         <select class="form-control" data-model="size" id="IconSearch-Size">
                             <option value="">All sizes</option>
@@ -60,32 +61,32 @@
 
                 <div class="input-group IconSearch__Query">
                     <label class="input-group-text" for="IconSearch-Query">
-                        <twig:Icon name="icon-search" />
+                        <twig:Icon name="icon-search"/>
                     </label>
                     <input
-                        autofocus
-                        type="search"
-                        data-model="query"
-                        placeholder="Results update as you type..."
-                        class="form-control IconSearch__Input"
-                        id="IconSearch-Query"
+                            autofocus
+                            type="search"
+                            data-model="query"
+                            placeholder="Results update as you type..."
+                            class="form-control IconSearch__Input"
+                            id="IconSearch-Query"
                     >
                 </div>
 
                 <div class="d-flex flex-shrink-0">
                     <div class="btn-group" role="group" data-controller="icon-size">
                         <button class="btn" data-action="icon-size#small">
-                            <twig:Icon name="grid-small" />
+                            <twig:Icon name="grid-small"/>
                         </button>
                         <button class="btn" data-action="icon-size#large">
-                            <twig:Icon name="grid-large" />
+                            <twig:Icon name="grid-large"/>
                         </button>
                     </div>
                 </div>
 
                 <div data-live-ignore="true">
                     <button class="btn IconBag__Button" data-controller="icon-bag">
-                        <twig:Icon name="icon-folder" />
+                        <twig:Icon name="icon-folder"/>
                         <span class="IconBag__Badge" data-icon-bag-target="count"></span>
                     </button>
                 </div>
@@ -95,9 +96,9 @@
     </div>
 
     <div id="IconSearchResults">
-         {% if computed.icons|length > 0 %}
+        {% if computed.icons|length > 0 %}
             <div data-loading="addClass(opacity-50)" class="mt-5 row">
-                <twig:Icon:IconGrid icons="{{ computed.icons }}" />
+                <twig:Icon:IconGrid icons="{{ computed.icons }}"/>
             </div>
         {% elseif query %}
             <div class="pt-3 text-center">No icons found matching "{{ query }}"</div>
