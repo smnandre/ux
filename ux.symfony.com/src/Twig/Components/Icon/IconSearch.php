@@ -11,12 +11,11 @@
 
 namespace App\Twig\Components\Icon;
 
+use App\Model\Icon\IconSet;
 use App\Service\Icon\Iconify;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
-use Symfony\UX\TwigComponent\Attribute\PostMount;
 use Symfony\UX\TwigComponent\Attribute\PreMount;
 
 #[AsLiveComponent('Icon:IconSearch')]
@@ -91,12 +90,33 @@ class IconSearch
             return [];
         }
 
-
         $styles = [];
         foreach($this->iconify->collectionStyles($this->set) as $type => $fixes) {
-            $styles = $styles + $fixes;
+            if (!is_numeric($fixes)) {
+                foreach ($fixes as $fix) {
+                    $styles[$fix] = $fix;
+                }
+            }
         }
 
         return $styles;
+    }
+
+    public function getSizes(): array
+    {
+        if (!$this->set) {
+            return [];
+        }
+
+        $sizes = [];
+        foreach($this->iconify->collectionStyles($this->set) as $type => $fixes) {
+            if (is_numeric($fixes)) {
+                foreach ($fixes as $fix) {
+                    $styles[$fix] = $fix;
+                }
+            }
+        }
+
+        return $sizes;
     }
 }

@@ -38,18 +38,19 @@ class IconSetSampler
             ['user', 'person', 'profile'],
             ['settings', 'cog', 'gear'],
             ['search', 'magnifying-glass'],
-            ['arrow-down', 'arrow-bottom', 'arrow-to-bottom'],
+            ['arrow-down', 'arrow-bottom', 'arrow-to-bottom', 'down-two'],
+
             ['love', 'heart', 'heart-check'],
             ['star', 'star-empty'],
             ['sun', 'sun-light'],
-            ['grid', 'layout-grid','view-grid', 'grid-four', 'grid-on'],
+            ['grid', 'layout-grid', 'view-grid', 'grid-four', 'grid-on'],
             ['image', 'photo', 'media-image'],
+
             ['edit', 'pencil', 'note-pencil'],
             ['trash', 'bin', 'delete-bin', 'trash-can', 'trash-bin'],
             ['map', 'map-trifold'],
             ['cart', 'shopping-cart'],
             ['check-circle', 'checkmark-circle', 'circle-check', 'checkbox-circle'],
-            //['warning', 'warning-triangle', 'alert-triangle'],
         ];
 
         $icons = [];
@@ -58,25 +59,20 @@ class IconSetSampler
         $suffixes = $this->iconify->collection($iconSet->getIdentifier())['suffixes'] ?? [];
         $prefixes = $this->iconify->collection($iconSet->getIdentifier())['prefixes'] ?? [];
 
-        foreach ($sampleIcons as $sampleVariants) {
+        foreach ($sampleIcons as $i => $sampleVariants) {
             foreach ($sampleVariants as $icon) {
-                if (isset($collectionIcons[$icon])) {
-                    $icons[] = $icon;
-                    break;
-                }
 
+                $iconNames = [$icon];
                 foreach ($suffixes as $suffix => $label) {
-                    $icon = $icon.'-'.$suffix;
-                    if (isset($collectionIcons[$icon])) {
-                        $icons[] = $icon;
-                        break;
-                    }
+                    $iconNames[] = $icon.'-'.$suffix;
+                }
+                foreach ($prefixes as $prefix => $label) {
+                    $iconNames[] = $prefix.'-'.$icon;
                 }
 
-                foreach ($prefixes as $prefix => $label) {
-                    $icon = $prefix.'-'.$icon;
-                    if (isset($collectionIcons[$icon])) {
-                        $icons[] = $icon;
+                foreach ($iconNames as $iconName) {
+                    if (isset($collectionIcons[$iconName])) {
+                        $icons[$i] ??= $iconName;
                         break;
                     }
                 }

@@ -13,6 +13,8 @@ namespace App\Model\Icon;
 
 class IconSet
 {
+    // https://api.github.com/repos/tandpfun/skill-icons
+
     // https://iconify.design/docs/types/iconify-info.html#structure
     public function __construct(
         private string $identifier,

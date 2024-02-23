@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <meta name="turbo-prefetch" content="false">
+{% endblock %}
+
 {% set meta = {
     title: 'Icon Sets',
     description: '',
     canonical: url('app_icon_sets'),
 } %}
-
 
 {% block content %}
 
@@ -28,7 +32,7 @@
         </div>
     </div>
 
-    <div class="container-fluid container-xxl px-4 py-4 py-md-5">
+    <div class="container-fluid container-xxl px-4 py-4">
         <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
             {% for iconSet in iconSets %}
                 <twig:Icon:IconSetCard iconSet="{{ iconSet }}" index="{{ loop.index }}" samples="10" />

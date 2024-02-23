@@ -4,67 +4,71 @@
         <div class="p-4 markdown-container background-glass shadow-blur shadow-blur--rainbow  mt-5" style="border-radius: .75rem">
             <fieldset class="d-flex d-flex gap-4">
 
-
-                <div data-live-ignore="true">
-                    <button class="btn">
+                <div class="input-group" style="max-width: 200px;">
+                    <label class="input-group-text" for="IconSearch-Set">
                         <twig:Icon name="icon-sets" />
-                    </button>
-                </div>
-
-                {% if not hideSelect %}
-                    <select
-                            class="form-control w-25"
-                            data-model="set"
-                    >
-                        <option value="0">All</option>
+                    </label>
+                    <select class="form-control" data-model="set" id="IconSearch-Set">
+                        <option value="0">All sets</option>
                         {% for name,value in computed.collections %}
                             <option value="{{ name }}">{{ value.name }}</option>
                         {% endfor %}
                     </select>
-                {% endif %}
+                </div>
 
                 {% if categories|default %}
-                    <select
-                            class="form-control w-25"
-                            data-model="set"
-                    >
-                        <option value="0">All</option>
-                        {% for category in categories %}
-                            <option value="{{ category }}">{{ category }}</option>
-                        {% endfor %}
-                    </select>
+                    <div class="input-group" style="max-width: 200px;">
+                        <label class="input-group-text" for="IconSearch-Tag">
+                            <twig:Icon name="icon-tag" />
+                        </label>
+                        <select class="form-control" data-model="tag" id="IconSearch-Tag">
+                            <option value="">All tags</option>
+                            {% for category in categories %}
+                                <option value="{{ category }}">{{ category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 {% endif %}
 
                 {% if this.styles|default %}
-                    <select
-                        class="form-control w-25"
-                        data-model="style"
-                    >
-                        <option value="">All styles</option>
-                        {% for styleValue, styleLabel in this.styles %}
-                            <option value="{{ styleValue }}">{{ styleLabel }}</option>
-                        {% endfor %}
-                    </select>
+                    <div class="input-group" style="max-width: 200px;">
+                        <label class="input-group-text" for="IconSearch-Style">
+                            <twig:Icon name="icon-style" />
+                        </label>
+                        <select class="form-control" data-model="style" id="IconSearch-Style">
+                            <option value="">All styles</option>
+                            {% for styleValue, styleLabel in this.styles %}
+                                <option value="{{ styleValue }}">{{ styleLabel }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 {% endif %}
 
-                <div data-live-ignore="true">
-                    <button class="btn">
-                        <twig:Icon name="icon-style" />
-                    </button>
-                </div>
+                {% if this.sizes|default %}
+                    <div class="input-group" style="max-width: 200px;">
+                        <label class="input-group-text" for="IconSearch-Size">
+                            <twig:Icon name="icon-size" />
+                        </label>
+                        <select class="form-control" data-model="size" id="IconSearch-Size">
+                            <option value="">All sizes</option>
+                            {% for value, label in this.sizes %}
+                                <option value="{{ value }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endif %}
 
                 <div class="input-group IconSearch__Query">
-                    <span class="input-group-text" id="basic-addon1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                        </svg>
-                    </span>
+                    <label class="input-group-text" for="IconSearch-Query">
+                        <twig:Icon name="icon-search" />
+                    </label>
                     <input
                         autofocus
                         type="search"
                         data-model="query"
                         placeholder="Results update as you type..."
                         class="form-control IconSearch__Input"
+                        id="IconSearch-Query"
                     >
                 </div>
 
@@ -90,36 +94,14 @@
         </div>
     </div>
 
-    {% block search_filters %}
-
-            {% if this.styles|default %}
-                <div class="FilterBlock">
-                    <div class="FilterBlock__title">Styles</div>
-                    <div class="FilterBlock__widget">
-                        {% for styleValue, styleLabel in this.styles %}
-                            <button class="btn btn-outline-primary" value="{{ styleValue }}">
-                                {{ styleLabel }}
-                            </button>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
-
-    {% endblock %}
-
-
-    {% block search_results %}
-        <div id="IconSearchResults">
-
-             {% if computed.icons|length > 0 %}
-                <div data-loading="addClass(opacity-50)" class="mt-5 row">
-                    <twig:Icon:IconGrid icons="{{ computed.icons }}" />
-                </div>
-            {% elseif query %}
-                <div class="pt-3">Ah! No icons found matching "{{ query }}"</div>
-            {% endif %}
-
-        </div>
-    {% endblock %}
+    <div id="IconSearchResults">
+         {% if computed.icons|length > 0 %}
+            <div data-loading="addClass(opacity-50)" class="mt-5 row">
+                <twig:Icon:IconGrid icons="{{ computed.icons }}" />
+            </div>
+        {% elseif query %}
+            <div class="pt-3 text-center">No icons found matching "{{ query }}"</div>
+        {% endif %}
+    </div>
 
 </div>

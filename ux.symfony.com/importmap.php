@@ -187,4 +187,15 @@ return [
     '@symfony/ux-live-component' => [
         'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
     ],
+    'tippy.js' => [
+        'version' => '6.3.7',
+    ],
+    'tippy.js/dist/tippy.css' => [
+        'version' => '6.3.7',
+        'type' => 'css',
+    ],
+    'tippy.js/themes/translucent.css' => [
+        'version' => '6.3.7',
+        'type' => 'css',
+    ],
 ];

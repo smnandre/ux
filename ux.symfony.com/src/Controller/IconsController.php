@@ -18,6 +18,7 @@ final class IconsController extends AbstractController
     #[Route('/icons', name: 'app_icons')]
     public function index(IconSetRepository $iconSetRepository): Response
     {
+        // TODO use IconSetRepository in Repo/Factory
         $favorites = [
             'ri',
             'tabler',
@@ -62,18 +63,18 @@ final class IconsController extends AbstractController
 
         usort($iconSets, fn(IconSet $a, IconSet $b) => $b->getTotal() <=> $a->getTotal());
 
-        return $this->render('icons/sets.html.twig', [
+        return $this->render('icons/icon_sets.html.twig', [
             'iconSets' => $iconSets,
         ]);
     }
 
-    #[Route('/icons/{prefix}', name: 'app_icon_collection')]
+    #[Route('/icons/{prefix}', name: 'app_icon_set')]
     public function collection(string $prefix, IconSetRepository $iconSetRepository, Iconify $iconify, IconSetSampler $iconSetSampler): Response
     {
         // TODO use SetSampler in Repo/Factory
 
         if (2 === count($parts = explode(':', $prefix))) {
-            return $this->redirectToRoute('app_icon', ['prefix' => $parts[0], 'name' => $parts[1]]);
+            return $this->redirectToRoute('app_icon_set', ['prefix' => $parts[0], 'name' => $parts[1]]);
         }
 
         $iconSet = $iconSetRepository->find($prefix);
@@ -81,31 +82,13 @@ final class IconsController extends AbstractController
             throw $this->createNotFoundException(sprintf('IconSet not found for prefix "%s".', $prefix));
         }
 
-        return $this->render('icons/collection.html.twig', [
+        return $this->render('icons/icon_set.html.twig', [
             'prefix' => $prefix,
             'iconSet' => $iconSet,
             'collection' => $iconify->collection($prefix) ?? throw $this->createNotFoundException(),
             'categories' => $iconify->collectionCategories($prefix),
             'icons' => $iconify->collectionIcons($prefix),
             'samples' => $iconSetSampler->getSampleIcons($iconSet),
-        ]);
-    }
-
-    #[Route('/icons/{prefix}/{name}', name: 'app_icon')]
-    public function icon(string $prefix, string $name, IconSetRepository $iconSetRepository, Iconify $iconify): Response
-    {
-        $iconSet = $iconSetRepository->find($prefix);
-        if (null === $iconSet) {
-            throw $this->createNotFoundException(sprintf('IconSet not found for prefix "%s".', $prefix));
-        }
-
-        return $this->render('icons/icon.html.twig', [
-            'prefix' => $prefix,
-            'name' => $name,
-            'iconSet' => $iconSet,
-            'collection' => $iconify->collection($prefix) ?? throw $this->createNotFoundException(),
-            'svg' => $iconify->svg($prefix, $name) ?? throw $this->createNotFoundException(),
-            'fullName' => "{$prefix}:{$name}",
         ]);
     }
 }

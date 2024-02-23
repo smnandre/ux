@@ -2,36 +2,36 @@ import { Controller } from '@hotwired/stimulus';
 import { getComponent } from '@symfony/ux-live-component';
 
 export default class extends Controller {
-
     async initialize() {
         this.component = await getComponent(this.element);
-
-        this.component.on('render:finished', (component) => {
-            // do something after the component re-renders
-            console.log('render:finished');
-
-            this.element.showModal();
-
-        });
-    }
-
-    close() {
-        this.element.close();
+        this.element.addEventListener('render', () => {this.element.showModal()});
     }
 
     connect() {
+        window.addEventListener('Icon:Clicked', this.onIconClicked.bind(this));
 
-        // e.g. set some live property called "mode" on your component
-        // this.component.set('mode', 'editing');
-        // then, trigger a re-render to get the fresh HTML
-        //this.component.render();
+        this.element.addEventListener('click', this.onClick.bind(this));
+    }
 
-        // this.element.showModal();
+    onIconClicked(event) {
+        console.log(event.detail);
+        console.log(event.detail.icon);
 
-        // this.component.on('render:finished', (component) => {
-        //     // do something after the component re-renders
-        //     console.log('render:finished');
-        // });
+        const input = this.element.querySelector('input');
+        input.value = event.detail.icon;
+        input.dispatchEvent(new Event('change', {bubbles: true}));
+        this.element.showModal();
+    }
 
+    onClick(event) {
+        const dialogDimensions = this.element.getBoundingClientRect()
+        if (
+            event.clientX < dialogDimensions.left ||
+            event.clientX > dialogDimensions.right ||
+            event.clientY < dialogDimensions.top ||
+            event.clientY > dialogDimensions.bottom
+        ) {
+            this.element.close()
+        }
     }
 }

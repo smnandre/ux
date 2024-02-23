@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <meta name="turbo-prefetch" content="false">
+{% endblock %}
+
 {% set meta = {
     title: "Search Icons",
     description: "Search for icons on iconify.design.",

@@ -72,6 +72,38 @@
   }
 }
 
+.IconCard__copy {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 0;
+  background: none;
+  height: auto;
+  opacity: var(--opacity, .5);
+  opacity: .5;
+  mix-blend-mode: overlay;
+}
+.IconCard__copy::before {
+    content: "Copy";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    place-items: center;
+    font-size: 0.5rem;
+    font-family: var(--font-family-code);
+    color: var(--bs-secondary-bg-subtle);
+    opacity: var(--opacity, .5);
+    transition: 150ms linear;
+
+}
+.IconCard:hover .IconCard__copy{
+  --opacity: 1;
+  transition: 150ms linear;
+}
+
 
 [data-bs-theme="dark"] {
   .IconCard {
