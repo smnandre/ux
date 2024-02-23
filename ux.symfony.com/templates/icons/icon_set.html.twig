@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% set meta = {
-    title: '%s - UX Icons '|format(iconSet.name),
+    title: '%s - Symfony UX'|format(iconSet.name),
     description: '',
     canonical: url('app_icon_set', {prefix: prefix}),
 } %}
@@ -25,56 +25,19 @@
                 </a>
             </h1>
             <div style="font-size: 1rem; line-height: 1.75rem;" class="mt-4 text-center">
-                <p>
-                    {% if iconSet.total|default %}
-                        <span>
-                            <span>Icons</span>
-                            <code>
-                                {{ iconSet.total }}
-                            </code>
-                        </span>
-                    {% endif %}
-                    {% if categories|default %}
-                        <span>・</span>
-                        <span>
-                            <span>Categories</span>
-                            <code>
-                                {{ categories|length }}
-                            </code>
-                        </span>
-                    {% endif %}
-                    {% if collection.version|default %}
-                        <span>・</span>
-                        <span>
-                            <span>Version</span>
-                            <code>
-                                {{ collection.version }}
-                            </code>
-                        </span>
-                    {% endif %}
-                    {% if iconSet.license.url|default %}
-                        <span>・</span>
-                        <span>
-                            <span>License</span>
-                            <code>
-                                <a href="{{ iconSet.license.url }}" rel="external nofollow">
-                                    {{ iconSet.license.title }}
-                                </a>
-                            </code>
-                        </span>
-                    {% endif %}
-                    {% if iconSet.author.url|default %}
-                        <span>・</span>
-                        <span>
-                            <span>Authors</span>
-                            <code>
-                                <a href="{{ iconSet.author.url }}" rel="external nofollow">
-                                    {{ iconSet.author.name }}
-                                </a>
-                            </code>
-                        </span>
-                    {% endif %}
-                </p>
+                <twig:DataList items="{{ {
+                    "Icons": iconSet.total|default,
+                    "Categories": (iconSet.categories|length < 2) ? null : iconSet.categories|length,
+                    "Version": (iconSet.version is defined) ? iconSet.version : null,
+                    "Authors": {
+                        href: iconSet.author.url|default,
+                        title: iconSet.author.name|default
+                    },
+                    "License": {
+                        href: iconSet.license.url|default,
+                        title: iconSet.license.title|default
+                    }
+                } }}" />
             </div>
         </div>
     </div>
@@ -90,7 +53,7 @@
                 <h2 class="ubuntu pt-2 component-headlines">Popular <em class="rainbow-emphasis">Icon Sets</em></h2>
                 <a style="height: 100%;" class="btn btn-md btn-outline-primary mt-3 mt-md-0" href="{{ url('app_icon_sets') }}">
                     Browse all Icon Sets
-                    <i class="Icon Icon--arrow-right" role="img" aria-hidden="true" aria-label="Arrow-Right Icon" style="transform: rotate(-45deg);"><svg viewBox="0 0 24 24"> <path d="M22.613 13.146c.516-.648.516-1.644 0-2.292l-5.5-6.38c-.13-.15-.284-.27-.453-.35a1.233 1.233 0 0 0-1.07 0c-.17.08-.323.2-.453.35-.262.305-.41.717-.41 1.147 0 .43.148.842.41 1.146l3.18 3.638H2.374c-.365 0-.714.168-.972.467-.258.3-.403.705-.403 1.128 0 .423.145.829.403 1.128.258.299.607.467.972.467h15.941l-3.18 3.638a1.766 1.766 0 0 0-.409 1.146c0 .43.148.842.41 1.146.262.304.617.475.988.475.37 0 .726-.17.988-.475l5.5-6.379Z"></path> </svg></i>
+                    <twig:Icon name="arrow-right" />
                 </a>
             </div>
         </div>
@@ -117,6 +80,7 @@
 {% block aside %}
     {{ include('icons/_package_links.html.twig') }}
 {% endblock %}
+
 
 {% block body %}
     {{ parent() }}

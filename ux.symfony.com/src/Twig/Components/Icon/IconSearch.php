@@ -11,12 +11,10 @@
 
 namespace App\Twig\Components\Icon;
 
-use App\Model\Icon\IconSet;
 use App\Service\Icon\Iconify;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Symfony\UX\TwigComponent\Attribute\PreMount;
 
 #[AsLiveComponent('Icon:IconSearch')]
 class IconSearch
@@ -30,18 +28,20 @@ class IconSearch
     public ?string $set = null;
 
     #[LiveProp(writable: true)]
+    public ?string $category = null;
+
+    #[LiveProp(writable: true)]
     public ?string $style = null;
 
-    #[LiveProp]
-    public bool $hideSelect = false;
+    #[LiveProp(writable: true)]
+    public ?string $size = null;
 
-    public function __construct(private Iconify $iconify)
-    {
-    }
+    #[LiveProp(writable: true)]
+    public ?int $page = null;
 
-    #[PreMount]
-    public function preMount(array $props = [])
-    {
+    public function __construct(
+        private readonly Iconify $iconify,
+    ) {
     }
 
     public function icons(): array
@@ -118,5 +118,14 @@ class IconSearch
         }
 
         return $sizes;
+    }
+
+    public function getTags(): array
+    {
+        if (!$this->set) {
+            return [];
+        }
+
+        return $this->iconify->collectionCategories($this->set);
     }
 }

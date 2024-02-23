@@ -2,8 +2,17 @@
 // IconModal
 // -----------------------------------------------------------------
 
+.IconModal[open] {
+  display: block;
+}
+
+.IconModal:not([open]) {
+  display: none;
+}
+
 .IconModal {
   position: fixed;
+  display: none;
   inset: 0;
   margin: auto;
   width: 54rem;

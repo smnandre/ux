@@ -32,7 +32,7 @@
   display: grid;
   place-items: center;
   align-content: center;
-  overflow: clip;
+  position: relative;
 }
 
 .Icons-icon a::after {
@@ -42,7 +42,8 @@
   bottom: 0;
   left: 0;
   z-index: 1;
-  content: "";
+  content: " ";
+  display: block;
 }
 
 .IconCard__icon {
@@ -84,13 +85,13 @@
     width: 50%;
   }
 
-  .IconCard__prefix {
-    display: block;
-  }
-
-  .IconCard__name {
-    display: block;
-  }
+  //.IconCard__prefix {
+  //  display: block;
+  //}
+  //
+  //.IconCard__name {
+  //  display: block;
+  //}
 }
 
 .IconCard__copy {
