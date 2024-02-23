@@ -6,10 +6,6 @@
   display: block;
 }
 
-.IconModal:not([open]) {
-  display: none;
-}
-
 .IconModal {
   position: fixed;
   display: none;

@@ -4,23 +4,36 @@ import { getComponent } from '@symfony/ux-live-component';
 export default class extends Controller {
     async initialize() {
         this.component = await getComponent(this.element);
-        this.element.addEventListener('render', () => {this.element.showModal()});
     }
 
     connect() {
-        window.addEventListener('Icon:Clicked', this.onIconClicked.bind(this));
-
+        window.addEventListener('Icon:Clicked', this.onIconClick.bind(this));
         this.element.addEventListener('click', this.onClick.bind(this));
+        // if (this.element.dataset.open) {
+        //     this.show();
+        // }
     }
 
-    onIconClicked(event) {
-        console.log(event.detail);
-        console.log(event.detail.icon);
+    disconnect() {
+        this.element.removeEventListener('click', this.onClick.bind(this));
+        window.removeEventListener('Icon:Clicked', this.onIconClick.bind(this));
+    }
 
+    show() {
+        this.element.showModal();
+        this.element.dataset.open = true;
+    }
+
+    close() {
+        //this.element.close();
+        this.element.dataset.open = false;
+    }
+
+    onIconClick(event) {
+        // this.show();
         const input = this.element.querySelector('input');
         input.value = event.detail.icon;
         input.dispatchEvent(new Event('change', {bubbles: true}));
-        this.element.showModal();
     }
 
     onClick(event) {
@@ -31,7 +44,7 @@ export default class extends Controller {
             event.clientY < dialogDimensions.top ||
             event.clientY > dialogDimensions.bottom
         ) {
-            this.element.close()
+            this.close()
         }
     }
 }
