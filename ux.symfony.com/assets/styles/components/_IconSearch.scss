@@ -12,6 +12,7 @@
   background: var(--bs-body-bg);
   z-index: 2;
 }
+
 .IconSearchBox .btn {
   --bs-btn-border-color: var(--bs-secondary-bg-subtle);
   --bs-btn-hover-border-color: var(--bs-secondary-border-subtle);
@@ -19,8 +20,6 @@
 }
 
 .IconSearch__Input {
-
-  //border: 1px solid var(--bs-secondary-bg-subtle);
   border: var(--bs-border-width) solid var(--bs-border-color);
 
   &:focus {
@@ -30,20 +29,20 @@
   }
 }
 
-
 .IconBag__Button {
   position: relative;
 }
+
 .IconBag__Badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #8731ce;
-    display: block;
-    aspect-ratio: 1 / 1;
-    width: 1rem;
-    border-radius: 50%;
-    height: auto;
-    font-size: .65rem;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #8731ce;
+  display: block;
+  aspect-ratio: 1 / 1;
+  width: 1rem;
+  border-radius: 50%;
+  height: auto;
+  font-size: .65rem;
   color: #fff;
 }

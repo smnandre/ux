@@ -5,27 +5,19 @@
 .IconSetCard {
   --radius: .75rem;
   position: relative;
-
-  --hue: calc(var(--index) * 65);
-
   --hue: calc(var(--index) * 77);
-
   --iconset-color: lch(70% 110 var(--hue, 240));
   --iconset-color-bg: lch(80% 30 var(--hue, 240));
-
   color: var(--iconset-color);
-
   display: flex;
   flex-direction: column;
-
   border-radius: var(--radius);
   border: 1px solid var(--bs-secondary-bg-subtle);
-
   transition: transform 250ms ease-in-out, box-shadow 250ms ease-in-out;
   transform: translateY(0);
   box-shadow: 0 0 0 transparent;
-
 }
+
 .IconSetCard:hover {
   transform: translateY(-.25rem);
   box-shadow: 0 0.125rem 2rem .25rem var(--bs-secondary-bg-subtle);
@@ -49,68 +41,69 @@
   border-radius: .25rem;
   opacity: .80;
   place-content: stretch;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
-    justify-content: stretch;
-    align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
+  justify-content: stretch;
+  align-items: stretch;
 }
+
 .IconSetCard__icon {
   display: grid;
   place-items: center;
-
   box-shadow: 0px 0px 1px 0px #0007;
 
-   img {
+  img {
     width: 50%;
-     max-width: 24px;
+    max-width: 24px;
     height: auto;
     display: block;
-     mix-blend-mode: overlay;
+    mix-blend-mode: overlay;
     opacity: .8;
-    //filter: drop-shadow(2px 1px var(--iconset-color));
-   }
+  }
 }
 
 .IconSetCard__icon:nth-child(even) {
-background: rgb(0 0 0 / 0.03);
+  background: rgb(0 0 0 / 0.03);
 }
+
 .IconSetCard__icon:nth-child(odd) {
-background: rgb(255 255 255 / 0.03);
+  background: rgb(255 255 255 / 0.03);
 }
 
 .IconSetCard__content {
-padding: .75rem 1rem;
-flex: 1;
-border-bottom-left-radius: var(--radius);
-border-bottom-right-radius: var(--radius);
-gap: .5rem;
-display: flex;
-flex-direction: row;
+  padding: .75rem 1rem;
+  flex: 1;
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+  gap: .5rem;
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
 
 .IconSetCard__title {
-font-size: 1.1rem;
-font-weight: 700;
-margin: 0;
-font-family: var(--font-family-title);
-padding: .25rem;
-color: var(--bs-body-color);
-a {
-  color: inherit;
-}
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  font-family: var(--font-family-title);
+  padding: .25rem;
+  color: var(--bs-body-color);
+
+  a {
+    color: inherit;
+  }
 }
 
 .IconSetCard__total {
-font-size: 0.9rem;
-font-stretch: semi-condensed;
+  font-size: 0.9rem;
+  font-stretch: semi-condensed;
   color: var(--bs-body-color);
 
   em {
-  color: var(--iconset-color);
-  font-family: var(--font-family-code);
-  font-style: normal;
+    color: var(--iconset-color);
+    font-family: var(--font-family-code);
+    font-style: normal;
     font-weight: 500;
   }
 
@@ -120,15 +113,16 @@ font-stretch: semi-condensed;
 }
 
 .IconSetCard__description {
-font-size: 0.9rem;
-font-stretch: semi-condensed;
-font-weight: 400;
-transition: all 250ms ease-in-out;
-opacity: .65;
-line-height: 1.4;
-padding: .25rem;
-margin: 0;
+  font-size: 0.9rem;
+  font-stretch: semi-condensed;
+  font-weight: 400;
+  transition: all 250ms ease-in-out;
+  opacity: .65;
+  line-height: 1.4;
+  padding: .25rem;
+  margin: 0;
 }
+
 .IconSetCard:hover .IconSetCard__description {
-opacity: .85;
+  opacity: .85;
 }

@@ -20,27 +20,28 @@
 }
 
 .IconModal__header {
-    display: flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   margin-block-end: .75rem;
-    border-block-end: 1px solid var(--bs-secondary-bg-subtle);
-  justify-content: space-between;
-  margin-block-end: 1.5rem;
   border-block-end: 1px solid var(--bs-secondary-bg-subtle);
   padding-block-end: .5rem;
 }
+
 .IconModal__title {
   font-size: 1rem;
   font-family: var(--font-family-code);
 }
+
 .IconModal__header button {
   opacity: .25;
 }
+
 .IconModal__header button:hover {
   opacity: 1;
 }
+
 .IconModal__title span:first-child {
   color: var(--bs-code-color);
 }
@@ -50,9 +51,7 @@
   grid-template-columns: 300px 1fr;
   gap: 1.5rem;
 }
-.IconModal__media {
 
-}
 .IconModal__icon {
   aspect-ratio: 1;
   display: flex;
@@ -60,6 +59,7 @@
   border-radius: 0.75rem;
   color: var(--bs-secondary-border-subtle);
 }
+
 .IconModal__icon--grid {
   background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(to right, currentColor 1px, transparent 1px);
   background-size: 12% 12%;
@@ -72,17 +72,20 @@
     color: var(--bs-body-color);
   }
 }
+
 .IconModal__icon--check {
   background-image: repeating-linear-gradient(45deg, var(--color-text) 25%, transparent 25%, transparent 75%, var(--color-text) 75%, var(--color-text)), repeating-linear-gradient(45deg, var(--color-text) 25%, transparent 25%, transparent 75%, var(--color-text) 75%, var(--color-text));
-  background-position: 0 0,20px 20px;
+  background-position: 0 0, 20px 20px;
   background-size: calc(2 * 20px) calc(2 * 20px);
   --color-text: var(--bs-border-color-translucent);
   color: var(--color-secondary);
 }
+
 .IconModal__icon svg {
   width: 75%;
   height: auto;
 }
+
 .IconModal__icons {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -90,24 +93,29 @@
   gap: .75rem;
   opacity: .5;
 }
+
 .IconModal__icons .IconModal__icon {
   border-radius: .5rem;
 }
+
 .IconModal__icons .IconModal__icon:first-child {
   background: white;
 }
+
 .IconModal__icons .IconModal__icon:last-child {
   background: white;
-  filter:invert(1);
+  filter: invert(1);
 }
 
 .IconModal::backdrop {
   backdrop-filter: blur(3px);
   background-color: rgba(7, 7, 7, 0.05);
 }
+
 .IconModal__main {
   min-width: 0;
 }
+
 .IconModal__code {
   font-size: 0.8rem;
   font-family: var(--font-family-code);
@@ -119,34 +127,42 @@
   position: relative;
   opacity: .8;
 }
+
 .IconModal__code button {
   opacity: .25;
 }
+
 .IconModal__code:hover {
   opacity: 1;
+
   button {
     opacity: 1;
   }
 }
+
 .IconModal__code pre {
   margin: 0;
   overflow: hidden;
   max-height: 3rem;
 }
+
 .IconModal__code pre code {
   white-space: break-spaces;
 }
+
 .IconModal__code span {
   color: lightskyblue;
 }
+
 .IconModal__copy {
   position: absolute;
   top: 50%;
   right: 0.25rem;
   transform: translateY(-50%);
 }
+
 .IconModal__main h3 {
- padding-top: 1.5rem;
+  padding-top: 1.5rem;
   line-height: 1;
   color: var(--bs-body-color);
   font-family: var(--font-family-text);
@@ -157,6 +173,7 @@
   margin-bottom: 0.35rem;
   font-stretch: semi-condensed;
 }
+
 .IconModal__main h3:first-child {
   padding-top: 0;
-  }
+}
