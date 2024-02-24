@@ -11,11 +11,23 @@
 
 namespace App\Model\Icon;
 
+/**
+ * IconSet data model derived from the Iconify IconSet Type.
+ *
+ * @see https://github.com/iconify/icon-sets/blob/master/collections.json
+ *
+ * @author Simon André <smn.andre@gmail.com>
+ */
 class IconSet
 {
-    // https://api.github.com/repos/tandpfun/skill-icons
+    private const CATEGORY_GENERAL = 'General';
+    private const CATEGORY_ANIMATED_ICONS = 'Animated Icons';
+    private const CATEGORY_EMOJI = 'Emoji';
+    private const CATEGORY_BRANDS_SOCIAL = 'Brands / Social';
+    private const CATEGORY_MAPS_FLAGS = 'Maps / Flags';
+    private const CATEGORY_THEMATIC = 'Thematic';
+    private const CATEGORY_ARCHIVE_UNMAINTAINED = 'Archive / Unmaintained';
 
-    // https://iconify.design/docs/types/iconify-info.html#structure
     public function __construct(
         private string $identifier,
         private string $name,
@@ -35,6 +47,11 @@ class IconSet
     }
 
     public function getIdentifier(): string
+    {
+        return $this->identifier;
+    }
+
+    public function getPrefix(): string
     {
         return $this->identifier;
     }
@@ -109,4 +126,38 @@ class IconSet
         return abs(crc32($this->identifier)) % 100;
     }
 
+    public function isGeneral(): bool
+    {
+        return self::CATEGORY_GENERAL === $this->category;
+    }
+
+    public function isAnimatedIcons(): bool
+    {
+        return self::CATEGORY_ANIMATED_ICONS === $this->category;
+    }
+
+    public function isEmoji(): bool
+    {
+        return self::CATEGORY_EMOJI === $this->category;
+    }
+
+    public function isBrandsSocial(): bool
+    {
+        return self::CATEGORY_BRANDS_SOCIAL === $this->category;
+    }
+
+    public function isMapsFlags(): bool
+    {
+        return self::CATEGORY_MAPS_FLAGS === $this->category;
+    }
+
+    public function isThematic(): bool
+    {
+        return self::CATEGORY_THEMATIC === $this->category;
+    }
+
+    public function isArchiveUnmaintained(): bool
+    {
+        return self::CATEGORY_ARCHIVE_UNMAINTAINED === $this->category;
+    }
 }

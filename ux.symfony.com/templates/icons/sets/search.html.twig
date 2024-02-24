@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <meta name="turbo-prefetch" content="false">
+{% endblock %}
+
+{% set meta = {
+    title: 'Search Icons Packs - Symfony UX:Icons',
+    description: '',
+    canonical: url('app_icon_sets_search'),
+} %}
+
+{% block content %}
+
+    <div class="hero">
+        <div class="container-fluid container-xxl px-4 pt-5 px-md-5 pt-md-5">
+            <p class="eyebrows text-center">
+                <a href="{{ path('app_icons') }}">UX <span>Icons</span></a> /
+                <a href="{{ path('app_icon_sets') }}">Sets</a>
+            </p>
+            <h1 class="text-center ubuntu mt-3">
+                <a href="{{ url('app_icon_set_emojis') }}">Search Icons Packs</a>
+            </h1>
+        </div>
+    </div>
+
+    <div class="container-fluid container-xxl px-4 py-4">
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+            {% for iconSet in iconSets %}
+                <twig:Icon:IconSetCard iconSet="{{ iconSet }}" index="{{ loop.index }}" samples="10" />
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+

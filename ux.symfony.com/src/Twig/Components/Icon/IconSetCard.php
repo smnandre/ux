@@ -12,7 +12,6 @@
 namespace App\Twig\Components\Icon;
 
 use App\Model\Icon\IconSet;
-use App\Service\Icon\Iconify;
 use App\Service\Icon\IconSetSampler;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
@@ -23,9 +22,11 @@ class IconSetCard
 
     public ?int $index = null;
 
-    public ?int $samples = 10;
+    public ?int $samples = 15;
 
-    public function __construct(private IconSetSampler $iconSetSampler)
+    public function __construct(
+        private readonly IconSetSampler $iconSetSampler,
+    )
     {
     }
 

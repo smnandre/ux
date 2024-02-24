@@ -1,6 +1,7 @@
 import {Controller} from '@hotwired/stimulus';
 import {delegate} from 'tippy.js';
 
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
 
     connect() {

@@ -13,7 +13,7 @@ namespace App\Service\Icon;
 
 use App\Model\Icon\IconSet;
 
-class IconSetSampler
+final class IconSetSampler
 {
     /**
      * @var array<string, array<string>> iconSetIdentifier => icon names
@@ -24,11 +24,78 @@ class IconSetSampler
     {
     }
 
-     public function getSampleIcons(IconSet $iconSet, int $nbSamples = 10): array
+    public function getSampleIcons(IconSet $iconSet, int $nbSamples = 15): array
     {
-        $this->samples[$iconSetName = $iconSet->getIdentifier()] ??= $this->findSamples($iconSet);
+        $samples = $this->samples[$iconSet->getIdentifier()] ?? null;
 
-        return array_slice($this->samples[$iconSetName], 0, $nbSamples);
+        if (null === $samples) {
+            if ($iconSet->isBrandsSocial()) {
+                $samples = $this->findBrandSamples($iconSet);
+            } elseif ($iconSet->isEmoji()) {
+                $samples = $this->findEmojiSamples($iconSet);
+            } elseif ($iconSet->isMapsFlags()) {
+                $samples = $this->findFlagSamples($iconSet);
+            } else {
+                $samples = $this->findSamples($iconSet);
+            }
+            $this->samples[$iconSet->getIdentifier()] = $samples;
+        }
+
+        return array_slice($samples, 0, $nbSamples);
+    }
+
+    private function findEmojiSamples(IconSet $iconSet): array
+    {
+        $sampleIcons = [
+            ['😄'],
+            ['😂'],
+            ['😉'],
+            ['❤️'],
+            ['👍'],
+            ['🌳'],
+            ['😻'],
+            ['🌞'],
+            ['🍕'],
+            ['⚽'],
+        ];
+
+        return $this->lookupIcons($iconSet, $sampleIcons);
+    }
+
+    private function findBrandSamples(IconSet $iconSet): array
+    {
+        $sampleIcons = [
+            ['apple'],
+            ['github'],
+            ['twitter'],
+            ['linkedin'],
+            ['instagram'],
+            ['youtube'],
+            ['tiktok'],
+            ['snapchat'],
+            ['whatsapp'],
+            ['twitch'],
+        ];
+
+        return $this->lookupIcons($iconSet, $sampleIcons);
+    }
+
+    private function findFlagSamples(IconSet $iconSet): array
+    {
+        $sampleIcons = [
+            ['🇦🇺'],
+            ['🇧🇷'],
+            ['🇨🇦'],
+            ['🇩🇪'],
+            ['🇪🇸'],
+            ['🇫🇷'],
+            ['🇬🇧'],
+            ['🇮🇹'],
+            ['🇯🇵'],
+            ['🇺🇸'],
+        ];
+
+        return $this->lookupIcons($iconSet, $sampleIcons);
     }
 
     private function findSamples(IconSet $iconSet): array
@@ -53,20 +120,22 @@ class IconSetSampler
             ['check-circle', 'checkmark-circle', 'circle-check', 'checkbox-circle'],
         ];
 
-        $icons = [];
+        return $this->lookupIcons($iconSet, $sampleIcons);
+    }
+
+    private function lookupIcons(IconSet $iconSet, array $sampleIcons): array
+    {
         $collectionIcons = array_flip($this->iconify->collectionIcons($iconSet->getIdentifier()));
+        $collection = $this->iconify->collection($iconSet->getIdentifier());
 
-        $suffixes = $this->iconify->collection($iconSet->getIdentifier())['suffixes'] ?? [];
-        $prefixes = $this->iconify->collection($iconSet->getIdentifier())['prefixes'] ?? [];
-
+        $icons = [];
         foreach ($sampleIcons as $i => $sampleVariants) {
             foreach ($sampleVariants as $icon) {
-
                 $iconNames = [$icon];
-                foreach ($suffixes as $suffix => $label) {
+                foreach ($collection['suffixes'] ?? [] as $suffix => $label) {
                     $iconNames[] = $icon.'-'.$suffix;
                 }
-                foreach ($prefixes as $prefix => $label) {
+                foreach ($collection['prefixes'] ?? [] as $prefix => $label) {
                     $iconNames[] = $prefix.'-'.$icon;
                 }
 

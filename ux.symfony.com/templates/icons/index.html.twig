@@ -42,11 +42,7 @@
             </a>
         </div>
         <div class="mt-3 mt-md-5">
-            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem;">
-                {% for iconSet in iconSets %}
-                    <twig:Icon:IconSetCard iconSet="{{ iconSet }}" index="{{ loop.index }}" samples="15" />
-                {% endfor %}
-            </div>
+            <twig:Icon:IconSetGrid iconSets="{{ iconSets }}" limit="6" samples="15" />
         </div>
     </section>
 

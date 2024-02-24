@@ -17,7 +17,7 @@ final class Iconify
     ) {
     }
 
-    public function search(string $query, ?string $prefix = null, int $limit = 32): array
+    public function search(string $query, ?string $prefix = null, int $limit = 32, string|array|null $category = null): array
     {
         return $this->http
             ->request('GET', 'https://api.iconify.design/search', [
@@ -25,6 +25,7 @@ final class Iconify
                     'query' => $query,
                     'limit' => $limit,
                     'prefix' => $prefix,
+                    'category' => $category,
                 ]),
             ])
             ->toArray()

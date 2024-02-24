@@ -65,6 +65,35 @@
   display: none;
 }
 
+.IconCard__copy {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 0;
+  background: none;
+  height: auto;
+  opacity: .5;
+  mix-blend-mode: overlay;
+}
+.IconCard::before .IconCard__copy {
+  opacity: 1;
+  transition: opacity 125ms ;
+}
+
+.IconCard__save {
+  position: absolute;
+  top: .125rem;
+  right: .125rem;;
+  border: 0;
+  background: none;
+  height: auto;
+  opacity: .5;
+}
+.IconCard::before .IconCard__save {
+  opacity: 1;
+  transition: opacity 125ms ;
+}
+
 .IconCard__name {
   position: absolute;
   inset: auto .5rem .5rem;

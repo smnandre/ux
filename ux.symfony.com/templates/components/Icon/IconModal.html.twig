@@ -56,9 +56,9 @@
                     <div class="TabBody">
                         <div class="TabPanel" data-tabs-target="tab" id="IconModal-Tab-Icon"  data-tab="icon">
                             <h3>Import Icon</h3>
-                            <div class="IconModal__code">
-                                <pre><code>symfony console ux:icon:import <span>{{ this.icon }}</span></code></pre>
-                                <button class="btn btn-sm IconModal__copy">
+                            <div class="IconModal__code" data-controller="ux-clipboard">
+                                <pre><code data-ux-clipboard-source-value>symfony console ux:icon:import <span>{{ this.icon }}</span></code></pre>
+                                <button class="btn btn-sm IconModal__copy" data-action="ux-clipboard#copy">
                                     <twig:Icon name="copy"/>
                                 </button>
                             </div>

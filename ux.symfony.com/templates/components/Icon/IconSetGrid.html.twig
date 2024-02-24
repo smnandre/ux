@@ -1,0 +1,5 @@
+ <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem;">
+     {% for iconSet in this.iconSets %}
+        <twig:Icon:IconSetCard  iconSet="{{ iconSet }}" index="{{ loop.index }}" samples="{{ this.samples }}" />
+    {% endfor %}
+</div>

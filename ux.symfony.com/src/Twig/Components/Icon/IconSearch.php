@@ -38,7 +38,7 @@ class IconSearch
     #[LiveProp(writable: true)]
     public ?string $size = null;
 
-    #[LiveProp(writable: true)]
+    #[LiveProp(writable: true, url: true)]
     public ?int $page = null;
 
     public function __construct(
@@ -54,8 +54,12 @@ class IconSearch
             }
         }
         if (!$this->query && $this->set) {
-
-            $icons = array_slice($this->iconify->collectionIcons($this->set), 0, self::PER_PAGE);
+            if (is_string($this->category)) {
+                $icons = $this->iconify->search('', $this->set, self::PER_PAGE, $this->category)['icons'];
+            }
+            else {
+                $icons = array_slice($this->iconify->collectionIcons($this->set), 0, self::PER_PAGE);
+            }
 
             $result = [];
             foreach ($icons as $icon) {
@@ -65,7 +69,7 @@ class IconSearch
             return $result;
         }
 
-        $icons = $this->iconify->search($this->query, $this->set, self::PER_PAGE)['icons'];
+        $icons = $this->iconify->search($this->query, $this->set, self::PER_PAGE, $this->category)['icons'];
 
         return array_map(
             fn (string $icon) => sprintf('https://api.iconify.design/%s.svg', str_replace(':', '/', $icon)),

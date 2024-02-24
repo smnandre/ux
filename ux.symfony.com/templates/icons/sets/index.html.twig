@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <meta name="turbo-prefetch" content="false">
+{% endblock %}
+
+{% set meta = {
+    title: 'Search Icons Packs - Symfony UX:Icons',
+    description: '',
+    canonical: url('app_icon_sets'),
+} %}
+
+{% block content %}
+
+    <div class="hero">
+        <div class="container-fluid container-xxl px-4 pt-5 px-md-5 pt-md-5">
+            <p class="eyebrows text-center">
+                <a href="{{ path('app_icons') }}">UX <span>Icons</span></a>
+            </p>
+            <h1 class="text-center ubuntu mt-3">
+                <a href="{{ url('app_icon_set_emojis') }}">Icons Sets</a>
+            </h1>
+        </div>
+    </div>
+
+    <section class="container-fluid container-xxl px-4 py-3">
+        <p class="eyebrows" style="margin: 111px 0 0;">All-in-one Packages</p>
+        <div class="d-md-flex justify-content-md-between text-center align-items-center text-md-start">
+            <h2 class="ubuntu pt-2 component-headlines">Popular <em class="rainbow-emphasis">Icon Packs</em></h2>
+            <a style="height: 100%;" class="btn btn-md btn-outline-primary mt-3 mt-md-0" href="{{ url('app_icon_set_emojis') }}">
+                Icon Packs
+                <twig:Icon name="arrow-right"  />
+            </a>
+        </div>
+        <div class="mt-3 mt-md-5">
+            <twig:Icon:IconSetGrid category="General" limit="6" samples="10" />
+        </div>
+    </section>
+
+     <section class="container-fluid container-xxl px-4 py-3">
+        <p class="eyebrows" style="margin: 111px 0 0;">Iconic Packages</p>
+        <div class="d-md-flex justify-content-md-between text-center align-items-center text-md-start">
+            <h2 class="ubuntu pt-2 component-headlines">Popular <em class="rainbow-emphasis">Emojis Packs</em></h2>
+            <a style="height: 100%;" class="btn btn-md btn-outline-primary mt-3 mt-md-0" href="{{ url('app_icon_set_emojis') }}">
+                Emoji Icon Sets
+                <twig:Icon name="arrow-right"  />
+            </a>
+        </div>
+        <div class="mt-3 mt-md-5">
+            <twig:Icon:IconSetGrid category="emoji" limit="6" samples="10" />
+        </div>
+    </section>
+
+    <section class="container-fluid container-xxl px-4 py-3">
+        <p class="eyebrows" style="margin: 111px 0 0;">Iconic Packages</p>
+        <div class="d-md-flex justify-content-md-between text-center align-items-center text-md-start">
+            <h2 class="ubuntu pt-2 component-headlines">Vibrant <em class="rainbow-emphasis">Flags & Maps</em></h2>
+            <a style="height: 100%;" class="btn btn-md btn-outline-primary mt-3 mt-md-0" href="{{ url('app_icon_set_flags') }}">
+                Flag Icon Sets
+                <twig:Icon name="arrow-right"  />
+            </a>
+        </div>
+        <div class="mt-3 mt-md-5">
+            <twig:Icon:IconSetGrid category="flag" limit="6" samples="10" />
+        </div>
+    </section>
+
+    <section class="container-fluid container-xxl px-4 py-3">
+        <p class="eyebrows" style="margin: 111px 0 0;">Iconic Packages</p>
+        <div class="d-md-flex justify-content-md-between text-center align-items-center text-md-start">
+            <h2 class="ubuntu pt-2 component-headlines">Popular <em class="rainbow-emphasis">Brand Sets</em></h2>
+            <a style="height: 100%;" class="btn btn-md btn-outline-primary mt-3 mt-md-0" href="{{ url('app_icon_sets_brands') }}">
+                Brand Icon Sets
+                <twig:Icon name="arrow-right"  />
+            </a>
+        </div>
+        <div class="mt-3 mt-md-5">
+            <twig:Icon:IconSetGrid category="brand" samples="6" limit="10"  />
+        </div>
+    </section>
+
+{% endblock %}
+
+

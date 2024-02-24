@@ -23,13 +23,27 @@ class IconSetRepository
     {
     }
 
+    public function findAllByCategory(string $category, ?int $limit = null): array
+    {
+        $iconSets = $this->findAll();
+        $iconSets = array_filter($iconSets, fn(IconSet $iconSet) => str_contains(strtolower($iconSet->getCategory()), $category));
+
+        usort($iconSets, fn(IconSet $a, IconSet $b) => $b->getTotal() <=> $a->getTotal());
+
+        if (null === $limit) {
+            return $iconSets;
+        }
+
+        return array_slice($iconSets, 0, $limit);
+    }
+
     /**
      * @return array<IconSet>
      */
-    public function findAll(): array
+    public function findAll(?int $limit = null, ?int $offset = null): array
     {
         if (isset($this->iconSets)) {
-            return $this->iconSets;
+            return array_slice($this->iconSets, 0, $limit);
         }
 
         $iconSets = [];
@@ -40,8 +54,9 @@ class IconSetRepository
             $data['categories'] = array_keys($collection['categories'] ?? []);
             $iconSets[$identifier] = self::createIconSet($identifier, $data);
         }
+        $this->iconSets = $iconSets;
 
-        return $this->iconSets = $iconSets;
+        return array_slice($iconSets, $offset ?? 0, $limit);
     }
 
     public function load(string $identifier): IconSet
