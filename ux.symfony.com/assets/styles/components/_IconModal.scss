@@ -150,9 +150,10 @@
 .IconModal__code pre {
   margin: 0;
   overflow: hidden;
-  max-height: 3rem;
+  padding: .5rem;
+  line-height: 1.7;
+  max-height: var(--height, 3rem);
 }
-
 .IconModal__code pre code {
   white-space: break-spaces;
 }

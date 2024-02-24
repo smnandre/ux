@@ -1,0 +1,10 @@
+{% props label, icon = null, href = null %}
+
+<a class="Button"
+   {%~ if href %} href="{{ href }}" {% endif ~%}
+>
+    {{~ label ~}}
+    {%- if icon -%}
+        <twig:Icon name="{{ icon }}" />
+    {%- endif ~%}
+</a>

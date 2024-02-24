@@ -24,7 +24,10 @@
   background: var(--bs-secondary-bg-subtle);
   font-size: .85rem;
   color: var(--bs-secondary-color);
-  padding: .15rem .75rem;
+  padding: 0 1rem;
+  line-height: 2;
+  font-stretch: semi-condensed;
+  transition: background-color 150ms ease-in-out;
 }
 .TabControl.active {
   background: var(--bs-secondary-bg);

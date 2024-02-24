@@ -16,11 +16,9 @@ export default class extends Controller {
     connect() {
         window.addEventListener('Icon:Clicked', this.onIconClick.bind(this));
         this.element.addEventListener('click', this.onClick.bind(this));
-        this.element.querySelector('button.close').addEventListener('click', this.close.bind(this));
     }
 
     disconnect() {
-        this.element.querySelector('button.close').removeEventListener('click', this.close.bind(this));
         this.element.removeEventListener('click', this.onClick.bind(this));
         window.removeEventListener('Icon:Clicked', this.onIconClick.bind(this));
     }

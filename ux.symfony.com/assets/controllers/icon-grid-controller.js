@@ -7,7 +7,7 @@ export default class extends Controller {
     connect() {
         this.element.addEventListener('click', this.click.bind(this), true);
         this.tippy = delegate(this.element, {
-            target: '.IconCard',
+            target: 'body[data-icon-size="small"] .IconCard',
             content: (reference) => reference.title,
             arrow: true,
             theme: 'translucent',
@@ -28,8 +28,8 @@ export default class extends Controller {
         event.preventDefault();
         event.stopPropagation();
 
-        const eventZ = new CustomEvent('Icon:Clicked', { detail: { icon: iconCard.title }, bubbles: true });
-        window.dispatchEvent(eventZ);
+        const customEvent = new CustomEvent('Icon:Clicked', { detail: { icon: iconCard.title }, bubbles: true });
+        window.dispatchEvent(customEvent);
     }
 
 }

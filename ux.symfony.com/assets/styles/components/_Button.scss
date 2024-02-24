@@ -1,0 +1,16 @@
+.Button {
+
+  display: flex;
+  padding: var(--padding, 1rem 2rem);
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--color);
+  border-radius: var(--radius, 1rem);
+
+  &:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
+}
+

@@ -57,7 +57,7 @@ final class IconSetsController extends AbstractController
         ]);
     }
 
-    #[Route('/icons/sets/emojis', name: 'app_icon_set_emojis')]
+    #[Route('/icons/sets/emojis', name: 'app_icon_sets_emojis')]
     public function emojis(IconSetRepository $iconSetRepository): Response
     {
         $allIconSets = $iconSetRepository->findAll();
@@ -69,7 +69,7 @@ final class IconSetsController extends AbstractController
         ]);
     }
 
-    #[Route('/icons/sets/flags', name: 'app_icon_set_flags')]
+    #[Route('/icons/sets/flags', name: 'app_icon_sets_flags')]
     public function flags(IconSetRepository $iconSetRepository): Response
     {
         $allIconSets = $iconSetRepository->findAll();

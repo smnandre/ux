@@ -126,6 +126,26 @@ class IconSet
         return abs(crc32($this->identifier)) % 100;
     }
 
+    public function getGithub(): ?array
+    {
+        $urls = [
+            $this->author['url'] ?? '',
+            $this->licence['url'] ?? '',
+        ];
+        foreach ($urls as $url) {
+            if (preg_match('#https://github.com/(?<owner>[^/]+)/(?<repo>[^/]+)#', $url, $matches)) {
+                return [
+                    'owner' => $owner = $matches['owner'],
+                    'repo' => $repo = $matches['repo'],
+                    'name' => $name = sprintf('%s/%s', $owner, $repo),
+                    'url' => 'https://github.com/'.$name
+                ];
+            }
+        }
+
+        return null;
+    }
+
     public function isGeneral(): bool
     {
         return self::CATEGORY_GENERAL === $this->category;

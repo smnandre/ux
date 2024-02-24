@@ -122,7 +122,7 @@
 
     <div id="IconSearchResults">
         {% if computed.icons|length > 0 %}
-            <div data-loading="addClass(opacity-50)" class="mt-5 row">
+            <div class="mt-5 row">
                 <twig:Icon:IconGrid icons="{{ computed.icons }}"/>
             </div>
         {% elseif query %}

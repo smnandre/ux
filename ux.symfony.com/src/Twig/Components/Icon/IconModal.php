@@ -72,7 +72,6 @@ class IconModal
     public function getSvg(): ?string
     {
         if (null === $this->prefix || null === $this->name) {
-            dd($this->icon, $this->prefix, $this->name);
             return null;
         }
 
