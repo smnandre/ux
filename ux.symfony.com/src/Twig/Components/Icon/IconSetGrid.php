@@ -21,7 +21,7 @@ class IconSetGrid
 
     public ?int $limit = 12;
 
-    public ?int $samples = 10;
+    public ?int $samples = 12;
 
     public function __construct(
         private readonly IconSetRepository $iconSetRepository,

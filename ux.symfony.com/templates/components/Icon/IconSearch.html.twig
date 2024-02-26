@@ -27,14 +27,14 @@
                             {% endfor %}
                         </optgroup>
 
-                        <optgroup label="Emojis">
-                            {% for name,value in computed.collections %}
+                        <optgroup label="All">
+                            {% for name, value in computed.collections %}
                                 <option value="{{ name }}">{{ value.name }}</option>
                             {% endfor %}
                         </optgroup>
 
-                        <optgroup label="All">
-                            {% for name,value in computed.collections %}
+                        <optgroup label="Emojis">
+                            {% for name, value in computed.collections %}
                                 <option value="{{ name }}">{{ value.name }}</option>
                             {% endfor %}
                         </optgroup>
@@ -50,7 +50,7 @@
                         <select class="form-control" data-model="category" id="IconSearch-Category">
                             <option value="">All categories</option>
                             {% for label, value in computed.categories %}
-                                <option value="{{ value }}" {{ this.category == value ? 'selected' }}>{{ label }}</option>
+                                <option value="{{ label }}" {{ this.category == label ? 'selected' }}>{{ label }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -109,12 +109,14 @@
                     </div>
                 </div>
 
-                <div data-live-ignore="true">
-                    <button class="btn IconBag__Button" data-controller="icon-bag">
-                        <twig:Icon name="icon-folder"/>
-                        <span class="IconBag__Badge" data-icon-bag-target="count"></span>
-                    </button>
-                </div>
+                {% if false %}
+                    <div data-live-ignore="true">
+                        <button class="btn IconBag__Button" data-controller="icon-bag">
+                            <twig:Icon name="icon-folder"/>
+                            <span class="IconBag__Badge" data-icon-bag-target="count"></span>
+                        </button>
+                    </div>
+                {% endif %}
 
             </fieldset>
         </div>

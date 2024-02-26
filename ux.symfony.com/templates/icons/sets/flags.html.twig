@@ -25,11 +25,9 @@
         </div>
     </div>
 
-    <div class="container-fluid container-xxl px-4 py-4">
-        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
-            {% for iconSet in iconSets %}
-                <twig:Icon:IconSetCard iconSet="{{ iconSet }}" index="{{ loop.index }}" samples="10" />
-            {% endfor %}
+    <div class="section">
+        <div class="container">
+            <twig:Icon:IconSetGrid category="flag" samples="10" limit="false" />
         </div>
     </div>
 

@@ -19,7 +19,12 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 #[AsLiveComponent('Icon:IconSearch')]
 class IconSearch
 {
-    private const PER_PAGE = 128;
+
+    // TODO working (?): https://api.iconify.design/search?limit=256&prefix=flowbite&query=circle%20style=stroke
+    // TODO working (?): https://api.iconify.design/search?limit=256&prefix=flowbite&query=circle%20style=fill
+
+
+    private const PER_PAGE = 256;
 
     use DefaultActionTrait;
 

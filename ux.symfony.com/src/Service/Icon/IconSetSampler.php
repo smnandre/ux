@@ -47,16 +47,34 @@ final class IconSetSampler
     private function findEmojiSamples(IconSet $iconSet): array
     {
         $sampleIcons = [
-            ['😄'],
-            ['😂'],
-            ['😉'],
-            ['❤️'],
-            ['👍'],
-            ['🌳'],
-            ['😻'],
-            ['🌞'],
-            ['🍕'],
-            ['⚽'],
+            ['😄', 'smile'],
+            ['😍', 'heart-eyes'],
+            ['❤️', 'red-heart'],
+            ['😎', 'sunglasses'],
+            ['😂', 'tears-of-joy'],
+
+            ['👍', 'thumbs-up'],
+            ['👏', 'clap'],
+
+            ['🌍', 'earth'],
+            ['🔥', 'fire'],
+            ['⭐', 'star'],
+            ['🌒', 'waxing_crescent_moon','waxing-crescent-moon', 'crescent_moon', 'moon'],
+
+            ['🌳', 'tree', 'deciduous-tree', 'deciduous_tree'],
+            ['🍄', 'mushroom'],
+
+            ['🍑', 'peach',],
+            ['🍕', 'pizza'],
+
+            ['🐼', 'panda', 'panda-face'],
+            ['🦁', 'lion', 'lion-face'],
+            ['🐙', 'octopuss'],
+
+            ['⚽','football', 'soccer', 'ball', 'soccer-ball'],
+            ['🚀', 'rocket'],
+            ['🛸', 'ufo'],
+            ['🎁', 'gift'],
         ];
 
         return $this->lookupIcons($iconSet, $sampleIcons);
@@ -66,15 +84,37 @@ final class IconSetSampler
     {
         $sampleIcons = [
             ['apple'],
+            ['android'],
+            ['adobe'],
+            ['google'],
+            ['firefox'],
+            ['chrome'],
             ['github'],
             ['twitter'],
             ['linkedin'],
+            ['slack'],
+            ['discord'],
+            ['telegram'],
             ['instagram'],
             ['youtube'],
             ['tiktok'],
+            ['pinterest'],
+            ['evernote'],
+            ['dribbble'],
+            ['behance'],
+            ['medium'],
             ['snapchat'],
+            ['tripadvisor'],
             ['whatsapp'],
             ['twitch'],
+            ['phpstorm'],
+            ['docker'],
+            ['php'],
+            ['html', 'html5'],
+            ['css', 'css3'],
+            ['javascript', 'js'],
+            ['bootstrap'],
+            ['tailwind'],
         ];
 
         return $this->lookupIcons($iconSet, $sampleIcons);
@@ -83,16 +123,16 @@ final class IconSetSampler
     private function findFlagSamples(IconSet $iconSet): array
     {
         $sampleIcons = [
-            ['🇦🇺'],
-            ['🇧🇷'],
-            ['🇨🇦'],
-            ['🇩🇪'],
-            ['🇪🇸'],
-            ['🇫🇷'],
-            ['🇬🇧'],
-            ['🇮🇹'],
-            ['🇯🇵'],
-            ['🇺🇸'],
+            ['🇦🇺', 'au', 'aus', 'australia'],
+            ['🇧🇷', 'br', 'bra', 'brazil'],
+            ['🇨🇦', 'ca', 'can', 'canada'],
+            ['🇩🇪', 'de', 'deu', 'germany'], // 'de' is the ISO 639-1 language code for German
+            ['🇪🇸', 'es', 'esp', 'spain'],
+            ['🇫🇷', 'fr', 'fra', 'france'],
+            ['🇬🇧', 'gb', 'gbr', 'uk', 'united-kingdom'],
+            ['🇮🇹', 'it', 'ita', 'italy'],
+            ['🇯🇵', 'jp', 'jpn', 'japan'],
+            ['🇺🇸', 'us', 'usa', 'united-states'],
         ];
 
         return $this->lookupIcons($iconSet, $sampleIcons);

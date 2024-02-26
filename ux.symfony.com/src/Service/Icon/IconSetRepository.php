@@ -17,6 +17,10 @@ class IconSetRepository
 {
     private array $iconSets;
 
+    private array $terms = [
+        'crypto',
+    ];
+
     public function __construct(
         private Iconify $iconify,
     )
@@ -26,9 +30,17 @@ class IconSetRepository
     public function findAllByCategory(string $category, ?int $limit = null): array
     {
         $iconSets = $this->findAll();
+        foreach ($this->terms as $term) {
+            $iconSets = array_filter($iconSets, fn(IconSet $iconSet) => !str_contains(strtolower($iconSet->getName()), $term));
+        }
         $iconSets = array_filter($iconSets, fn(IconSet $iconSet) => str_contains(strtolower($iconSet->getCategory()), $category));
 
-        usort($iconSets, fn(IconSet $a, IconSet $b) => $b->getTotal() <=> $a->getTotal());
+        $score = match ($category) {
+            'flag' => fn(IconSet $set) => [str_contains(strtolower($set->getName()), 'flag') ? 1 : 0, $set->getTotal()],
+            default => fn(IconSet $set) => [$set->getTotal()],
+        };
+
+        usort($iconSets, fn(IconSet $a, IconSet $b) => $score($b) <=> $score($a));
 
         if (null === $limit) {
             return $iconSets;

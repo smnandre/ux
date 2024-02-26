@@ -4,11 +4,11 @@ section:not([class]) {
     grid-template-columns: 1fr;
     align-items: center;
     justify-content: center;
-    padding-block: var(--padding, 3rem);
-    gap: var(--gap, 3rem);
+    padding-block: var(--padding, 4rem);
+    gap: var(--gap, 4rem);
 }
 .section--large {
-  --padding: 6rem;
+  --padding: 5rem;
 }
 .section--xlarge {
   --padding: 12rem;
