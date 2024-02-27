@@ -21,12 +21,11 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 #[AsLiveComponent('Icon:IconSearch')]
 class IconSearch
 {
+    use DefaultActionTrait;
     // TODO working (?): https://api.iconify.design/search?limit=256&prefix=flowbite&query=circle%20style=stroke
     // TODO working (?): https://api.iconify.design/search?limit=256&prefix=flowbite&query=circle%20style=fill
 
     private const PER_PAGE = 256;
-
-    use DefaultActionTrait;
 
     #[LiveProp(writable: true, url: true)]
     public ?string $query = null;
@@ -77,7 +76,7 @@ class IconSearch
     {
         if (!$this->query) {
             if (!$this->set) {
-               return [];
+                return [];
             }
         }
         if (!$this->query && $this->set) {

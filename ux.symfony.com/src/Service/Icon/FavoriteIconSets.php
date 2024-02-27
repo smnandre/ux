@@ -41,8 +41,7 @@ final class FavoriteIconSets implements \IteratorAggregate, Countable
      */
     public function __construct(
         private readonly array $names = [],
-    )
-    {
+    ) {
     }
 
     public function has(string $name): bool

@@ -63,7 +63,7 @@ final class Iconify
 
     private function collectionData(string $prefix): array
     {
-        return $this->cache->get('iconify-collection-'.$prefix, function(ItemInterface $item) use ($prefix) {
+        return $this->cache->get('iconify-collection-'.$prefix, function (ItemInterface $item) use ($prefix) {
             $item->expiresAfter(604800); // 1 week
 
             return $this->http

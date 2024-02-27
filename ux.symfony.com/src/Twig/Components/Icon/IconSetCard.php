@@ -26,8 +26,7 @@ class IconSetCard
 
     public function __construct(
         private readonly IconSetSampler $iconSetSampler,
-    )
-    {
+    ) {
     }
 
     public function sampleIcons(): array

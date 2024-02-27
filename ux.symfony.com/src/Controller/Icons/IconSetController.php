@@ -19,11 +19,11 @@ final class IconSetController extends AbstractController
     #[Route('/icons/sets', name: 'app_icon_sets')]
     public function collections(IconSetRepository $iconSetRepository): Response
     {
-        $iconSets = array_filter($iconSetRepository->findAll(), function(IconSet $iconSet) {
+        $iconSets = array_filter($iconSetRepository->findAll(), function (IconSet $iconSet) {
             return !($iconSet->isGeneral() || $iconSet->getPalette());
         });
 
-        usort($iconSets, fn(IconSet $a, IconSet $b) => $b->getTotal() <=> $a->getTotal());
+        usort($iconSets, fn (IconSet $a, IconSet $b) => $b->getTotal() <=> $a->getTotal());
 
         return $this->render('icons/sets/index.html.twig', [
             'iconSets' => $iconSets,
@@ -37,7 +37,7 @@ final class IconSetController extends AbstractController
         $page = 1;
 
         return $this->render('icons/sets/search.html.twig', [
-            'iconSets' => array_slice( $iconSetRepository->findAll(), $page * $nbPerPage, $nbPerPage),
+            'iconSets' => array_slice($iconSetRepository->findAll(), $page * $nbPerPage, $nbPerPage),
         ]);
     }
 
@@ -45,8 +45,8 @@ final class IconSetController extends AbstractController
     public function brands(IconSetRepository $iconSetRepository): Response
     {
         $allIconSets = $iconSetRepository->findAll();
-        $iconSets = array_filter($allIconSets, fn(IconSet $iconSet) => $iconSet->isBrandsSocial());
-        usort($iconSets, fn(IconSet $a, IconSet $b) => $b->getTotal() <=> $a->getTotal());
+        $iconSets = array_filter($allIconSets, fn (IconSet $iconSet) => $iconSet->isBrandsSocial());
+        usort($iconSets, fn (IconSet $a, IconSet $b) => $b->getTotal() <=> $a->getTotal());
 
         return $this->render('icons/sets/brands.html.twig', [
             'iconSets' => $iconSets,
@@ -57,8 +57,8 @@ final class IconSetController extends AbstractController
     public function emojis(IconSetRepository $iconSetRepository): Response
     {
         $allIconSets = $iconSetRepository->findAll();
-        $iconSets = array_filter($allIconSets, fn(IconSet $iconSet) => $iconSet->isEmoji());
-        usort($iconSets, fn(IconSet $a, IconSet $b) => $b->getTotal() <=> $a->getTotal());
+        $iconSets = array_filter($allIconSets, fn (IconSet $iconSet) => $iconSet->isEmoji());
+        usort($iconSets, fn (IconSet $a, IconSet $b) => $b->getTotal() <=> $a->getTotal());
 
         return $this->render('icons/sets/emojis.html.twig', [
             'iconSets' => $iconSets,
@@ -69,8 +69,8 @@ final class IconSetController extends AbstractController
     public function flags(IconSetRepository $iconSetRepository): Response
     {
         $allIconSets = $iconSetRepository->findAll();
-        $iconSets = array_filter($allIconSets, fn(IconSet $iconSet) => $iconSet->isMapsFlags());
-        usort($iconSets, fn(IconSet $a, IconSet $b) => $b->getTotal() <=> $a->getTotal());
+        $iconSets = array_filter($allIconSets, fn (IconSet $iconSet) => $iconSet->isMapsFlags());
+        usort($iconSets, fn (IconSet $a, IconSet $b) => $b->getTotal() <=> $a->getTotal());
 
         return $this->render('icons/sets/flags.html.twig', [
             'iconSets' => $iconSets,

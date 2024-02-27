@@ -27,8 +27,7 @@ class IconSetGrid
 
     public function __construct(
         private readonly IconSetRepository $iconSetRepository,
-    )
-    {
+    ) {
     }
 
     public function getIconSets(): array

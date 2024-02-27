@@ -37,8 +37,7 @@ class IconModal
     public function __construct(
         private readonly IconSetRepository $iconSetRepository,
         private readonly Iconify $iconify,
-    )
-    {
+    ) {
     }
 
     #[PostHydrate]

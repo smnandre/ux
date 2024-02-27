@@ -36,14 +36,13 @@ class IconSetRepository
 
     public function __construct(
         private Iconify $iconify,
-    )
-    {
+    ) {
     }
 
     public function findAllFavorites(?int $limit = null): array
     {
         $iconSets = $this->findAll();
-        $iconSets = array_filter($iconSets, fn(IconSet $iconSet) => $iconSet->isFavorite());
+        $iconSets = array_filter($iconSets, fn (IconSet $iconSet) => $iconSet->isFavorite());
 
         return array_slice($iconSets, 0, $limit);
     }
@@ -54,14 +53,14 @@ class IconSetRepository
         // foreach ($this->terms as $term) {
         //     $iconSets = array_filter($iconSets, fn(IconSet $iconSet) => !str_contains(strtolower($iconSet->getName()), $term));
         // }
-        $iconSets = array_filter($iconSets, fn(IconSet $iconSet) => str_contains(strtolower($iconSet->getCategory()), $category));
+        $iconSets = array_filter($iconSets, fn (IconSet $iconSet) => str_contains(strtolower($iconSet->getCategory()), $category));
 
         $score = match ($category) {
-            'flag' => fn(IconSet $set) => [str_contains(strtolower($set->getName()), 'flag') ? 1 : 0, $set->getTotal()],
-            default => fn(IconSet $set) => [$set->getTotal()],
+            'flag' => fn (IconSet $set) => [str_contains(strtolower($set->getName()), 'flag') ? 1 : 0, $set->getTotal()],
+            default => fn (IconSet $set) => [$set->getTotal()],
         };
 
-        usort($iconSets, fn(IconSet $a, IconSet $b) => $score($b) <=> $score($a));
+        usort($iconSets, fn (IconSet $a, IconSet $b) => $score($b) <=> $score($a));
 
         if (null === $limit) {
             return $iconSets;
