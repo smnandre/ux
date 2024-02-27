@@ -19,9 +19,9 @@ class IconSetGrid
 {
     public ?string $category = null;
 
-    public ?int $limit = 12;
+    public ?int $limit = null;
 
-    public ?int $samples = 12;
+    public int $samples = 10;
 
     public ?array $iconSets = null;
 
