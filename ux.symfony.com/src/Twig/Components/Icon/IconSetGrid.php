@@ -23,6 +23,8 @@ class IconSetGrid
 
     public ?int $samples = 12;
 
+    public ?array $iconSets = null;
+
     public function __construct(
         private readonly IconSetRepository $iconSetRepository,
     )
@@ -31,10 +33,14 @@ class IconSetGrid
 
     public function getIconSets(): array
     {
-        if (null !== $this->category) {
-            return $this->iconSetRepository->findAllByCategory($this->category, $this->limit);
+        if ($this->iconSets) {
+            return $this->iconSets;
         }
 
-        return $this->iconSetRepository->findAll($this->limit);
+        if (null !== $this->category) {
+            return $this->iconSets = $this->iconSetRepository->findAllByCategory($this->category, $this->limit);
+        }
+
+        return $this->iconSets = $this->iconSetRepository->findAll($this->limit);
     }
 }

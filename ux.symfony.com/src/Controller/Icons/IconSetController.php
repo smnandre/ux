@@ -3,7 +3,6 @@
 namespace App\Controller\Icons;
 
 use App\Model\Icon\IconSet;
-use App\Service\Icon\FavoriteIconSets;
 use App\Service\Icon\IconSetRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * @author Kevin Bond <kevinbond@gmail.com>
  * @author Simon André <smn.andre@gmail.com>
  */
-final class IconSetsController extends AbstractController
+final class IconSetController extends AbstractController
 {
     private const PER_PAGE = 24;
 
@@ -32,10 +31,7 @@ final class IconSetsController extends AbstractController
     }
 
     #[Route('/icons/sets/search', name: 'app_icon_sets_search')]
-    public function all(
-        IconSetRepository $iconSetRepository,
-        FavoriteIconSets $favoriteSets,
-    ): Response
+    public function all(IconSetRepository $iconSetRepository): Response
     {
         $nbPerPage = self::PER_PAGE;
         $page = 1;
@@ -46,7 +42,7 @@ final class IconSetsController extends AbstractController
     }
 
     #[Route('/icons/sets/brands', name: 'app_icon_sets_brands')]
-    public function brands(IconSetRepository $iconSetRepository, FavoriteIconSets $favoriteSets): Response
+    public function brands(IconSetRepository $iconSetRepository): Response
     {
         $allIconSets = $iconSetRepository->findAll();
         $iconSets = array_filter($allIconSets, fn(IconSet $iconSet) => $iconSet->isBrandsSocial());

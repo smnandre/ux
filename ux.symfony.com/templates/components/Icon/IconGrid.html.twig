@@ -6,17 +6,13 @@
         {% set prefix = iconParts[0] %}
         {% set name = iconParts[1] %}
 
-        <div class="IconCard" title="{{ icon }}" id="{{ icon }}">
+        <div class="IconCard" title="{{ icon }}" id="IconGrid--{{ icon }}">
             <a href="{{ url('app_icon_sets', {prefix: icon|split(':')[0]}) }}#{{ icon|split(':')[1] }}" class="IconCard__link" data-icon-link>
-
                 {% if iconSet is not defined %}
                     <span class="IconCard__prefix">{{ prefix }}</span>
                 {% endif %}
-
                 <img class="IconCard__icon" width="32" height="32" src="{{ url }}" alt="Icon {{ prefix }} {{ name|humanize }}">
-
                 <span class="IconCard__name">{{ name }}</span>
-
             </a>
             <button type="button" class="IconCard__save">
                 <twig:Icon name="icon-folder-plus" />

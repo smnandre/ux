@@ -11,78 +11,57 @@
                     </label>
                     <select class="form-control" data-model="set" id="IconSearch-Set">
                         <option value="">All sets</option>
-
-                        <optgroup label="Favorites">
-                            {% set favorite_sets = {
-                                'lucide': "Lucide",
-                                'feather': "Feather",
-                                'eva': "Eva",
-                                'heroicons': "Heroicons",
-                                'phosphor': "Phosphor",
-                                'remixicon': "Remixicon",
-                                'tabler': "Tabler"
-                            } %}
-                            {% for value, label in favorite_sets|default %}
-                                <option value="{{ value }}">{{ label }}</option>
-                            {% endfor %}
-                        </optgroup>
-
-                        <optgroup label="All">
-                            {% for name, value in computed.collections %}
-                                <option value="{{ name }}">{{ value.name }}</option>
-                            {% endfor %}
-                        </optgroup>
-
-                        <optgroup label="Emojis">
-                            {% for name, value in computed.collections %}
-                                <option value="{{ name }}">{{ value.name }}</option>
-                            {% endfor %}
-                        </optgroup>
-
+                        {% for groupName, options in this.getIconSetOptionGroups() %}
+                            <optgroup label="{{ groupName }}">
+                                {% for value, label in options %}
+                                    <option value="{{ value }}">{{ label }}</option>
+                                {% endfor %}
+                            </optgroup>
+                        {% endfor %}
                     </select>
                 </div>
 
-                {% if computed.categories|default and computed.categories|length > 2  %}
-                    <div class="input-group" style="max-width: 200px;">
-                        <label class="input-group-text" for="IconSearch-Category">
-                            <twig:Icon name="icon-tag"/>
-                        </label>
-                        <select class="form-control" data-model="category" id="IconSearch-Category">
-                            <option value="">All categories</option>
-                            {% for label, value in computed.categories %}
-                                <option value="{{ label }}" {{ this.category == label ? 'selected' }}>{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                {% endif %}
+{#                {% if computed.categories|default and computed.categories|length > 2  %}#}
+{#                    <div class="input-group" style="max-width: 200px;">#}
+{#                        <label class="input-group-text" for="IconSearch-Category">#}
+{#                            <twig:Icon name="icon-tag"/>#}
+{#                        </label>#}
+{#                        <select class="form-control" data-model="category" id="IconSearch-Category">#}
+{#                            <option value="">All categories</option>#}
+{#                            {% for label, value in computed.categories %}#}
+{#                                <option value="{{ label }}" {{ this.category == label ? 'selected' }}>{{ label }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                    </div>#}
+{#                {% endif %}#}
 
-                {% if computed.styles|default %}
-                    <div class="input-group" style="max-width: 200px;">
-                        <label class="input-group-text" for="IconSearch-Style">
-                            <twig:Icon name="icon-style"/>
-                        </label>
-                        <select class="form-control" data-model="style" id="IconSearch-Style">
-                            <option value="">All styles</option>
-                            {% for value, label in computed.styles %}
-                                <option value="{{ value }}" {{ this.style == value ? 'selected' }}>{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                {% endif %}
+{#                {% if computed.styles|default %}#}
+{#                    <div class="input-group" style="max-width: 200px;">#}
+{#                        <label class="input-group-text" for="IconSearch-Style">#}
+{#                            <twig:Icon name="icon-style"/>#}
+{#                        </label>#}
+{#                        <select class="form-control" data-model="style" id="IconSearch-Style">#}
+{#                            <option value="">All styles</option>#}
+{#                            {% for value, label in computed.styles %}#}
+{#                                <option value="{{ value }}" {{ this.style == value ? 'selected' }}>{{ label }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                    </div>#}
+{#                {% endif %}#}
 
-                {% if computed.sizes|default %}
-                    <div class="input-group" style="max-width: 200px;">
-                        <label class="input-group-text" for="IconSearch-Size">
-                            <twig:Icon name="icon-size"/>
-                        </label>
-                        <select class="form-control" data-model="size" id="IconSearch-Size">
-                            <option value="">All sizes</option>
-                            {% for value, label in computed.sizes %}
-                                <option value="{{ value }}" {{ this.style == value ? 'selected' }}>{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                {% endif %}
+{#                {% if computed.sizes|default %}#}
+{#                    <div class="input-group" style="max-width: 200px;">#}
+{#                        <label class="input-group-text" for="IconSearch-Size">#}
+{#                            <twig:Icon name="icon-size"/>#}
+{#                        </label>#}
+{#                        <select class="form-control" data-model="size" id="IconSearch-Size">#}
+{#                            <option value="">All sizes</option>#}
+{#                            {% for value, label in computed.sizes %}#}
+{#                                <option value="{{ value }}" {{ this.style == value ? 'selected' }}>{{ label }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                    </div>#}
+{#                {% endif %}#}
 
                 <div class="input-group IconSearch__Query">
                     <label class="input-group-text" for="IconSearch-Query">

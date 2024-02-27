@@ -20,13 +20,14 @@ namespace App\Model\Icon;
  */
 class IconSet
 {
-    private const CATEGORY_GENERAL = 'General';
-    private const CATEGORY_ANIMATED_ICONS = 'Animated Icons';
-    private const CATEGORY_EMOJI = 'Emoji';
-    private const CATEGORY_BRANDS_SOCIAL = 'Brands / Social';
-    private const CATEGORY_MAPS_FLAGS = 'Maps / Flags';
-    private const CATEGORY_THEMATIC = 'Thematic';
-    private const CATEGORY_ARCHIVE_UNMAINTAINED = 'Archive / Unmaintained';
+    public const CATEGORY_GENERAL = 'General';
+    public const CATEGORY_ANIMATED_ICONS = 'Animated Icons';
+    public const CATEGORY_EMOJI = 'Emoji';
+    public const CATEGORY_BRANDS_SOCIAL = 'Brands / Social';
+    public const CATEGORY_MAPS_FLAGS = 'Maps / Flags';
+    public const CATEGORY_THEMATIC = 'Thematic';
+    public const CATEGORY_ARCHIVE_UNMAINTAINED = 'Archive / Unmaintained';
+    public const CATEGORY_UNCATEGORIZED = 'Uncategorized';
 
     public function __construct(
         private string $identifier,
@@ -43,6 +44,7 @@ class IconSet
         private ?bool $palette = null,
         private ?array $suffixes = [],
         private ?array $categories = [],
+        private ?bool $isFavorite = false,
     ) {
     }
 
@@ -126,6 +128,11 @@ class IconSet
         return abs(crc32($this->identifier)) % 100;
     }
 
+    public function isFavorite(): bool
+    {
+        return $this->isFavorite ?? false;
+    }
+
     public function getGithub(): ?array
     {
         $urls = [
@@ -138,7 +145,7 @@ class IconSet
                     'owner' => $owner = $matches['owner'],
                     'repo' => $repo = $matches['repo'],
                     'name' => $name = sprintf('%s/%s', $owner, $repo),
-                    'url' => 'https://github.com/'.$name
+                    'url' => 'https://github.com/'.$name,
                 ];
             }
         }

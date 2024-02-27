@@ -15,6 +15,19 @@ use App\Model\Icon\IconSet;
 
 class IconSetRepository
 {
+    private const FAVORITE_SETS = [
+        'ri',
+        'flowbite',
+        'tabler',
+        'bi',
+        'lucide',
+        'iconoir',
+        'bx',
+        'octoicons',
+        'iconoir',
+        'bootstrap',
+    ];
+
     private array $iconSets;
 
     private array $terms = [
@@ -27,12 +40,20 @@ class IconSetRepository
     {
     }
 
+    public function findAllFavorites(?int $limit = null): array
+    {
+        $iconSets = $this->findAll();
+        $iconSets = array_filter($iconSets, fn(IconSet $iconSet) => $iconSet->isFavorite());
+
+        return array_slice($iconSets, 0, $limit);
+    }
+
     public function findAllByCategory(string $category, ?int $limit = null): array
     {
         $iconSets = $this->findAll();
-        foreach ($this->terms as $term) {
-            $iconSets = array_filter($iconSets, fn(IconSet $iconSet) => !str_contains(strtolower($iconSet->getName()), $term));
-        }
+        // foreach ($this->terms as $term) {
+        //     $iconSets = array_filter($iconSets, fn(IconSet $iconSet) => !str_contains(strtolower($iconSet->getName()), $term));
+        // }
         $iconSets = array_filter($iconSets, fn(IconSet $iconSet) => str_contains(strtolower($iconSet->getCategory()), $category));
 
         $score = match ($category) {
@@ -148,6 +169,7 @@ class IconSetRepository
             $data['palette'] ?? null,
             $data['suffixes'] ?? null,
             $data['categories'] ?? null,
+            in_array($identifier, self::FAVORITE_SETS, true),
         );
     }
 }

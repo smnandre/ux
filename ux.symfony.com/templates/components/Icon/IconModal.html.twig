@@ -12,7 +12,7 @@
 
     {% else %}
 
-        <div class="Tabs">
+        <div class="Tabs" id="IconModal--{{ this.icon }}">
             <div class="IconModal__header">
                 <button type="button" class="btn close"
                     data-controller="clipboarder"
@@ -106,7 +106,7 @@
                                         'Prefix': this.prefix,
                                         'Licence': this.iconSet.license ? {
                                             title: this.iconSet.license.title,
-                                            href: this.iconSet.license.url,
+                                            href: this.iconSet.license.url|default,
                                         } : null,
                                         'Author': this.iconSet.author.name,
                                         'GitHub': this.iconSet.github ? {

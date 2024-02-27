@@ -11,7 +11,9 @@
 
 namespace App\Twig\Components\Icon;
 
+use App\Model\Icon\IconSet;
 use App\Service\Icon\Iconify;
+use App\Service\Icon\IconSetRepository;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
@@ -19,10 +21,8 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 #[AsLiveComponent('Icon:IconSearch')]
 class IconSearch
 {
-
     // TODO working (?): https://api.iconify.design/search?limit=256&prefix=flowbite&query=circle%20style=stroke
     // TODO working (?): https://api.iconify.design/search?limit=256&prefix=flowbite&query=circle%20style=fill
-
 
     private const PER_PAGE = 256;
 
@@ -34,21 +34,43 @@ class IconSearch
     #[LiveProp(writable: true, url: true)]
     public ?string $set = null;
 
-    #[LiveProp(writable: true)]
-    public ?string $category = null;
-
-    #[LiveProp(writable: true)]
-    public ?string $style = null;
-
-    #[LiveProp(writable: true)]
-    public ?string $size = null;
-
-    #[LiveProp(writable: true, url: true)]
-    public ?int $page = null;
+    // #[LiveProp(writable: true)]
+    // public ?string $category = null;
+    //
+    // #[LiveProp(writable: true)]
+    // public ?string $style = null;
+    //
+    // #[LiveProp(writable: true)]
+    // public ?string $size = null;
+    //
+    // #[LiveProp(writable: true, url: true)]
+    // public ?int $page = null;
 
     public function __construct(
         private readonly Iconify $iconify,
+        private readonly IconSetRepository $iconSetRepository,
     ) {
+    }
+
+    public function getIconSetOptionGroups(): array
+    {
+        $groups = [];
+        $groups['Favorites'] = [];
+        foreach ($this->iconSetRepository->findAll() as $iconSet) {
+            $category = $iconSet->getCategory() ?? IconSet::CATEGORY_UNCATEGORIZED;
+            $groups[$category] ??= [];
+
+            if ($iconSet->isFavorite()) {
+                $category = 'Favorites';
+            }
+
+            $groups[$category][$iconSet->getIdentifier()] = $iconSet->getName();
+        }
+        foreach ($groups as $category => $iconSets) {
+            asort($iconSets);
+            $groups[$category] = $iconSets;
+        }
+        return $groups;
     }
 
     public function icons(): array
@@ -59,12 +81,7 @@ class IconSearch
             }
         }
         if (!$this->query && $this->set) {
-            if (is_string($this->category)) {
-                $icons = $this->iconify->search('', $this->set, self::PER_PAGE, $this->category)['icons'];
-            }
-            else {
-                $icons = array_slice($this->iconify->collectionIcons($this->set), 0, self::PER_PAGE);
-            }
+            $icons = array_slice($this->iconify->collectionIcons($this->set), 0, self::PER_PAGE);
 
             $result = [];
             foreach ($icons as $icon) {

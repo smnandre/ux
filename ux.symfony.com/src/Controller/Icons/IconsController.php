@@ -16,10 +16,10 @@ use Symfony\Component\Routing\Attribute\Route;
 final class IconsController extends AbstractController
 {
     #[Route('/icons', name: 'app_icons')]
-    public function index(FavoriteIconSets $favoriteIconSets): Response
+    public function index(IconSetRepository $iconSetRepository): Response
     {
         return $this->render('icons/index.html.twig', [
-            'iconSets' => [...$favoriteIconSets],
+            'iconSets' => $iconSetRepository->findAllFavorites(6),
         ]);
     }
 

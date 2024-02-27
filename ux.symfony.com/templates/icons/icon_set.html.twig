@@ -60,19 +60,17 @@
         <twig:Icon:PrevNextIconSet iconSet="{{ iconSet }}" />
     </section>
 
-    <section class="mt-5">
-        <div class="container-fluid container-xxl px-4 px-md-5">
-            <p class="eyebrows" style="margin: 111px 0 0;">Packages</p>
-            <div class="d-md-flex justify-content-md-between text-center align-items-center text-md-start">
-                <h2 class="ubuntu pt-2 component-headlines">Popular <em class="rainbow-emphasis">Icon Sets</em></h2>
-                <a style="height: 100%;" class="btn btn-md btn-outline-primary mt-3 mt-md-0" href="{{ url('app_icon_sets') }}">
-                    Browse all Icon Sets
-                    <twig:Icon name="arrow-right" />
-                </a>
-            </div>
+    <div class="container-fluid container-xxl p-4 p-md-5">
+        <p class="eyebrows">Packages</p>
+        <div class="d-md-flex justify-content-md-between text-center align-items-center text-md-start">
+            <h2 class="ubuntu pt-2 component-headlines">Popular <em class="rainbow-emphasis">Icon Sets</em></h2>
+            <a style="height: 100%;" class="btn btn-md btn-outline-primary mt-3 mt-md-0" href="{{ url('app_icon_sets') }}">
+                Browse all Icon Sets
+                <twig:Icon name="arrow-right" />
+            </a>
         </div>
-        <twig:Icon:PrevNextIconSet iconSet="{{ iconSet }}" />
-    </section>
+        <twig:Icon:IconSetGrid  limit="3" samples="10" />
+    </div>
 
 {% endblock %}
 
