@@ -91,7 +91,7 @@ class IconSearch
             return $result;
         }
 
-        $icons = $this->iconify->search($this->query, $this->set, self::PER_PAGE, $this->category)['icons'];
+        $icons = $this->iconify->search($this->query, $this->set, self::PER_PAGE)['icons'];
 
         return array_map(
             fn (string $icon) => sprintf('https://api.iconify.design/%s.svg', str_replace(':', '/', $icon)),
