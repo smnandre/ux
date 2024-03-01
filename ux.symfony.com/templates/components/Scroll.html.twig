@@ -2,12 +2,10 @@
 
     <div id="results" style="display: flex; gap: 2rem; flex-direction: column;">
 
-        {% for i in 1..this.page %}
-            {% if i < this.page and i + 1 == this.page %}
-                <div class="grid" style="grid-template-columns: repeat(5, 1fr); gap: 1rem;" id="page--{{ i }}" data-live-ignore="true">
-                </div>
-            {% endif %}
-        {% endfor %}
+        {% if this.page > 1  %}
+            <div class="grid" style="grid-template-columns: repeat(5, 1fr); gap: 1rem;" id="page--{{ this.page - 1 }}" data-live-ignore="true">
+            </div>
+        {% endif %}
 
         <div class="grid" style="grid-template-columns: repeat(5, 1fr); gap: 1rem;" id="page--{{ this.page }}" data-live-ignore="true">
             {% for item in this.items %}
