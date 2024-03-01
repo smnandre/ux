@@ -1,8 +1,15 @@
 <div {{ attributes.defaults(stimulus_controller('scroll')) }}>
 
-    <div id="results" style="display: flex; gap: 2rem; flex-direction: column;">
+    <input type="text" name="query" id="search" class="form-control" data-model="query" data-action="live#$render" />
+
+    <div id="results--{{ this.query }}" style="display: flex; gap: 2rem; flex-direction: column;" >
 
         {% if this.page > 1  %}
+
+            {% if this.page > 5  %}
+                <div class="grid" style="grid-template-columns: repeat(5, 1fr); gap: 1rem;" id="page--{{ this.page - 4 }}"></div>
+            {% endif %}
+
             <div class="grid" style="grid-template-columns: repeat(5, 1fr); gap: 1rem;" id="page--{{ this.page - 1 }}" data-live-ignore="true">
             </div>
         {% endif %}
@@ -12,6 +19,7 @@
                 <div style="aspect-ratio: var(--ratio, 4/1); padding:1rem; display: flex; align-items: center; justify-content:space-between; background: rgb(0 0 0 / .25);">
                     <span style="align-self: end;">#{{ item.id }}</span>
                     <span style="font-size: 3rem;">{{ item.emoji }}</span>
+                    <span>{{ item.text }}</span>
                 </div>
             {% endfor %}
         </div>
