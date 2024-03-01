@@ -1,14 +1,67 @@
 {% extends 'liveDemoBase.html.twig' %}
 
 
+
+{% block content %}
+
+         <twig:Browser>
+            <twig:Scroll query="abc" style="--ratio: 1/2;" auto="true" />
+        </twig:Browser>
+
+
+    <section style="padding: 12rem;">
+        <div class="container-xl p-5">
+            <div style="width: 50%;margin-left: 50%">
+                <h2>Foo bar</h2>
+                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam aliquam at nisi a consequat.
+                    Proin mauris mauris, accumsan vel blandit eget, finibus vel nibh. Aliquam fermentum sem vitae
+                    tellus porttitor vestibulum ut in metus.</p>
+                <p>Curabitur ut mi id sapien ornare pretium eu ac sapien. Sed vel viverra ante. Pellentesque habitant
+                    morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi tincidunt magna arcu,
+                    sit amet auctor erat commodo eget.</p>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: #1a1d20; padding: 12rem;">
+        <div class="container-xl p-5">
+            <div style="width: 50%;margin-left: 50%">
+                <h2>Foo bar</h2>
+                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam aliquam at nisi a consequat.
+                    Proin mauris mauris, accumsan vel blandit eget, finibus vel nibh. Aliquam fermentum sem vitae
+                    tellus porttitor vestibulum ut in metus.</p>
+                <p>Curabitur ut mi id sapien ornare pretium eu ac sapien. Sed vel viverra ante. Pellentesque habitant
+                    morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi tincidunt magna arcu,
+                    sit amet auctor erat commodo eget.</p>
+            </div>
+        </div>
+    </section>
+
+    <section style="padding: 12rem;">
+        <div class="container-xl p-5">
+            <div style="width: 50%;margin-left: 50%">
+                <h2>Foo bar</h2>
+                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam aliquam at nisi a consequat.
+                    Proin mauris mauris, accumsan vel blandit eget, finibus vel nibh. Aliquam fermentum sem vitae
+                    tellus porttitor vestibulum ut in metus.</p>
+                <p>Curabitur ut mi id sapien ornare pretium eu ac sapien. Sed vel viverra ante. Pellentesque habitant
+                    morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi tincidunt magna arcu,
+                    sit amet auctor erat commodo eget.</p>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
 {% block demo_content %}
 
 
-    {% if app.request.query.get('auto') %}
-        <twig:Scroll query="abc" style="--ratio: 1/2;" auto="true" />
-    {% else %}
-        <twig:Scroll query="abc" />
-    {% endif %}
+
+{#    {% if app.request.query.get('auto') %}#}
+{#        <twig:Scroll query="abc" style="--ratio: 1/2;" auto="true" />#}
+{#    {% else %}#}
+{#        <twig:Scroll query="abc" />#}
+{#    {% endif %}#}
 
 
 {% endblock %}

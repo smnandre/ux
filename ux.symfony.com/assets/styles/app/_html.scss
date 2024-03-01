@@ -13,6 +13,11 @@ a, a.page-link, a.page-link:hover {
   color: inherit;
 }
 
+button {
+  border: none;
+  background: inherit;
+}
+
 ::selection {
   color: var(--bs-body-bg);
   background-color: var(--bs-body-color);

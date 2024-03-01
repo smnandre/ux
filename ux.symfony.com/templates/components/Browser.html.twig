@@ -1,0 +1,141 @@
+<div class="Browser " data-controller="browser">
+    <div class="Browser__header">
+        <div class="Browser__dots">
+            <button class="Browser__dot Browser__dot--red">
+                <span class="sr-only">Full screen</span>
+            </button>
+            <button class="Browser__dot Browser__dot--orange">
+                <span class="sr-only">??</span>
+            </button>
+            <button class="Browser__dot Browser__dot--green" data-action="browser#reduce">
+                <span class="sr-only">??</span>
+            </button>
+        </div>
+        <div class="Browser__url">
+            <twig:Icon name="lock" />
+            <span>
+                <span hidden>https://</span><em>ux.symfony.com</em><span hidden>/foo/bar</span>
+            </span>
+
+            <button class="Browser__action">
+                <twig:Icon name="refresh" />
+            </button>
+        </div>
+        <div class="Browser__actions">
+            <button class="Browser__action">
+                <twig:Icon name="arrow-left" />
+            </button>
+            <button class="Browser__action">
+                <twig:Icon name="circle-help" />
+            </button>
+            <button class="Browser__action">
+                <twig:Icon name="github" />
+            </button>
+        </div>
+    </div>
+    <div class="Browser__viewport">
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+
+
+<style>
+    .Browser {
+        border-radius: .5rem;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px #070707;
+        max-width: 1400px;
+        place-self: center;
+        margin-inline: auto;
+
+        transition: all 450ms linear;
+    }
+
+    .Browser--reduced {
+        z-index: 555;
+        position: fixed;
+        bottom: 3rem;
+        left: 3rem;
+        box-shadow: 0 0 2rem 1rem rgba(7, 7, 7, 0.52);
+        transform: scale(.75);
+    }
+
+
+    .Browser__header {
+        display: grid;
+        grid-template-areas: "left center right";
+        grid-template-columns: 1fr 3fr 1fr;
+        justify-content: space-between;
+        align-items: center;
+        padding: .5rem;
+        background-color: #191C1F;
+        border-bottom: 1px solid #070707;
+    }
+
+    .Browser__dots {
+        grid-area: left;
+        display: flex;
+        gap: .5rem;
+        padding-inline: .5rem;
+    }
+
+    .Browser__actions {
+        grid-area: right;
+        display: flex;
+        gap: .5rem;
+        flex-direction: row-reverse;
+    }
+
+    .Browser__action {
+        color: rgba(219, 219, 220, 0.7);
+    }
+
+    .Browser__url {
+        grid-area: center;
+        background-color: #0C0F12;
+        color: rgba(219, 219, 220, 0.7);
+        border-radius: .5rem;
+        font-size: .75rem;
+        width: auto;
+        padding: .25rem 1rem;
+        text-align: center;
+    }
+
+    .Browser__url em {
+        color: #DBDBDC;
+        font-style: normal;
+    }
+
+    .Browser__viewport {
+        width: 100%;
+        aspect-ratio: 16/10;
+        background-color: #38393A;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+    }
+
+    .Browser__dot {
+        height: .75rem;
+        width: .75rem;
+        border: none;
+        border-radius: 50%;
+        background-color: var(--dot-color, #000f);
+        box-shadow: 0 0 0 1px #070707;
+    }
+
+    .Browser__dot--red {
+        --dot-color: lch(42.76% 78.42 43);
+    }
+
+    .Browser__dot--orange {
+        --dot-color: lch(62.6% 72.82 64.92);
+    }
+
+    .Browser__dot--green {
+        --dot-color: lch(67.05% 83.27 137.66);
+    }
+
+
+</style>

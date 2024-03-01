@@ -1,6 +1,10 @@
 <div {{ attributes.defaults(stimulus_controller('scroll')) }}>
 
-    <input type="text" name="query" id="search" class="form-control" data-model="query" data-action="live#$render" />
+    <input type="text" name="query" id="search" class="form-control"
+           data-model="query"
+           data-action="live#action"
+           data-live-action-param="search"
+    />
 
     <div id="results--{{ this.query }}" style="display: flex; gap: 2rem; flex-direction: column;" >
 

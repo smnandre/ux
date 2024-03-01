@@ -24,7 +24,7 @@ class Scroll
     use ComponentToolsTrait;
     use DefaultActionTrait;
 
-    #[LiveProp(writable: true, onUpdated: 'onQueryUpdated')]
+    #[LiveProp(writable: true)]
     public string $query = '';
 
     #[LiveProp]
@@ -34,20 +34,15 @@ class Scroll
     public bool $auto = false;
 
     #[LiveAction]
+    public function search(): void
+    {
+        $this->page = 1;
+    }
+
+    #[LiveAction]
     public function more()
     {
         ++$this->page;
-    }
-
-    public function onQueryUpdated($previousValue): void
-    {
-        $this->emitSelf('QueryUpdated', ['query' => $this->query]);
-    }
-
-    #[LiveListener('QueryUpdated')]
-    public function reset(): void
-    {
-        $this->page = 1;
     }
 
     public function hasMore(): bool
