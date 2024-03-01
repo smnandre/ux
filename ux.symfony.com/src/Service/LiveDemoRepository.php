@@ -46,6 +46,15 @@ A Memorable Game UX with Live Components! Discover how to use Live Components to
 EOF,
             ),
             new LiveDemo(
+                'infinite-scroll',
+                name: 'Infinite Scroll',
+                description: 'Load more items as you scroll down the page.',
+                route: 'app_demo_live_component_scroll',
+                longDescription: <<<EOF
+Infinite scroll is a classic UX pattern. 
+EOF,
+            ),
+            new LiveDemo(
                 'form-collection-type',
                 name: 'Embedded CollectionType Form',
                 description: 'Create embedded forms with functional "add" and "remove" buttons all in Twig.',

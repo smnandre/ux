@@ -1,0 +1,14 @@
+{% extends 'liveDemoBase.html.twig' %}
+
+
+{% block demo_content %}
+
+
+    {% if app.request.query.get('auto') %}
+        <twig:Scroll query="abc" style="--ratio: 1/2;" auto="true" />
+    {% else %}
+        <twig:Scroll query="abc" />
+    {% endif %}
+
+
+{% endblock %}

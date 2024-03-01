@@ -32,6 +32,14 @@ class LiveComponentDemoController extends AbstractController
         return $this->redirectToRoute('app_demos');
     }
 
+    #[Route('/scroll', name: 'app_demo_live_component_scroll')]
+    public function scroll(LiveDemoRepository $liveDemoRepository): Response
+    {
+        return $this->render('demos/live_component/scroll.html.twig', [
+            'demo' => $liveDemoRepository->find('infinite-scroll'),
+        ]);
+    }
+
     #[Route('/auto-validating-form', name: 'app_demo_live_component_auto_validating_form')]
     public function demoAutoValidatingForm(LiveDemoRepository $liveDemoRepository): Response
     {

@@ -1,0 +1,31 @@
+<div {{ attributes.defaults(stimulus_controller('scroll')) }}>
+
+    <div id="results" style="display: flex; gap: 2rem; flex-direction: column;">
+
+        {% for i in 1..this.page %}
+            {% if i < this.page and i + 1 == this.page %}
+                <div class="grid" style="grid-template-columns: repeat(5, 1fr); gap: 1rem;" id="page--{{ i }}" data-live-ignore="true">
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        <div class="grid" style="grid-template-columns: repeat(5, 1fr); gap: 1rem;" id="page--{{ this.page }}" data-live-ignore="true">
+            {% for item in this.items %}
+                <div style="aspect-ratio: var(--ratio, 4/1); padding:1rem; display: flex; align-items: center; justify-content:space-between; background: rgb(0 0 0 / .25);">
+                    <span style="align-self: end;">#{{ item.id }}</span>
+                    <span style="font-size: 3rem;">{{ item.emoji }}</span>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if this.hasMore %}
+            <button data-action="live#action {{ this.auto ? 'appear->live#action' }}"
+                    data-live-action-param="more"
+                    data-scroll-target="loader"
+                    class="btn btn-primary">Load More (page {{ this.page + 1 }})</button>
+        {% endif %}
+
+    </div>
+
+
+</div>
