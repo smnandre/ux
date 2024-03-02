@@ -16,6 +16,7 @@ use Symfony\UX\Icons\IconRenderer;
 use Symfony\UX\Icons\Registry\CacheIconRegistry;
 use Symfony\UX\Icons\Registry\ChainIconRegistry;
 use Symfony\UX\Icons\Registry\LocalSvgIconRegistry;
+use Symfony\UX\Icons\Twig\IconExtractor;
 use Symfony\UX\Icons\Twig\IconFinder;
 use Symfony\UX\Icons\Twig\UXIconComponent;
 use Symfony\UX\Icons\Twig\UXIconComponentListener;
@@ -66,7 +67,15 @@ return static function (ContainerConfigurator $container): void {
         ->set('.ux_icons.twig_icon_finder', IconFinder::class)
             ->args([
                 service('twig'),
+                service('twig.template_iterator'),
             ])
+
+        ->set('.ux_icons.twig_icon_extractor', IconExtractor::class)
+            ->args([
+                service('twig'),
+                service('twig.template_iterator'),
+            ])
+            ->public()
 
         ->set('.ux_icons.command.warm_cache', WarmCacheCommand::class)
             ->args([

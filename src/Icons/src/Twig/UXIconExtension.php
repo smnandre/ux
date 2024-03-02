@@ -12,6 +12,7 @@
 namespace Symfony\UX\Icons\Twig;
 
 use Symfony\UX\Icons\IconRenderer;
+use Symfony\UX\Icons\Twig\NodeVisitor\IconExtractorNodeVisitor;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -22,10 +23,19 @@ use Twig\TwigFunction;
  */
 final class UXIconExtension extends AbstractExtension
 {
+    private ?IconExtractorNodeVisitor $iconExtractorNodeVisitor;
+
     public function getFunctions(): array
     {
         return [
             new TwigFunction('ux_icon', [IconRenderer::class, 'renderIcon'], ['is_safe' => ['html']]),
+        ];
+    }
+
+    public function getNodeVisitors(): array
+    {
+        return [
+            $this->iconExtractorNodeVisitor ??= new IconExtractorNodeVisitor(),
         ];
     }
 }
