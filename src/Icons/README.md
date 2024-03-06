@@ -1,4 +1,5 @@
-# Symfony UX Icons
+Symfony UX Icons
+================
 
 Tools for embedding SVG icons in your Twig templates.
 
@@ -16,6 +17,76 @@ Tools for embedding SVG icons in your Twig templates.
 ```bash
 composer require symfony/ux-icons
 ```
+
+TODO flex stuff
+
+Read following sections to learn how to use this package.
+
+TODO summary
+
+## ?? Icons 
+
+### SVG Files
+
+### Icon Names
+
+## Loading Icons
+
+TODO (your choice)
+
+### Local Icons
+
+TODO (directory tree)
+
+### Importing Icons
+
+TODO (import command)
+
+### On-Demand Icons
+
+TODO (iconify)
+
+### Finding Icons
+
+You can find icons on [ux.symfony.com/icons](https://ux.symfony.com/icons) and include them _on-demand_.
+
+TODO (image + metrics)
+
+## Rendering Icons
+
+### Twig Function
+
+TODO (twig syntax)
+
+### Twig Component 
+
+TODO (html syntax)
+
+### Custom Attributes
+
+TODO (pass attributes)
+
+### Default Attributes
+
+TODO (config)
+
+### Accessibility
+
+TODO (aria-label)
+
+## Performance
+
+### Caching
+
+### Twig Optimizations
+
+### Best Practices
+
+## Learn More
+
+* repo / support / etc
+
+
 
 ## Icons?
 
