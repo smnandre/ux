@@ -1,34 +1,48 @@
 .AppHeader {
   position: absolute;
-  top: 1rem; // TODO responsive
+  top: 0;
   left: 0;
   right: 0;
   z-index: 2;
+  background: rgb(0 0 0 / 0.95);
 
-  @media (min-width: 576px) {
-    top: 2rem;
-  }
-  @media (min-width: 768px) {
-    top: 3rem;
-  }
+  //@media (min-width: 576px) {
+  //  top: 2rem;
+  //}
+  //@media (min-width: 768px) {
+  //  top: 3rem;
+  //}
+
+  backdrop-filter: blur(3px) hue-rotate(-2deg);
+
+
 }
 
-.AppHeader {
-  --text-color: var(--bs-body-color);
-  color: var(--text-color);
-}
-.AppHeader--white {
-  --text-color: #fff;
+//.AppHeader {
+//  --text-color: var(--bs-body-color);
+//  color: var(--text-color);
+//}
+//.AppHeader--white {
+//  --text-color: #fff;
+//}
+
+.AppHeader__bar {
+  padding: 1rem 0;
 }
 
 .AppHeader_logo {
   --height: 2rem;
   height: var(--height);
   width: calc(161 / 30 * var(--height));
-  background: url(../images/sf-ux.svg);
+  background-image: url(../images/sf-ux.svg);
   background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
 
   transition: filter 250ms ease-in;
+  display: block;
+
+  aspect-ratio: 161 / 30;
 
   span {
     display: none;
@@ -44,6 +58,39 @@
   box-shadow: none;
 }
 
+.AppHeader_inner {
+  position: relative;
+}
+.AppHeader_logo {
+  padding: 1.5rem;
+}
+.AppHeader_toggler {
+  padding: 1rem;
+  font-size: 1.5rem;
+}
+
 .AppHeader_toggler {
   color: currentColor;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border:0;
+  background: none;
+}
+.AppHeader_menu {
+  padding: 2rem;
+  gap: 2rem;
+  display: grid;
+  grid-template-rows: 1fr;
+}
+.AppHeader_nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.AppHeader_more {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
