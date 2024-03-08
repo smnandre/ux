@@ -1,0 +1,22 @@
+.Card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: var(--bs-body-bg);
+  background-clip: border-box;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 1rem;
+}
+
+.Card-body {
+  padding: 1rem;
+}
+
+.Card-header {
+  border-radius:  1rem 1rem 0  0;
+  background: rgba(var(--bs-body-color-rgb), 0.03);
+  padding: .5rem 1rem;
+  margin: 0;
+}

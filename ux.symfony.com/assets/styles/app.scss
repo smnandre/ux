@@ -15,12 +15,33 @@
 @import "../../vendor/twbs/bootstrap/scss/maps";
 @import "../../vendor/twbs/bootstrap/scss/mixins";
 @import "../../vendor/twbs/bootstrap/scss/utilities";
+
+// Remove a lot of utilities
+$utilities: map-merge(
+  $utilities,
+  (
+    "float": null,
+  )
+);
+
+// Remove multiple utilities with a comma-separated list
+$utilities: map-remove($utilities, "float", "object-fit", "overflow");
+$utilities: map-remove($utilities, "border", "border-top", "border-end", "border-bottom", "border-start");
+$utilities: map-remove($utilities, "border-color", "border-width", "border-opacity");
+$utilities: map-remove($utilities, "width", "max-width", "height", "max-height");
+$utilities: map-remove($utilities, "position", "top", "end", "bottom", "start");
+$utilities: map-remove($utilities, "transform", "transform-origin", "scale", "rotate", "translate", "skew");
+
+
+
+
+
 @import "../../vendor/twbs/bootstrap/scss/root";
 
 // Layout & components
 @import "../../vendor/twbs/bootstrap/scss/reboot";
 @import "../../vendor/twbs/bootstrap/scss/type";
-@import "../../vendor/twbs/bootstrap/scss/images";
+// @import "../../vendor/twbs/bootstrap/scss/images";
 @import "../../vendor/twbs/bootstrap/scss/containers";
 @import "../../vendor/twbs/bootstrap/scss/grid";
 @import "../../vendor/twbs/bootstrap/scss/tables";
@@ -31,11 +52,11 @@
  @import "../../vendor/twbs/bootstrap/scss/button-group";
 @import "../../vendor/twbs/bootstrap/scss/nav";
 @import "../../vendor/twbs/bootstrap/scss/navbar";
-@import "../../vendor/twbs/bootstrap/scss/card";
+//@import "../../vendor/twbs/bootstrap/scss/card";
 // @import "../../vendor/twbs/bootstrap/scss/accordion";
 // @import "../../vendor/twbs/bootstrap/scss/breadcrumb";
-@import "../../vendor/twbs/bootstrap/scss/pagination";
-@import "../../vendor/twbs/bootstrap/scss/badge";
+// @import "../../vendor/twbs/bootstrap/scss/pagination";
+// @import "../../vendor/twbs/bootstrap/scss/badge";
 @import "../../vendor/twbs/bootstrap/scss/alert";
 // @import "../../vendor/twbs/bootstrap/scss/progress";
 // @import "../../vendor/twbs/bootstrap/scss/list-group";
@@ -65,6 +86,8 @@
 @import "layouts/section";
 
 // Components
+@import "components/Card";
+
 @import "components/DataList";
 @import "components/demo-container";
 @import "components/DemoCard";

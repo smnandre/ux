@@ -14,3 +14,72 @@
 .shadow-blur--rainbow {
   --gradient: linear-gradient(113.84deg, #D65831 0%, #D2D631 36.52%, #31D673 71.83%, #3aa3ff 100%)
 }
+
+
+
+
+
+shadow {
+  position: relative;
+}
+.shadow:before {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: var(--gradient, linear-gradient(-185deg, #60efff -40%, #00ff87 65% ));
+    transform: translate3d(-4px, 4px, 0) scale(0.84);
+    filter: blur(35px);
+    opacity: var(0.63);
+    transition: opacity 0.3s;
+    border-radius: inherit;
+}
+
+.shadow-rainbow {
+  --gradient: linear-gradient(113.84deg, #D65831 0%, #D2D631 36.52%, #31D673 71.83%, #3aa3ff 100%)
+}
+
+/*
+* Prevents issues when the parent creates a
+* stacking context. (For example, using the transform
+* property )
+*/
+.shadow::after {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: inherit;
+    border-radius: inherit;
+}
+
+
+.halo {
+  position: relative;
+}
+.halo::after {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    border-radius: inherit;
+}
+.halo::before {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    inset: 0;
+    background: var(--gradient, linear-gradient(-185deg, #60efff -40%, #00ff87 65%));
+    transform: translate3d(-4px, 4px, 0) scale(.9);
+    filter: blur(10px);
+    opacity: .75;
+    transition: opacity 0.3s;
+    border-radius: inherit;
+}
