@@ -124,8 +124,20 @@ This command looks in all your twig templates for ``ux_icon`` calls and caches t
 
     If using `symfony/asset-mapper`_, the cache is warmed automatically when running ``asset-map:compile``.
 
-Full Default Configuration
---------------------------
+Full Configuration Reference (UxIconsBundle)
+--------------------------------------------
+
+The UXIconsBundle integrates seamlessly in Symfony applications. All these
+options are configured under the ``ux_icons`` key in your application configuration.
+
+.. code-block:: terminal
+
+    # displays the default config values defined by Symfony
+    $ php bin/console config:dump-reference ux_icons
+
+    # displays the actual config values used by your application
+    $ php bin/console debug:config ux_icons
+
 
 .. code-block:: yaml
 
