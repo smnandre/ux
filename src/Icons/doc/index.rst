@@ -155,6 +155,26 @@ Rendering Icons
 
     {{ ux_icon('flowbite:user-solid') }} <!-- renders "flowbite:user-solid" from ux.symfony.com -->
 
+HTML Syntax
+~~~~~~~~~~~
+
+.. code-block:: html+twig
+
+    <twig:UX:Icon name="user-profile" />
+
+    {# Renders "user-profile.svg" #}
+    <twig:UX:Icon name="user-profile" class="w-4 h-4" />
+
+    {# Renders "sub-dir/user-profile.svg" (sub-directory) #}
+    <twig:UX:Icon name="sub-dir:user-profile" class="w-4 h-4" />
+
+    {# Renders "flowbite:user-solid" from ux.symfony.com #}
+    <twig:UX:Icon name="flowbite:user-solid" />
+
+.. note::
+
+    ``symfony/ux-twig-component`` is required to use the HTML syntax.
+
 HTML Attributes
 ~~~~~~~~~~~~~~~
 
@@ -191,27 +211,63 @@ Now, all icons will have the ``fill`` attribute set to ``currentColor`` by defau
     # renders "user-profile.svg" with fill="red"
     {{ ux_icon('user-profile', {fill: 'red'}) }}
 
+Accessibility
+-------------
 
-HTML Syntax
-~~~~~~~~~~~
+Icons are a great way to add visual elements to your website, but they can be a challenge
+for accessibility.
+
+According to the `W3C <https://design-system.w3.org/styles/svg-icons.html>`_, there are
+three methods to improve icons accessibility, depending on the context:
+
+    * **Decorative**: Icons that are purely decorative and do not convey any meaning or function.
+    * **Informative**: Icons that convey information or a function.
+    * **Functional**: Icons that are interactive and perform a function.
+
+Decorative Icons
+~~~~~~~~~~~~~~~~
+
+If the icon is purely decorative and does not convey any meaning or function, it should be
+hidden from screen readers using the ``aria-hidden`` attribute.
 
 .. code-block:: html+twig
 
-    <twig:UX:Icon name="user-profile" />
+    <a href="/profile">
+        {{ ux_icon('user-profile', {class: 'w-4 h-4', 'aria-hidden': true}) }}
+        Back to profile
+    </a>
 
-    {# Renders "user-profile.svg" #}
-    <twig:UX:Icon name="user-profile" class="w-4 h-4" />
+Informative Icons
+~~~~~~~~~~~~~~~~~
 
-    {# Renders "sub-dir/user-profile.svg" (sub-directory) #}
-    <twig:UX:Icon name="sub-dir:user-profile" class="w-4 h-4" />
+If the icon conveys information or a function, it should be given a text alternative that presents
+the same content or function, so that it can fulfill the same purpose.
 
-    {# Renders "flowbite:user-solid" from ux.symfony.com #}
-    <twig:UX:Icon name="flowbite:user-solid" />
+.. code-block:: html+twig
 
+    Today's weather:
+    {{ ux_icon('cloud-rain', {'aria-label': 'Rainy weather'}) }}
+
+Functional Icons
+~~~~~~~~~~~~~~~~
+
+If the icon is interactive and performs a function, it should be given a text alternative that
+presents the same content or function, so that it can fulfill the same purpose.
+
+.. code-block:: html+twig
+
+    {{ ux_icon('user-profile', {class: 'w-4 h-4', 'aria-label': 'User Profile'}) }}
 
 .. note::
 
-    ``symfony/ux-twig-component`` is required to use the HTML syntax.
+    The ``aria-label`` attribute is used to provide a label for the icon. It is read by
+    screen readers and other assistive technologies.
+
+.. note::
+
+    The ``aria-hidden`` attribute is used to hide the icon from screen readers and other
+    assistive technologies.
+
 
 
 Performances
