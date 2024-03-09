@@ -5,7 +5,7 @@ Renders local and remote SVG icons in your Twig templates.
 
 .. code-block:: html+twig
 
-    {{ ux_icon('mdi:symfony', {class: 'w-4 h-4'}) }}
+    {{ ux_icon('mdi:check', {class: 'w-4 h-4'}) }}
     {# or #}
     <twig:UX:Icon name="mdi:check" class="w-4 h-4" />
 
@@ -19,10 +19,60 @@ Installation
 
     $ composer require symfony/ux-icons
 
-Icons?
+Icons
 ------
 
-No icons are provided by this package but there are several ways to include and render icons.
+The ``symfony/ux-icons`` package aspires to offer simple and easy-to-use ways to
+handle SVG icons in your Symfony application.
+
+SVG Icons
+~~~~~~~~~
+
+[SVG](https://en.wikipedia.org/wiki/SVG) (Scalable Vector Graphics) is an XML-based
+vector image format. SVGs are a great way to add scalable, resolution-independent
+graphics to your website. They can be styled with CSS, combined, animated, reused..
+for a fraction of the file size of bitmap images.
+
+Making them the perfect choice for icons.
+
+
+Icon Sets
+~~~~~~~~~
+
+There are many icon sets available, each with their own unique style and set of icons.
+
+
+Icon identifiers
+~~~~~~~~~~~~~~~~
+
+In the UX Icons component, icons are referenced using an unique identifier that
+follows one of the following syntaxes:
+
+* ``prefix``:``name``  (e.g. ``mdi:check``, ``bi:check``, ``editor:align-left``)
+* ``name`` only (e.g. ``check``, ``close``, ``menu``)
+
+Icon Name
+^^^^^^^^^
+
+The ``name`` is the... name of the icon, without the file extension (e.g. ``check``).
+
+.. caution::
+
+    The name must match a standard ``slug`` format: ``[a-z0-9-]+(-[0-9a-z])+``.
+
+Icon Prefix
+^^^^^^^^^^^
+
+Depending on your configuration, the ``prefix`` can be the name of an icon set,  a directory
+where the icon is located, or a combination of both.
+
+
+For example, the `bi` prefix refers to the Bootstrap Icons set, while the `header` prefix
+refers to the icons located in the `header` directory.
+
+
+Loading Icons
+-------------
 
 Local SVG Icons
 ~~~~~~~~~~~~~~~
@@ -30,6 +80,23 @@ Local SVG Icons
 Add your svg icons to the ``assets/icons/`` directory and commit them.
 The name of the file is used as the _name_ of the icon (``name.svg`` will be named ``name``).
 If located in a subdirectory, the _name_ will be ``sub-dir:name``.
+
+.. code-block:: text
+
+    your-project/
+    ├─ assets/
+    │  └─ icons/
+    │     ├─ bi/
+    │     │  └─ pause-circle.svg
+    │     │  └─ play-circle.svg
+    │     ├─ header/
+    │     │  ├─ logo.svg
+    │     │  └─ menu.svg
+    │     ├─ close.svg
+    │     ├─ menu.svg
+    │     └─ ...
+    └─ ...
+
 
 Icons On-Demand
 ~~~~~~~~~~~~~~~
@@ -39,7 +106,7 @@ from many different sets. This package provides a way to include any icon found 
 
 1. Visit `ux.symfony.com/icons`_ and search for an icon
    you'd like to use. Once you find one you like, copy one of the code snippets provided.
-2. Paste the snippet into your twig template and the icon will be automatically fetched (and cached).
+2. Paste the snippet into your Twig template and the icon will be automatically fetched (and cached).
 3. That's it!
 
 This works by using the `Iconify`_ API (to which `ux.symfony.com/icons`_
@@ -76,8 +143,9 @@ in the future. Additionally, the cache warming process will take significantly l
 many _on-demand_ icons. You can think of importing the icon as *locking it* (similar to how
 ``composer.lock`` _locks_ your dependencies).
 
-Usage
------
+
+Rendering Icons
+---------------
 
 .. code-block:: html+twig
 
@@ -87,23 +155,74 @@ Usage
 
     {{ ux_icon('flowbite:user-solid') }} <!-- renders "flowbite:user-solid" from ux.symfony.com -->
 
+HTML Attributes
+~~~~~~~~~~~~~~~
+
+The second argument of the ``ux_icon`` function is an array of attributes to add to the icon.
+
+.. code-block:: twig
+
+    {# renders "user-profile.svg" with class="w-4 h-4" #}
+    {{ ux_icon('user-profile', {class: 'w-4 h-4'}) }}
+
+    {# renders "user-profile.svg" with class="w-4 h-4" and aria-hidden="true" #}
+    {{ ux_icon('user-profile', {class: 'w-4 h-4', 'aria-hidden': true}) }}
+
+Default Attributes
+~~~~~~~~~~~~~~~~~~
+
+You can set default attributes for all icons in your configuration. These attributes will be
+added to all icons unless overridden by the second argument of the ``ux_icon`` function.
+
+.. code-block:: yaml
+
+    # config/packages/ux_icons.yaml
+    ux_icons:
+        default_icon_attributes:
+            fill: currentColor
+
+Now, all icons will have the ``fill`` attribute set to ``currentColor`` by default.
+
+.. code-block:: twig
+
+    # renders "user-profile.svg" with fill="currentColor"
+    {{ ux_icon('user-profile') }}
+
+    # renders "user-profile.svg" with fill="red"
+    {{ ux_icon('user-profile', {fill: 'red'}) }}
+
+
 HTML Syntax
 ~~~~~~~~~~~
+
+.. code-block:: html+twig
+
+    <twig:UX:Icon name="user-profile" />
+
+    {# Renders "user-profile.svg" #}
+    <twig:UX:Icon name="user-profile" class="w-4 h-4" />
+
+    {# Renders "sub-dir/user-profile.svg" (sub-directory) #}
+    <twig:UX:Icon name="sub-dir:user-profile" class="w-4 h-4" />
+
+    {# Renders "flowbite:user-solid" from ux.symfony.com #}
+    <twig:UX:Icon name="flowbite:user-solid" />
+
 
 .. note::
 
     ``symfony/ux-twig-component`` is required to use the HTML syntax.
 
-.. code-block:: html
 
-    <twig:UX:Icon name="user-profile" class="w-4 h-4" /> <!-- renders "user-profile.svg" -->
+Performances
+------------
 
-    <twig:UX:Icon name="sub-dir:user-profile" class="w-4 h-4" /> <!-- renders "sub-dir/user-profile.svg" (sub-directory) -->
+The UXIcon component is designed to be as fast as possible, while offering a
+great deal of flexibility. The following are some of the optimizations made to
+ensure the best performance possible.
 
-    <twig:UX:Icon name="flowbite:user-solid" /> <!-- renders "flowbite:user-solid" from ux.symfony.com -->
-
-Caching
--------
+Icon Caching
+~~~~~~~~~~~~
 
 To avoid having to parse icon files on every request, icons are cached.
 
@@ -113,7 +232,7 @@ In production, you can pre-warm the cache by running the following command:
 
     $ php bin/console ux:icons:warm-cache
 
-This command looks in all your twig templates for ``ux_icon`` calls and caches the icons it finds.
+This command looks in all your Twig templates for ``ux_icon`` calls and caches the icons it finds.
 
 .. note::
 
@@ -124,20 +243,55 @@ This command looks in all your twig templates for ``ux_icon`` calls and caches t
 
     If using `symfony/asset-mapper`_, the cache is warmed automatically when running ``asset-map:compile``.
 
-Full Configuration Reference (UxIconsBundle)
---------------------------------------------
+TwigComponent
+~~~~~~~~~~~~~
 
-The UXIconsBundle integrates seamlessly in Symfony applications. All these
-options are configured under the ``ux_icons`` key in your application configuration.
+The ``ux_icon`` function is optimized to be as fast as possible. To deliver the same level
+of performance with the TwigComponent (``<twig:UX:Icon name="..." />``), the TwigComponent
+usual overhead is reduced to the bare minimum, immediately calling the IconRenderer and
+returning the HTML output.
+
+.. warning::
+
+    The <twig:UX:Icon> component does not support embedded content.
+
+    .. code-block:: twig+html
+
+        {# The 🧸 will be ignore in the HTML output #}
+        <twig:UX:Icon name="user-profile" class="w-4 h-4">🧸</twig:UX:Icon>
+
+        {# Renders "user-profile.svg" #}
+        <svg viewBox="0 0 24 24" class="w-4 h-4">
+            <path fill="currentColor" d="M21 7L9 19l-5.5-5.5l1.41-1.41L9 16.17L19.59 5.59z"/>
+        </svg>
+
+
+Configuration
+-------------
+
+The UXIcon integrates seamlessly in Symfony applications. All these options are configured under
+the ``ux_icons`` key in your application configuration.
+
+.. code-block:: yaml
+
+    # config/packages/ux_icons.yaml
+    ux_icons:
+        {# ... #}
+
+
+Debugging Configuration
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: terminal
 
-    # displays the default config values defined by Symfony
+    # Displays the default config values
     $ php bin/console config:dump-reference ux_icons
 
-    # displays the actual config values used by your application
+    # Displays the actual config values used by your application
     $ php bin/console debug:config ux_icons
 
+Full Configuration
+~~~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
@@ -156,6 +310,12 @@ options are configured under the ``ux_icons`` key in your application configurat
 
            # The endpoint for the Iconify API.
            endpoint:             'https://api.iconify.design'
+
+Learn more
+----------
+
+* :doc:`Creating and Using Templates </templates>`
+* :doc:`How to manage CSS and JavaScript assets in Symfony applications </frontend>`
 
 .. _`ux.symfony.com/icons`: https://ux.symfony.com/icons
 .. _`Iconify`: https://iconify.design
