@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use Symfony\UX\Icons\Command\DebugCommand;
+use Symfony\UX\Icons\Command\SearchIconCommand;
 use Symfony\UX\Icons\Command\WarmCacheCommand;
 use Symfony\UX\Icons\IconCacheWarmer;
 use Symfony\UX\Icons\IconRenderer;
@@ -64,6 +66,14 @@ return static function (ContainerConfigurator $container): void {
         ->set('.ux_icons.command.warm_cache', WarmCacheCommand::class)
             ->args([
                 service('.ux_icons.cache_warmer'),
+            ])
+            ->tag('console.command')
+
+        ->set('.ux_icons.command.debug', DebugCommand::class)
+            ->args([
+                service('.ux_icons.icon_registry'),
+                service('.ux_icons.iconify'),
+
             ])
             ->tag('console.command')
     ;

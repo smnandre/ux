@@ -103,7 +103,12 @@ final class UXIconsExtension extends ConfigurableExtension implements Configurat
             }
         }
 
+        $container->getDefinition('.ux_icons.command.debug')
+            ->setArgument(1, $mergedConfig['default_icon_attributes'])
+        ;
+
         if (!$container->getParameter('kernel.debug')) {
+            $container->removeDefinition('.ux_icons.command.debug');
             $container->removeDefinition('.ux_icons.command.import');
         }
     }
