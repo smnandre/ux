@@ -266,8 +266,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->userUpdatesProps(['firstName' => 'Kevin'])
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertSame('Kevin', $object->firstName);
-                })
-            ;
+                });
         }];
 
         yield 'float: precision change to the frontend works ok' => [function () {
@@ -285,8 +284,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->assertDehydratesTo(['price' => 123.00])
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertSame(123.00, $object->price);
-                })
-            ;
+                });
         }];
 
         yield 'DateTime: (de)hydrates correctly' => [function () {
@@ -303,8 +301,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                         $date->format('U'),
                         $object->createdAt->format('U')
                     );
-                })
-            ;
+                });
         }];
 
         yield 'Persisted entity: (de)hydration works correctly to/from id' => [function () {
@@ -322,8 +319,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                         $entity1->id,
                         $object->entity1->id
                     );
-                })
-            ;
+                });
         }];
 
         yield 'Persisted entity: writable CAN be changed via id' => [function () {
@@ -343,8 +339,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                         $entityNext->id,
                         $object->entity1->id
                     );
-                })
-            ;
+                });
         }];
 
         yield 'Persisted entity: writable (via IDENTITY constant) CAN be changed via id' => [function () {
@@ -364,8 +359,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                         $entityNext->id,
                         $object->entity1->id
                     );
-                })
-            ;
+                });
         }];
 
         yield 'Persisted entity: non-writable identity but with writable paths updates correctly' => [function () {
@@ -394,8 +388,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                         'real chicken',
                         $object->product->name
                     );
-                })
-            ;
+                });
         }];
 
         yield 'Persisted entity: deleting entity between dehydration and hydration sets it to null' => [function () {
@@ -414,8 +407,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                     self::assertNull(
                         $object->product
                     );
-                })
-            ;
+                });
         }];
 
         yield 'Persisted entity: with custom_normalizer and embeddable (de)hydrates correctly' => [function () {
@@ -434,8 +426,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                     self::assertSame($entity2->id, $object->entity2->id);
                     self::assertSame('bar', $object->entity2->embedded1->name);
                     self::assertSame('baz', $object->entity2->embedded2->name);
-                })
-            ;
+                });
         }];
 
         yield 'Non-Persisted entity: non-writable (de)hydrates correctly' => [function () {
@@ -463,8 +454,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                     self::assertSame('', $object->product->name);
                     // from the writable path sent by the user
                     self::assertSame(1000, $object->product->price);
-                })
-            ;
+                });
         }];
 
         yield 'Index array: (de)hydrates correctly' => [function () {
@@ -479,8 +469,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                         ['banana', 'popcorn'],
                         $object->foods
                     );
-                })
-            ;
+                });
         }];
 
         yield 'Index array: writable allows all keys to change' => [function () {
@@ -497,8 +486,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                         ['apple', 'chips'],
                         $object->foods
                     );
-                })
-            ;
+                });
         }];
 
         yield 'Associative array: (de)hyrates correctly' => [function () {
@@ -613,12 +601,12 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertSame(
                         [
-                        'number' => '456',
-                        'lineItems' => [
-                            ['name' => 'item1', 'quantity' => 5, 'price' => 100],
-                            ['name' => 'item2', 'quantity' => 2, 'price' => 300],
-                            ['name' => 'item3_updated', 'quantity' => 2, 'price' => 2000],
-                        ]],
+                            'number' => '456',
+                            'lineItems' => [
+                                ['name' => 'item1', 'quantity' => 5, 'price' => 100],
+                                ['name' => 'item2', 'quantity' => 2, 'price' => 300],
+                                ['name' => 'item3_updated', 'quantity' => 2, 'price' => 2000],
+                            ]],
                         $object->formData
                     );
                 });
@@ -699,8 +687,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                         'key1' => 'changed key1',
                         'key2' => 'baz',
                     ]], $object->stuff);
-                })
-            ;
+                });
         }];
 
         yield 'Associative array: a writable path can itself be an array' => [function () {
@@ -727,8 +714,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                         'key1' => 'changed key1',
                         'new_key' => 'new value',
                     ]], $object->stuff);
-                })
-            ;
+                });
         }];
 
         yield 'Empty array: (de)hydrates correctly' => [function () {
@@ -743,8 +729,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                         [],
                         $object->foods
                     );
-                })
-            ;
+                });
         }];
 
         yield 'Array with objects: (de)hydrates correctly' => [function () {
@@ -772,8 +757,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                         'item3',
                         $object->products[2]->name
                     );
-                })
-            ;
+                });
         }];
 
         yield 'Enum: null remains null' => [function () {
@@ -789,8 +773,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertNull($object->int);
                     self::assertNull($object->string);
-                })
-            ;
+                });
         }, 80100];
 
         yield 'Enum: (de)hydrates correctly' => [function () {
@@ -808,8 +791,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                     self::assertSame(10, $object->int->value);
                     self::assertInstanceOf(StringEnum::class, $object->string);
                     self::assertSame('active', $object->string->value);
-                })
-            ;
+                });
         }, 80100];
 
         yield 'Enum: writable enums can be changed' => [function () {
@@ -821,8 +803,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->userUpdatesProps(['int' => 1])
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertSame(1, $object->int->value);
-                })
-            ;
+                });
         }, 80100];
 
         yield 'Enum: null-like enum values are handled correctly' => [function () {
@@ -851,8 +832,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                     self::assertSame(ZeroIntEnum::ZERO, $object->zeroInt);
                     self::assertSame(ZeroIntEnum::ZERO, $object->zeroInt2);
                     self::assertSame(EmptyStringEnum::EMPTY, $object->emptyString);
-                })
-            ;
+                });
         }, 80100];
 
         yield 'Enum: nullable enum with invalid value sets to null' => [function () {
@@ -865,8 +845,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->userUpdatesProps(['int' => 99999])
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertNull($object->int);
-                })
-            ;
+                });
         }, 80100];
 
         yield 'Object: (de)hydrates DTO correctly' => [function () {
@@ -892,8 +871,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertSame($object->address->address, '4 rue des lilas');
                     self::assertSame($object->address->city, 'Asnieres');
-                })
-            ;
+                });
         }];
 
         yield 'Object: (de)hydrates correctly multidementional DTO' => [function () {
@@ -1010,8 +988,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertSame(500, $object->money->amount);
                     self::assertSame('CAD', $object->money->currency);
-                })
-            ;
+                });
         }];
 
         yield 'Object: dehydrates to array works correctly' => [function () {
@@ -1029,8 +1006,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertSame(30, $object->temperature->degrees);
                     self::assertSame('C', $object->temperature->uom);
-                })
-            ;
+                });
         }];
 
         yield 'Collection: using serializer (de)hydrates correctly' => [function () {
@@ -1065,8 +1041,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                     self::assertSame(20, $object->temperatures[1]->degrees);
                     self::assertSame('C', $object->temperatures[1]->uom);
                     self::assertSame(['foo', 'bar'], $object->tags);
-                })
-            ;
+                });
         }];
 
         yield 'Updating non-writable path is rejected' => [function () {
@@ -1082,8 +1057,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->userUpdatesProps([
                     'product.name' => 'will cause an explosion',
                 ])
-                ->expectsExceptionDuringHydration(HydrationException::class, '/The model "product\.name" was sent for update, but it is not writable\. Try adding "writable\: \[\'name\'\]" to the \$product property in/')
-            ;
+                ->expectsExceptionDuringHydration(HydrationException::class, '/The model "product\.name" was sent for update, but it is not writable\. Try adding "writable\: \[\'name\'\]" to the \$product property in/');
         }];
 
         yield 'Updating non-writable property is rejected' => [function () {
@@ -1095,8 +1069,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->userUpdatesProps([
                     'name' => 'will cause an explosion',
                 ])
-                ->expectsExceptionDuringHydration(HydrationException::class, '/The model "name" was sent for update, but it is not writable\. Try adding "writable\: true" to the \$name property in/')
-            ;
+                ->expectsExceptionDuringHydration(HydrationException::class, '/The model "name" was sent for update, but it is not writable\. Try adding "writable\: true" to the \$name property in/');
         }];
 
         yield 'Context: Pass (de)normalization context' => [function () {
@@ -1131,8 +1104,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                     self::assertSame('the_body', $object->blogPost->body);
                     // price wasn't even sent, so it's null
                     self::assertSame(0, $object->blogPost->price);
-                })
-            ;
+                });
         }];
 
         yield 'It is valid to dehydrate to a fully-writable array' => [function () {
@@ -1163,18 +1135,17 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 }
             })
                 ->mountWith([
-                   'createdAt' => new \DateTime('2023-03-05 9:23', new \DateTimeZone('America/New_York')),
-               ])
+                    'createdAt' => new \DateTime('2023-03-05 9:23', new \DateTimeZone('America/New_York')),
+                ])
                 ->assertDehydratesTo([
-                   'createdAt' => ['year' => 2023, 'month' => 3, 'day' => 5],
-               ])
+                    'createdAt' => ['year' => 2023, 'month' => 3, 'day' => 5],
+                ])
                 ->userUpdatesProps([
-                   'createdAt' => ['year' => 2024, 'month' => 4, 'day' => 5],
-               ])
+                    'createdAt' => ['year' => 2024, 'month' => 4, 'day' => 5],
+                ])
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertSame('2024-04-05', $object->createdAt->format('Y-m-d'));
-                })
-            ;
+                });
         }];
 
         yield 'Use the format option to control the date format' => [function () {
@@ -1188,18 +1159,17 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 }
             })
                 ->mountWith([
-                   'createdAt' => new \DateTime('2023-03-05 9:23', new \DateTimeZone('America/New_York')),
-               ])
+                    'createdAt' => new \DateTime('2023-03-05 9:23', new \DateTimeZone('America/New_York')),
+                ])
                 ->assertDehydratesTo([
-                   'createdAt' => '2023. 03. 05.',
-               ])
+                    'createdAt' => '2023. 03. 05.',
+                ])
                 ->userUpdatesProps([
-                   'createdAt' => '2024. 04. 06.',
-               ])
+                    'createdAt' => '2024. 04. 06.',
+                ])
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertSame('2024. 04. 06.', $object->createdAt->format('Y. m. d.'));
-                })
-            ;
+                });
         }];
 
         yield 'Uses LiveProp modifiers on component dehydration' => [function () {
@@ -1245,8 +1215,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertEquals('bar', $object->search);
                     self::assertEquals('2024-02-25', $object->date->format('Y-m-d'));
-                })
-            ;
+                });
         }];
     }
 
@@ -1273,8 +1242,7 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ])
                 ->userUpdatesProps([
                     'createdAt' => '0', // <-- invalid date
-                ])
-            ;
+                ]);
         });
     }
 
