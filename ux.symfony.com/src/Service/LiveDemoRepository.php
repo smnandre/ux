@@ -44,7 +44,18 @@ EOF,
 Infinite scroll allows users to continuously load content as they scroll down the page.
 <br><code>Part One</code> of this demo shows how to <code>append new items</code> to the page with a <a href="/live-component"><code>LiveComponent</code></a>.
 EOF,
-                tags: ['pattern', 'pagination', 'navigation'],
+                tags: ['grid', 'pagination', 'navigation'],
+            ),
+            new LiveDemo(
+                'infinite-scroll-2',
+                name: 'Infinite Scroll - 2/2',
+                description: 'Load more items as you scroll down the page.',
+                route: 'app_demo_live_component_infinite_scroll_2',
+                longDescription: <<<EOF
+Infinite scroll allows users to continuously load content as they scroll down the page.
+<br><code>Part One</code> of this demo shows how to <code>append new items</code> to the page with a <a href="/live-component"><code>LiveComponent</code></a>.
+EOF,
+                tags: ['grid', 'pagination', 'loading', 'scroll'],
             ),
             new LiveDemo(
                 'live-memory',

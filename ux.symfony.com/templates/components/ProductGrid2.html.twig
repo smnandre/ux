@@ -1,0 +1,79 @@
+<div class="ProductGrid" {{ attributes.defaults(stimulus_controller('appear')) }}>
+
+{#    <div id="filters" class="ProductGrid_header">#}
+{#        <input type="range" step="1" min="0" max="60" name="hue" data-model="hue" value="{{ hue }}" />#}
+{#    </div>#}
+
+    <div id="results--{{ hue }}" style="display: flex; gap: 1rem; flex-direction: column;" class="p-4">
+        <div class="ProductGrid_items" id="hasss--{{ hue }}">
+            {# 🐯 #}
+            {# TODO LOREM #}
+            {% if page > 1 %}
+                <article id="item--{{ page - 1 }}-{{ per_page }}"></article>
+            {% endif %}
+
+            {% for item in this.items %}
+                {# 🦊 #}
+                {# TODO #}
+                <article  id="item--{{ page }}-{{ loop.index }}" data-live-ignore
+                    class="ProductGrid_item" style="--i: {{ item.id }};">
+                    <div class="ProductGrid_media">
+                        <svg><use href="#svg-tshirt"/></svg>
+                        <span>{{ item.emoji }}</span>
+                    </div>
+                    <data class="ProductGrid_price" value="{{ item.id + 0.99 }}">
+                        {{ item.id }}<small>.99</small>
+                    </data>
+                </article>
+            {% endfor %}
+
+            {% if this.hasMore %}
+                {% for i in 1..per_page %}
+                    <div id="item--{{ page + 1 }}-{{ i }}"
+                        class="ProductGrid_item" style="--i: {{ (page * per_page) + i - 1 }};"
+                          {% if loop.first %}
+                              data-appear-target="loader"
+                              data-action="appear->live#action"
+                              data-live-action-param="debounce(1200)|more"
+                          {% endif %}
+                    >
+                        <div class="ProductGrid_media">
+                            <svg><use href="#svg-tshirt"/></svg>
+                        </div>
+                        <span class="ProductGrid_price">
+                            <span class="ProductGrid_loader" style="--delay: {{ (loop.index + 1) / per_page }};"></span>
+                        </span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        {% if not this.hasMore %}
+            <div style="display: grid; place-content: center;padding-block: 2rem;">
+                <span class="code">The End</span>
+            </div>
+        {% endif %}
+    </div>
+
+    {# Custom style - Retro TShirt  #}
+    <style>
+      .ProductGrid_item {
+        --color: hsl(calc(var(--i)*{{ this.hue }}deg + 200deg), 77%, 80%);
+      }}
+      .ProductGrid_media span {
+        top: 20%;
+        font-size: 3rem;
+        display: grid;
+        background: #260a0a42;
+        width: 3.5rem;
+        height: 3.5rem;
+        place-content: center;
+        border-radius: 50%;
+        filter: brightness(1.5) contrast(1);
+        border: 3px solid #fff4;
+        box-shadow: 0 0 0 .5px #0006;
+        mix-blend-mode: luminosity;
+      }
+    </style>
+
+</div>
