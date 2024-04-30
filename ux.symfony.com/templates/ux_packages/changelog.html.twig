@@ -1,0 +1,37 @@
+{% extends 'ux_packages/package.html.twig' %}
+
+{% block package_header %}
+    <twig:PackageHeader package="{{ package.name }}" />
+{% endblock %}
+
+{% block package_content %}
+
+    <nav>
+        <div class="container-xl">
+            {% for _version in versions|slice(0, 7) %}
+                <a href="{{ path('app_ux_package_changelog', { 'ux_package': package.name, 'version': _version }) }}" class="btn btn-secondary">
+                    {{ _version }}
+                </a>
+            {% endfor %}
+        </div>
+    </nav>
+
+    <div class="container-xxl">
+        {% for _version, changes in changelog %}
+            {% if (version ?? _version) == _version %}
+                <article>
+                    <h2>{{ _version }}</h2>
+                    {% apply markdown_to_html %}
+                        {{ changes }}
+                    {% endapply %}
+                </article>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+
+
+{% block package_install %}{% endblock %}
+
