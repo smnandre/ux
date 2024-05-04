@@ -19,4 +19,6 @@ class CodeWithExplanationRow
     public string $filename;
 
     public bool $reversed = false;
+
+    public ?string $targetTwigBlock = null;
 }

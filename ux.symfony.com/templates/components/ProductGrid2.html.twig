@@ -1,9 +1,5 @@
 <div class="ProductGrid" {{ attributes.defaults(stimulus_controller('appear')) }}>
 
-{#    <div id="filters" class="ProductGrid_header">#}
-{#        <input type="range" step="1" min="0" max="60" name="hue" data-model="hue" value="{{ hue }}" />#}
-{#    </div>#}
-
     <div id="results--{{ hue }}" style="display: flex; gap: 1rem; flex-direction: column;" class="p-4">
         <div class="ProductGrid_items" id="hasss--{{ hue }}">
             {# 🐯 #}
@@ -27,6 +23,8 @@
                 </article>
             {% endfor %}
 
+            {% block hasMore %}
+
             {% if this.hasMore %}
                 {% for i in 1..per_page %}
                     <div id="item--{{ page + 1 }}-{{ i }}"
@@ -46,6 +44,9 @@
                     </div>
                 {% endfor %}
             {% endif %}
+
+            {% endblock %}
+
         </div>
 
         {% if not this.hasMore %}
@@ -55,11 +56,11 @@
         {% endif %}
     </div>
 
-    {# Custom style - Retro TShirt  #}
+    {# Custom style - Retro TShirt #}
     <style>
       .ProductGrid_item {
         --color: hsl(calc(var(--i)*{{ this.hue }}deg + 200deg), 77%, 80%);
-      }}
+      }
       .ProductGrid_media span {
         top: 20%;
         font-size: 3rem;

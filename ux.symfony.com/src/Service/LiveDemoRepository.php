@@ -22,18 +22,15 @@ class LiveDemoRepository
     {
         return [
             new LiveDemo(
-                'auto-validating-form',
-                name: 'Auto-Validating Form',
-                description: 'Create a form that validates each field in-real-time as the user enters data!',
-                route: 'app_demo_live_component_auto_validating_form',
+                'infinite-scroll-2',
+                name: 'Infinite Scroll - 2/2',
+                description: 'Load more items as you scroll down the page.',
+                route: 'app_demo_live_component_infinite_scroll_2',
                 longDescription: <<<EOF
-Enter a bad email or leave the password empty, and see how the
-form validates in real time!
-<br>
-This renders a normal Symfony form but with extras added on top,
-all generated from Symfony & Twig.
+Infinite scroll allows users to continuously load content as they scroll down the page.
+<br><code>Part One</code> of this demo shows how to <code>append new items</code> to the page with a <a href="/live-component"><code>LiveComponent</code></a>.
 EOF,
-                tags: ['form', 'validation', 'inline'],
+                tags: ['grid', 'pagination', 'loading', 'scroll'],
             ),
             new LiveDemo(
                 'infinite-scroll',
@@ -47,17 +44,6 @@ EOF,
                 tags: ['grid', 'pagination', 'navigation'],
             ),
             new LiveDemo(
-                'infinite-scroll-2',
-                name: 'Infinite Scroll - 2/2',
-                description: 'Load more items as you scroll down the page.',
-                route: 'app_demo_live_component_infinite_scroll_2',
-                longDescription: <<<EOF
-Infinite scroll allows users to continuously load content as they scroll down the page.
-<br><code>Part One</code> of this demo shows how to <code>append new items</code> to the page with a <a href="/live-component"><code>LiveComponent</code></a>.
-EOF,
-                tags: ['grid', 'pagination', 'loading', 'scroll'],
-            ),
-            new LiveDemo(
                 'live-memory',
                 name: 'LiveMemory Card Game',
                 description: 'A Memorable Game UX with Live Components!',
@@ -68,6 +54,20 @@ A Memorable Game UX with Live Components! Discover how to use Live Components to
   learn how to use them to create a fun and engaging game.
 EOF,
                 tags: ['game', 'time', 'events', 'LiveAction'],
+            ),
+            new LiveDemo(
+                'auto-validating-form',
+                name: 'Auto-Validating Form',
+                description: 'Create a form that validates each field in-real-time as the user enters data!',
+                route: 'app_demo_live_component_auto_validating_form',
+                longDescription: <<<EOF
+Enter a bad email or leave the password empty, and see how the
+form validates in real time!
+<br>
+This renders a normal Symfony form but with extras added on top,
+all generated from Symfony & Twig.
+EOF,
+                tags: ['form', 'validation', 'inline'],
             ),
             new LiveDemo(
                 'form-collection-type',

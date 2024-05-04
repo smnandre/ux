@@ -26,32 +26,24 @@
         </twig:Browser>
     </div>
 
-    <section class="py-5" style="padding-top: 6rem;">
+    <section class="pb-5" >
         <div class="container container-xxl" style="--bs-gutter-x: 4rem;">
-            <twig:CodeWithExplanationRow filename="src/Twig/ProductGrid2.php" reversed>
-This component is quite standard: the page number as a `LiveProp`, a `LiveAction`
-to load the next page, and a `getItems` method to retrieve the page results.
+            <twig:CodeWithExplanationRow filename="assets/controllers/appear-controller.js" reversed>
 
-When called, the `LiveAction` simply increments the page number and renders again,
-displaying the next page of results.
+<h2>Infinite Scroll with LiveComponent</h2>
 
-But... how can we `keep` the previous results instead of `replacing` them?
+TODO TODO TODO
             </twig:CodeWithExplanationRow>
         </div>
     </section>
 
-    <section class="py-5">
+    <section class="pb-3">
         <div class="container container-xxl" style="--bs-gutter-x: 4rem;">
-            <twig:CodeWithExplanationRow filename="templates/components/ProductGrid2.html.twig">
-The solution involves the use of `data-live-ignore` attributes, and just a little
-bit of trickery in the `ProductGrid` component.
+            <twig:CodeWithExplanationRow filename="templates/components/ProductGrid2.html.twig" targetTwigBlock="hasMore">
 
-You just need to simulate the presence of the previous results in the HTML. The
-empty `div` with the `data-live-ignore` attribute and previous page id (under the 🦊)
-is enough to trick the `LiveComponent` into thinking that the previous results
-are still there, and cannot be modified.
+<h2>Infinite Scroll with LiveComponent</h2>
 
-Then, instead of replacing the results, the `LiveComponent` will add the new ones in continuation!
+TODO TODO TODO
             </twig:CodeWithExplanationRow>
         </div>
     </section>
