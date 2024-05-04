@@ -5,6 +5,8 @@ twig:
     paths:
         '%kernel.project_dir%/templates/demos/live_memory': ~
 
+        '%kernel.project_dir%/demo': 'Demo'
+
 when@test:
     twig:
         strict_variables: true
