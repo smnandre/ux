@@ -2,7 +2,9 @@ framework:
     asset_mapper:
         # The paths to make available to the asset mapper.
         paths:
-            - assets/
+            'assets/': ''
+            '%kernel.project_dir%/var/build/translations': 'var/build/translations'
+
         excluded_patterns:
             - '*/assets/styles/_*.scss'
             - '*/assets/styles/**/_*.scss'
