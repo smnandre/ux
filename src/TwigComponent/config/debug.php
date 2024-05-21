@@ -31,6 +31,7 @@ return static function (ContainerConfigurator $container) {
             service('ux.twig_component.component_logger_listener'),
             service('twig'),
         ])
+        ->tag('kernel.event_subscriber')
         ->tag('data_collector', [
             'template' => '@TwigComponent/Collector/twig_component.html.twig',
             'id' => 'twig_component',

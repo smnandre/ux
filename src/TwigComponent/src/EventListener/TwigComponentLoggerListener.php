@@ -49,7 +49,9 @@ class TwigComponentLoggerListener implements EventSubscriberInterface, ResetInte
 
     public function getEvents(): array
     {
-        return $this->events;
+        $events = $this->events;
+        $this->events = [];
+        return $events;
     }
 
     public function onPreCreateForRender(PreCreateForRenderEvent $event): void
