@@ -31,6 +31,12 @@ class MainController extends AbstractController
         ]);
     }
 
+    #[Route('/demoo', name: 'app_demoo')]
+    public function demoo(): Response
+    {
+        return $this->render('main/demoo.html.twig');
+    }
+
     #[Route(path: '/robots.txt', name: 'app_robots')]
     public function __invoke(Request $request): Response
     {
