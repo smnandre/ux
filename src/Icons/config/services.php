@@ -16,6 +16,7 @@ use Symfony\UX\Icons\IconCacheWarmer;
 use Symfony\UX\Icons\IconRenderer;
 use Symfony\UX\Icons\Registry\CacheIconRegistry;
 use Symfony\UX\Icons\Registry\ChainIconRegistry;
+use Symfony\UX\Icons\Registry\IconSetRegistry;
 use Symfony\UX\Icons\Registry\LocalSvgIconRegistry;
 use Symfony\UX\Icons\Twig\IconFinder;
 use Symfony\UX\Icons\Twig\UXIconExtension;
@@ -40,6 +41,11 @@ return static function (ContainerConfigurator $container): void {
             ])
 
         ->alias('.ux_icons.icon_registry', '.ux_icons.cache_icon_registry')
+
+        ->set('.ux_icons.icon_set_registry', IconSetRegistry::class)
+            ->args([
+                abstract_arg('icon_sets'),
+            ])
 
         ->set('.ux_icons.twig_icon_extension', UXIconExtension::class)
             ->tag('twig.extension')

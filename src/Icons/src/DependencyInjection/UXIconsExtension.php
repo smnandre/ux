@@ -39,6 +39,30 @@ final class UXIconsExtension extends ConfigurableExtension implements Configurat
                     ->info('The local directory where icons are stored.')
                     ->defaultValue('%kernel.project_dir%/assets/icons')
                 ->end()
+                ->arrayNode('icon_sets')
+                    ->info('Configuration for icon sets.')
+                    ->useAttributeAsKey('name')
+                    ->arrayPrototype()
+                        ->beforeNormalization()
+                            ->ifString()
+                            ->then(static fn(string $v): array => ['path' => $v])
+                        ->end()
+                        ->children()
+                            ->scalarNode('path')
+                                ->isRequired()
+                                ->cannotBeEmpty()
+                                ->info('The local directory where icons for this set are stored.')
+                            ->end()
+                            ->booleanNode('readonly')
+                                ->defaultFalse()
+                            ->end()
+                            ->variableNode('attributes')
+                                ->defaultValue(null)
+                                ->info('Attributes to set to all icons of this set.')
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
                 ->variableNode('default_icon_attributes')
                     ->info('Default attributes to add to all icons.')
                     ->defaultValue(['fill' => 'currentColor'])
@@ -82,6 +106,13 @@ final class UXIconsExtension extends ConfigurableExtension implements Configurat
             $loader->load('asset_mapper.php');
         }
 
+
+        $iconSets = $mergedConfig['icon_sets'];
+
+        $container->getDefinition('.ux_icons.icon_set_registry')
+            ->setArgument(0, $iconSets)
+        ;
+
         $container->getDefinition('.ux_icons.local_svg_icon_registry')
             ->setArguments([
                 $mergedConfig['icon_dir'],
@@ -110,6 +141,10 @@ final class UXIconsExtension extends ConfigurableExtension implements Configurat
 
         if (!$container->getParameter('kernel.debug')) {
             $container->removeDefinition('.ux_icons.command.import');
+        }
+
+        if ($container->getParameter('kernel.debug')) {
+            $loader->load('debug.php');
         }
     }
 }
