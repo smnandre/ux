@@ -17,12 +17,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\UX\Icons\Registry\ChainIconRegistry;
+use Symfony\UX\Icons\Registry\IconSetRegistry;
 
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_homepage')]
-    public function homepage(UxPackageRepository $packageRepository): Response
+    public function homepage(UxPackageRepository $packageRepository, ChainIconRegistry $icons): Response
     {
+
+        foreach ($icons as $icon) {
+            dump($icon);
+            $icon->get('foo');
+        }
+
         $packages = $packageRepository->findAll();
 
         return $this->render('main/homepage.html.twig', [

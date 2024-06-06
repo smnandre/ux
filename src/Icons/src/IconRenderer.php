@@ -11,6 +11,8 @@
 
 namespace Symfony\UX\Icons;
 
+use Symfony\UX\Icons\Registry\IconSetRegistry;
+
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  *
@@ -19,9 +21,21 @@ namespace Symfony\UX\Icons;
 final class IconRenderer
 {
     public function __construct(
-        private readonly IconRegistryInterface $registry,
+        private readonly IconSetRegistry $iconSets,
+        private readonly IconRegistryInterface $icons,
         private readonly array $defaultIconAttributes = [],
     ) {
+    }
+
+    private function getIconSet(string $name): ?IconSet
+    {
+        foreach ($this->iconSets as $prefix => $iconSet) {
+            if (str_starts_with($name, $prefix.':')) {
+                return $iconSet;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -37,9 +51,17 @@ final class IconRenderer
      */
     public function renderIcon(string $name, array $attributes = []): string
     {
-        $icon = $this->registry->get($name)
-            ->withAttributes($this->defaultIconAttributes)
+        dump($name);
+        $iconSet = $this->getIconSet($name);
+        dump($iconSet);
+
+        $iconSetAttributes = $iconSet?->getIconAttributes() ?? $this->defaultIconAttributes;
+
+        $icon = $this->icons->get($name)
+            ->withAttributes($iconSetAttributes)
             ->withAttributes($attributes);
+
+        dd($icon);
 
         foreach ($this->getPreRenderers() as $preRenderer) {
             $icon = $preRenderer($icon);

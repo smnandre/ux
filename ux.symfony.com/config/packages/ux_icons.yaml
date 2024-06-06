@@ -1,0 +1,24 @@
+ux_icons:
+    icon_dir: '%kernel.project_dir%/assets/icons/'
+
+    default_icon_attributes:
+        fill: currentColor
+
+    icon_sets:
+
+        fa: 'fa-brands'
+        fas: 'fa-solid'
+
+        lu:
+            path: '%kernel.project_dir%/assets/icons/lucide'
+            attributes:
+                fill: currentColor
+
+        'lu:lu': '%kernel.project_dir%/assets/icons/lu-lu'
+        'a:b:c': '%kernel.project_dir%/assets/icons/a/b-c'
+        'a:b': '%kernel.project_dir%/assets/icons/a/b'
+
+#    iconify:
+#        enabled: true
+#        on_demand: true
+#        endpoint: 'https://api.iconify.design'

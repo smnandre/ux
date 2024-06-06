@@ -38,7 +38,7 @@
         "symfony/ux-chartjs": "2.x-dev",
         "symfony/ux-cropperjs": "2.x-dev",
         "symfony/ux-dropzone": "2.x-dev",
-        "symfony/ux-icons": "^2.17",
+        "symfony/ux-icons": "2.x-dev",
         "symfony/ux-lazy-image": "2.x-dev",
         "symfony/ux-live-component": "2.x-dev",
         "symfony/ux-notify": "2.x-dev",
@@ -132,5 +132,79 @@
         "vincentlanglet/twig-cs-fixer": "^2.8",
         "zenstruck/browser": "^1.4",
         "zenstruck/foundry": "^1.33"
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Notify"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Svelte"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Autocomplete"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Chartjs"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Turbo"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/StimulusBundle"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Vue"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Translator"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/TogglePassword"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Dropzone"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Icons"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Cropperjs"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Typed"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/LiveComponent"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/React"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/TwigComponent"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/LazyImage"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Swup"
+        }
+    ]
 }

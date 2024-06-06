@@ -20,6 +20,9 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\UX\Icons\Iconify;
+use Symfony\UX\Icons\Registry\ChainIconRegistry;
+use Symfony\UX\Icons\Registry\LocalSvgIconRegistry;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\abstract_arg;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
@@ -52,9 +55,6 @@ final class UXIconsExtension extends ConfigurableExtension implements Configurat
                                 ->isRequired()
                                 ->cannotBeEmpty()
                                 ->info('The local directory where icons for this set are stored.')
-                            ->end()
-                            ->booleanNode('readonly')
-                                ->defaultFalse()
                             ->end()
                             ->variableNode('attributes')
                                 ->defaultValue(null)
@@ -106,25 +106,32 @@ final class UXIconsExtension extends ConfigurableExtension implements Configurat
             $loader->load('asset_mapper.php');
         }
 
-
-        $iconSets = $mergedConfig['icon_sets'];
-
-        $container->getDefinition('.ux_icons.icon_set_registry')
-            ->setArgument(0, $iconSets)
-        ;
+        $iconSetRegistry = $container->getDefinition('.ux_icons.icon_set_registry');
+        foreach ($mergedConfig['icon_sets'] as $name => ['path' => $path, 'attributes' => $attributes]) {
+            $iconSetRegistry->addMethodCall('addIconSet', [$name, $path, $attributes ?? []]);
+        }
 
         $container->getDefinition('.ux_icons.local_svg_icon_registry')
             ->setArguments([
                 $mergedConfig['icon_dir'],
             ])
         ;
+        foreach ($mergedConfig['icon_sets'] as $name => ['path' => $path, 'readonly' => $readonly]) {
+            $container->register('.ux_icons.local_svg_icon_registry.'.str_replace(':', '.', $name), LocalSvgIconRegistry::class)
+            ->setArguments([
+                $path
+            ])
+            ->addTag('ux_icons.registry', ['priority' => 10])
+            ->setPublic(!$readonly)
+            ;
+        }
 
         $container->getDefinition('.ux_icons.icon_finder')
             ->setArgument(1, $mergedConfig['icon_dir'])
         ;
 
         $container->getDefinition('.ux_icons.icon_renderer')
-            ->setArgument(1, $mergedConfig['default_icon_attributes'])
+            ->setArgument(2, $mergedConfig['default_icon_attributes'])
         ;
 
         if ($mergedConfig['iconify']['enabled']) {

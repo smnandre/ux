@@ -11,18 +11,19 @@
 
 namespace Symfony\UX\Icons\Registry;
 
-use Symfony\UX\Icons\Icon;
-use Symfony\UX\Icons\IconRegistryInterface;
+use IteratorAggregate;
+use Symfony\UX\Icons\IconSet;
 
 /**
  * @author Simon André <smn.andre@gmail.com>
  *
+ * @implements IteratorAggregate<string, IconSet>
  * @internal
  */
-final class IconSetRegistry
+final class IconSetRegistry implements IteratorAggregate
 {
     /**
-     * @param array<string, array{string, array<string, mixed>} $iconSets
+     * @param array<string, IconSet> $iconSets
      */
     private array $iconSets = [];
 
@@ -38,9 +39,18 @@ final class IconSetRegistry
         }
     }
 
-    public function getAliases(): array
+    public function get(string $name): IconSet
     {
-        return array_keys($this->iconSets);
+        if (!$this->has($name)) {
+            throw new \InvalidArgumentException(sprintf('Icon set "%s" not found.', $name));
+        }
+
+        return $this->iconSets[$name];
+    }
+
+    public function has(string $name): bool
+    {
+        return array_key_exists($name, $this->iconSets);
     }
 
     /**
@@ -48,19 +58,14 @@ final class IconSetRegistry
      */
     public function addIconSet(string $name, string $directory, array $configuration = []): void
     {
-        // TODO check name
-        // TODO check if directory exists
-        // TODO validate configuration
-
-        $this->iconSets[$name] = [
-            'directory' => $directory,
-            'attributes' => $configuration,
-        ];
+        $this->iconSets[$name] = new IconSet($name, $directory, $configuration);
     }
 
-    public function getIconSetAttributes(string $name): array
+    public function getIterator(): \ArrayIterator
     {
-        // TODO default attributes
-        return $this->iconSets[$name]['attributes'] ?? [];
+        $iconSets = $this->iconSets;
+        uksort($iconSets, fn($a, $b) => strlen($b) <=> strlen($a));
+
+        return new \ArrayIterator($this->iconSets);
     }
 }

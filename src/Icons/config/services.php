@@ -39,20 +39,21 @@ return static function (ContainerConfigurator $container): void {
             ->args([
                 tagged_iterator('ux_icons.registry'),
             ])
+        ->public() // needed for the WarmCacheCommand to access it
 
         ->alias('.ux_icons.icon_registry', '.ux_icons.cache_icon_registry')
 
         ->set('.ux_icons.icon_set_registry', IconSetRegistry::class)
-            ->args([
-                abstract_arg('icon_sets'),
-            ])
 
         ->set('.ux_icons.twig_icon_extension', UXIconExtension::class)
             ->tag('twig.extension')
+             ->tag('twig.runtime')
 
         ->set('.ux_icons.icon_renderer', IconRenderer::class)
             ->args([
+                service('.ux_icons.icon_set_registry'),
                 service('.ux_icons.icon_registry'),
+                abstract_arg('icon_attributes'),
             ])
             ->tag('twig.runtime')
 
