@@ -1,0 +1,7 @@
+{% set _component = 'Basic' ~ 'Component' %}
+
+{% component _component %}
+    {% block content %}
+        <p>BasicComponent: {{ _component }}</p>
+    {% endblock %}
+{% endcomponent %}

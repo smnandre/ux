@@ -33,7 +33,7 @@ final class ComponentTokenParser extends AbstractTokenParser
     public function parse(Token $token): Node
     {
         $stream = $this->parser->getStream();
-        $componentName = $this->componentName($this->parser->getExpressionParser()->parseExpression());
+        $componentName = $this->parser->getExpressionParser()->parseExpression();
 
         [$propsExpression, $only] = $this->parseArguments();
 
@@ -73,19 +73,6 @@ final class ComponentTokenParser extends AbstractTokenParser
     public function getTag(): string
     {
         return 'component';
-    }
-
-    private function componentName(AbstractExpression $expression): string
-    {
-        if ($expression instanceof ConstantExpression) { // using {% component 'name' %}
-            return $expression->getAttribute('value');
-        }
-
-        if ($expression instanceof NameExpression) { // using {% component name %}
-            return $expression->getAttribute('name');
-        }
-
-        throw new \LogicException('Could not parse component name.');
     }
 
     /**

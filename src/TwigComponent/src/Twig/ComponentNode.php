@@ -29,9 +29,9 @@ use Twig\Node\NodeOutputInterface;
 #[YieldReady]
 final class ComponentNode extends Node implements NodeOutputInterface
 {
-    public function __construct(string $component, string $embeddedTemplateName, int $embeddedTemplateIndex, ?AbstractExpression $props, bool $only, int $lineno, string $tag)
+    public function __construct(string|AbstractExpression $component, string $embeddedTemplateName, int $embeddedTemplateIndex, ?AbstractExpression $props, bool $only, int $lineno, string $tag)
     {
-        $nodes = [];
+        $nodes['expr'] = $component;
         if (null !== $props) {
             $nodes['props'] = $props;
         }
@@ -41,7 +41,7 @@ final class ComponentNode extends Node implements NodeOutputInterface
         $this->setAttribute('only', $only);
         $this->setAttribute('embedded_template', $embeddedTemplateName);
         $this->setAttribute('embedded_index', $embeddedTemplateIndex);
-        $this->setAttribute('component', $component);
+        // $this->setAttribute('component', $component);
     }
 
     public function compile(Compiler $compiler): void
@@ -65,7 +65,8 @@ final class ComponentNode extends Node implements NodeOutputInterface
             ->write('$preRendered = $this->extensions[')
             ->string(ComponentExtension::class)
             ->raw(']->extensionPreCreateForRender(')
-            ->string($this->getAttribute('component'))
+             ->subcompile($this->getNode('expr'))
+            // ->string($this->getAttribute('component'))
             ->raw(', ')
             ->raw($twig_to_array)
             ->raw('(');
@@ -99,7 +100,7 @@ final class ComponentNode extends Node implements NodeOutputInterface
             ->write('$preRenderEvent = $this->extensions[')
             ->string(ComponentExtension::class)
             ->raw(']->startEmbeddedComponentRender(')
-            ->string($this->getAttribute('component'))
+            ->subcompile($this->getNode('expr'))
             ->raw(', ')
             ->raw($twig_to_array)
             ->raw('(');

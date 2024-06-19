@@ -61,6 +61,13 @@ final class ComponentExtensionTest extends KernelTestCase
         $this->assertStringContainsString('service: service a value', $output);
     }
 
+    public function testCanRenderComponentWithVariableName(): void
+    {
+        $output = self::getContainer()->get(Environment::class)->render('flexible_component_name.html.twig');
+
+        $this->assertStringContainsString('BasicComponent: BasicComponent', $output);
+    }
+
     public function testCanNotRenderComponentWithInvalidExpressions(): void
     {
         $this->expectException(\Throwable::class);
