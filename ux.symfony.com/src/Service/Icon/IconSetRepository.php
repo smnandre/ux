@@ -26,12 +26,16 @@ class IconSetRepository
         'octoicons',
         'iconoir',
         'bootstrap',
+        'heroicons',
+        'phosphor',
+        'ph',
     ];
 
     private array $iconSets;
 
     private array $terms = [
         'crypto',
+        'bitcoin',
     ];
 
     public function __construct(
@@ -48,11 +52,43 @@ class IconSetRepository
             $iconSets = [];
             foreach ($this->iconify->collections() as $identifier => $data) {
                 $iconSets[$identifier] = self::createIconSet($identifier, $data);
+                // Filter out some icon sets
+                foreach ($this->terms as $term) {
+                    if (str_contains($identifier, $term)) {
+                        break;
+                    }
+                }
             }
             $this->iconSets = $iconSets;
         }
 
         return \array_slice($this->iconSets, $offset ?? 0, $limit);
+    }
+
+    public function findAllByCategory(string $category, ?int $limit = null): array
+    {
+        $iconSets = $this->findAll();
+        // foreach ($this->terms as $term) {
+        //     $iconSets = array_filter($iconSets, fn(IconSet $iconSet) => !str_contains(strtolower($iconSet->getName()), $term));
+        // }
+        $iconSets = array_filter($iconSets, fn (IconSet $iconSet) => str_contains(strtolower($iconSet->getCategory()), rtrim($category, 's')));
+
+        $score = match ($category) {
+            'flag' => fn (IconSet $set) => [str_contains($set->getPrefix(), 'flag') ? 1 : 0, $set->getTotal()],
+            default => fn (IconSet $set) => [$set->getTotal()],
+        };
+
+        usort($iconSets, fn (IconSet $a, IconSet $b) => $score($b) <=> $score($a));
+
+        foreach ($iconSets as $iconSet) {
+            dump($iconSet->getName(), $iconSet->getTotal(), $score($iconSet));
+        }
+
+        if (null === $limit) {
+            return $iconSets;
+        }
+
+        return array_slice($iconSets, 0, $limit);
     }
 
     public function load(string $identifier): IconSet

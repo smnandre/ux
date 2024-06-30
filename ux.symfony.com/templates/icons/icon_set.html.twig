@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <meta name="turbo-prefetch" content="false">
+{% endblock %}
+
+{% set meta = {
+    title: '%s - Symfony UX'|format(iconSet.name),
+    description: '',
+    canonical: url('app_icon_set', {prefix: prefix}),
+} %}
+
+{% block content %}
+
+    <div class="hero">
+        <div class="container-fluid container-xxl px-4 pt-5 px-md-5 pt-md-5">
+            <p class="eyebrows text-center">
+                <a href="{{ url('app_icons') }}">UX Icons</a> /
+                <a href="{{ url('app_icon_sets') }}">Sets</a>
+            </p>
+            <h1 class="text-center ubuntu mt-3">
+                <a href="{{ url('app_icon_set', {prefix: prefix}) }}">
+                    {{ iconSet.name }}{{ 'icon' not in iconSet.name|lower ? ' Icons' }}
+                </a>
+            </h1>
+            <div style="font-size: 1rem; line-height: 1.75rem;" class="mt-4 text-center">
+                <twig:DataList items="{{ {
+                    "Icons": iconSet.total|default,
+                    "Categories": (iconSet.categories|length < 2) ? null : iconSet.categories|length,
+                    "Version": (iconSet.version is defined) ? iconSet.version|default(null),
+                    "Authors": {
+                        href: iconSet.author.url|default,
+                        title: iconSet.author.name|default
+                    },
+                    "License": {
+                        href: iconSet.license.url|default,
+                        title: iconSet.license.title|default
+                    }
+                } }}" />
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid container-xxl p-4 p-md-5">
+        <p class="eyebrows">Packages</p>
+
+        {# TODO #}
+
+        Code
+
+        H2
+
+        H3
+
+    </div>
+
+    <div class="container-fluid container-xxl px-4 px-md-5">
+        <twig:Icon:IconSearch set="{{ iconSet.identifier }}" />
+    </div>
+
+    <div class="container-fluid container-xxl p-4 p-md-5">
+        <p class="eyebrows">Packages</p>
+
+        {# TODO #}
+
+        Install
+
+        FAQ
+
+        H3
+
+    </div>
+
+
+    <div class="container-fluid container-xxl p-4 p-md-5">
+        <p class="eyebrows">Packages</p>
+        <div class="d-md-flex justify-content-md-between text-center align-items-center text-md-start">
+            <h2 class="ubuntu pt-2 component-headlines">Popular <em class="rainbow-emphasis">Icon Sets</em></h2>
+            <a style="height: 100%;" class="btn btn-md btn-outline-primary mt-3 mt-md-0" href="{{ url('app_icon_sets') }}">
+                Browse all Icon Sets
+                <twig:Icon name="arrow-right" />
+            </a>
+        </div>
+        <twig:Icon:IconSetGrid  limit="3" samples="10" />
+    </div>
+
+
+{% endblock %}
+
+
+
+
+{% block body %}
+    {{ parent() }}
+    <twig:Icon:IconModal  />
+{% endblock %}

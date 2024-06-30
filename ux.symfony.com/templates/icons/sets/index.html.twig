@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <meta name="turbo-prefetch" content="false">
+{% endblock %}
+
+{% set meta = {
+    title: 'Search Icons Packs - Symfony UX:Icons',
+    description: '',
+    canonical: url('app_icon_sets'),
+} %}
+
+{% block content %}
+
+    <div class="hero">
+        <div class="container-fluid container-xxl px-4 pt-5 px-md-5 pt-md-5">
+            <p class="eyebrows text-center">
+                <a href="{{ path('app_icons') }}">UX <span>Icons</span></a>
+            </p>
+            <h1 class="text-center ubuntu mt-3">
+                <a href="{{ url('app_icon_sets') }}">Icons Sets</a>
+            </h1>
+        </div>
+    </div>
+
+    <section class="container container-xxl px-4 py-3">
+        {% for category in categories %}
+            <a href="{{ url('app_icon_sets_category', {category: category}) }}" class="btn btn-primary">
+                {{ category|title }}
+            </a>
+        {% endfor %}
+    </section>
+
+{#    {% for category in categories %}#}
+{#        <section class="container container-xxl px-4 py-3">#}
+{#            <div class="d-md-flex justify-content-md-between text-center align-items-center text-md-start">#}
+{#                <h2 class="ubuntu pt-2 component-headlines"><em class="rainbow-emphasis">{{ category|title }}</em> Icons</h2>#}
+{#            </div>#}
+{#            <div class="mt-3 mt-md-5">#}
+{#                <twig:Icon:IconSetGrid category="{{ category }}" limit="3" samples="10" />#}
+{#            </div>#}
+{#        </section>#}
+{#    {% endfor %}#}
+
+    <section class="container container-xxl px-4 py-3">
+        <twig:Icon:IconSetGrid iconSets="{{ iconSets }}" samples="0" />
+    </section>
+
+{% endblock %}
+
+
+{% block aside %}
+    {{ include('icons/_aside.html.twig') }}
+{% endblock %}

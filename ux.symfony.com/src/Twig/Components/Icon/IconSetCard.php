@@ -12,6 +12,7 @@
 namespace App\Twig\Components\Icon;
 
 use App\Model\Icon\IconSet;
+use App\Service\Icon\IconSetSampler;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent('Icon:IconSetCard')]
@@ -23,47 +24,13 @@ class IconSetCard
 
     public int $samples = 10;
 
-    private const ICONSET_SAMPLES = [
-        'lucide' => [
-            'home', 'user', 'settings', 'search', 'arrow-down',
-            'heart', 'star', 'sun', 'grid', 'image',
-        ],
-        'bi' => [
-            'house', 'person', 'gear', 'search', 'arrow-down',
-            'heart', 'star', 'sun', 'grid', 'image',
-        ],
-        'bx' => [
-            'home', 'user', 'certification', 'search', 'down-arrow-alt',
-            'heart', 'star', 'sun', 'grid', 'image',
-        ],
-        'tabler' => [
-            'home', 'user', 'settings', 'search', 'arrow-down',
-            'heart', 'star', 'sun', 'grid', 'photo',
-        ],
-        'flowbite' => [
-            'home-outline', 'user-outline', 'badge-check-outline', 'search-outline', 'arrow-down-outline',
-            'heart-outline', 'star-outline', 'sun-outline', 'grid-outline', 'image-outline',
-        ],
-        'iconoir' => [
-            'home', 'user', 'settings', 'search', 'arrow-down',
-            'heart', 'star', 'sun-light', 'view-grid', 'media-image',
-        ],
-        'octicon' => [
-            'home', 'person', 'gear', 'search', 'arrow-down',
-            'heart', 'star', 'sun-16', 'apps-24', 'image-16',
-        ],
-        'ph' => [
-            'house', 'user', 'gear', 'magnifying-glass', 'arrow-down',
-            'heart', 'star', 'sun', 'squares-four', 'image',
-        ],
-        'heroicons' => [
-            'home', 'user', 'cog', 'magnifying-glass', 'arrow-down',
-            'heart', 'star', 'sun', 'squares-2x2', 'photo',
-        ],
-    ];
+    public function __construct(
+        private readonly IconSetSampler $iconSetSampler,
+    ) {
+    }
 
     public function getSampleIcons(): array
     {
-        return self::ICONSET_SAMPLES[$this->iconSet->getIdentifier()] ?? [];
+        return $this->iconSetSampler->getSampleIcons($this->iconSet, $this->samples);
     }
 }

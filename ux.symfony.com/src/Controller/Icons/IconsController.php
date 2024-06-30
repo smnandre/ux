@@ -45,6 +45,18 @@ final class IconsController extends AbstractController
         return $this->render('icons/index.html.twig', [
             'package' => $packageRepository->find('icons'),
             'iconSets' => $iconSets,
+            'categories' => ['flags', 'emojis', 'brands'],
+        ]);
+    }
+
+     #[Route('/icons/{prefix}', name: 'app_icon_set')]
+    public function iconSet(IconSetRepository $iconSetRepository, string $prefix): Response
+    {
+        $iconSet = $iconSetRepository->find($prefix);
+
+        return $this->render('icons/icon_set.html.twig', [
+            'prefix' => $prefix,
+            'iconSet' => $iconSet,
         ]);
     }
 }

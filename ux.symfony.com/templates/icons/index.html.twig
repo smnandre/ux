@@ -34,13 +34,16 @@
                 <p>
                     Render SVG icons seamlessly from your Twig templates.
                 <br/>
-                    Find the <code>perfect icon</code> among <code>200,000 choices</code> from the most popular <code>icon sets</code>.
+                    Find the <code>perfect icon</code> among <code>200,000 choices</code> from the most popular <a href="{{ url('app_icon_sets') }}"><code>icon sets</code></a>.
                 </p>
             </div>
         </div>
     </div>
 
     <section class="container-fluid container-xxl px-4 px-md-5 py-3">
+
+        <twig:ux:icon name="svg-spinners:270-ring" />
+
         <twig:Icon:IconSearch/>
     </section>
 
@@ -48,6 +51,9 @@
         <p class="eyebrows" style="margin: 4rem 0 0;">Iconic Packages</p>
         <div class="d-md-flex justify-content-md-between text-center align-items-center text-md-start">
             <h2 class="ubuntu pt-2 component-headlines">Popular <em class="rainbow-emphasis">Icon Sets</em></h2>
+            <a style="height: 100%;" class="btn btn-md btn-outline-primary my-3 my-md-0" href="{{ url('app_icon_sets') }}">
+                All Icon Sets
+            </a>
         </div>
         <div class="mt-3 mt-md-5">
             <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2rem;">
@@ -58,6 +64,29 @@
                     />
                 {% endfor %}
             </div>
+        </div>
+    </section>
+
+
+    <section class="container-fluid container-xxl px-4 px-md-5 py-3">
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2rem;">
+            {% for category in categories %}
+                <div>
+                    <div class="d-md-flex justify-content-md-between text-center align-items-center text-md-start">
+                        <h2 class="ubuntu pt-2 component-headlines">
+                            <a href="{{ url('app_icon_sets_category', {category: category}) }}">
+                                <em class="rainbow-emphasis">{{ category|title }}</em> Icons
+                            </a>
+                        </h2>
+                        <a style="height: 100%;" class="btn btn-md btn-outline-primary my-3 my-md-0" href="{{ url('app_icon_sets_category', {category: category}) }}">
+                            All {{ category|title }} Sets
+                        </a>
+                    </div>
+                    <div class="mt-3 mt-md-5">
+                        <twig:Icon:IconSetGrid category="{{ category }}" limit="3" samples="10" />
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </section>
 
