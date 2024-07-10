@@ -35,6 +35,18 @@ class UxPackageRepository
                 ->setScreencastLink('https://symfonycasts.com/screencast/turbo', 'Go deep into all 3 parts of Turbo.'),
 
             new UxPackage(
+                'map',
+                'UX Map',
+                'app_map',
+                '#fff',
+                'linear-gradient(to bottom right, cyan, purple)',
+                'SVG icons made easy',
+                'Render SVG icons seamlessly from your Twig templates.',
+                'I need to render SVG icons.',
+                'icons.svg',
+            ),
+
+            new UxPackage(
                 'icons',
                 'UX Icons',
                 'app_icons',

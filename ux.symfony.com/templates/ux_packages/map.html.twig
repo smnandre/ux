@@ -1,0 +1,35 @@
+{% extends 'ux_packages/package.html.twig' %}
+
+{% block package_header %}
+    {% component PackageHeader with {
+        package: 'map',
+        eyebrowText: 'React Component Rendering'
+    } %}
+        {% block title_header %}
+            Build Interactive Maps <em>from PHP</em>
+        {% endblock %}
+
+        {% block sub_content %}
+            Decouple your code from your map provider: Google Maps, LeaftLet
+        {% endblock %}
+    {% endcomponent %}
+{% endblock %}
+
+{% block code_block_left %}
+    <twig:CodeBlock filename="src/Controller/UxPackage/MapController.php" height="250px"/>
+{% endblock %}
+
+{% block code_block_right %}
+    <twig:CodeBlock
+        filename="templates/ux_packages/map.html.twig"
+        targetTwigBlock="demo_content"
+    />
+{% endblock %}
+
+{% block demo_title %}UX Map{% endblock %}
+
+{% block demo_content %}
+    <div>
+        {{ render_map(map) }}
+    </div>
+{% endblock %}

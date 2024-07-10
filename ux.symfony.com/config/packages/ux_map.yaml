@@ -1,0 +1,3 @@
+ux_map:
+    # The directory where the JavaScript translations are dumped
+    renderer: '%env(UX_MAP_DSN)%'
