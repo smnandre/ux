@@ -56,6 +56,9 @@ return [
     '@symfony/ux-live-component' => [
         'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
     ],
+    '@symfony/ux-map/abstract-map-controller' => [
+        'path' => './vendor/symfony/ux-map/assets/dist/abstract_map_controller.js',
+    ],
     'bootstrap' => [
         'version' => '5.3.3',
     ],
@@ -78,14 +81,14 @@ return [
         'version' => '18.3.1',
     ],
     'vue' => [
-        'version' => '3.4.31',
+        'version' => '3.4.37',
         'package_specifier' => 'vue/dist/vue.esm-bundler.js',
     ],
     'swup' => [
         'version' => '3.1.1',
     ],
     'delegate-it' => [
-        'version' => '6.1.0',
+        'version' => '6.0.1',
     ],
     '@swup/debug-plugin' => [
         'version' => '3.0.0',
@@ -103,7 +106,7 @@ return [
         'version' => '2.0.3',
     ],
     '@hotwired/turbo' => [
-        'version' => '8.0.4',
+        'version' => '8.0.5',
     ],
     'typed.js' => [
         'version' => '2.1.0',
@@ -127,22 +130,22 @@ return [
         'version' => '10.5.14',
     ],
     '@vue/runtime-dom' => [
-        'version' => '3.4.31',
+        'version' => '3.4.37',
     ],
     '@vue/runtime-core' => [
-        'version' => '3.4.31',
+        'version' => '3.4.37',
     ],
     '@vue/shared' => [
-        'version' => '3.4.31',
+        'version' => '3.4.37',
     ],
     '@vue/reactivity' => [
-        'version' => '3.4.31',
+        'version' => '3.4.37',
     ],
     '@vue/compiler-dom' => [
-        'version' => '3.4.31',
+        'version' => '3.4.37',
     ],
     '@vue/compiler-core' => [
-        'version' => '3.4.31',
+        'version' => '3.4.37',
     ],
     'tslib' => [
         'version' => '2.6.3',
@@ -179,7 +182,7 @@ return [
         'type' => 'css',
     ],
     'path-to-regexp' => [
-        'version' => '6.2.1',
+        'version' => '7.1.0',
     ],
     '@swup/theme' => [
         'version' => '2.1.0',
@@ -189,5 +192,9 @@ return [
     ],
     'chart.js' => [
         'version' => '4.4.3',
+    ],
+    'bootstrap/dist/css/bootstrap.min.css' => [
+        'version' => '5.3.3',
+        'type' => 'css',
     ],
 ];

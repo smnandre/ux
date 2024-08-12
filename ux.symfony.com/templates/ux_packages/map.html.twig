@@ -6,7 +6,7 @@
         eyebrowText: 'React Component Rendering'
     } %}
         {% block title_header %}
-            Build Interactive Maps <em>from PHP</em>
+            Interactive Maps <em>from PHP</em>
         {% endblock %}
 
         {% block sub_content %}
@@ -30,6 +30,6 @@
 
 {% block demo_content %}
     <div>
-        {{ render_map(map) }}
+        {{ render_map(map,{ style: 'height: 300px' }) }}
     </div>
 {% endblock %}
