@@ -34,7 +34,7 @@ class MapController extends AbstractController
                 position: new Point(45.7534031, 4.8295061),
                 title: 'Lyon',
                 infoWindow: new InfoWindow(
-                    content: '<p>Thank you <a href="https://github.com/kocal">@kocal</a> for this component!</p>',
+                    content: '<p>Thank you <a href="https://github.com/Kocal">@Kocal</a> for this component!</p>',
                 )
             ))
 
