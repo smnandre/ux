@@ -182,16 +182,12 @@ final class Kernel extends BaseKernel
                 $doctrineConfig['orm']['validate_xml_mapping'] = true;
                 $doctrineConfig['dbal']['schema_manager_factory'] = 'doctrine.dbal.default_schema_manager_factory';
             }
-            if (version_compare($doctrineBundleVersion, '2.12.0', '=')) {
-                $doctrineConfig['orm']['controller_resolver']['auto_mapping'] = true;
+            if (version_compare($doctrineBundleVersion, '2.12.0', '>=')) {
+                $doctrineConfig['orm']['controller_resolver']['auto_mapping'] = false;
             }
         }
 
         $c->extension('doctrine', $doctrineConfig);
-
-        $c->extension('zenstruck_foundry', [
-            'auto_refresh_proxies' => false,
-        ]);
 
         $c->services()
             ->defaults()
