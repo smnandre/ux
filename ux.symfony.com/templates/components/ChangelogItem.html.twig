@@ -1,13 +1,16 @@
 <article {{ attributes.defaults({class: 'ChangelogItem'}) }} id="{{ item.version }}">
 
     <div class="ChangelogItem__Anchor">
-        <a class="ChangelogItem__Version" href="https://github.com/symfony/ux/releases/tag/{{ item.version }}"
+        <a class="ChangelogItem__Version" href="{{ path('app_changelog_version', {version: item.version}) }}"
             target="_blank" rel="external noreferer">
             <code>{{ item.version|u.trim('v') }}</code>
         </a>
         <div class="ChangelogItem__Date">
             <span>{{ item.date|date('Y-m-d') }}</span>
         </div>
+        <a class="ChangelogItem__Date" href="https://github.com/symfony/ux/releases/tag/{{ item.version }}">
+            <twig:ux:Icon name="lucide:github" class="Icon" />
+        </a>
     </div>
 
     <div class="ChangelogItem__Content">

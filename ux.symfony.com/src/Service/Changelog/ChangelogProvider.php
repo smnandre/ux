@@ -31,7 +31,7 @@ final class ChangelogProvider
         $changelog = [];
 
         foreach ($this->getReleases($page) as $release) {
-            $changelog[] = $release;
+            $changelog[$release['version']] = $release;
         }
 
         return $changelog;

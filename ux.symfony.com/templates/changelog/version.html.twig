@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% set meta = {
+    title: 'Changelog',
+    title_suffix: ' - Symfony UX',
+    description: 'Symfony UX changelog - New features, bug fixes, performances and security improvements about Symfony Live Components, Twig Components, Autocomplete, Icons...',
+    canonical: url('app_changelog_version', {version}),
+} %}
+
+{% block content %}
+
+    <div class="hero">
+        <div class="container-fluid container-xxl px-4 pt-4 px-md-5">
+            <p class="eyebrows">
+                <a href="{{ path('app_changelog') }}">Changelog</a>
+            </p>
+            <h1 class="text-center mt-5"><a href="{{ url('app_changelog_version', {version}) }}">{{ version }}</a></h1>
+            <p class="text-center mt-2 mb-5">{{ changelog_version.date|date('Y-m-d') }}</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="text-center mt-5">
+            <a href="{{ path('app_changelog_version', {version: previous}) }}"
+               class="btn btn-primary btn-lg btn-block">
+                PREV: {{ previous }}
+            </a>
+            <a href="{{ path('app_changelog_version', {version: next}) }}" class="btn btn-primary btn-lg btn-block mt-5">
+                NEXT: {{ next }}
+            </a>
+        </div>
+    </div>
+
+    <div class="container-fluid container-xxl px-4 pt-4 px-md-5">
+        <twig:ChangelogItem item="{{ changelog_version }}" isOpen="true" />
+    </div>
+
+
+{% endblock %}
