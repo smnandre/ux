@@ -27,6 +27,167 @@
 <div class="container-fluid container-xxl px-4 py-4 px-md-5 py-md-5">
     <h2 class="ubuntu">Install it</h2>
 
+
+    <div class="row">
+
+        <div class="col">
+            {{ ux_map({markers: [{lat:  51.5549, lng: -0.1084}]}, {style: 'height: 300px;'}) }}
+        </div>
+
+        <div class="col">
+            <twig:UX:Map
+                center="{{ {lat: 48.8566, lng: 2.3522} }}"
+                zoom="12"
+                markers="{{ [{ lat: 48.8566, lng: 2.3522, title: 'Paris' }] }}"
+                style="height: 300px;"
+            />
+        </div>
+
+        <div class="col">
+            <twig:UX:Map
+                markers="{{ [{ lat: 48.8566, lng: 2.3522, title: 'Paris' }] }}"
+                style="height: 300px;"
+            />
+        </div>
+
+    </div>
+
+    <div class="row mt-4">
+
+        <div class="col">
+            <div data-controller="ux-map" style="height: 300px;">
+                <twig:UX:Map
+                    center="{{ {lat: 48.8566, lng: 2.3522} }}"
+                    zoom="12"
+                    style="height: 300px;"
+                    data-ux-map-target="map"
+                />
+                <div data-ux-map-target="markers" lat="48.8566" lng="2.3522" title="Paris">
+                Paris
+                </div>
+                <div data-ux-map-target="markers" lat="51.5074" lng="0.1278" title="London">
+                    London
+                </div>
+{#                <twig:UX:Map:Marker lat="48.8566" lng="2.3522" title="Paris" />#}
+{#                <twig:UX:Map:Marker lat="51.5074" lng="0.1278" title="London" />#}
+            </div>
+        </div>
+
+        <div class="col">
+            <twig:UX:Map
+                markers="{{ [{ lat: 48.8566, lng: 2.3522, title: 'Paris' }] }}"
+                style="height: 300px;"
+            />
+        </div>
+
+    </div>
+
+    <div class="row mt-4">
+
+        <div class="col">
+            {{ ux_map({
+                center: { lat: 48.8566, lng: 2.3522 },
+                zoom: 12,
+                markers: [
+                    { lat: 48.8566, lng: 2.3522, title: 'Paris' },
+                ],
+            }, {
+                style: 'height: 300px;',
+            }) }}
+        </div>
+
+        <div class="col">
+            {{ ux_map(
+                {
+                    markers: [
+                        { lat:  51.5074, lng: 0.1278, title: 'London' },
+                        { lat:  52.5200, lng: 13.4050, title: 'Berlin' },
+                        { lat:  41.9028, lng: 12.4964, title: 'Rome' },
+                        { lat:  40.7128, lng: -74.0060, title: 'New York' },
+                    ],
+                },
+                {
+                    style: 'height: 300px;',
+                }
+            ) }}
+        </div>
+    </div>
+
+    <div class="row row-cols-2 mt-5">
+        <div class="col-6">
+            {{ ux_map({
+                markers: [
+                    { lat:  51.5074, lng: 0.1278, title: 'London' },
+                ],
+            }, {
+                style: 'height: 300px;',
+            }) }}
+        </div>
+        <div class="col-6">
+            {{ ux_map({
+                markers: [
+                    { lat:  51.5074, lng: 0.1278, title: 'London' },
+                    { lat:  52.5200, lng: 13.4050, title: 'Berlin' },
+                ],
+            }, {
+                style: 'height: 300px;',
+            }) }}
+        </div>
+    </div>
+    <div class="row row-cols-2 mt-5">
+        <div class="col-6">
+            {{ ux_map({
+                zoom: 12,
+                center: { lat:  51.5074, lng: 0.1278, title: 'London' },
+                markers: [
+                    {
+                        lat:  51.5074,
+                        lng: 0.1278,
+                        title: 'London',
+                        infoWindow: {
+                            content: 'London is the capital of England.'
+                        },
+                    }
+                ],
+            }, {
+                style: 'height: 300px;',
+            }) }}
+        </div>
+
+        <div class="col-6">
+            {{ ux_map({
+                markers: [
+                    { lat:  43.7275, lng: 7.4150, title: 'AS Monaco', infoWindow: {
+                        headerContent: 'AS Monaco',
+                        content: '1994-1999',
+                    } },
+                    { lat:  45.1092, lng: 7.6416, title: 'Juventus', infoWindow: {
+                        headerContent: 'Juventus',
+                        content: '1999',
+                    } },
+                    { lat:  51.5549, lng: -0.1025, title: 'Arsenal FC (Highbury)', infoWindow: {
+                        headerContent: 'Arsenal FC (Highbury)',
+                        content: '1999-2006',
+                    } },
+                    { lat:  51.5549, lng: -0.1084, title: 'Arsenal FC (Emirates)', infoWindow: {
+                        headerContent: 'Arsenal FC (Emirates)',
+                        content: '2006-2007, 2012',
+                    } },
+                    { lat:  41.3809, lng: 2.1228, title: 'FC Barcelona', infoWindow: {
+                        headerContent: 'FC Barcelona',
+                        content: '2007-2010',
+                    } },
+                    { lat:  40.7364, lng: -74.1502, title: 'RB New York', infoWindow: {
+                        headerContent: 'RB New York',
+                        content: '2010-2014',
+                    } },
+                ],
+            }, {
+                style: 'height: 300px;',
+            }) }}
+        </div>
+    </div>
+
     <div class="arrow mb-3 d-none d-md-block"></div>
 
     <div class="row">
