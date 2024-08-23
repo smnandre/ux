@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <meta name="turbo-prefetch" content="false">
+{% endblock %}
+
+{% set meta = {
+    title: '%s Documentation - Symfony UX'|format(package.name),
+    description: '',
+    canonical: url('app_documentation_package', {slug: package.name}),
+} %}
+
+{% block content %}
+<div data-turbo="false">
+    <twig:Hero
+        eyebrows="Documentation"
+        title="{{ package.humanName }}"
+        url="{{ url('app_documentation', {slug: package.name}) }}"
+    />
+
+    <style>
+        .table-of-contents {
+            position: fixed;
+            inset: 3rem auto 3rem 0;
+            width: 400px;
+            overflow-y: auto;
+            scrollbar-width: none;
+          font-size: smaller;
+          display: grid;
+          place-content: center;
+        }
+        body {
+              overflow-y: scroll;
+            scroll-behavior: smooth;
+        }
+        a.heading-permalink {
+            position: absolute;
+            opacity: 0;
+            transform: translateX(0);
+            transition: all .25s ease-in;
+        }
+        a.heading-permalink::after {
+          position: absolute;
+          content: ' ';
+          inset: 0;
+        }
+        :is(h2,h3,h4) {
+          position: relative;
+
+          &:hover a.heading-permalink {
+            opacity: 1;
+            transform: translateX(-3rem);
+          }
+        }
+        .DocPage {
+          display: grid;
+          max-width: 75ch;
+          margin-inline: auto;
+          font-size: 1.15rem;
+          line-height: 1.5;
+          font-weight: 400;
+            h2 {
+              margin-top: 6rem;
+              margin-bottom: 2rem;
+              font-size: 3.6rem;
+              font-weight: 600;
+            }
+            h3 {
+              margin-top: 4rem;
+              font-size: 2.4rem;
+              margin-bottom: 2rem;
+              font-weight: 500;
+              color: var(--color-text);
+            }
+            h4 {
+              margin-top: 2rem;
+              font-size: 1.8rem;
+              color: var(--color-text);
+            }
+              pre {
+                margin-block: 2rem;
+                border-radius: .75rem;
+                background-color: #0A0A0A;
+                padding: 1rem 1.5rem;
+                color: #d7e2e3;
+                font-size: 1rem;
+                line-height: 1.5;
+              }
+        }
+    </style>
+
+    <div class="container container-xl x-4 pt-4 px-md-5 pt-md-5">
+        <div class="DocPage">
+            {{ content|raw|markdown_to_html }}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -14,7 +14,11 @@ namespace App\Service\CommonMark;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkRenderer;
 use League\CommonMark\Extension\Mention\MentionExtension;
+use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
 use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
 use Tempest\Highlight\CommonMark\HighlightExtension;
 
@@ -42,6 +46,24 @@ final class ConverterFactory
             'external_link' => [
                 'internal_hosts' => ['/(^|\.)symfony\.com$/'],
             ],
+            'table_of_contents' => [
+                'html_class' => 'table-of-contents',
+                'position' => 'top',
+                // 'min_heading_level' => 2,
+                'max_heading_level' => 3,
+            ],
+            'heading_permalink' => [
+                // 'html_class' => 'heading-permalink',
+                //'id_prefix' => 'content',
+                'apply_id_to_heading' => true,
+                // 'heading_class' => '',
+                // 'fragment_prefix' => 'content',
+                // 'insert' => 'none',
+                'min_heading_level' => 1,
+                // 'max_heading_level' => 6,
+                // 'title' => 'Permalink',
+                //'symbol' => HeadingPermalinkRenderer::DEFAULT_SYMBOL,
+            ],
         ]);
 
         $converter->getEnvironment()
@@ -49,6 +71,9 @@ final class ConverterFactory
             ->addExtension(new MentionExtension())
             ->addExtension(new HighlightExtension())
             ->addExtension(new FrontMatterExtension())
+            ->addExtension(new GithubFlavoredMarkdownExtension())
+            ->addExtension(new HeadingPermalinkExtension())
+            ->addExtension(new TableOfContentsExtension())
         ;
 
         return $converter;
