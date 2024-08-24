@@ -44,8 +44,9 @@ use Symfony\UX\TwigComponent\ComponentMetadata;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
-use function Zenstruck\Foundry\factory;
+use function Zenstruck\Foundry\object;
 use function Zenstruck\Foundry\Persistence\persist;
+use function Zenstruck\Foundry\Persistence\proxy;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
@@ -78,7 +79,6 @@ final class LiveComponentHydratorTest extends KernelTestCase
         $hydratedComponent2 = clone $testCase->component;
 
         $liveMetadata = $testCase->liveMetadata;
-
         $this->factory()->mountFromObject(
             $originalComponentWithData,
             $testCase->inputProps,
@@ -401,14 +401,14 @@ final class LiveComponentHydratorTest extends KernelTestCase
         }];
 
         yield 'Persisted entity: deleting entity between dehydration and hydration sets it to null' => [function () {
-            $product = persist(ProductFixtureEntity::class);
+            $product = proxy(persist(ProductFixtureEntity::class));
 
             return HydrationTest::create(new class {
                 // test that event the writable path doesn't cause problems
                 #[LiveProp(writable: ['name'])]
                 public ?ProductFixtureEntity $product;
             })
-                ->mountWith(['product' => $product])
+                ->mountWith(['product' => $product->_real()])
                 ->beforeHydration(function () use ($product) {
                     $product->_delete();
                 })
@@ -749,9 +749,9 @@ final class LiveComponentHydratorTest extends KernelTestCase
         }];
 
         yield 'Array with objects: (de)hydrates correctly' => [function () {
-            $prod1 = factory(ProductFixtureEntity::class, ['name' => 'item1']);
+            $prod1 = persist(ProductFixtureEntity::class, ['name' => 'item1']);
             $prod2 = new ProductFixtureEntity();
-            $prod3 = factory(ProductFixtureEntity::class, ['name' => 'item3']);
+            $prod3 = persist(ProductFixtureEntity::class, ['name' => 'item3']);
 
             return HydrationTest::create(new DummyObjectWithObjects())
                 ->mountWith(['products' => [$prod1, $prod2, $prod3]])
@@ -971,10 +971,10 @@ final class LiveComponentHydratorTest extends KernelTestCase
         }];
 
         yield 'Array with DTOs: fully writable allows anything to change' => [function () {
-            $address1 = factory(Address::class, ['address' => '17 Arcadia Road', 'city' => 'London']);
-            $address2 = factory(Address::class, ['address' => '4 Privet Drive', 'city' => 'Little Whinging']);
-            $address3 = factory(Address::class, ['address' => '124 Conch St.', 'city' => 'Bikini Bottom']);
-            $address4 = factory(Address::class, ['address' => '32 Windsor Gardens', 'city' => 'London']);
+            $address1 = object(Address::class, ['address' => '17 Arcadia Road', 'city' => 'London']);
+            $address2 = object(Address::class, ['address' => '4 Privet Drive', 'city' => 'Little Whinging']);
+            $address3 = object(Address::class, ['address' => '124 Conch St.', 'city' => 'Bikini Bottom']);
+            $address4 = object(Address::class, ['address' => '32 Windsor Gardens', 'city' => 'London']);
 
             return HydrationTest::create(new class {
                 /**
@@ -997,19 +997,19 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->userUpdatesProps(['addresses' => [$address3, $address4]])
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertEquals([
-                        factory(Address::class, ['address' => '124 Conch St.', 'city' => 'Bikini Bottom']),
-                        factory(Address::class, ['address' => '32 Windsor Gardens', 'city' => 'London']),
+                        object(Address::class, ['address' => '124 Conch St.', 'city' => 'Bikini Bottom']),
+                        object(Address::class, ['address' => '32 Windsor Gardens', 'city' => 'London']),
                     ], $object->addresses);
                 });
         }];
 
         yield 'Array with DTOs: fully writable allows partial changes' => [function () {
-            $address1 = factory(Address::class, ['address' => '1600 Pennsylvania Avenue', 'city' => 'Washington DC']);
-            $address2 = factory(Address::class, ['address' => '221 B Baker St', 'city' => 'Birmingham']);
+            $address1 = object(Address::class, ['address' => '1600 Pennsylvania Avenue', 'city' => 'Washington DC']);
+            $address2 = object(Address::class, ['address' => '221 B Baker St', 'city' => 'Birmingham']);
 
             return HydrationTest::create(new class {
                 /**
-                 * @var Address[]
+                 * @var \Symfony\UX\LiveComponent\Tests\Fixtures\Dto\Address[]
                  */
                 #[LiveProp(writable: true, useSerializerForHydration: true)]
                 public array $addresses = [];
@@ -1028,8 +1028,8 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->userUpdatesProps(['addresses.1.city' => 'London'])
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertEquals([
-                        persist(Address::class, ['address' => '1600 Pennsylvania Avenue', 'city' => 'Washington DC']),
-                        persist(Address::class, ['address' => '221 B Baker St', 'city' => 'London']),
+                        object(Address::class, ['address' => '1600 Pennsylvania Avenue', 'city' => 'Washington DC']),
+                        object(Address::class, ['address' => '221 B Baker St', 'city' => 'London']),
                     ], $object->addresses);
                 });
         }];
@@ -1043,14 +1043,14 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 public array $dtos = [];
             })
                 ->mountWith(['dtos' => [
-                    factory(HoldsArrayOfDtos::class, ['addresses' => [
-                        factory(Address::class, ['address' => '742 Evergreen Terrace', 'city' => 'Boston']),
-                        factory(Address::class, ['address' => 'Apartment 5A, 129 West 81st Street', 'city' => 'New York']),
-                        factory(Address::class, ['address' => '52 Festive Road', 'city' => 'London']),
+                    object(HoldsArrayOfDtos::class, ['addresses' => [
+                        object(Address::class, ['address' => '742 Evergreen Terrace', 'city' => 'Boston']),
+                        object(Address::class, ['address' => 'Apartment 5A, 129 West 81st Street', 'city' => 'New York']),
+                        object(Address::class, ['address' => '52 Festive Road', 'city' => 'London']),
                     ]]),
-                    factory(HoldsArrayOfDtos::class, ['addresses' => [
-                        factory(Address::class, ['address' => '698 Sycamore Road', 'city' => 'San Pueblo']),
-                        factory(Address::class, ['address' => 'Madison Square Garden', 'city' => 'Chicago']),
+                    object(HoldsArrayOfDtos::class, ['addresses' => [
+                        object(Address::class, ['address' => '698 Sycamore Road', 'city' => 'San Pueblo']),
+                        object(Address::class, ['address' => 'Madison Square Garden', 'city' => 'Chicago']),
                     ]]),
                 ]])
                 ->assertDehydratesTo(['dtos' => [
@@ -1071,19 +1071,19 @@ final class LiveComponentHydratorTest extends KernelTestCase
                 ->userUpdatesProps([
                     'dtos.0.addresses.0.city' => 'Springfield',
                     'dtos.1.addresses.1.address' => '1060 West Addison Street',
-                    'dtos.1.addresses.1' => factory(Address::class, ['address' => '10 Downing Street', 'city' => 'London']),
+                    'dtos.1.addresses.1' => object(Address::class, ['address' => '10 Downing Street', 'city' => 'London']),
                 ])
                 ->assertObjectAfterHydration(function (object $object) {
                     self::assertEquals(
                         [
-                            persist(HoldsArrayOfDtos::class, ['addresses' => [
-                                factory(Address::class, ['address' => '742 Evergreen Terrace', 'city' => 'Springfield']),
-                                factory(Address::class, ['address' => 'Apartment 5A, 129 West 81st Street', 'city' => 'New York']),
-                                factory(Address::class, ['address' => '52 Festive Road', 'city' => 'London']),
+                            object(HoldsArrayOfDtos::class, ['addresses' => [
+                                object(Address::class, ['address' => '742 Evergreen Terrace', 'city' => 'Springfield']),
+                                object(Address::class, ['address' => 'Apartment 5A, 129 West 81st Street', 'city' => 'New York']),
+                                object(Address::class, ['address' => '52 Festive Road', 'city' => 'London']),
                             ]]),
-                            persist(HoldsArrayOfDtos::class, ['addresses' => [
-                                factory(Address::class, ['address' => '698 Sycamore Road', 'city' => 'San Pueblo']),
-                                factory(Address::class, ['address' => '10 Downing Street', 'city' => 'London']),
+                            object(HoldsArrayOfDtos::class, ['addresses' => [
+                                object(Address::class, ['address' => '698 Sycamore Road', 'city' => 'San Pueblo']),
+                                object(Address::class, ['address' => '10 Downing Street', 'city' => 'London']),
                             ]]),
                         ],
                         $object->dtos
