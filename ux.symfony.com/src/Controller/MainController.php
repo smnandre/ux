@@ -17,17 +17,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\UX\Icons\IconRendererInterface;
 
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_homepage')]
-    public function homepage(UxPackageRepository $packageRepository): Response
+    public function homepage(IconRendererInterface $iconRenderer, UxPackageRepository $packageRepository): Response
     {
         $packages = $packageRepository->findAll();
 
         return $this->render('main/homepage.html.twig', [
             'packages' => $packages,
             'recipeFileTree' => new RecipeFileTree(),
+            'iconRenderer' => $iconRenderer,
         ]);
     }
 

@@ -25,6 +25,8 @@ final class UXIconExtension extends AbstractExtension
     {
         return [
             new TwigFunction('ux_icon', [UXIconRuntime::class, 'renderIcon'], ['is_safe' => ['html']]),
+            new TwigFunction('ux_icon_symbol', [UXIconRuntime::class, 'renderSymbol'], ['is_safe' => ['html']]),
+            new TwigFunction('ux_icon_sprite', [UXIconRuntime::class, 'renderSprite'], ['is_safe' => ['html']]),
         ];
     }
 }

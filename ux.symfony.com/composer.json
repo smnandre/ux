@@ -134,5 +134,83 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "importmap:install": "symfony-cmd"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Notify"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Svelte"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Autocomplete"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Chartjs"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Turbo"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/StimulusBundle"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Vue"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Translator"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Map"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/TogglePassword"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Dropzone"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Icons"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Cropperjs"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Typed"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/LiveComponent"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/React"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/TwigComponent"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/LazyImage"
+        },
+        {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Swup"
+        }
+    ]
 }

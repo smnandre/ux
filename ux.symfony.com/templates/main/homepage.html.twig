@@ -29,6 +29,68 @@
 
     <div class="arrow mb-3 d-none d-md-block"></div>
 
+
+    <div class="row-cols-auto">
+
+        {% set use_sprite = true %}
+
+        {% if use_sprite %}
+            {{ ux_icon_sprite([
+                'lucide:circle-play',
+                'lucide:circle-pause',
+                'solar:eye-outline',
+                'fluent:share-48-regular',
+                'arcticons:settings',
+                'grommet-icons:validate',
+            ]) }}
+        {% endif %}
+
+        <style>
+            .row svg {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+        </style>
+
+        {% for i in 0..50 %}
+            <div class="row row-cols-auto border border-black p-2">
+                <div>
+                    {{ ux_icon('lucide:circle-play', {foo: use_sprite}) }}
+                </div>
+                <div>
+                    {{ ux_icon('lucide:circle-pause', {foo: use_sprite}) }}
+                </div>
+                <div>
+                    {{ ux_icon('solar:eye-outline', {foo: use_sprite}) }}
+                </div>
+                <div>
+                    {{ ux_icon('fluent:share-48-regular', {foo: use_sprite}) }}
+                    composer require  symfony/stimulus-bundle
+                </div>
+                <div>
+                    {{ ux_icon('arcticons:settings', {foo: use_sprite}) }}
+                    symfony/asset-mapper
+                </div>
+                <div>
+                    {{ ux_icon('grommet-icons:validate', {foo: use_sprite}) }}
+                    symfony/stimulus-bundle
+                </div>
+            </div>
+        {% endfor %}
+
+
+{#                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" visibility="hidden">#}
+{#                        {{ iconRenderer.renderSymbol('lucide:circle-play') }}#}
+{#                        {{ iconRenderer.renderSymbol('hugeicons:yoga-ball') }}#}
+{#                    </svg>#}
+
+{#                    <svg xmlns="http://www.w3.org/2000/svg" display="none">#}
+{#                        {{ ux_icon_symbol('lucide:circle-play') }}#}
+{#                        {{ ux_icon_symbol('hugeicons:yoga-ball') }}#}
+{#                    </svg>#}
+
+    </div>
+
     <div class="row">
         <div class="col-12 col-md-6">
             <twig:Terminal bottomPadding="145">
@@ -56,48 +118,23 @@
 
     <div class="arrow mb-3 d-none d-md-block"></div>
 
-    <div class="row">
-        <div class="col-12 col-md-6">
-            <twig:CodeBlock
-                filename="templates/main/homepage.html.twig"
-                targetTwigBlock="markdown_example"
-                :showTwigExtends="false"
-                :stripExcessHtml="true"
-            />
-        </div>
-        <div class="col-12 col-md-6  mt-3 mt-md-0">
-            <twig:CodeBlock
-                filename="assets/controllers/markdown-controller.js"
-            />
-        </div>
-    </div>
+{#    <div class="arrow mb-3 d-none d-md-block"></div>#}
 
-    <div class="shadow-blur shadow-blur--rainbow mt-5" style="--shadow-bottom: 2rem;">
-        <div class="DemoContainer py-2 px-4 d-flex justify-content-center">
-            <small style="opacity: 80%;">And you have a Markdown live convertor!</small>
-        </div>
-        <div class="DemoContainer-inner p-4">
-            {% block markdown_example %}
-                <div class="d-flex align-items-stretch row" data-controller="markdown">
-                    <div class="col d-flex">
-                        <textarea
-                            rows="2" class="form-control p-3"
-                            aria-label="Type markdown into this box"
-                            autocomplete="off"
-                            data-markdown-target="input"
-                            data-action="markdown#render"
-                        >Writing _JavaScript_ is... a **dream** with Stimulus 🤩</textarea>
-                    </div>
-                    <div class="col d-flex">
-                        <div class="markdown-form-render-container p-3" data-markdown-target="preview">
-                            <small>&lt;- Write something in the textarea!</small>
-                        </div>
-                    </div>
-                </div>
-            {% endblock %}
-        </div>
-            <div class="arrow" style="transform:scaleY(-1) translateY(20%);margin-bottom: -1rem;"></div>
-    </div>
+{#    <div class="row">#}
+{#        <div class="col-12 col-md-6">#}
+{#            <twig:CodeBlock#}
+{#                filename="templates/main/homepage.html.twig"#}
+{#                targetTwigBlock="markdown_example"#}
+{#                :showTwigExtends="false"#}
+{#                :stripExcessHtml="true"#}
+{#            />#}
+{#        </div>#}
+{#        <div class="col-12 col-md-6  mt-3 mt-md-0">#}
+{#            <twig:CodeBlock#}
+{#                filename="assets/controllers/markdown-controller.js"#}
+{#            />#}
+{#        </div>#}
+{#    </div>#}
 
     <p class="eyebrows" style="margin: 111px 0 0;">Packages</p>
     <div class="d-md-flex justify-content-md-between text-center align-items-center text-md-start">

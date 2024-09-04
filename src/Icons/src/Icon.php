@@ -138,6 +138,11 @@ final class Icon implements \Stringable
 
     public function toHtml(): string
     {
+        return '<svg'.$this->htmlAttributes().'>'.$this->innerSvg.'</svg>';
+    }
+
+    public function htmlAttributes(): string
+    {
         $htmlAttributes = '';
         foreach ($this->attributes as $name => $value) {
             if (false === $value) {
@@ -159,12 +164,17 @@ final class Icon implements \Stringable
             $htmlAttributes .= '="'.$value.'"';
         }
 
-        return '<svg'.$htmlAttributes.'>'.$this->innerSvg.'</svg>';
+        return $htmlAttributes;
     }
 
     public function getInnerSvg(): string
     {
         return $this->innerSvg;
+    }
+
+    public function getNodeElement(): \DOMElement
+    {
+        return (new \DOMDocument())->loadXML($this->innerSvg)->documentElement->cloneNode(true);
     }
 
     /**

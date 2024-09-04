@@ -57,7 +57,44 @@ final class IconRenderer implements IconRendererInterface
             $icon = $preRenderer($icon);
         }
 
-        return $icon->toHtml();
+        if ($attributes['foo'] ?? false) {
+            return \sprintf(
+            '<svg xmlns="http://www.w3.org/2000/svg" %s>%s</svg>',
+            $icon->htmlAttributes(),
+            $this->renderUse($name, $icon),
+        );
+        }
+
+        return \sprintf(
+            '<svg xmlns="http://www.w3.org/2000/svg" %s>%s</svg>',
+            $icon->htmlAttributes(),
+            $icon->getInnerSvg(),
+        );
+    }
+
+    public function renderSprite(array $names): string
+    {
+        $symbols = '';
+        foreach ($names as $name) {
+            $symbols .= $this->renderSymbol($name);
+        }
+
+        return '<svg xmlns="http://www.w3.org/2000/svg" style="display: none">'.$symbols.'</svg>';
+    }
+
+    public function renderUse($name, Icon $icon): string
+    {
+        $viewBox = $icon->getAttributes()['viewBox'] ?? '0 0 24 24';
+
+        return '<use xlink:href href="#'.$name.'" />'; //viewBox="'.$viewBox.'" />';
+    }
+
+    public function renderSymbol(string $name): string
+    {
+        $icon = $this->registry->get($name);
+        $viewBox = $icon->getAttributes()['viewBox'] ?? '0 0 24 24';
+
+        return '<symbol id="'.$name.'" viewBox="'.$viewBox.'">'.$icon->getInnerSvg().'</symbol>';
     }
 
     /**

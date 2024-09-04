@@ -48,6 +48,36 @@ final class UXIconRuntime implements RuntimeExtensionInterface
         }
     }
 
+    public function renderSprite(array $names): string
+    {
+        try {
+            return $this->iconRenderer->renderSprite($names);
+        } catch (IconNotFoundException $e) {
+            if ($this->ignoreNotFound) {
+                $this->logger?->warning($e->getMessage());
+
+                return '';
+            }
+
+            throw $e;
+        }
+    }
+
+    public function renderSymbol(string $name): string
+    {
+        try {
+            return $this->iconRenderer->renderSymbol($name);
+        } catch (IconNotFoundException $e) {
+            if ($this->ignoreNotFound) {
+                $this->logger?->warning($e->getMessage());
+
+                return '';
+            }
+
+            throw $e;
+        }
+    }
+
     public function render(array $args = []): string
     {
         $name = $args['name'];
