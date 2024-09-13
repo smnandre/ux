@@ -61,29 +61,17 @@ final class ComponentExtension extends AbstractExtension implements ServiceSubsc
 
     public function render(string $name, array $props = []): string
     {
-        try {
-            return $this->container->get(ComponentRenderer::class)->createAndRender($name, $props);
-        } catch (\Throwable $e) {
-            $this->throwRuntimeError($name, $e);
-        }
+        return $this->container->get(ComponentRenderer::class)->createAndRender($name, $props);
     }
 
     public function extensionPreCreateForRender(string $name, array $props): ?string
     {
-        try {
-            return $this->container->get(ComponentRenderer::class)->preCreateForRender($name, $props);
-        } catch (\Throwable $e) {
-            $this->throwRuntimeError($name, $e);
-        }
+        return $this->container->get(ComponentRenderer::class)->preCreateForRender($name, $props);
     }
 
     public function startEmbeddedComponentRender(string $name, array $props, array $context, string $hostTemplateName, int $index): PreRenderEvent
     {
-        try {
-            return $this->container->get(ComponentRenderer::class)->startEmbeddedComponentRender($name, $props, $context, $hostTemplateName, $index);
-        } catch (\Throwable $e) {
-            $this->throwRuntimeError($name, $e);
-        }
+        return $this->container->get(ComponentRenderer::class)->startEmbeddedComponentRender($name, $props, $context, $hostTemplateName, $index);
     }
 
     public function finishEmbeddedComponentRender(): void

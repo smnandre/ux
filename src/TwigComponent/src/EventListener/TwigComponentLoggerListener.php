@@ -34,15 +34,15 @@ class TwigComponentLoggerListener implements EventSubscriberInterface, ResetInte
     public static function getSubscribedEvents(): array
     {
         return [
-            PreCreateForRenderEvent::class => [
-                // High priority: start the stopwatch as soon as possible
-                ['onPreCreateForRender', 255],
-                // Low priority: check `event::getRenderedString()` as late as possible
-                ['onPostCreateForRender', -255],
-            ],
-            PreMountEvent::class => ['onPreMount', 255],
-            PostMountEvent::class => ['onPostMount', -255],
-            PreRenderEvent::class => ['onPreRender', 255],
+            // PreCreateForRenderEvent::class => [
+            //     // High priority: start the stopwatch as soon as possible
+            //     ['onPreCreateForRender', 255],
+            //     // Low priority: check `event::getRenderedString()` as late as possible
+            //     ['onPostCreateForRender', -255],
+            // ],
+            // PreMountEvent::class => ['onPreMount', 255],
+            // PostMountEvent::class => ['onPostMount', -255],
+            // PreRenderEvent::class => ['onPreRender', 255],
             PostRenderEvent::class => ['onPostRender', -255],
         ];
     }
@@ -58,14 +58,14 @@ class TwigComponentLoggerListener implements EventSubscriberInterface, ResetInte
         $this->logEvent($event);
     }
 
-    private function logEvent(object $event): void
+    public function logEvent(object $event): void
     {
         $this->events[] = [$event, [microtime(true), memory_get_usage(true)]];
     }
 
     public function onPostCreateForRender(PreCreateForRenderEvent $event): void
     {
-        if (\is_string($event->getRenderedString())) {
+        if ($event->isPropagationStopped()) {
             $this->stopwatch?->stop($event->getName());
             $this->logEvent($event);
         }

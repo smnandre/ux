@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
 use Symfony\Component\VarDumper\Caster\ClassStub;
 use Symfony\Component\VarDumper\Cloner\Data;
+use Symfony\UX\TwigComponent\Debug\ComponentEventLogger;
 use Symfony\UX\TwigComponent\Event\PostRenderEvent;
 use Symfony\UX\TwigComponent\Event\PreRenderEvent;
 use Symfony\UX\TwigComponent\EventListener\TwigComponentLoggerListener;
@@ -31,19 +32,26 @@ class TwigComponentDataCollector extends AbstractDataCollector implements LateDa
     private bool $hasStub;
 
     public function __construct(
-        private readonly TwigComponentLoggerListener $logger,
+        // private readonly ?TwigComponentLoggerListener $logger = null,
         private readonly Environment $twig,
+        private readonly ComponentEventLogger $eventLogger,
     ) {
         $this->hasStub = class_exists(ClassStub::class);
+
+        $this->eventLogger->reset();
     }
 
     public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
+        // foreach ($this->eventLogger as [$event, $profile]) {
+        //     dump($event::class);
+        // }
+        $this->data = [];
     }
 
     public function lateCollect(): void
     {
-        $this->collectDataFromLogger();
+        // $this->collectDataFromLogger();
         $this->data = $this->cloneVar($this->data);
     }
 
@@ -59,7 +67,7 @@ class TwigComponentDataCollector extends AbstractDataCollector implements LateDa
 
     public function reset(): void
     {
-        $this->logger->reset();
+        $this->eventLogger->reset();
         parent::reset();
     }
 

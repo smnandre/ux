@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d62f8ee7016044332d5d972f4bd06b5a",
+    "content-hash": "79926046a458988dd620789661dac785",
     "packages": [
         {
             "name": "composer/semver",
@@ -2613,16 +2613,16 @@
         },
         {
             "name": "psr/log",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "79dff0b268932c640297f5208d6298f71855c03e"
+                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/79dff0b268932c640297f5208d6298f71855c03e",
-                "reference": "79dff0b268932c640297f5208d6298f71855c03e",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
+                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
                 "shasum": ""
             },
             "require": {
@@ -2657,9 +2657,9 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/3.0.1"
+                "source": "https://github.com/php-fig/log/tree/3.0.2"
             },
-            "time": "2024-08-21T13:31:24+00:00"
+            "time": "2024-09-11T13:17:53+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -6379,16 +6379,10 @@
         {
             "name": "symfony/stimulus-bundle",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/stimulus-bundle.git",
-                "reference": "5e2e1aff3e7cff2875e2f901437543fda9ca9910"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/stimulus-bundle/zipball/5e2e1aff3e7cff2875e2f901437543fda9ca9910",
-                "reference": "5e2e1aff3e7cff2875e2f901437543fda9ca9910",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/StimulusBundle",
+                "reference": "0d99d7701a15fd7d1494715696d050f429bbfa75"
             },
             "require": {
                 "php": ">=8.1",
@@ -6406,14 +6400,17 @@
                 "symfony/twig-bundle": "^5.4|^6.0|^7.0",
                 "zenstruck/browser": "^1.4"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
                     "Symfony\\UX\\StimulusBundle\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\StimulusBundle\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -6427,24 +6424,9 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/stimulus-bundle/tree/v2.19.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-07-30T19:26:23+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/stopwatch",
@@ -7119,16 +7101,10 @@
         {
             "name": "symfony/ux-autocomplete",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-autocomplete.git",
-                "reference": "0bb3e7e3299fc8437f957eb5162303317043a7a8"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-autocomplete/zipball/0bb3e7e3299fc8437f957eb5162303317043a7a8",
-                "reference": "0bb3e7e3299fc8437f957eb5162303317043a7a8",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/Autocomplete",
+                "reference": "42ab40bb3527fe71b811355c015d89e07efefef8"
             },
             "require": {
                 "php": ">=8.1",
@@ -7162,7 +7138,6 @@
                 "zenstruck/browser": "^1.1",
                 "zenstruck/foundry": "1.37.*"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -7175,7 +7150,11 @@
                     "Symfony\\UX\\Autocomplete\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\Autocomplete\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -7190,38 +7169,17 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-autocomplete/tree/2.x"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-09-06T17:27:37+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-chartjs",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-chartjs.git",
-                "reference": "a16c8272e8e9d362c0f3b4d70742747e26d66147"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-chartjs/zipball/a16c8272e8e9d362c0f3b4d70742747e26d66147",
-                "reference": "a16c8272e8e9d362c0f3b4d70742747e26d66147",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/Chartjs",
+                "reference": "318c96305360b9a6e4b28288b678b6d52da4ebac"
             },
             "require": {
                 "php": ">=8.1",
@@ -7239,7 +7197,6 @@
                 "symfony/twig-bundle": "^5.4|^6.0|^7.0",
                 "symfony/var-dumper": "^5.4|^6.0|^7.0"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -7252,7 +7209,11 @@
                     "Symfony\\UX\\Chartjs\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\Chartjs\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -7271,38 +7232,17 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-chartjs/tree/v2.19.3"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-14T04:55:38+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-cropperjs",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-cropperjs.git",
-                "reference": "c378ebc567bac63fb6f5811c8cd0a91c19560805"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-cropperjs/zipball/c378ebc567bac63fb6f5811c8cd0a91c19560805",
-                "reference": "c378ebc567bac63fb6f5811c8cd0a91c19560805",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/Cropperjs",
+                "reference": "bb6eee09631220b657647002ad553d56985e93b5"
             },
             "require": {
                 "intervention/image": "^2.5",
@@ -7325,7 +7265,6 @@
                 "symfony/var-dumper": "^5.4|^6.0|^7.0",
                 "twig/twig": "^2.14.7|^3.0.4"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -7338,7 +7277,11 @@
                     "Symfony\\UX\\Cropperjs\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\Cropperjs\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -7357,38 +7300,17 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-cropperjs/tree/v2.19.3"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-14T04:55:38+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-dropzone",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-dropzone.git",
-                "reference": "aacd654a9b344d574fa55d572fea9330aa47ece5"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-dropzone/zipball/aacd654a9b344d574fa55d572fea9330aa47ece5",
-                "reference": "aacd654a9b344d574fa55d572fea9330aa47ece5",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/Dropzone",
+                "reference": "2063a98c2d635c94f6d64bceb7776273b757c0e4"
             },
             "require": {
                 "php": ">=8.1",
@@ -7405,7 +7327,6 @@
                 "symfony/var-dumper": "^5.4|^6.0|^7.0",
                 "twig/twig": "^2.14.7|^3.0.4"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -7418,7 +7339,11 @@
                     "Symfony\\UX\\Dropzone\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\Dropzone\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -7437,38 +7362,17 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-dropzone/tree/v2.19.3"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-14T04:55:38+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-icons",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-icons.git",
-                "reference": "2a667537d5b30fdf8989ae4b713055c019565299"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-icons/zipball/2a667537d5b30fdf8989ae4b713055c019565299",
-                "reference": "2a667537d5b30fdf8989ae4b713055c019565299",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/Icons",
+                "reference": "1b9de5b302f903bd8401a582de34061e33f75a12"
             },
             "require": {
                 "php": ">=8.1",
@@ -7487,7 +7391,6 @@
                 "symfony/ux-twig-component": "^2.14",
                 "zenstruck/console-test": "^1.5"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -7500,7 +7403,11 @@
                     "Symfony\\UX\\Icons\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\Icons\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -7526,38 +7433,17 @@
                 "symfony-ux",
                 "twig"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-icons/tree/2.x"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-09-09T07:33:50+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-lazy-image",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-lazy-image.git",
-                "reference": "f643dadc0a67949bc840d9f2ab03df23ffd6050b"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-lazy-image/zipball/f643dadc0a67949bc840d9f2ab03df23ffd6050b",
-                "reference": "f643dadc0a67949bc840d9f2ab03df23ffd6050b",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/LazyImage",
+                "reference": "d88074ad100ca18990f4bddf0542fd212113bfae"
             },
             "require": {
                 "php": ">=8.1",
@@ -7574,7 +7460,6 @@
                 "symfony/twig-bundle": "^5.4|^6.0|^7.0",
                 "symfony/var-dumper": "^5.4|^6.0|^7.0"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -7587,7 +7472,11 @@
                     "Symfony\\UX\\LazyImage\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\LazyImage\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -7606,24 +7495,9 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-lazy-image/tree/2.x"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-20T19:19:54+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-leaflet-map",
@@ -7631,12 +7505,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-leaflet-map.git",
-                "reference": "a28fe4315084c7dee8e632eea8866f34b50e62c9"
+                "reference": "ba957b5e04652177b00284200455610bff4d1b45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-leaflet-map/zipball/a28fe4315084c7dee8e632eea8866f34b50e62c9",
-                "reference": "a28fe4315084c7dee8e632eea8866f34b50e62c9",
+                "url": "https://api.github.com/repos/symfony/ux-leaflet-map/zipball/ba957b5e04652177b00284200455610bff4d1b45",
+                "reference": "ba957b5e04652177b00284200455610bff4d1b45",
                 "shasum": ""
             },
             "require": {
@@ -7692,21 +7566,15 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-08-31T10:10:16+00:00"
+            "time": "2024-09-10T12:38:04+00:00"
         },
         {
             "name": "symfony/ux-live-component",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-live-component.git",
-                "reference": "e439f05e1513af9a163c7dad6869fc33117b7394"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-live-component/zipball/e439f05e1513af9a163c7dad6869fc33117b7394",
-                "reference": "e439f05e1513af9a163c7dad6869fc33117b7394",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/LiveComponent",
+                "reference": "9e41ac4bb50fd69063d3e864aeef5ff15392ad67"
             },
             "require": {
                 "php": ">=8.1",
@@ -7739,7 +7607,6 @@
                 "zenstruck/browser": "^1.2.0",
                 "zenstruck/foundry": "^2.0"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -7752,7 +7619,11 @@
                     "Symfony\\UX\\LiveComponent\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\LiveComponent\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -7769,38 +7640,17 @@
                 "symfony-ux",
                 "twig"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-live-component/tree/2.x"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-09-06T08:18:29+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-map",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-map.git",
-                "reference": "8d0279685f4ebf08cb63e21e0146a8ac7d911e1a"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-map/zipball/8d0279685f4ebf08cb63e21e0146a8ac7d911e1a",
-                "reference": "8d0279685f4ebf08cb63e21e0146a8ac7d911e1a",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/Map",
+                "reference": "58b90144707e4110f2deab180d7681e3efd507d0"
             },
             "require": {
                 "php": ">=8.3",
@@ -7812,7 +7662,6 @@
                 "symfony/phpunit-bridge": "^6.4|^7.0",
                 "symfony/twig-bundle": "^6.4|^7.0"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -7826,7 +7675,11 @@
                 },
                 "exclude-from-classmap": []
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\Map\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -7848,38 +7701,17 @@
                 "markers",
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-map/tree/2.x"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-31T08:56:27+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-notify",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-notify.git",
-                "reference": "37b82284a67872ed8fe8827726b09e2d0f1fca23"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-notify/zipball/37b82284a67872ed8fe8827726b09e2d0f1fca23",
-                "reference": "37b82284a67872ed8fe8827726b09e2d0f1fca23",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/Notify",
+                "reference": "ffbba5548a44cf3d9a110c0b0603525381bb338b"
             },
             "require": {
                 "php": ">=8.1",
@@ -7899,7 +7731,6 @@
                 "symfony/phpunit-bridge": "^5.4|^6.0|^7.0",
                 "symfony/var-dumper": "^5.4|^6.0|^7.0"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -7912,7 +7743,11 @@
                     "Symfony\\UX\\Notify\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\Notify\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -7931,38 +7766,17 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-notify/tree/2.x"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-20T19:19:54+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-react",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-react.git",
-                "reference": "14a35bff619eaff8f25ebeeaa2adad92534d100a"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-react/zipball/14a35bff619eaff8f25ebeeaa2adad92534d100a",
-                "reference": "14a35bff619eaff8f25ebeeaa2adad92534d100a",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/React",
+                "reference": "7fcb954da583e438f1af53e89e3545bdc4a9d74b"
             },
             "require": {
                 "php": ">=8.1",
@@ -7976,7 +7790,6 @@
                 "symfony/twig-bundle": "^5.4|^6.0|^7.0",
                 "symfony/var-dumper": "^5.4|^6.0|^7.0"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -7989,7 +7802,11 @@
                     "Symfony\\UX\\React\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\React\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -8008,38 +7825,17 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-react/tree/2.x"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-20T15:47:42+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-svelte",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-svelte.git",
-                "reference": "473f01392b10f92f01269e9b4d5a541fe766df59"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-svelte/zipball/473f01392b10f92f01269e9b4d5a541fe766df59",
-                "reference": "473f01392b10f92f01269e9b4d5a541fe766df59",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/Svelte",
+                "reference": "121747f893a2927836701a6df065d7dc8abcb795"
             },
             "require": {
                 "php": ">=8.1",
@@ -8053,7 +7849,6 @@
                 "symfony/twig-bundle": "^5.4|^6.2|^7.0",
                 "symfony/var-dumper": "^5.4|^6.2|^7.0"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -8066,7 +7861,11 @@
                     "Symfony\\UX\\Svelte\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\Svelte\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -8089,43 +7888,21 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-svelte/tree/2.x"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-20T15:47:42+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-swup",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-swup.git",
-                "reference": "a976f3811329436022f369cef48475be4895002b"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-swup/zipball/a976f3811329436022f369cef48475be4895002b",
-                "reference": "a976f3811329436022f369cef48475be4895002b",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/Swup",
+                "reference": "c3d137225f8064d8d76c61a1837525a72d020be4"
             },
             "conflict": {
                 "symfony/flex": "<1.13"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -8138,7 +7915,6 @@
                     "Symfony\\UX\\Swup\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -8157,38 +7933,17 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-swup/tree/v2.19.3"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-14T04:55:38+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-toggle-password",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-toggle-password.git",
-                "reference": "4d7d9a70bac309c8e388b09528094a59cd1a01ab"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-toggle-password/zipball/4d7d9a70bac309c8e388b09528094a59cd1a01ab",
-                "reference": "4d7d9a70bac309c8e388b09528094a59cd1a01ab",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/TogglePassword",
+                "reference": "01b490403ea23b21ebae29b05ccaf3690d032e40"
             },
             "require": {
                 "php": ">=8.1",
@@ -8206,7 +7961,6 @@
                 "symfony/var-dumper": "^5.4|^6.0|^7.0",
                 "twig/twig": "^2.14.7|^3.0.4"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -8219,7 +7973,11 @@
                     "Symfony\\UX\\TogglePassword\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\TogglePassword\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -8238,38 +7996,17 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-toggle-password/tree/v2.19.3"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-14T04:55:38+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-translator",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-translator.git",
-                "reference": "2c0027a4aeda6a9c58db7428862c778e106c12a1"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-translator/zipball/2c0027a4aeda6a9c58db7428862c778e106c12a1",
-                "reference": "2c0027a4aeda6a9c58db7428862c778e106c12a1",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/Translator",
+                "reference": "288615915809cc2c192bea29b21a9bb1ff9fba6f"
             },
             "require": {
                 "php": ">=8.1",
@@ -8283,7 +8020,6 @@
                 "symfony/phpunit-bridge": "^5.2|^6.0|^7.0",
                 "symfony/var-dumper": "^5.4|^6.0|^7.0"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -8296,7 +8032,11 @@
                     "Symfony\\UX\\Translator\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\Translator\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -8315,38 +8055,17 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-translator/tree/v2.19.3"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-14T14:09:20+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-turbo",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-turbo.git",
-                "reference": "53fb47391767ac12b9c7a093a0bcc7ba01fea905"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/53fb47391767ac12b9c7a093a0bcc7ba01fea905",
-                "reference": "53fb47391767ac12b9c7a093a0bcc7ba01fea905",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/Turbo",
+                "reference": "e300266814623f27b5b5d07b71f56e39a2e201b7"
             },
             "require": {
                 "php": ">=8.1",
@@ -8376,7 +8095,6 @@
                 "symfony/web-profiler-bundle": "^5.4|^6.0|^7.0",
                 "symfony/webpack-encore-bundle": "^2.1.1"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -8389,7 +8107,12 @@
                     "Symfony\\UX\\Turbo\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\": "tests/app/",
+                    "Symfony\\UX\\Turbo\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -8413,38 +8136,17 @@
                 "turbo",
                 "turbo-stream"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-turbo/tree/2.x"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-20T19:19:54+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-twig-component",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-twig-component.git",
-                "reference": "77a68152d083f4c493e05c5503e188c229de8275"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-twig-component/zipball/77a68152d083f4c493e05c5503e188c229de8275",
-                "reference": "77a68152d083f4c493e05c5503e188c229de8275",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/TwigComponent",
+                "reference": "2b841939dbbbd5a6676fe5a50390d9e068908671"
             },
             "require": {
                 "php": ">=8.1",
@@ -8468,7 +8170,6 @@
                 "symfony/twig-bundle": "^5.4|^6.0|^7.0",
                 "symfony/webpack-encore-bundle": "^1.15"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -8481,7 +8182,11 @@
                     "Symfony\\UX\\TwigComponent\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\TwigComponent\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -8498,43 +8203,21 @@
                 "symfony-ux",
                 "twig"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-twig-component/tree/2.x"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-09-03T20:35:17+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-typed",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-typed.git",
-                "reference": "0aad58dd4fd713821e14cf897fe8b32d83ec3299"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-typed/zipball/0aad58dd4fd713821e14cf897fe8b32d83ec3299",
-                "reference": "0aad58dd4fd713821e14cf897fe8b32d83ec3299",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/Typed",
+                "reference": "ab7c0f40acbe977a9fb9b4bef66b84913365e5c2"
             },
             "conflict": {
                 "symfony/flex": "<1.13"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -8547,7 +8230,6 @@
                     "Symfony\\UX\\Typed\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -8566,38 +8248,17 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-typed/tree/v2.19.3"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-14T04:55:38+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/ux-vue",
             "version": "2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-vue.git",
-                "reference": "48360b79af2c68e6cdecd549eada9e9084bd2353"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-vue/zipball/48360b79af2c68e6cdecd549eada9e9084bd2353",
-                "reference": "48360b79af2c68e6cdecd549eada9e9084bd2353",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/simonandre/Sites/symfony/ux/src/Vue",
+                "reference": "6b1bdf6aa8b5eb348d849c5bd290927452140e35"
             },
             "require": {
                 "php": ">=8.1",
@@ -8611,7 +8272,6 @@
                 "symfony/twig-bundle": "^5.4|^6.0|^7.0",
                 "symfony/var-dumper": "^5.4|^6.0|^7.0"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -8624,7 +8284,11 @@
                     "Symfony\\UX\\Vue\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Symfony\\UX\\Vue\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -8647,24 +8311,9 @@
             "keywords": [
                 "symfony-ux"
             ],
-            "support": {
-                "source": "https://github.com/symfony/ux-vue/tree/2.x"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-08-20T15:47:42+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "symfony/validator",
@@ -9187,16 +8836,16 @@
         },
         {
             "name": "tempest/highlight",
-            "version": "2.10.2",
+            "version": "2.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tempestphp/highlight.git",
-                "reference": "fb3309cb2fb6a2353d58b4da49040ad532c21a76"
+                "reference": "ba50ebfe88e513b3de4f7d7c02be331d0b9035aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tempestphp/highlight/zipball/fb3309cb2fb6a2353d58b4da49040ad532c21a76",
-                "reference": "fb3309cb2fb6a2353d58b4da49040ad532c21a76",
+                "url": "https://api.github.com/repos/tempestphp/highlight/zipball/ba50ebfe88e513b3de4f7d7c02be331d0b9035aa",
+                "reference": "ba50ebfe88e513b3de4f7d7c02be331d0b9035aa",
                 "shasum": ""
             },
             "require": {
@@ -9233,7 +8882,7 @@
             "description": "Fast, extensible, server-side code highlighting",
             "support": {
                 "issues": "https://github.com/tempestphp/highlight/issues",
-                "source": "https://github.com/tempestphp/highlight/tree/2.10.2"
+                "source": "https://github.com/tempestphp/highlight/tree/2.10.3"
             },
             "funding": [
                 {
@@ -9241,7 +8890,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-08-30T07:52:11+00:00"
+            "time": "2024-09-12T08:06:29+00:00"
         },
         {
             "name": "twbs/bootstrap",

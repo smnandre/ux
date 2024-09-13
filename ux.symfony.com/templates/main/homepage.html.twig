@@ -103,21 +103,40 @@
             <div class="arrow" style="transform:scaleY(-1) translateY(20%);margin-bottom: -1rem;"></div>
     </div>
 
-    <p class="eyebrows" style="margin: 111px 0 0;">Packages</p>
-    <div class="d-md-flex justify-content-md-between text-center align-items-center text-md-start">
-        <h2 class="ubuntu pt-2 component-headlines">Install extra <em class="rainbow-emphasis">Packages</em></h2>
-        <a style="height: 100%;" class="btn btn-md btn-outline-primary mt-3 mt-md-0"  href="{{ path('app_packages') }}">
-            Browse all Packages
-            <twig:Icon name="arrow-right" style="transform: rotate(-45deg);"/>
-        </a>
-    </div>
-    <div class="row mt-3 mt-md-5">
-        <div style="display: grid; gap: 3rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));">
-            {% for package in packages %}
-                <twig:Package:PackageBox package="{{ package }}" titleTag="h3" />
-            {% endfor %}
+    {% for i in 0..250 %}
+
+        {% block foo %}
+
+            {% block foo_bar %}
+
+        <p class="eyebrows" style="margin: 111px 0 0;">Packages</p>
+        <div class="d-md-flex justify-content-md-between text-center align-items-center text-md-start">
+            <h2 class="ubuntu pt-2 component-headlines">Install extra <em class="rainbow-emphasis">Packages</em></h2>
+            <a style="height: 100%;" class="btn btn-md btn-outline-primary mt-3 mt-md-0"  href="{{ path('app_packages') }}">
+                Browse all Packages
+                <twig:Icon name="arrow-right" style="transform: rotate(-45deg);"/>
+            </a>
         </div>
-    </div>
+        <div class="row mt-3 mt-md-5">
+            <div style="display: grid; gap: 3rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));">
+                {% for package in packages %}
+                    <twig:Package:PackageBox package="{{ package }}" titleTag="h3" />
+                {% endfor %}
+            </div>
+        </div>
+            {% endblock %}
+
+            {% block foo_foo %}
+                <twig:Alert type="success" class="mt-5" message="sdfsfd" />
+            {% endblock %}
+
+            {% block foo_baz %}
+                ssdf sdf sd
+            {% endblock %}
+
+        {% endblock %}
+
+    {% endfor %}
 </div>
 
 {{ include('_aside.html.twig') }}
