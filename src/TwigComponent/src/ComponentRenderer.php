@@ -11,7 +11,6 @@
 
 namespace Symfony\UX\TwigComponent;
 
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\UX\TwigComponent\Event\PostRenderEvent;
 use Symfony\UX\TwigComponent\Event\PreCreateForRenderEvent;
@@ -25,17 +24,13 @@ use Twig\Environment;
  */
 final class ComponentRenderer implements ComponentRendererInterface
 {
-    // TODO update DI
-    private readonly ComponentProperties $componentProperties;
-
     public function __construct(
         private Environment $twig,
         private EventDispatcherInterface $dispatcher,
         private ComponentFactory $factory,
-        PropertyAccessorInterface $propertyAccessor,
+        private ComponentProperties $componentProperties,
         private ComponentStack $componentStack,
     ) {
-        $this->componentProperties = new ComponentProperties($propertyAccessor);
     }
 
     /**
@@ -140,16 +135,17 @@ final class ComponentRenderer implements ComponentRendererInterface
 
         // TODO pass only props & vars here
         // --> no context, outerscope, magic, ..
-        // $variables2 = [
-        //     ...$props,
-        //     $metadata->getAttributesVar() => $mounted->getAttributes(),
-        // ];
-        // $event2 = new PreRenderEvent($mounted, $metadata, $variables2);
-        // $this->dispatcher->dispatch($event2);
 
         $event = new PreRenderEvent($mounted, $metadata, $variables);
         $this->dispatcher->dispatch($event);
 
         return $event;
+    }
+
+    public function warmup(): array
+    {
+        $this->componentProperties->warmup();
+
+        return [];
     }
 }
