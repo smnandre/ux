@@ -97,7 +97,7 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
         $container->register('ux.twig_component.component_properties', ComponentProperties::class)
             ->setArguments([
                 new Reference('property_accessor'),
-                new AbstractArgument('Add in TwigComponentPass'),
+                new AbstractArgument(\sprintf('Added in %s.', TwigComponentPass::class)),
                 new Reference('cache.ux.twig_component', ContainerInterface::IGNORE_ON_INVALID_REFERENCE),
             ])
         ;
