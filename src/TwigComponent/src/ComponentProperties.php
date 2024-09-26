@@ -26,7 +26,7 @@ final class ComponentProperties
 
     /**
      * @var array<class-string, array{
-     *    properties: array<class-string, array{string, array{string, string, bool}, bool}>,
+     *     properties: array<class-string, array{string, array{string, string, bool}, bool}>,
      *     methods: array<class-string, array{string, array{string, bool}}>,
      *  }|null>
      */
