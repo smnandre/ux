@@ -11,6 +11,7 @@
 
 namespace App\Service\Changelog;
 
+use App\Model\UxPackage;
 use Psr\Cache\CacheItemInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -26,6 +27,11 @@ final class ChangelogProvider
     ) {
     }
 
+    public function getUxPackageChangelog(UxPackage $package)
+    {
+        return $this->fetchChangelog($package);
+    }
+
     public function getChangelog(int $page = 1): array
     {
         $changelog = [];
@@ -37,8 +43,13 @@ final class ChangelogProvider
         return $changelog;
     }
 
-    private function getReleases(int $page = 1): array
+    public function getReleases(int $page = 1, ?UxPackage $uxPackage = null): array
     {
+        if (null !== $uxPackage) {
+            [$owner, $package] = explode('/', $uxPackage->getComposerName(), 2);
+            return $this->fetchReleases($owner, $package, $page);
+        }
+
         return $this->cache->get('releases-symfony-ux-'.$page, function (CacheItemInterface $item) use ($page) {
             $item->expiresAfter(604800); // 1 week
 
@@ -53,7 +64,7 @@ final class ChangelogProvider
      */
     private function fetchReleases(string $owner, string $repo, int $page = 1, int $perPage = 20): array
     {
-        $response = $this->httpClient->request('GET', \sprintf('https://api.github.com/repos/%s/%s/releases', $owner, $repo), [
+        $response = $this->httpClient->request('GET', sprintf('https://api.github.com/repos/%s/%s/releases', $owner, $repo), [
             'query' => [
                 'page' => $page,
                 'per_page' => $perPage,
@@ -72,5 +83,16 @@ final class ChangelogProvider
         }
 
         return $releases;
+    }
+
+    private function fetchChangelog(UxPackage $package): string
+    {
+        // https://raw.githubusercontent.com/symfony/ux-twig-component/2.x/CHANGELOG.md
+        $response = $this->httpClient->request('GET', sprintf('https://raw.githubusercontent.com/%s/2.x/CHANGELOG.md', $package->getComposerName()));
+        if (200 !== $response->getStatusCode()) {
+            throw new \RuntimeException(sprintf('The changelog for "%s" does not exist.', $package->getComposerName()));
+        }
+
+        return $response->getContent();
     }
 }

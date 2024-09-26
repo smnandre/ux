@@ -1,0 +1,104 @@
+{% extends 'ux_packages/package.html.twig' %}
+
+{% block package_header %}
+    <twig:Package:PackageHeader
+        package="{{ 'stimulus'|ux_package }}"
+        eyebrowText="Symfony UX Central Piece"
+        title="Stimulus Bundle"
+    >
+        <twig:block name="sub_content">
+            Connects <a href="https://stimulus.hotwire.dev" target="_blank" class="font-white">Stimulus</a>,
+            UX packages, Asset Mapper, Webpack Encore...
+            Making it easy to add JavaScript interactivity to <em>your</em> Symfony apps!
+        </twig:block>
+    </twig:Package:PackageHeader>
+{% endblock %}
+
+
+
+{% block package_content %}
+
+    <section class="p-5">
+        <div class="container container-xxl">
+
+            <div style="display: grid; gap: 3rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))">
+
+                {% for i in 0..3 %}
+                    <div class="FeatureBox">
+                        <div class="FeatureBox_icon">
+                            <twig:ux:icon name="lucide:network" />
+                        </div>
+                        <h2 class="FeatureBox_title">
+                            <a href="https://symfony.com/bundles#symfony-ux-bundles" class="FeatureBox_link" rel="external noopener">Symfony Docs</a>
+                        </h2>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section--alt py-5">
+        <div class="container container-xxl">
+
+            <div class="code-description text-center py-4">
+                <h2>Stimulus Helpers</h2>
+            </div>
+
+            <twig:Code:CodeWithExplanationRow
+                filename="templates/components/ProductGrid2.html.twig"
+                lineStart="1"
+                lineEnd="10"
+                reversed
+                codeCols="6"
+                copyButton="0"
+            >
+                <h3>Foo Bar</h3>
+                <p>For the previous page results, we add one fake item corresponding to the last item of the previous
+                    page, with the same `id`. This allows the **addition of new elements** after the existing ones.</p>
+            </twig:Code:CodeWithExplanationRow>
+
+            <twig:Code:CodeWithExplanationRow
+                filename="templates/components/ProductGrid2.html.twig"
+                lineStart="1"
+                lineEnd="10"
+                codeCols="6"
+                copyButton="0"
+            >
+                ### Previous Results
+
+                🐯 For the previous page results, we add one fake item
+                corresponding to the last item of the previous page,
+                with the same `id`. This allows the **addition of new elements** after the existing ones.
+            </twig:Code:CodeWithExplanationRow>
+
+            <twig:Code:CodeWithExplanationRow
+                filename="templates/components/ProductGrid2.html.twig"
+                lineStart="1"
+                lineEnd="10"
+                codeCols="6"
+                copyButton="0"
+                showFilename="0"
+                reversed
+            >
+                ### Previous Results
+
+                🐯 For the previous page results, we add one fake item
+                corresponding to the last item of the previous page,
+                with the same `id`. This allows the **addition of new elements** after the existing ones.
+            </twig:Code:CodeWithExplanationRow>
+        </div>
+    </section>
+
+    <section>
+        <div class="container container-xl">
+            <div class="code-description text-center p-5">
+                <h2>Lazy-Loaded Controllers</h2>
+            </div>
+            <twig:Browser src="https://stimulus.hotwire.dev" />
+        </div>
+    </section>
+
+
+{% endblock %}
+
