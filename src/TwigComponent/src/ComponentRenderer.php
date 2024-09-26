@@ -133,19 +133,9 @@ final class ComponentRenderer implements ComponentRendererInterface
             [$metadata->getAttributesVar() => $mounted->getAttributes()],
         );
 
-        // TODO pass only props & vars here
-        // --> no context, outerscope, magic, ..
-
         $event = new PreRenderEvent($mounted, $metadata, $variables);
         $this->dispatcher->dispatch($event);
 
         return $event;
-    }
-
-    public function warmup(): array
-    {
-        $this->componentProperties->warmup();
-
-        return [];
     }
 }
