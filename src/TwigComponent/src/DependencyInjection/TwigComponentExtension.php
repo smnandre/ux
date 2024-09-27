@@ -35,9 +35,11 @@ use Symfony\UX\TwigComponent\ComponentRendererInterface;
 use Symfony\UX\TwigComponent\ComponentStack;
 use Symfony\UX\TwigComponent\ComponentTemplateFinder;
 use Symfony\UX\TwigComponent\DependencyInjection\Compiler\TwigComponentPass;
+use Symfony\UX\TwigComponent\TemplateProperties;
 use Symfony\UX\TwigComponent\Twig\ComponentExtension;
 use Symfony\UX\TwigComponent\Twig\ComponentLexer;
 use Symfony\UX\TwigComponent\Twig\ComponentRuntime;
+use Symfony\UX\TwigComponent\Twig\NodeVisitor\PropsCollector;
 use Symfony\UX\TwigComponent\Twig\TwigEnvironmentConfigurator;
 
 /**
@@ -102,17 +104,28 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
             ])
         ;
 
+        $container->register('ux.twig_component.template_properties', TemplateProperties::class)
+            ->setArguments([
+                new AbstractArgument(\sprintf('Added in %s.', TwigComponentPass::class)),
+                new Reference('cache.ux.twig_component', ContainerInterface::IGNORE_ON_INVALID_REFERENCE),
+            ])
+        ;
+
         $container->register('ux.twig_component.component_renderer', ComponentRenderer::class)
             ->setArguments([
                 new Reference('twig'),
                 new Reference('event_dispatcher'),
                 new Reference('ux.twig_component.component_factory'),
                 new Reference('ux.twig_component.component_properties'),
+                new Reference('ux.twig_component.template_properties'),
                 new Reference('ux.twig_component.component_stack'),
             ])
         ;
 
         $container->register('ux.twig_component.twig.component_extension', ComponentExtension::class)
+            ->setArguments([
+                new Reference('ux.twig_component.twig.props_collector'),
+            ])
             ->addTag('twig.extension')
         ;
 
@@ -124,6 +137,8 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
         ;
 
         $container->register('ux.twig_component.twig.lexer', ComponentLexer::class);
+
+        $container->register('ux.twig_component.twig.props_collector', PropsCollector::class);
 
         $container->register('ux.twig_component.twig.environment_configurator', TwigEnvironmentConfigurator::class)
             ->setDecoratedService(new Reference('twig.configurator.environment'))
@@ -153,6 +168,8 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
             ->setArguments([new Reference(\Psr\Container\ContainerInterface::class)])
             ->addTag('kernel.cache_warmer')
             ->addTag('container.service_subscriber', ['id' => 'ux.twig_component.component_properties'])
+            ->addTag('container.service_subscriber', ['id' => 'ux.twig_component.template_properties'])
+            ->addTag('container.service_subscriber', ['id' => 'twig'])
         ;
     }
 

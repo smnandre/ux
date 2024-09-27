@@ -16,6 +16,7 @@ use Symfony\UX\TwigComponent\Event\PostRenderEvent;
 use Symfony\UX\TwigComponent\Event\PreCreateForRenderEvent;
 use Symfony\UX\TwigComponent\Event\PreRenderEvent;
 use Twig\Environment;
+use WeakReference;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
@@ -29,6 +30,7 @@ final class ComponentRenderer implements ComponentRendererInterface
         private EventDispatcherInterface $dispatcher,
         private ComponentFactory $factory,
         private ComponentProperties $componentProperties,
+        private TemplateProperties $templateProperties,
         private ComponentStack $componentStack,
     ) {
     }
@@ -53,31 +55,18 @@ final class ComponentRenderer implements ComponentRendererInterface
         return $this->render($this->factory->create($name, $props));
     }
 
+    private array $templates = [];
+
     public function render(MountedComponent $mounted): string
     {
-        $this->componentStack->push($mounted);
-
         $event = $this->preRender($mounted);
-
         $variables = $event->getVariables();
-        // see ComponentNode. When rendering an individual embedded component,
-        // *not* through its parent, we need to set the parent template.
-        if ($event->getTemplateIndex()) {
-            $variables['__parent__'] = $event->getParentTemplateForEmbedded();
-        }
 
-        try {
-            return $this->twig->loadTemplate(
-                $this->twig->getTemplateClass($event->getTemplate()),
-                $event->getTemplate(),
-                $event->getTemplateIndex(),
-            )->render($variables);
-        } finally {
-            $mounted = $this->componentStack->pop();
+        dump($this->templateProperties->getProperties($event->getTemplate()));
 
-            $event = new PostRenderEvent($mounted);
-            $this->dispatcher->dispatch($event);
-        }
+        $template = $this->templates[$tpl = $event->getTemplate()] ??= $this->twig->resolveTemplate($tpl);
+
+        return $template->render($variables);
     }
 
     public function startEmbeddedComponentRender(string $name, array $props, array $context, string $hostTemplateName, int $index): PreRenderEvent

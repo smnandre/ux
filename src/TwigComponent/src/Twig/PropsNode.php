@@ -34,6 +34,18 @@ class PropsNode extends Node
             ->addDebugInfo($this)
             ->write('$propsNames = [];')
         ;
+        // ClassProps: properties defined in the component PHP class
+
+        // TwigProps: properties defined in the component Twig template
+
+        // Attributes:
+
+        // Context: properties defined in the context array passed to the component
+
+        // $attributesKeys = $context['attributes']->keys();
+        // $classPropsKeys =
+        // $twigPropsKeys = $this->getAttribute('names');
+
 
         if (!$this->getAttribute('names')) {
             return;
@@ -95,6 +107,11 @@ class PropsNode extends Node
                 ;
             }
         }
+
+        // $attributesKeys = array_keys($context['attributes']->all());
+        // $keysToRemove = array_diff($attributesKeys, $propsNames);
+        // $context['attributes'] = $context['attributes']->without(...$keysToRemove);
+
 
         $compiler
             ->write('$attributesKeys = array_keys($context[\'attributes\']->all());')

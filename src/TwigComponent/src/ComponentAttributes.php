@@ -233,6 +233,14 @@ final class ComponentAttributes implements \Stringable, \IteratorAggregate, \Cou
         return \array_key_exists($attribute, $this->attributes);
     }
 
+    /**
+     * @return list<string>
+     */
+    public function keys(): array
+    {
+        return \array_keys($this->attributes);
+    }
+
     public function count(): int
     {
         return \count($this->attributes);

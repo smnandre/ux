@@ -12,6 +12,8 @@
 namespace Symfony\UX\TwigComponent\Twig;
 
 use Symfony\UX\TwigComponent\CVA;
+use Symfony\UX\TwigComponent\Twig\NodeVisitor\PropsCollector;
+use Symfony\UX\TwigComponent\Twig\NodeVisitor\PropsNodeVisitor;
 use Twig\DeprecatedCallableInfo;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -23,6 +25,8 @@ use Twig\TwigFunction;
  */
 final class ComponentExtension extends AbstractExtension
 {
+    private PropsCollector $propsCollector;
+
     public function getFunctions(): array
     {
         return [
@@ -35,11 +39,23 @@ final class ComponentExtension extends AbstractExtension
         ];
     }
 
+    public function getCollector(): PropsCollector
+    {
+        return $this->propsCollector;
+    }
+
     public function getTokenParsers(): array
     {
         return [
             new ComponentTokenParser(),
             new PropsTokenParser(),
+        ];
+    }
+
+    public function getNodeVisitors(): array
+    {
+        return [
+            new PropsNodeVisitor($this->propsCollector ??= new PropsCollector()),
         ];
     }
 

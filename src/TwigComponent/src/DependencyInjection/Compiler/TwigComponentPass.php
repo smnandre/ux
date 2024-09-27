@@ -31,6 +31,7 @@ final class TwigComponentPass implements CompilerPassInterface
         $componentReferences = [];
         $componentClassMap = [];
         $componentNames = [];
+        $templateMap = [];
         $componentDefaults = $container->getParameter('ux.twig_component.component_defaults');
         $container->getParameterBag()->remove('ux.twig_component.component_defaults');
         $legacyAutoNaming = $container->hasParameter('ux.twig_component.legacy_autonaming');
@@ -72,6 +73,7 @@ final class TwigComponentPass implements CompilerPassInterface
                 $componentReferences[$tag['key']] = new Reference($id);
                 $componentNames[] = $tag['key'];
                 $componentClassMap[$tag['class']] = $tag['key'];
+                $templateMap[$tag['template']] = $tag['key'];
             }
         }
 
@@ -82,6 +84,9 @@ final class TwigComponentPass implements CompilerPassInterface
 
         $componentPropertiesDefinition = $container->findDefinition('ux.twig_component.component_properties');
         $componentPropertiesDefinition->setArgument(1, array_fill_keys(array_keys($componentClassMap), null));
+
+        $templatePropertiesDefinition = $container->findDefinition('ux.twig_component.template_properties');
+        $templatePropertiesDefinition->setArgument(0, array_fill_keys(array_keys($templateMap), null));
 
         $debugCommandDefinition = $container->findDefinition('ux.twig_component.command.debug');
         $debugCommandDefinition->setArgument(3, $componentClassMap);
