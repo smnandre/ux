@@ -48,7 +48,7 @@ final class ComponentNode extends EmbedNode
             ->raw(']->embeddedContext(')
             ->string($this->getAttribute('component'))
             ->raw(', ')
-            ->string($twig_to_array)
+            ->raw($twig_to_array)
             ->raw('(')
             ->subcompile($this->getNode('variables'))
             ->raw('), ')
