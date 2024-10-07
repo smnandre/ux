@@ -5,6 +5,7 @@
         package="{{ 'stimulus'|ux_package }}"
         eyebrowText="Symfony UX Central Piece"
         title="Stimulus Bundle"
+        :command="false"
     >
         <twig:block name="sub_content">
             Connects <a href="https://stimulus.hotwire.dev" target="_blank" class="font-white">Stimulus</a>,
@@ -15,90 +16,116 @@
 {% endblock %}
 
 
-
 {% block package_content %}
 
-    <section class="p-5">
-        <div class="container container-xxl">
-
-            <div style="display: grid; gap: 3rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))">
-
-                {% for i in 0..3 %}
-                    <div class="FeatureBox">
-                        <div class="FeatureBox_icon">
-                            <twig:ux:icon name="lucide:network" />
-                        </div>
-                        <h2 class="FeatureBox_title">
-                            <a href="https://symfony.com/bundles#symfony-ux-bundles" class="FeatureBox_link" rel="external noopener">Symfony Docs</a>
-                        </h2>
-                    </div>
-                {% endfor %}
-
+    <section class="mb-5">
+        <div class="container">
+            <div style="display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))">
+                <twig:FeatureBox icon="rocket" title="Simple by Design"/>
+                <twig:FeatureBox icon="link" title="Seamless Integration"/>
+                <twig:FeatureBox icon="zap" title="Optimized for Performance"/>
+                <twig:FeatureBox icon="square-dashed-mouse-pointer" title="Lazy Loading"/>
+                <twig:FeatureBox icon="globe" title="Web Standards"/>
             </div>
         </div>
     </section>
 
-    <section class="section--alt py-5">
-        <div class="container container-xxl">
-
-            <div class="code-description text-center py-4">
-                <h2>Stimulus Helpers</h2>
-            </div>
-
-            <twig:Code:CodeWithExplanationRow
-                filename="templates/components/ProductGrid2.html.twig"
-                lineStart="1"
-                lineEnd="10"
-                reversed
-                codeCols="6"
-                copyButton="0"
-            >
-                <h3>Foo Bar</h3>
-                <p>For the previous page results, we add one fake item corresponding to the last item of the previous
-                    page, with the same `id`. This allows the **addition of new elements** after the existing ones.</p>
-            </twig:Code:CodeWithExplanationRow>
-
-            <twig:Code:CodeWithExplanationRow
-                filename="templates/components/ProductGrid2.html.twig"
-                lineStart="1"
-                lineEnd="10"
-                codeCols="6"
-                copyButton="0"
-            >
-                ### Previous Results
-
-                🐯 For the previous page results, we add one fake item
-                corresponding to the last item of the previous page,
-                with the same `id`. This allows the **addition of new elements** after the existing ones.
-            </twig:Code:CodeWithExplanationRow>
-
-            <twig:Code:CodeWithExplanationRow
-                filename="templates/components/ProductGrid2.html.twig"
-                lineStart="1"
-                lineEnd="10"
-                codeCols="6"
-                copyButton="0"
-                showFilename="0"
-                reversed
-            >
-                ### Previous Results
-
-                🐯 For the previous page results, we add one fake item
-                corresponding to the last item of the previous page,
-                with the same `id`. This allows the **addition of new elements** after the existing ones.
-            </twig:Code:CodeWithExplanationRow>
-        </div>
-    </section>
-
-    <section>
+    <section class="section--alt py-3">
         <div class="container container-xl">
-            <div class="code-description text-center p-5">
-                <h2>Lazy-Loaded Controllers</h2>
+
+            <div class="pt-5">
+                <h2 class="ubuntu">Stimulus Twig Helpers</h2>
             </div>
-            <twig:Browser src="https://stimulus.hotwire.dev" />
+
+            <twig:Code:CodeWithExplanationRow
+                filename="templates/{{ _self }}"
+                targetTwigBlock="stimulus_controller"
+                id="stimulus_controller"
+                :showFilename="false"
+                :copyButton="false"
+                reversed
+            >
+                {% block stimulus_controller %}
+                    <div {{ stimulus_controller('userProfile', {userId: 42, theme: 'dark'}) }}>
+                        Welcome to your profile!
+                    </div>
+
+                    {# would render as #}
+
+                    <div data-controller="userProfile" data-user-profile-user-id-value="42"
+                         data-user-profile-theme-value="dark">
+                        Welcome to your profile!
+                    </div>
+                {% endblock %}
+
+                <h3 class="h3"><code>stimulus_controller</code></h3>
+
+                This function attaches a Stimulus controller to an HTML element and allows passing values (via
+                __data-attributes__) that can be accessed within the controller.
+
+                These values are useful for providing dynamic data or configuration to your controller’s logic.
+            </twig:Code:CodeWithExplanationRow>
+
+            <twig:Code:CodeWithExplanationRow
+                filename="templates/{{ _self }}"
+                targetTwigBlock="stimulus_target"
+                id="stimulus_target"
+                :showFilename="false"
+                :copyButton="false"
+            >
+                {% block stimulus_target %}
+                    <div {{ stimulus_controller('userProfile') }}>
+                        <span {{ stimulus_target('userProfile', 'name') }}>John Doe</span>
+                        <span {{ stimulus_target('userProfile', 'avatar') }}>
+                            <img src="avatar.jpg" alt="John's Avatar">
+                        </span>
+                    </div>
+
+                    {# would render as #}
+
+                    <div data-controller="userProfile">
+                        <span data-user-profile-target="name">John Doe</span>
+                        <span data-user-profile-target="avatar">
+                            <img src="avatar.jpg" alt="John's Avatar">
+                        </span>
+                    </div>
+                {% endblock %}
+
+                <h3 class="h3"><code>stimulus_target</code></h3>
+
+                This function defines one or more targets within a Stimulus controller. These targets allow you
+                to interact with specific DOM elements directly from your controller’s logic.
+            </twig:Code:CodeWithExplanationRow>
+
+            <twig:Code:CodeWithExplanationRow
+                filename="templates/{{ _self }}"
+                targetTwigBlock="stimulus_action"
+                :showFilename="false"
+                :copyButton="false"
+                id="stimulus_action"
+                reversed
+            >
+                {% block stimulus_action %}
+                    <button {{ stimulus_action('userProfile', 'save', 'click') }}>
+                        Save Profile
+                    </button>
+
+                    {# would render as #}
+
+                    <button data-action="click->userProfile#save">
+                        Save Profile
+                    </button>
+                {% endblock %}
+
+                <h3 class="h3"><code>stimulus_action</code></h3>
+
+                This function attaches an event listener to an HTML element, defining actions that trigger specific
+                methods in the controller.
+
+                This simplifies event handling by mapping DOM events (like `click`, `input`, etc.) directly to
+                controller methods, improving the clarity and maintainability of your code.
+            </twig:Code:CodeWithExplanationRow>
+
         </div>
     </section>
-
-
 {% endblock %}
-
