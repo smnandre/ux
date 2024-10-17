@@ -1,0 +1,33 @@
+.Hero {
+  padding-block-start: 7rem;
+  padding-block-end: 2rem;
+  
+  & :is(p, h1) {
+    text-wrap: balance;
+    margin-block: 0;
+  }
+  
+  text-align: center;
+}
+
+.Hero__inner { 
+  display: grid;
+  gap: 1rem;
+  justify-content: center;  
+}
+
+.Hero__title {
+  --font-weight: 700;
+
+  color: var(--bs-body-color);
+  font-size: var(--title-size, var(--fs-xxlarge));
+}
+
+.Hero__suptitle {
+
+}
+
+.Hero__subtitle {
+  max-width: 40rem;
+  text-wrap: balance;
+}

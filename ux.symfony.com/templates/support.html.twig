@@ -7,13 +7,13 @@
 } %}
 
 {% block content %}
-
-    <div class="hero">
-        <div class="container-fluid container-xxl px-4 pt-4 px-md-5">
-            <h1 class="text-center mt-5"><a href="{{ url('app_support') }}">Support</a></h1>
-            <p class="text-center mt-2 mb-5">Ask questions about Symfony UX and find the answers you need.</p>
-        </div>
-    </div>
+    
+    <twig:Hero
+        title="Support"
+        subtitle="Ask questions about Symfony UX and find the answers you need."
+        url="{{ url('app_support') }}"
+        class="pb-4"
+    />
 
     <section style="--padding:0;">
         <div class="container-fluid container px-4 pt-4 px-md-5" style="max-width: 1000px;">
@@ -81,20 +81,6 @@
                     </div>
                 </div>
 
-                {% if false %}
-                <div class="SupportBox">
-                    <div class="SupportBox_logo">
-                        <twig:ux:icon name="logos:stackoverflow-icon" />
-                    </div>
-                    <div class="SupportBox_content">
-                        <h2 class="SupportBox_title">
-                            <a href="https://stackoverflow.com/questions/tagged/symfonyux" class="SupportBox_link">Stack Overflow</a>
-                        </h2>
-                        <p class="SupportBox_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.<code>#ux</code> Nullam auctor, nunc nec</p>
-                    </div>
-                </div>
-                {% endif %}
-
             </div>
         </div>
     </section>
@@ -102,5 +88,5 @@
 {% endblock %}
 
 {% block aside %}
-    {{ include('_aside.html.twig') }}
+    {{ include('layouts/_aside.html.twig') }}
 {% endblock %}

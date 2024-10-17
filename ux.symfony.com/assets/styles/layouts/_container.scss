@@ -1,16 +1,34 @@
 .container {
   margin-inline: auto;
-  max-width: 1240px;
-}
-.container--fluid {
-  max-width: 100%;
-}
-.container--large {
+  max-width: var(--width, 1040px);
+  
+  padding-inline: var(--space);
 
+  &[data-width="xl"] {
+    --width: 1200px;
+  }
+
+  &[data-width="xxl"] {
+    --width: 1400px;
+  }
+  
+  &--fluid {
+    --container-width: 100%;
+  }
+  
+  &--xl {
+    --width: min(1200px, 100%);
+  }
+  
+  &--xxl {
+    --width: 1200px;
+  }
+}
+
+
+.container--xl {
+  --width: 1200px;
 }
 .container-xxl {
-  max-width: 1400px;
-}
-.container--xlarge {
-
+    --width: 1400px;
 }

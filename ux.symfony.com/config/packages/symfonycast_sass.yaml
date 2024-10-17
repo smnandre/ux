@@ -1,0 +1,37 @@
+# config/packages/symfonycasts_sass.yaml
+symfonycasts_sass:
+    root_sass:
+        - '%kernel.project_dir%/assets/styles/bootstrap.scss'
+        - '%kernel.project_dir%/assets/styles/app.scss'
+    
+    sass_options:
+        # The output style for the compiled CSS files: expanded or compressed. Defaults to expanded.
+        # style: expanded
+
+        # Emit a @charset or BOM for CSS with non-ASCII characters. Defaults to true in Dart Sass.
+        # charset: true
+
+        # Register additional load paths. Defaults to empty array.
+        # load_path: []
+
+        # Whether to generate source maps. Defaults to true when "kernel.debug" is true.
+        source_map: false
+
+        # Embed source file contents in source maps. Defaults to false.
+        # embed_sources:
+
+        # Embed source map contents in CSS. Defaults to false.
+        embed_source_map: false
+
+        # Don't print warnings. Defaults to false.
+        # quiet:
+
+        # Don't print deprecated warnings for dependencies. Defaults to false.
+        # quiet_deps:
+
+        # Don't compile more files once an error is encountered. Defaults to false.
+        # stop_on_error:
+
+        # Print full Dart stack traces for exceptions. Defaults to false.
+        # trace:
+    embed_sourcemap: false

@@ -1,115 +1,75 @@
 
-h1 {
-  font-size: 52px;
-  font-weight: 700;
-  line-height: 60px;
-  letter-spacing: -0.035em;
-  font-family: var(--font-family-title);
+:root {
+  
+  /** tokens */
+  
+  --ff-title: "UbuntuSans", "Ubuntu", system-ui, sans-serif;
+  --ff-text: system-ui, sans-serif;
+  --ff-code: ui-monospace, "SF Mono", SFMono-Regular, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+
+  --fw-thin: 100;
+  --fw-extralight: 200;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+
+  --fs-xsmall: .8;
+  --fs-small: .9;
+  --fs-regular: 1;
+  --fs-medium: 1.15;
+  --fs-large: 1.5;
+  --fs-xlarge: 3rem;
+  --fs-xxlarge: 4rem;
+  
+  
+  /** public */
+  --font-family-title: var(--ff-title);
+  --font-family-text: var(--ff-text);
+  --font-family-code: var(--ff-code);
+
+  --heading-size: 6rem;
+  --heading-weight: 6rem;
 }
 
-h2.ubuntu {
-  font-size: 42px;
-  font-weight: 700;
-  line-height: 48px;
-  letter-spacing: -2px;
-}
-
-h3, a.component-title {
-  font-family: var(--font-family-title);
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 32px;
-  letter-spacing: -1px;
-  text-decoration: none;
-  color: var(--bs-body-color);
-}
-
-h4.ubuntu {
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 18.38px;
-}
-
-.component-headlines {
-  width: 50%;
-}
-
-@media (max-width: 900px) {
-  .component-headlines {
-    width: 56%;
+:is(h1, h2, h3, h4, h5, h6) {
+  
+  a {
+    color: inherit;
+  }
+  a:only-child {
+    text-decoration: none;
   }
 }
 
-@media (max-width: 767px) {
-  .component-headlines {
-    text-align: center;
-    width: 100%
-  }
+:is(h1) {
+  font-size: var(--fs-xxlarge);
+  font-weight: var(--fw-extrabold);
+  line-height: 1.05ch;
+  letter-spacing: -0.05ch;
 }
 
-.code-description :is(h2, h3) {
-  font-family: var(--font-family-title);
-}
-.code-description h2 {
-  font-size: 2.5em;
-  margin-block-end: 1.5rem;
-}
-.code-description h3 {
-  font-size: 1.65em;
-  font-weight: 500;
-  margin-block-end: 1.125rem;
-  margin-top: 2.25rem;
+:is(h2) {
+  font-size: var(--fs-xlarge);
+  font-weight: var(--fw-bold);
+  line-height: 1.15ch;
+  letter-spacing: -0.01ch;
 }
 
-.code-description:hover strong {
-  background: var(--bs-body-color);
-    color: var(--bs-body-bg);
+:is(h3) {
+  font-family: var(--ff-title);
+  font-size: var(--fs-large);
+  font-weight: var(--fw-semibold);
 }
 
-
-.ubuntu-header {
-  font-family: var(--font-family-title);
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 24px;
-  letter-spacing: -1px;
-  text-decoration: none;
+:is(h4) {
+  font-size: var(--fs-medium);
+  font-weight: var(--fw-medium);
 }
 
-.ubuntu-title {
-  font-family: var(--font-family-title);
-  font-weight: 700;
-  font-size: 19px;
-  line-height: 22px;
-  letter-spacing: -0.668767511844635px;
-}
-
-.eyebrows {
-  text-transform: uppercase;
-  font-family: var(--font-family-text);
-  font-weight: 600;
-  font-size: 0.7rem;
-  line-height: 1.6;
-  letter-spacing: 0.125rem;
-}
-
-
-@media (max-width: 576px) {
-  h1 {
-    font-size: 36px;
-    line-height: 41px;
-    letter-spacing: -1px;
-  }
-
-  h2.ubuntu {
-    font-size: 28px;
-    line-height: 32px;
-    letter-spacing: -1px;
-  }
-
-  h3, a.component-title {
-    font-size: 22px;
-    line-height: 25px;
-    letter-spacing: -1px;
-  }
+:is(h5, h6) {
+  font-size: var(--fs-medium);
+  font-weight: var(--fw-medium);
 }

@@ -38,16 +38,16 @@
     .nav-link {
         border-bottom: 0;
         margin-bottom: 0;
-        color: $n-100;
+        color: #D9D9D9;
     }
     .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
         background-color: var(--bg-color);
-        border-color: $n-800;
-        color: $n-100;
+        border-color: #262626;
+        color: #D9D9D9;
     }
     .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
-        border-color: $n-800;
-        color: $n-100;
+        border-color: #262626;
+        color: #D9D9D9;
     }
 }
 
@@ -84,13 +84,13 @@
     border-radius: 50%;
 
     &.red {
-        background: $red;
+        background: #FB4040FF;
     }
     &.yellow {
-        background: $yellow;
+        background: #FFD166FF;
     }
     &.green {
-        background: $green;
+        background: #84DE2CFF;
     }
     [data-bs-theme="dark"] & {
         opacity: .85;
@@ -123,19 +123,19 @@
 
 .Terminal_actions {
     .btn-link {
-        color: $n-200;
+        color: #BFBFBF;
         background: none;
     }
     .btn-copy {
-        color: $n-200;
+        color: #BFBFBF;
         background: none;
         transition: all 250ms ease-in-out;
         &:hover {
-            color: $n-100;
+            color: #D9D9D9;
         }
     }
     .btn-link:hover {
-        color: $n-100;
+        color: #D9D9D9;
     }
     white-space: nowrap;
 }

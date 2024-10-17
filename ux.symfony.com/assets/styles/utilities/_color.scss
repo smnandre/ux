@@ -1,0 +1,30 @@
+
+
+.color-darkest {
+    --color: color-mix(in lch, currentColor, #0000 75%)
+}
+.color-darker {
+    --color: color-mix(in lch, currentColor, #0000 50%)
+}
+.color-lighter {
+    --color: color-mix(in lch, currentColor, #ffff 50%)
+}
+.color-lightest {
+    --color: color-mix(in lch, currentColor, #ffff 75%)
+}
+
+.bg-lighter {
+    --color: color-mix(in lch, backgroundColor, #ffff 50%)
+}
+
+.--lighter {
+  
+}
+  
+
+.bg-darker {
+    background-color: color-mix(in lch, var(--bg-color), #ffff 50%)
+}
+.bg-lighter {
+    background-color: color-mix(in lch, var(--bg-color), #ffff 50%)
+}

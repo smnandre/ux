@@ -22,7 +22,6 @@ section:not([class]) {
   color: var(--heading-color, var(--color-primary));
 }
 
-
 .section--alt {
   background: rgb(var(--bs-body-color-rgb), .025);
   border-block: 1px dotted var(--bs-primary-border-subtle);
