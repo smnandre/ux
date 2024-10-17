@@ -16,23 +16,15 @@
         {% endblock %}
 
         {% block meta %}
-            {{ include('_meta.html.twig', {meta: meta|default}) }}
+            {{ include('layouts/_meta.html.twig', {meta: meta|default}) }}
         {% endblock %}
 
-        {% block javascripts %}
-            <script>
+        {% block javascript %}
+             <script>
               const theme = localStorage.getItem('user-theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
               document.documentElement.setAttribute('data-bs-theme', theme === 'light' ? 'light' : 'dark');
             </script>
             {% block importmap %}
-                <script>
-                    if (!(HTMLScriptElement && HTMLScriptElement.supports?.('importmap'))) {
-                        document.head.appendChild(Object.assign(document.createElement("script"),{
-                            src:"https://cdn.jsdelivr.net/npm/es-module-shims@1.8.2/dist/es-module-shims.min.js",
-                            async:true,
-                        }));
-                    }
-                </script>
                 {{ importmap('app') }}
             {% endblock %}
         {% endblock %}
@@ -40,13 +32,13 @@
     <body>
 
         {% block banner %}
-            {{ include('_banner.html.twig') }}
+            {{ include('layouts/_banner.html.twig') }}
         {% endblock %}
 
         {% block body %}
             <div class="App">
                 {% block header %}
-                    {{ include('_header.html.twig') }}
+                    {{ include('layouts/_header.html.twig') }}
                 {% endblock %}
 
                 {% block main %}
@@ -59,7 +51,7 @@
                 {% block aside %}{% endblock %}
 
                 {% block footer %}
-                    {{ include('_footer.html.twig') }}
+                    {{ include('layouts/_footer.html.twig') }}
                 {% endblock %}
             </div>
         {% endblock %}

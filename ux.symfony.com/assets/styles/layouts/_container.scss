@@ -1,16 +1,24 @@
 .container {
   margin-inline: auto;
-  max-width: 1240px;
-}
-.container--fluid {
-  max-width: 100%;
-}
-.container--large {
+  max-width: var(--width, 1040px);
 
+  &[data-width="xl"] {
+    --width: 1200px;
+  }
+
+&[data-width="xxl"] {
+    --width: 1400px;
+  }
+
+}
+
+.--fluid {
+  --width: 100%;
+}
+
+.container--xl {
+  --width: 1200px;
 }
 .container-xxl {
-  max-width: 1400px;
-}
-.container--xlarge {
-
+    --width: 1400px;
 }

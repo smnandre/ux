@@ -1,0 +1,20 @@
+.Hero {
+  padding-block-start: 7rem;
+}
+
+.Hero__inner {
+
+}
+
+.Hero__title {
+  --font-weight: 700;
+    line-height: 32px;
+    letter-spacing: -1px;
+    text-decoration: none;
+    color: var(--bs-body-color);
+}
+
+.Hero__subtitle {
+  width: 50%;
+  text-wrap: balance;
+}

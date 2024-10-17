@@ -132,6 +132,7 @@ $utilities: map-remove(
 @import "components/DemoContainer";
 @import "components/DemoCard";
 @import "components/DocsLink";
+@import "components/Eyebrow";
 @import "components/FeatureBox";
 @import "components/FileTree";
 @import "components/Icon";
@@ -169,6 +170,7 @@ $utilities: map-remove(
 @import "sections/header";
 @import "sections/nav";
 @import "sections/hero";
+@import "sections/code_description";
 
 @import "./container";
 @import "./images";

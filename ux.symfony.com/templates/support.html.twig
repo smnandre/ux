@@ -15,6 +15,13 @@
         </div>
     </div>
 
+    <div class="Hero">
+        <div class="Hero_inner">
+            <h1><a href="{{ url('app_support') }}">Support</a></h1>
+            <p>Ask questions about Symfony UX and find the answers you need.</p>
+        </div>
+    </div>
+
     <section style="--padding:0;">
         <div class="container-fluid container px-4 pt-4 px-md-5" style="max-width: 1000px;">
             <div style="display: grid; gap: 3rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))">
@@ -102,5 +109,5 @@
 {% endblock %}
 
 {% block aside %}
-    {{ include('_aside.html.twig') }}
+    {{ include('layouts/_aside.html.twig') }}
 {% endblock %}
