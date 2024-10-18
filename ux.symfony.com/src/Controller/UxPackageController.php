@@ -20,36 +20,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class ChangelogController extends AbstractController
+#[Route('/{package}', name: 'app_package')]
+class UxPackageController extends AbstractController
 {
     public function __construct(
+        private readonly UxPackageRepository $packageRepository,
         private readonly ChangelogProvider $changeLogProvider,
+        private readonly PackagistDataProvider $packagistData,
     )
     {
     }
 
-    #[Route('/changelog', name: 'app_changelog')]
-    public function __invoke(): Response
+    #[Route('/changelog', name: 'app_package_changelog')]
+    public function changelog(string $package): Response
     {
-        $changelog = $this->changeLogProvider->getChangelog();
-
-        return $this->render('changelog.html.twig', [
-            'changelog' => $changelog,
-        ]);
-    }
-
-    #[Route('/{package}/changelog', name: 'app_changelog_package')]
-    public function package(string $package, UxPackageRepository $packageRepository, PackagistDataProvider $packagistData): Response
-    {
-        $uxPackage = $packageRepository->find($package);
+        $uxPackage = $this->packageRepository->find($package) ?? throw $this->createNotFoundException(sprintf('Package "%s" not found', $package));
 
         $packageLog = $this->changeLogProvider->getPackageChangelog('ux-'.$uxPackage->getName());
-        $packageData = $packagistData->getPackageData($uxPackage->getComposerName());
+        $packageData = $this->packagistData->getPackageData($uxPackage->getComposerName());
 
         $firstLine = array_shift($packageLog);
 
         $changelog = [];
         foreach ($packageLog as $a) {
+
             $lines = explode("\n", $a);
             $version = array_shift($lines);
 
@@ -69,6 +63,25 @@ class ChangelogController extends AbstractController
         return $this->render('ux_packages/package_changelog.html.twig', [
             'package' => $uxPackage,
             'changelog' => $changelog,
+        ]);
+    }
+
+    #[Route('/requirements', name: 'app_package_requirements')]
+    public function requirements(string $package): Response
+    {
+        $uxPackage = $this->packageRepository->find($package) ?? throw $this->createNotFoundException(sprintf('Package "%s" not found', $package));
+
+        $packageData = $this->packagistData->getPackageData($uxPackage->getComposerName());
+
+        $packageVersions = $packageData['versions'] ?? [];
+        $currentVersion = array_shift($packageVersions);
+
+        return $this->render('ux_packages/package_requirements.html.twig', [
+            'package' => $uxPackage,
+            'requirements' => [
+                'requires' => $currentVersion['require'] ?? [],
+                'devRequires' => $currentVersion['require-dev'] ?? [],
+            ],
         ]);
     }
 }
