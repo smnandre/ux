@@ -18,6 +18,7 @@
 <meta property="og:description" content="{{ og.description|u.truncate(120, '...', false) }}">
 <meta property="og:url" content="{{ absolute_url(og.url) }}">
 <meta property="og:site_name" content="Symfony UX" />
+<meta property="og:locale" content="en">
 {% if og.image.url|default %}
     <meta property="og:image" content="{{ absolute_url(og.image.url) }}">
      {% if og.image.width|default and og.image.height|default %}
