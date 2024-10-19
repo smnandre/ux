@@ -1,86 +1,75 @@
 
 :root {
+  
+  /** tokens */
+  
+  --ff-title: "UbuntuSans", "Ubuntu", system-ui, sans-serif;
+  --ff-text: system-ui, sans-serif;
+  --ff-code: ui-monospace, "SF Mono", SFMono-Regular, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
 
-  --font-title: "UbuntuSans", "Ubuntu", system-ui, sans-serif;
-  --font-family-title: var(--font-title);
-  --font-text: system-ui, sans-serif;
-  --font-family-text: var(--font-text);
-  --font-code: ui-monospace, "SF Mono", SFMono-Regular, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
-  --font-family-code: var(--font-code);
+  --fw-thin: 100;
+  --fw-extralight: 200;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
 
-  --font-light: 300;
-  --font-normal: 400;
-  --font-medium: 500;
-  --font-semibold: 600;
-  --font-bold: 700;
+  --fs-xsmall: .8;
+  --fs-small: .9;
+  --fs-regular: 1;
+  --fs-medium: 1.15;
+  --fs-large: 1.5;
+  --fs-xlarge: 3rem;
+  --fs-xxlarge: 4rem;
+  
+  
+  /** public */
+  --font-family-title: var(--ff-title);
+  --font-family-text: var(--ff-text);
+  --font-family-code: var(--ff-code);
 
-  --font-xsmall: .8;
-  --font-small: .8;
-  --font-normal: 1;
-  --font-medium: 1.1;
-  --font-large: .8;
-  --font-xlarge: .8;
+  --heading-size: 6rem;
+  --heading-weight: 6rem;
 }
 
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-title);
-  font-weight: var(--font-weight);
-  font-variant-settings: "wght" var(--font-weight);
+:is(h1, h2, h3, h4, h5, h6) {
+  
+  a {
+    color: inherit;
+  }
+  a:only-child {
+    text-decoration: none;
+  }
 }
 
-h1 {
-  --font-weight: 700;
-  font-size: 52px;
-  line-height: 60px;
+:is(h1) {
+  font-size: var(--fs-xxlarge);
+  font-weight: var(--fw-extrabold);
+  line-height: 1.05ch;
+  letter-spacing: -0.05ch;
 }
 
-h2 {
-  --font-weight: 700;
-  font-size: 42px;
-  line-height: 48px;
+:is(h2) {
+  font-size: var(--fs-xlarge);
+  font-weight: var(--fw-bold);
+  line-height: 1.15ch;
+  letter-spacing: -0.01ch;
 }
 
-h2 {
-  font-size: 42px;
-  font-weight: 700;
-  line-height: 48px;
-  letter-spacing: -2px;
+:is(h3) {
+  font-family: var(--ff-title);
+  font-size: var(--fs-large);
+  font-weight: var(--fw-semibold);
 }
 
-h3 {
-  font-family: var(--font-family-title);
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 32px;
-  letter-spacing: -1px;
-  text-decoration: none;
-  color: var(--bs-body-color);
+:is(h4) {
+  font-size: var(--fs-medium);
+  font-weight: var(--fw-medium);
 }
 
-h4 {
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 18.38px;
+:is(h5, h6) {
+  font-size: var(--fs-medium);
+  font-weight: var(--fw-medium);
 }
-
-
-//@media (max-width: 576px) {
-//  h1 {
-//    font-size: 36px;
-//    line-height: 41px;
-//    letter-spacing: -1px;
-//  }
-//
-//  h2.ubuntu {
-//    font-size: 28px;
-//    line-height: 32px;
-//    letter-spacing: -1px;
-//  }
-//
-//  h3, a.component-title {
-//    font-size: 22px;
-//    line-height: 25px;
-//    letter-spacing: -1px;
-//  }
-//}

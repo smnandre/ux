@@ -1,20 +1,33 @@
 .Hero {
   padding-block-start: 7rem;
+  padding-block-end: 2rem;
+  
+  & :is(p, h1) {
+    text-wrap: balance;
+    margin-block: 0;
+  }
+  
+  text-align: center;
 }
 
-.Hero__inner {
-
+.Hero__inner { 
+  display: grid;
+  gap: 1rem;
+  justify-content: center;  
 }
 
 .Hero__title {
   --font-weight: 700;
-    line-height: 32px;
-    letter-spacing: -1px;
-    text-decoration: none;
-    color: var(--bs-body-color);
+
+  color: var(--bs-body-color);
+  font-size: var(--title-size, var(--fs-xxlarge));
+}
+
+.Hero__suptitle {
+
 }
 
 .Hero__subtitle {
-  width: 50%;
+  max-width: 40rem;
   text-wrap: balance;
 }

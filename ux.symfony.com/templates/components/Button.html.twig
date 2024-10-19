@@ -1,0 +1,30 @@
+{% 
+    props
+        label,
+        href = null,
+        value = null,
+        title = null,
+        size = null,
+        icon = null,
+%}
+
+{% if href %}
+    {% set tag = 'a' %}
+{% else %}
+    {% set tag = 'button' %}
+{% endif %}
+
+{% set attributes = attributes.defaults({
+    class: html_classes('Button', {
+        'Button--icon': icon,
+        'Button--lg': size == 'lg',
+        'Button--sm': size == 'sm',
+    }),
+    title: title ?? label,
+    value: value ?? null,
+}) %}
+
+<{{ tag }} {{ attributes }}>
+        {{- label -}}
+    {{ label }} 
+</{{ tag }}>

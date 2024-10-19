@@ -6,15 +6,16 @@
     --width: 1200px;
   }
 
-&[data-width="xxl"] {
+  &[data-width="xxl"] {
     --width: 1400px;
   }
-
 }
 
 .--fluid {
   --width: 100%;
 }
+
+
 
 .container--xl {
   --width: 1200px;

@@ -1,15 +1,55 @@
-<div class="hero">
-    <div class="container-fluid container-xxl px-4 pt-4 px-md-5">
-        {% if eyebrows|default %}
-            <p class="eyebrows text-center mt-5">{{ eyebrows }}</p>
-        {% endif %}
-        <h1 class="text-center">
-            <a href="{{ url ?? url(app.current_route) }}">{{ title }}</a>
-        </h1>
-        {% if block('content') is defined %}
-            <div style="font-size: 1rem; line-height: 1.75rem;" class="mt-4 text-center demo-introduction">
-                {{ block('content') }}
+{% props
+    title,
+    suptitle = null,
+    subtitle = false,
+    description = false,
+    eyebrows = false,
+    url = null,
+%}
+
+{% if url is null and app.current_route is not null %}
+    {% set url = url(app.current_route) %}
+{% endif %}
+
+{#<div class="hero">#}
+{#    <div class="container-fluid container-xxl px-4 pt-4 px-md-5">#}
+{#        {% if suptitle|default %}#}
+{#            <p class="Eyebrow text-center mt-5">{{ suptitle }}</p>#}
+{#        {% endif %}#}
+{#        <h1 class="text-center">#}
+{#            <a href="{{ url ?? '#' }}">{{ title }}</a>#}
+{#        </h1>#}
+{#        {% if block('content') is defined %}#}
+{#            <div style="font-size: 1rem; line-height: 1.75rem;" class="mt-4 text-center demo-introduction">#}
+{#                {{ block('content') }}#}
+{#            </div>#}
+{#        {% endif %}#}
+{#    </div>#}
+{#</div>#}
+
+<div class="Hero" {{ attributes.without('class') }}>
+    <div class="Hero__inner container stack">
+        {%- if (suptitle is not null) or (block('suptitle') is defined) -%}
+            <p class="Hero__suptitle Eyebrow">
+                {{- suptitle ?? block('suptitle')  -}}
+            </p>
+        {%- endif -%}
+        {% block title -%}
+            <h1 class="Hero__title">
+                {%- if url -%}
+                    <a href="{{ url }}">{{ title }}</a>
+                {%- else -%}
+                    {{ title }}
+                {%- endif -%}
+            </h1>
+        {%- endblock -%}
+        {%- if subtitle -%}
+            <p class="Hero__subtitle">{{- subtitle -}}</p>
+        {%- endif -%}
+        {%- if block('content') is defined -%}
+            <div class="Hero__content">
+                {{- block('content') -}}
             </div>
-        {% endif %}
+        {%- endif -%}
     </div>
 </div>

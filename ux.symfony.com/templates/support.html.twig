@@ -7,20 +7,13 @@
 } %}
 
 {% block content %}
-
-    <div class="hero">
-        <div class="container-fluid container-xxl px-4 pt-4 px-md-5">
-            <h1 class="text-center mt-5"><a href="{{ url('app_support') }}">Support</a></h1>
-            <p class="text-center mt-2 mb-5">Ask questions about Symfony UX and find the answers you need.</p>
-        </div>
-    </div>
-
-    <div class="Hero">
-        <div class="Hero_inner">
-            <h1><a href="{{ url('app_support') }}">Support</a></h1>
-            <p>Ask questions about Symfony UX and find the answers you need.</p>
-        </div>
-    </div>
+    
+    <twig:Hero
+        title="Support"
+        subtitle="Ask questions about Symfony UX and find the answers you need."
+        url="{{ url('app_support') }}"
+        class="pb-4"
+    />
 
     <section style="--padding:0;">
         <div class="container-fluid container px-4 pt-4 px-md-5" style="max-width: 1000px;">

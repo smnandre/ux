@@ -21,6 +21,22 @@
 {% block content %}
 
     {% block demo_header %}
+        
+        <twig:Hero
+            title="{{ demo.name }}"
+            description="{{ demo.description }}"
+            url="{{ url(demo.route) }}"
+        >
+            <twig:block name="suptitle">
+                <a href="{{ url('app_demos') }}">DEMOS</a> / 
+                <a href="{{ url('app_live_component') }}">Live Component</a>
+            </twig:block>
+            <twig:block name="content">
+                {{- demo.longDescription|markdown_to_html -}}
+            </twig:block>
+        </twig:Hero>
+        
+        
         <div class="hero">
             <div class="container-fluid container-xxl pt-4 px-4 px-md-5 my-5">
                 <div class="text-center mt-md-0">

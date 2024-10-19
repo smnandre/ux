@@ -21,6 +21,14 @@
 {% block content %}
 
     <article class="Cookbook">
+        
+        <twig:Hero
+            suptitle="Cookbook"
+            title="{{ cookbook.title }}"
+            description="{{ cookbook.description }}"
+            url="{{ url('app_cookbook') }}"
+        />
+        
         <div class="hero">
             <div class="container-fluid container-xxl pt-4 px-4 px-md-5 my-5">
                 <div class="text-center mt-md-0">
