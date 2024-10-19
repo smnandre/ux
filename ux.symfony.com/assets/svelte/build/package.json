@@ -7,6 +7,6 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "build": "yarn bin/compile_svelte.js"
+        "build": "node build.js"
     }
 }

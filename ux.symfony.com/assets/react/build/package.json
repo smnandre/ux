@@ -7,6 +7,6 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "build": "../build/node_modules/.bin/babel ../. --out-dir ../../build/react --presets=@babel/preset-react"
+        "build": "babel ../src/ --out-dir ../dist/ --presets=@babel/preset-react --no-babelrc"
     }
 }

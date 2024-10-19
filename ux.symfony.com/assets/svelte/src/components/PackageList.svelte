@@ -9,16 +9,18 @@
 {#if packages.length === 0}
     No packages found
 {:else}
-    {#each packages as uxPackage(uxPackage.name)}
-        <div class="PackageListItem"
-            animate:flip={{duration: transitionDuration}} in:fade={{duration:transitionDuration}}
-        >
-            <div class="PackageListItem__icon" style="--gradient: '{uxPackage.gradient}'">
-                <img src='{uxPackage.imageUrl}' alt="Image for the '{uxPackage.humanName}' UX package" />;
-                <h3 class="PackageListItem__title">
-                    <a href='{uxPackage.url}'>{uxPackage.humanName}</a>
+    <div class="PackageList">
+        {#each packages as uxPackage(uxPackage.name)}
+            <div class="PackageListItem"
+                animate:flip={{duration: transitionDuration}} in:fade={{duration:transitionDuration}}
+            >
+                <div class="PackageListItem__icon" style="--gradient: {uxPackage.gradient};">
+                    <img src="{uxPackage.imageUrl}" alt="Image for the {uxPackage.humanName} UX package" />
+                </div>
+                <h3 class="PackageListItem__label">
+                    <a href="{uxPackage.url}">{uxPackage.humanName}</a>
                 </h3>
             </div>
-        </div>
-    {/each}
+        {/each}
+    </div>
 {/if}
