@@ -1,6 +1,8 @@
 .container {
   margin-inline: auto;
   max-width: var(--width, 1040px);
+  
+  padding-inline: var(--space);
 
   &[data-width="xl"] {
     --width: 1200px;
@@ -9,12 +11,19 @@
   &[data-width="xxl"] {
     --width: 1400px;
   }
+  
+  &--fluid {
+    --container-width: 100%;
+  }
+  
+  &--xl {
+    --width: min(1200px, 100%);
+  }
+  
+  &--xxl {
+    --width: 1200px;
+  }
 }
-
-.--fluid {
-  --width: 100%;
-}
-
 
 
 .container--xl {

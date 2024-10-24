@@ -4,7 +4,7 @@
   --border-radius-small: .5rem;
   --border-radius: 1rem;
   --border-radius-large: 1.5rem;
-  --border-color: #{$n-100};
+  --border-color: #D9D9D9;
 
   // Spaces
   --space-smaller: .5rem;
@@ -16,7 +16,7 @@
   // Fonts
 
   // Colors
-  --color-primary: var(--bs-body-color);
-  --color-secondary: var(--bs-secondary-color);
-  --color-tertiary: var(--bs-tertiary-color);
+  --color-primary: #DEE2E6FF; // var(--bs-body-color);
+  --color-secondary: #DEE2E6BF; // var(--bs-secondary-color);
+  --color-tertiary: #DEE2E67F; // var(--bs-tertiary-color);
 }
