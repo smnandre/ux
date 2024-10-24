@@ -24,22 +24,15 @@
 
 {% block content %}
 
-    <div class="hero">
-        <div class="container-fluid container-xxl px-4 pt-4 px-md-5">
-            <p class="eyebrows text-center mt-5">SVG icons made easy</p>
-            <h1 class="text-center">
-                <a href="{{ url('app_icons') }}">UX Icons</a>
-            </h1>
-            <div style="font-size: 1rem; line-height: 1.75rem;" class="mt-4 text-center demo-introduction">
-                <p>
-                    Render SVG icons seamlessly from your Twig templates.
-                <br/>
-                    Find the <code>perfect icon</code> among <code>200,000 choices</code> from the most popular <code>icon sets</code>.
-                </p>
-            </div>
-        </div>
-    </div>
-
+    <twig:Hero
+        suptitle="SVG icons made easy"
+        title="UX Icons"
+        url="{{ url('app_icons') }}"
+        subtitle="Render SVG icons seamlessly from your Twig templates."
+    >
+        Find the <code>perfect icon</code> among <code>200,000 choices</code> from the most popular <code>icon sets</code>.
+    </twig:Hero>
+    
     <section class="container-fluid container-xxl px-4 px-md-5 py-3">
         <twig:Icon:IconSearch/>
     </section>
