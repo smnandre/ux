@@ -30,7 +30,7 @@
         {%- if subtitle -%}
             <p class="Hero__subtitle">{{- subtitle -}}</p>
         {%- endif -%}
-        {%- if (block('content') is defined) or (description is defined) -%}
+        {%- if (block('content') is defined) or description is not null -%}
             <div class="Hero__content">
                 {{- description ?? block('content') -}}
             </div>

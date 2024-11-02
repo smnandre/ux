@@ -1,0 +1,58 @@
+:root {
+
+  --color-base: #ffffff;
+  --color-base-contrast: #000000;
+
+  @media (prefers-color-scheme: dark) {
+    --color-base: #000000;
+    --color-base-contrast: #ffffff;
+  }
+}
+
+:root {
+  
+  --color-main: #ffffff;
+  --color-accent: #1a73e8;
+  
+  --color-success: #84DE2C;
+  --color-info: #007bff;
+  --color-warning: #FBC640;
+  --color-danger: #FB4040;
+  
+  --bg-base: #121212;
+  --bg-main: color-mix(in lch, var(--bg-base), #ffffff 10%);
+  --bg-muted: color-mix(in lch, var(--bg-base), #ffffff 20%);
+
+  --fg-base: #ffffff;
+  --fg-main: color-mix(in lch, var(--fg-base), #000000 90%);
+  --fg-muted: color-mix(in lch, var(--fg-base), #000000 50%);
+
+  --bg-accent: var(--color-accent);
+  --bg-accent-muted: color-mix(in lch, var(--bg-accent), #000000 20%);
+
+  --fg-accent: var(--bg-accent);
+  --fg-accent-muted: color-mix(in lch, var(--bg-accent), #000000 50%);
+
+  --bg-code: color-mix(in lch, var(--bg-main), #000000 10%);
+  --bg-quote: color-mix(in lch, var(--bg-main), #ffffff 5%);
+  --bg-highlight: color-mix(in lch, var(--bg-accent), #ffffff 30%);
+
+  --fg-code: color-mix(in lch, var(--fg-base), #1a73e8 10%);
+  --fg-quote: var(--fg-muted);
+  --fg-highlight: color-mix(in lch, var(--fg-base), #1a73e8 15%);
+
+  --bg-interactive: var(--bg-accent);
+  --bg-interactive-muted: color-mix(in lch, var(--bg-interactive), #000000 20%);
+  
+  --bg-info: color-mix(in lch, var(--color-info), var(--bg-main) 15%);
+  --bg-success: color-mix(in lch, var(--color-success), var(--bg-main) 15%);
+  --bg-error: color-mix(in lch, var(--color-danger), var(--bg-main) 15%);
+  --bg-warning: color-mix(in lch, var(--color-warning), var(--bg-main) 15%);
+
+  --fg-interactive: var(--fg-accent);
+  
+  --fg-info: var(--fg-base);
+  --fg-success: var(--fg-base);
+  --fg-error: var(--fg-base);
+  --fg-warning: var(--fg-base);
+}

@@ -1,0 +1,263 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Twig - The flexible, fast, and secure PHP template engine' %}
+
+{% block meta '' %}
+
+{% block content %}
+
+  <div class="section">
+    <div class="container container--xl">
+      <h1>Color Palette</h1>
+      <p>These are the colors used in the design system.</p>
+  
+      {{ block('colorboxes') }}
+      
+    </div>
+  </div>
+
+{% endblock %}
+
+
+{% block colorboxes %}
+<style>
+  /* Color Grid Container */
+  .color-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    padding: 2rem;
+    background-color: #212529;
+    color: #e0e0e0;
+    font-family: Arial, sans-serif;
+  }
+
+  /* General Color Box Styling */
+  .colorbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: var(--colorbox-fg); /* Foreground (Text) Color */
+    background-color: var(--colorbox-bg); /* Background Color */
+    border: 2px solid var(--colorbox-border); /* Border Color */
+  }
+
+  /* Main Colors */
+  .colorbox-main {
+    --colorbox-bg: #1C2024;
+    --colorbox-border: #333;
+    --colorbox-fg: #ffffff;
+  }
+
+  /* Dark Variations */
+  .colorbox-dark-xxx {
+    --colorbox-bg: #161719;
+    --colorbox-border: #2a2a2a;
+    --colorbox-fg: #e0e0e0;
+  }
+
+  .colorbox-dark-yyy {
+    --colorbox-bg: #0d0e0f;
+    --colorbox-border: #1a1a1a;
+    --colorbox-fg: #e0e0e0;
+  }
+
+  .colorbox-dark-zzz {
+    --colorbox-bg: #2C2F33;
+    --colorbox-border: #3a3a3a;
+    --colorbox-fg: #e0e0e0;
+  }
+
+  /* Code Color Box */
+  .colorbox-code {
+    --colorbox-bg: #0d0e0f;
+    --colorbox-border: #333;
+    --colorbox-fg: #cfd1d5;
+  }
+
+  /* Status Colors */
+  .colorbox-info {
+    --colorbox-bg: #007bff;
+    --colorbox-border: #0056b3;
+    --colorbox-fg: #ffffff;
+  }
+
+  .colorbox-success {
+    --colorbox-bg: #28a745;
+    --colorbox-border: #1c7430;
+    --colorbox-fg: #ffffff;
+  }
+
+  .colorbox-error {
+    --colorbox-bg: #dc3545;
+    --colorbox-border: #a71d2a;
+    --colorbox-fg: #ffffff;
+  }
+
+  .colorbox-warning {
+    --colorbox-bg: #ffc107;
+    --colorbox-border: #d39e00;
+    --colorbox-fg: #000000;
+  }
+
+  /* Browser UI Colors */
+  .colorbox-browser-background {
+    --colorbox-bg: #2c2f33;
+    --colorbox-border: #23272a;
+    --colorbox-fg: #ffffff;
+  }
+
+  .colorbox-browser-bar {
+    --colorbox-bg: #1c1e21;
+    --colorbox-border: #141517;
+    --colorbox-fg: #ffffff;
+  }
+
+  /* Product Card Background */
+  .colorbox-card-background {
+    --colorbox-bg: #161719;
+    --colorbox-border: #0f1012;
+    --colorbox-fg: #e0e0e0;
+  }
+</style>
+
+<div class="color-grid">
+  <!-- Main Color Box -->
+  <div class="colorbox colorbox-main">Main</div>
+
+  <!-- Dark Variations -->
+  <div class="colorbox colorbox-dark-xxx">Dark XXX</div>
+  <div class="colorbox colorbox-dark-yyy">Dark YYY</div>
+  <div class="colorbox colorbox-dark-zzz">Dark ZZZ</div>
+
+  <!-- Code Color Box -->
+  <div class="colorbox colorbox-code">Code</div>
+
+  <!-- Status Variations -->
+  <div class="colorbox colorbox-info">Info</div>
+  <div class="colorbox colorbox-success">Success</div>
+  <div class="colorbox colorbox-error">Error</div>
+  <div class="colorbox colorbox-warning">Warning</div>
+
+  <!-- Browser UI Colors -->
+  <div class="colorbox colorbox-browser-background">Browser Background</div>
+  <div class="colorbox colorbox-browser-bar">Browser Bar</div>
+
+  <!-- Product Card Background -->
+  <div class="colorbox colorbox-card-background">Card Background</div>
+</div>
+{% endblock %}
+
+{% block colorboxes2 %}
+<style>
+    /* Color Grid Container */
+    .color-grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      padding: 2rem;
+      color: var(--fg-base);
+      font-family: Arial, sans-serif;
+    }
+  
+    /* General Color Box Styling */
+    .colorbox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: auto;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      font-weight: lighter;
+      color: var(--colorbox-fg); /* Foreground (Text) Color */
+      background-color: var(--colorbox-bg); /* Background Color */
+      border: 1px solid var(--colorbox-border); /* Border Color */
+    }
+  
+    /* Specific Color Variants */
+  
+    /* Main */
+    .colorbox-main {
+      --colorbox-bg: #1C2024;
+      --colorbox-border: #333;
+      --colorbox-fg: #ffffff;
+    }
+  
+    /* Dark Variants */
+    .colorbox-dark-xxx {
+      --colorbox-bg: #161719;
+      --colorbox-border: #2a2a2a;
+      --colorbox-fg: #e0e0e0;
+    }
+  
+    .colorbox-dark-yyy {
+      --colorbox-bg: #0d0e0f;
+      --colorbox-border: #1a1a1a;
+      --colorbox-fg: #e0e0e0;
+    }
+  
+    .colorbox-dark-zzz {
+      --colorbox-bg: #2C2F33;
+      --colorbox-border: #3a3a3a;
+      --colorbox-fg: #e0e0e0;
+    }
+  
+    /* Code */
+    .colorbox-code {
+      --colorbox-bg: #0d0e0f;
+      --colorbox-border: #333;
+      --colorbox-fg: #cfd1d5;
+    }
+  
+    /* Status Colors */
+    .colorbox-info {
+      --colorbox-bg: #007bff;
+      --colorbox-border: #0056b3;
+      --colorbox-fg: #ffffff;
+    }
+  
+    .colorbox-success {
+      --colorbox-bg: #28a745;
+      --colorbox-border: #1c7430;
+      --colorbox-fg: #ffffff;
+    }
+  
+    .colorbox-error {
+      --colorbox-bg: #dc3545;
+      --colorbox-border: #a71d2a;
+      --colorbox-fg: #ffffff;
+    }
+  
+    .colorbox-warning {
+      --colorbox-bg: #ffc107;
+      --colorbox-border: #d39e00;
+      --colorbox-fg: #000000;
+    }
+  </style>
+  
+  <div class="color-grid">
+    <!-- Main Color Box -->
+    <div class="colorbox colorbox-main">Main</div>
+  
+    <!-- Dark Variations -->
+    <div class="colorbox colorbox-dark-xxx">Dark XXX</div>
+    <div class="colorbox colorbox-dark-yyy">Dark YYY</div>
+    <div class="colorbox colorbox-dark-zzz">Dark ZZZ</div>
+  
+    <!-- Code Color Box -->
+    <div class="colorbox colorbox-code">Code</div>
+  
+    <!-- Status Variations -->
+    <div class="colorbox colorbox-info">Info</div>
+    <div class="colorbox colorbox-success">Success</div>
+    <div class="colorbox colorbox-error">Error</div>
+    <div class="colorbox colorbox-warning">Warning</div>
+  </div>
+{% endblock %}
