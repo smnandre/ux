@@ -1,0 +1,99 @@
+{# @var package \App\Model\UxPackage #}
+<div class="PackageNav" style="--gradient: {{ package.gradient }};--color: {{ package.color }};">
+    
+    <div class="container-fluid container-xxl px-4 px-md-5 position-relative" >
+        <style>
+            .PackageIcon {
+              --logo-size: 6rem;
+              background: var(--gradient);
+              background-color: var(--color);
+              width: var(--logo-size);
+              height: var(--logo-size);
+              border-radius: 14%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            }
+            .PackageNav {
+              position: sticky;
+              background-color: var(--bs-body-bg);
+              background: rgba(0, 0, 0, 0.2);
+              top: 0;
+              z-index: 444;
+              backdrop-filter: blur(1rem);
+            }
+            .PackageNav > div {
+              display: flex;
+              align-items: center;
+              gap: 1rem;
+              padding-block: .75rem;
+            }
+            .PackageNav_menu {
+              display: flex;
+              gap: 1rem;
+              margin-inline-start: auto;
+              align-items: center;
+            }
+            .PackageNav_icon {
+              position: absolute;
+              left: 0;
+            }
+            .PackageNav_link {
+              padding: .5rem .75rem;
+              border-radius: 2rem;
+              color: #fff;
+              text-shadow: 0 0 1px 1px #0008;
+              background: rgb(0 0 0 / .1);
+            }
+            .PackageIcon {
+              margin-inline-end: auto;
+              --logo-size: 3rem;
+              /*background: var(--gradient);*/
+              /*background-color: var(--color);*/
+              /*width: var(--logo-size);*/
+              /*height: var(--logo-size);*/
+              /*border-radius: 14%;*/
+              /*display: flex;*/
+              /*align-items: center;*/
+              /*justify-content: center;*/
+              /*flex-shrink: 0;*/
+            }
+        </style>
+        
+        <a class="PackageIcon">
+            <twig:Package:PackageIcon package="{{ package }}" />
+        </a>
+            
+        <a href="{{ url(package.route) }}" class="PackageNav_title" title="{ package.humanName }}">
+            {{ package.humanName }}
+        </a>
+        
+        {% set package_links = {
+            'features': {
+                label: 'Features',
+                url: '#',
+                title: 'Features'
+            },
+            'install': {
+                label: 'Installation',
+            },
+            'documentation': {
+                label: 'Documentation',
+            },
+            'support': {
+                label: 'Support',
+            },
+        } %}
+        
+        <nav class="PackageNav_menu">
+            {% for id, link in package_links -%}
+                <a href="{{ link.url ?? '#'~id }}" class="PackageNav_link {{ link.class|default  ? ' '~link.class }}" 
+                   title="{{ link.title ?? [package.humanName,link.label]|join(' ') }}">
+                    {{ link.label }}
+                </a>
+            {%- endfor %}
+        </nav>
+
+    </div>
+</div>

@@ -13,14 +13,17 @@
         </div>
 
         {% if command is not defined or command %}
-            <div class="d-flex justify-content-center">
-                <twig:TerminalCommand
-                    aria-label="Composer command to install {{ package.humanName }}"
-                    command="{{ package.composerRequireCommand }}"
-                    style="--color-accent: {{ package.color }}; transform: translateY(50%);"
-                />
-            </div>
+{#            <div class="d-flex justify-content-center">#}
+{#                <twig:TerminalCommand#}
+{#                    aria-label="Composer command to install {{ package.humanName }}"#}
+{#                    command="{{ package.composerRequireCommand }}"#}
+{#                    style="--color-accent: {{ package.color }}; transform: translateY(50%);"#}
+{#                />#}
+{#            </div>#}
         {% endif %}
 
     </div>
 </div>
+
+<twig:Package:PackageNav package="{{ package }}" />
+
