@@ -1,0 +1,32 @@
+.PackageIcon {
+  
+  --logo-size: 6rem;
+  --icon-size: calc(var(--icon-size) / 2);
+  
+  background: var(--gradient);
+  background-color: var(--color);
+  width: var(--logo-size);
+  height: var(--logo-size);
+  border-radius: 14%;
+  display: grid;
+  place-content: center;
+  flex-shrink: 0;
+  
+  img {
+    --img-size: calc(0.4 * var(--logo-size));
+    
+    width: 100%;
+    height: 100%;
+    max-width: var(--img-size);
+    max-height: var(--img-size);;
+    object-fit: contain;
+    transition: all 600ms linear;
+    filter: drop-shadow(0 .15rem .25rem rgb(0 0 0 / .15));
+  }
+  
+  &:hover img {
+    transition: all 200ms linear;
+    filter: drop-shadow(0 .2rem .15rem rgb(0 0 0 / .12));
+    transform: translateY(.07rem);
+  }
+}

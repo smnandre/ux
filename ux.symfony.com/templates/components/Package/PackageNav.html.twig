@@ -2,55 +2,59 @@
 <div class="PackageNav" style="--gradient: {{ package.gradient }};--color: {{ package.color }};">
     
     <div class="container-fluid container-xxl px-4 px-md-5 position-relative" >
-        <style>
-            .PackageIcon {
-              --logo-size: 6rem;
-              background: var(--gradient);
-              background-color: var(--color);
-              width: var(--logo-size);
-              height: var(--logo-size);
-              border-radius: 14%;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              flex-shrink: 0;
-            }
-        </style>
         
-        <a href="{{ url(package.route) }}" class="PackageNav_title" title="{ package.humanName }}">
-            
-            <twig:Package:PackageIcon package="{{ package }}" class="PackageNav_icon" />
-            
-            <span>
-                {{ package.humanName }}
-            </span>
-            
-        </a>
+        <div class="PackageNav_meta">
+            <a href="{{ url(package.route) }}" class="PackageNav_media" title="{{ package.humanName }}" id="{{ package.name }}-icon">
+                <twig:Package:PackageIcon package="{{ package }}" aria-described-by="{{ package.name }}-icon" />
+            </a>
+            <div class="PackageNav_info">
+                <a href="{{ url(package.route) }}" class="PackageNav_title" title="{{ package.humanName }}">
+                    {{- package.humanName -}}
+                </a>
+                <div class="PackageNav_metadata">
+                    <code>symfony/<strong>{{- package.composerName|slice(8) }}</strong></code>
+                </div>
+            </div>
+        </div>
         
-        {% set package_links = {
-            'features': {
-                label: 'Features',
-                url: '#',
-                title: 'Features'
-            },
+        {% set menu_items = {
             'install': {
                 label: 'Installation',
             },
             'documentation': {
                 label: 'Documentation',
+                icon: 'documentation',
             },
             'support': {
                 label: 'Support',
+                icon: 'support',
+            },
+            'contrib': {
+                label: 'Github',
+                icon: 'github',
             },
         } %}
         
+        {#
+            documentation: {
+                icon: 'documentation',
+                label: 'Documentation',
+                title: 'Read LiveComponent Documentation',
+                url: 'https://symfony.com/doc/current/ux.html',
+            }
+        #}
         <nav class="PackageNav_menu">
-            {% for id, link in package_links -%}
-                <a href="{{ link.url ?? '#'~id }}" class="PackageNav_link {{ link.class|default  ? ' '~link.class }}" 
-                   title="{{ link.title ?? [package.humanName,link.label]|join(' ') }}">
-                    {{ link.label }}
+            {%- for key, item in menu_items -%}
+                <a href="{{ item.url ?? '#%s'|format(key) }}" 
+                   class="PackageNav_item" 
+                   title="{{ item.title ?? [package.humanName, item.label]|join(' ') }}"
+                >                    
+                    {%- if item.icon|default %}
+                        <twig:ux:icon name="{{ item.icon }}" class="PackageNav_item_icon" />
+                    {%- endif -%}
+                    <span>{{ item.label }}</span>
                 </a>
-            {%- endfor %}
+            {%- endfor -%}
         </nav>
 
     </div>

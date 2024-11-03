@@ -8,3 +8,8 @@ ux_icons:
         feature:
             alias: 'lucide'
             # icon_attributes:
+
+    aliases:
+        github:             'simple-icons:github'
+        support:            'raphael:help'
+        documentation:      'mdi:book-open-variant-outline'       
