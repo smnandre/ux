@@ -6,16 +6,15 @@
     margin-inline: auto;
     font-size: 4.04rem;
     line-height: 1.2;
+    font-weight: 800;
 
     em {
       display: inline-flex;
       transform: skewX(-16deg) scaleY(0.95) rotate(-.5deg);
-      font-weight: 300;
-      text-shadow: 0 .25rem .25rem rgba(0, 0, 0, .1);
-      mix-blend-mode: luminosity;
+      //text-shadow: 0 .25rem .25rem rgba(0, 0, 0, .1);
       font-style: normal;
-      font-family: var(--font-family-code);
-      letter-spacing: -8px;
+      font-weight: 600;
+      letter-spacing: -.2rem;
     }
   }
 
