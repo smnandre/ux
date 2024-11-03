@@ -6,6 +6,10 @@ body {
 
   // Dark Mode
   transition: background-color 150ms linear;
+  scroll-behavior: smooth;
+}
+html {
+  scroll-behavior: smooth;
 }
 
 a, a.page-link, a.page-link:hover {
@@ -26,6 +30,8 @@ a, a.page-link, a.page-link:hover {
   min-height: 100vh;
   min-width: 320px;
   overflow-x: clip;
+  
+  scroll-behavior: smooth;
 }
 
 main {

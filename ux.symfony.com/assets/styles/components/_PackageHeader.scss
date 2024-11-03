@@ -2,18 +2,25 @@
   h1 {
     text-shadow: 0 .25rem .25rem rgba(0, 0, 0, .05);
     text-wrap: balance;
+    max-width: 54rem;
+    margin-inline: auto;
+    font-size: 4.04rem;
+    line-height: 1.2;
 
     em {
       display: inline-flex;
       transform: skewX(-16deg) scaleY(0.95) rotate(-.5deg);
-      font-weight: 400;
+      font-weight: 300;
       text-shadow: 0 .25rem .25rem rgba(0, 0, 0, .1);
       mix-blend-mode: luminosity;
       font-style: normal;
+      font-family: var(--font-family-code);
+      letter-spacing: -8px;
     }
   }
 
-  .AppHeader + * &  {
-    padding-top: 3rem;
+  .AppHeader + * & {
+    padding-top: 5rem;
+    padding-bottom: 7rem;
   }
 }

@@ -58,13 +58,38 @@
     {% endblock %}
 
     {% block package_install %}
+        
+        
         <section class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">
+            
+            <h2 class="ubuntu">Install it</h2>
+            
             {{ include('ux_packages/_package_install.html.twig', {
                 package: package,
             }) }}
         </section>
     {% endblock %}
 
+    
+    <section class="section alt" id="installation">
+        <div class="container container-xl">
+            <h2>Installation</h2>
+        </div>
+    </section>
+    
+    <section class="section alt" id="documentation">
+        <div class="container container-xl">
+            <h2>Documentation</h2>
+        </div>
+    </section>
+    
+    <section class="section alt" id="support">
+        <div class="container container-xl">
+            <h2>Support</h2>
+        </div>
+    </section>
+    
+    
     {% block package_links %}
         {{ include('ux_packages/_package_links.html.twig', {
             package: package

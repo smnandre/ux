@@ -1,0 +1,87 @@
+.PackageNav {
+  --package-color: var(--color);
+  --package-color-text: color-mix(in oklch, #a9e41b, #000d);
+
+  margin-block-start: -6rem;
+  background: transparent;
+
+  &--sticky {
+    position: sticky;
+    background: rgb(0 0 0 / 0.2);
+    top: 0;
+    z-index: 444;
+    backdrop-filter: blur(1rem);
+    transition: all 0.25s;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      background: var(--gradient);
+      z-index: -1;
+      height: 2px;
+    }
+  }
+}
+
+.PackageNav_link {
+
+  --color: var(--package-color, #fff);
+
+  transition: all 0.5s;
+
+  &.active {
+    transition: all 0.2s;
+    color: var(--package-color-text);
+  }
+}
+
+.PackageNav > div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-block: .75rem;
+}
+
+.PackageNav_menu {
+  display: flex;
+  gap: 1rem;
+  margin-inline-start: auto;
+  align-items: center;
+}
+
+.PackageNav_title {
+  font-size: 1.35rem;
+  font-weight: 300;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-family-title);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+  scale: 1.25;
+  gap: 4rem;
+
+  strong {
+    font-weight: 500;
+  }
+
+  .PackageNav_icon {
+    --logo-size: 4rem;
+    box-shadow: -1px -1px 21px -5px color-mix(in oklch, var(--package-color), #0004);
+    scale: 1.5;
+    transform-origin: center left;
+    margin-left: 1.5rem;
+    img {
+      filter: opacity(0.8) drop-shadow(2px 0 4px #00000020);
+    }
+  }
+}
+
+.PackageNav_link {
+  padding: .5rem 1.5rem;
+  border-radius: 2rem;
+  color: #fffc;
+  background: rgb(0 0 0 / .1);
+  font-stretch: semi-condensed;
+  font-weight: 300;
+}
