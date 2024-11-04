@@ -1,7 +1,7 @@
 {# @var package \App\Model\UxPackage #}
 <div class="PackageNav" style="--gradient: {{ package.gradient }};--color: {{ package.color }};">
     
-    <div class="container-fluid container-xxl px-4 px-md-5 position-relative" >
+    <div class="PackageNav_inner container-fluid container-xxl px-4 px-md-5 position-relative" >
         
         <div class="PackageNav_meta">
             <a href="{{ url(package.route) }}" class="PackageNav_media" title="{{ package.humanName }}" id="{{ package.name }}-icon">
