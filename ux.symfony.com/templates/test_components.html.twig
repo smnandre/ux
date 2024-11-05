@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block meta '' %}
+
+{% block content %}
+
+    <div style="height: 120px; background: #0d6efd;">
+        
+    </div>
+         
+    
+    <section class="section py-3">
+        <div class="container container-xl">
+            <div class="pt-5">
+                <h2 class="ubuntu">{{ method|title }} x {{ nb }}</h2>
+                
+                <div class="row row-cols-3 py-5 flex-fill">
+                    {% for meth in methods %}
+                        <div>
+                            {% if method == meth %}
+                                <h2 style="color: #0d6efd;">{{ method|title }}</h2>
+                            {% else %}
+                                <h2>{{ meth|title }}</h2>
+                            {% endif %}
+                            <div>
+                            {% for iteration in iterations %}
+                                <a href="{{ url('app_test_component', {method: meth, nb: iteration}) }}">
+                                    {% if method == meth and iteration == nb %}
+                                        <strong style="color: #0d6efd;">{{ iteration }}</strong>
+                                    {% else %}
+                                        {{ iteration }}
+                                    {% endif %}
+                                </a>
+                            {% endfor %}
+                            </div>
+                        </div>    
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div style="display: grid;grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));gap: 1rem;">
+
+                {% if 'twig' == method %}
+                    {% for i in 0..nb %}
+                        {{ include('components/Test/include.html.twig', {value: i}) }}
+                    {% endfor %}
+                {% endif %}
+                
+                {% if 'twig_embed' == method %}
+                    {% for i in 0..nb %}
+                        {% embed 'components/Test/embed.html.twig' %}
+                            {% block content %}
+                                {{ i }}
+                            {% endblock %}
+                        {% endembed %}
+                    {% endfor %}
+                {% endif %}
+                
+                {% if 'anonymous' == method %}
+                    {% for i in 0..nb %}
+                        <twig:Test:Anonymous value="{{ i }}" />
+                    {% endfor %}
+                {% endif %}
+                
+                {% if 'anonymous_embed' == method %}
+                    {% for i in 0..nb %}
+                        <twig:Test:AnonymousEmbed>
+                            {{ i }}
+                        </twig:Test:AnonymousEmbed>
+                    {% endfor %}
+                {% endif %}
+                
+                {% if 'php' == method %}
+                    {% for i in 0..nb %}
+                        <twig:Test:Class value="{{ i }}" />
+                    {% endfor %}
+                {% endif %}
+                
+                {% if 'php_embed' == method %}
+                    {% for i in 0..nb %}
+                        <twig:Test:ClassEmbed>
+                            {{ i }}
+                        </twig:Test:ClassEmbed>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        
+        </div>
+    </section>
+    
+
+{% endblock %}

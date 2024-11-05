@@ -134,5 +134,91 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "importmap:install": "symfony-cmd"
         }
+    },
+    "repositories": {
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Notify": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Notify"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Svelte": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Svelte"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Autocomplete": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Autocomplete"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Chartjs": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Chartjs"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Turbo": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Turbo"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/StimulusBundle": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/StimulusBundle"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Vue": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Vue"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Translator": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Translator"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Map": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Map"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/TogglePassword": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/TogglePassword"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Dropzone": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Dropzone"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Icons": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Icons"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Cropperjs": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Cropperjs"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Typed": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Typed"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/LiveComponent": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/LiveComponent"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/React": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/React"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/TwigComponent": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/TwigComponent"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/LazyImage": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/LazyImage"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Swup": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Swup"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Map/src/Bridge/Google": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Map/src/Bridge/Google"
+        },
+        "/Users/simonandre/Sites/symfony/ux/ux.symfony.com/bin/../../src/Map/src/Bridge/Leaflet": {
+            "type": "path",
+            "url": "/Users/simonandre/Sites/symfony/ux/src/Map/src/Bridge/Leaflet"
+        }
     }
 }

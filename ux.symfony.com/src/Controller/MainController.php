@@ -30,6 +30,27 @@ class MainController extends AbstractController
             'recipeFileTree' => new RecipeFileTree(),
         ]);
     }
+    
+    #[Route('/test/{method}/{nb}', name: 'app_test_component')]
+    public function testComponent(string $method = 'twig', int $nb = 100): Response
+    {
+        $methods = ['twig', 'twig_embed', 'anonymous', 'anonymous_embed', 'php', 'php_embed'];
+        if (!\in_array($method, $methods, true)) {
+            throw $this->createNotFoundException();
+        }
+        
+        $iterations = [10, 50, 100, 500, 1000, 5000];
+        if (!\in_array($nb, $iterations, true)) {
+            throw $this->createNotFoundException();
+        }
+        
+        return $this->render('test_components.html.twig', [
+            'iterations' => $iterations,
+            'nb' => $nb,
+            'methods' => $methods,
+            'method' => $method,
+        ]);
+    }
 
     #[Route(path: '/robots.txt', name: 'app_robots')]
     public function __invoke(Request $request): Response
