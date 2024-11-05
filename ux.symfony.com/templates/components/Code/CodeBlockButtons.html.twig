@@ -1,4 +1,4 @@
-{% props source, link, copyButton = true %}
+{% props source, link, copyButton = true, githubButton = true %}
 
 {% set github_button %}
     <a
@@ -36,7 +36,7 @@
         </button>
     </div>
 
-{% else %}
+{% elseif githubButton %}
 
     <div class="code-buttons">
         {{ github_button }}

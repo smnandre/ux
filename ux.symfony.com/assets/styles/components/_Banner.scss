@@ -3,7 +3,10 @@
 // -----------------------------------------------------------------
 
 .Banner {
-  background: #0A0A0A;
+  --background: var(--package-color, #0A0A0A);
+  
+  background: var(--background);
+  background: color-mix(in oklch, var(--background) 10%, #0A0A0A);
   color: #fff;
   transition: transform 250ms linear;
 }

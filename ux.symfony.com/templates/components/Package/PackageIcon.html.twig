@@ -5,7 +5,11 @@
     class: 'PackageIcon',
     style: '--gradient: ' ~ package.gradient ~ ';--color: ' ~ package.color ~ ';' 
 }) }}>
-    <img width="36" height="36" 
-         src="{{ asset('images/ux_packages/' ~ package.imageFilename) }}" 
+    <img src="{{ asset('images/ux_packages/' ~ package.imageFilename) }}"
+        {% if package.imageFilename ends with '.svg' %}
+            width="36" height="36"
+        {% else %}
+            width="36px" height="36px"
+        {% endif %}
          alt="{{ package.humanName }} UX icon">
 </div>

@@ -17,6 +17,15 @@
     }
 } %}
 
+{% block inline_styles %}
+<style>
+  :root {
+    --package-color: {{ package.color }};
+    --package-gradient: {{ package.gradient }};
+  }
+</style>
+{% endblock %}
+
 {% block header %}
     {{ include('_header.html.twig', {
         theme: 'white'
@@ -26,7 +35,13 @@
 {% block content %}
 
 <article>
-    {% block package_header %}{% endblock %}
+    {% block package_header %}
+        <twig:Package:PackageHeader package="{{ package }}" />
+    {% endblock %}
+    
+    {% block package_nav %}
+        <twig:Package:PackageNav package="{{ package }}" />
+    {% endblock %}
 
     {% block package_content %}
         <section class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">
@@ -56,55 +71,54 @@
             {% endblock %}
         </section>
     {% endblock %}
-
-    {% block package_install %}
-        
-        
-        <section class="container-fluid container-xxl px-4 pt-4 px-md-5 pt-md-5">
-            
-            <h2 class="ubuntu">Install it</h2>
-            
-            {{ include('ux_packages/_package_install.html.twig', {
-                package: package,
-            }) }}
-            
-            <div class="d-flex justify-content-center">
-                <twig:TerminalCommand
-                    aria-label="Composer command to install {{ package.humanName }}"
-                    command="{{ package.composerRequireCommand }}"
-                    style="--color-accent: {{ package.color }}; transform: translateY(50%);"
-                />
+    
+    {% block package_features %}
+        <section class="section py-3" id="examples">
+            <div class="container container-xl">
+                <div class="pt-5">
+                    <h2 class="ubuntu">Features</h2>
+                </div>
+                <div>...</div>
             </div>
-            
         </section>
     {% endblock %}
 
+    {% block package_install %}
+        <section class="section--alt py-3" id="install">
+            <div class="container container-xl py-5">
+                <div class="text-center mb-5">
+                    <p class="eyebrows">composer install</p>
+                    <h2 class="ubuntu">Install {{ package.humanName }}</h2>
+                </div>
+                
+                <twig:TerminalCommand
+                    aria-label="Composer command to install {{ package.humanName }}"
+                    command="{{ package.composerRequireCommand }}"
+                    style="--color-accent: var(--package-color);"
+                >
+                    composer require <span>{{ package.composerName }}</span>
+                </twig:TerminalCommand>
+            </div>
+        </section>
+    {% endblock %}
     
-    <section class="section alt" id="installation">
-        <div class="container container-xl">
-            <h2>Installation</h2>
-        </div>
-    </section>
-    
-    <section class="section alt" id="documentation">
-        <div class="container container-xl">
-            <h2>Documentation</h2>
-        </div>
-    </section>
-    
-    <section class="section alt" id="support">
-        <div class="container container-xl">
-            <h2>Support</h2>
-        </div>
-    </section>
-    
+    {% block package_examples %}
+        <section class="section py-3" id="examples">
+            <div class="container container-xl">
+                <div class="pt-5">
+                    <h2 class="ubuntu">Examples</h2>
+                </div>
+                <div>...</div>
+            </div>
+        </section>
+    {% endblock %}
     
     {% block package_links %}
         {{ include('ux_packages/_package_links.html.twig', {
             package: package
         }) }}
     {% endblock %}
-
+        
 </article>
 
 {% endblock %}

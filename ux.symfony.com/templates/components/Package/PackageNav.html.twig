@@ -9,7 +9,15 @@
             </a>
             <div class="PackageNav_info">
                 <a href="{{ url(package.route) }}" class="PackageNav_title" title="{{ package.humanName }}">
-                    {{- package.humanName -}}
+                    {% if package.humanName|lower starts with 'ux ' %}
+                        <span>UX</span> {{ package.humanName|slice(3) -}}
+                    {% elseif package.humanName|lower ends with 'bundle' %}
+                        {{- package.humanName|slice(0, -6) }} <span>Bundle</span>
+                    {% elseif package.humanName|lower ends with 'components' %}
+                        {{- package.humanName|slice(0, -10) }} <span>Component</span>
+                    {% else %}
+                        {{- package.humanName -}}
+                    {% endif %}
                 </a>
                 <div class="PackageNav_metadata">
                     <code>symfony/<strong>{{- package.composerName|slice(8) }}</strong></code>
@@ -20,6 +28,9 @@
         {% set menu_items = {
             'install': {
                 label: 'Installation',
+            },
+            'demos': {
+                label: 'Examples',
             },
             'documentation': {
                 label: 'Documentation',

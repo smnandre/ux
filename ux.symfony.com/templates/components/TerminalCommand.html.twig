@@ -2,10 +2,15 @@
     data-controller="clipboarder"
     data-clipboarder-source-value="{{ command }}"
 >
+    
+    {% set command %}
+        {%- block content -%}{{- command|trim -}}{%- endblock -%}
+    {% endset %}
+    
     <pre
         class="TerminalCommand_input"
         aria-label="{{ label|default }}"
-    ><code>{{ command }}</code></pre>
+    ><code>{{ command|u.collapseWhitespace|raw }}</code></pre>
     <button
         type="button"
         class="TerminalCommand_action btn btn-copy"

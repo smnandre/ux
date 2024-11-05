@@ -42,6 +42,7 @@ class CodeBlock
     public ?int $lineEnd = null;
 
     public bool $copyButton = true;
+    public bool $githubButton = true;
 
     public function __construct(
         #[Autowire('%kernel.project_dir%')] private string $rootDir,

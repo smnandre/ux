@@ -9,7 +9,7 @@
                 </code>
             </a>
             <div class="Terminal_actions">
-                <twig:Code:CodeBlockButtons copyButton="{{ this.copyButton }}" source="{{ this.rawSource }}" link="{{ this.githubLink }}"/>
+                <twig:Code:CodeBlockButtons copyButton="{{ this.copyButton }}" githubButton="{{ this.githubButton }}" source="{{ this.rawSource }}" link="{{ this.githubLink }}"/>
             </div>
         </div>
     {% endif %}
@@ -17,7 +17,7 @@
     <div class="Terminal_body" data-controller="code-expander">
         {% if not showFilename %}
             <div class="Terminal_actions">
-                <twig:Code:CodeBlockButtons copyButton="{{ this.copyButton }}" source="{{ this.rawSource }}" link="{{ this.githubLink }}"/>
+                <twig:Code:CodeBlockButtons copyButton="{{ this.copyButton }}"  githubButton="{{ this.githubButton }}" source="{{ this.rawSource }}" link="{{ this.githubLink }}"/>
             </div>
         {% endif %}
         <div class="Terminal_content" style="height: {{ height }};"

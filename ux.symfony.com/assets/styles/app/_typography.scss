@@ -4,14 +4,15 @@ h1 {
   font-weight: 700;
   line-height: 60px;
   letter-spacing: -0.035em;
+  
   font-family: var(--font-family-title);
 }
 
 h2.ubuntu {
-  font-size: 42px;
+  font-size: 2.75rem;
   font-weight: 700;
-  line-height: 48px;
-  letter-spacing: -2px;
+  line-height: 1;
+  letter-spacing: -0.04em;
 }
 
 h3, a.component-title {

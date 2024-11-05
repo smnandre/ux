@@ -1,4 +1,14 @@
-{% extends 'base.html.twig' %}
+{#{% extends 'base.html.twig' %}#}
+{% extends 'ux_packages/package.html.twig' %}
+
+{% set package = 'icons'|ux_package %}
+
+{% block title %}{{ package.humanName }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/icons.css') }}">
+{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -23,7 +33,7 @@
 } %}
 
 {% block content %}
-
+    
     <div class="hero">
         <div class="container-fluid container-xxl px-4 pt-4 px-md-5">
             <p class="eyebrows text-center mt-5">SVG icons made easy</p>
@@ -42,6 +52,10 @@
 
     <section class="container-fluid container-xxl px-4 px-md-5 py-3">
         <twig:Icon:IconSearch/>
+    </section>
+    
+    <section class="py-5 my-5">
+        <twig:Package:PackageNav package="{{ package }}" />
     </section>
 
     <section class="container-fluid container-xxl px-4 px-md-5 py-3">
