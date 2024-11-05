@@ -1,6 +1,16 @@
 .PackageHeader {
   
-  background: var(--package-gradient, #dffddc), var(--package-color);
+  //background: var(--package-gradient, #dffddc), var(--package-color);
+  
+  //--color-1: color-mix(in oklch, var(--color-1) 50%, var(--color-2) 50%);
+  --color-1: lch(from var(--package-color) 50% 90 h);
+  --color-2: lch(from var(--package-color) 40% 70 h);
+  --color-3: lch(from var(--package-color) 60% 66 calc(h + 5));
+  
+  
+  //background: linear-gradient(135deg, var(--color-1), var(--color-2), var(--color-3));
+  //background: var(--package-gradient), linear-gradient(135deg, var(--color-1), var(--color-2), var(--color-3));
+  background: linear-gradient(135deg, var(--color-2), var(--color-3));
   
   h1 {
     text-shadow: 0 .25rem .25rem rgba(0, 0, 0, .05);

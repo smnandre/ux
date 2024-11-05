@@ -1,10 +1,14 @@
 <div class="PackageHeader">
     <div class="container-fluid container-xxl py-4 py-md-5 position-relative">
 
-        <p class="eyebrows text-center font-white mt-5" style="opacity: 0.85;">{{ eyebrowText|raw }}</p>
+{#        <p class="eyebrows text-center font-white mt-5" style="opacity: 0.85;">{{ eyebrowText|raw }}</p>#}
 
-        <h1 class="text-center font-white">{% block title_header %}{{ title|default }}{% endblock %}</h1>
-
+        {% if false %}
+            {% block title_header %}{{ title|default }}{% endblock %}
+        {% endif %}
+        
+        <h1 class="text-center font-white">{{ package.humanName }}</h1>
+        
         <div class="d-flex justify-content-center">
             <p class="text-center font-white mt-3 hero-sub-text">
                 {% block sub_content %}{{ subtitle|default }}{% endblock %}

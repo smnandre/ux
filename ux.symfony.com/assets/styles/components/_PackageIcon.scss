@@ -9,18 +9,18 @@
   display: grid;
   place-content: center;
   flex-shrink: 0;
-  position: relative;
   
   img {
     --img-size: calc(0.4 * var(--logo-size));
     
-    width: 100%;
-    height: auto;
+    width: var(--img-size);
+    height: var(--img-size);
     max-width: var(--img-size);
     max-height: var(--img-size);
     object-fit: contain;
     transition: all 600ms linear;
     filter: drop-shadow(0 .15rem .25rem rgb(0 0 0 / .15));
+    display: block;
   }
   
   &:hover img {
