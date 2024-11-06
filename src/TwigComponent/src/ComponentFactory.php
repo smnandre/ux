@@ -174,7 +174,7 @@ final class ComponentFactory
             } elseif ($refParameter->isDefaultValueAvailable()) {
                 $parameters[] = $refParameter->getDefaultValue();
             } else {
-                throw new \LogicException(\sprintf('"%s"::mount() has a required $%s parameter. Make sure this is passed or make give a default value.', $component::class, $name));
+                throw new \LogicException(\sprintf('%s::mount() has a required $%s parameter. Make sure to pass it or give it a default value.', $component::class, $name));
             }
         }
 
