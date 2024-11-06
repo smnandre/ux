@@ -25,6 +25,10 @@ use Symfony\UX\TwigComponent\Event\PreMountEvent;
  */
 final class ComponentFactory
 {
+    private static $mountMethods = [];
+    private static $preMountMethods = [];
+    private static $postMountMethods = [];
+
     /**
      * @param array<string, array>        $config
      * @param array<class-string, string> $classMap
@@ -141,37 +145,39 @@ final class ComponentFactory
 
     private function mount(object $component, array &$data): void
     {
-        try {
-            $method = (new \ReflectionClass($component))->getMethod('mount');
-        } catch (\ReflectionException) {
-            // no hydrate method
-            return;
-        }
-
         if ($component instanceof AnonymousComponent) {
             $component->mount($data);
 
             return;
         }
 
+        if (!array_key_exists($component::class, self::$mountMethods)) {
+            try {
+                $mountMethod = self::$mountMethods[$component::class] = (new \ReflectionClass($component))->getMethod('mount');
+            } catch (\ReflectionException) {
+                self::$mountMethods[$component::class] = false;
+                return;
+            }
+        }
+
+        if (false === $mountMethod ??= self::$mountMethods[$component::class]) {
+            return;
+        }
+
         $parameters = [];
-
-        foreach ($method->getParameters() as $refParameter) {
-            $name = $refParameter->getName();
-
-            if (\array_key_exists($name, $data)) {
+        foreach ($mountMethod->getParameters() as $refParameter) {
+            if (array_key_exists($name = $refParameter->getName(), $data)) {
                 $parameters[] = $data[$name];
-
                 // remove the data element so it isn't used to set the property directly.
                 unset($data[$name]);
             } elseif ($refParameter->isDefaultValueAvailable()) {
                 $parameters[] = $refParameter->getDefaultValue();
             } else {
-                throw new \LogicException(\sprintf('%s::mount() has a required $%s parameter. Make sure this is passed or make give a default value.', $component::class, $refParameter->getName()));
+                throw new \LogicException(\sprintf('%s::mount() has a required $%s parameter. Make sure this is passed or make give a default value.', $component::class, $name));
             }
         }
 
-        $component->mount(...$parameters);
+        $mountMethod->invoke($component, ...$parameters);
     }
 
     private function preMount(object $component, array $data, ComponentMetadata $componentMetadata): array
@@ -180,10 +186,9 @@ final class ComponentFactory
         $this->eventDispatcher->dispatch($event);
         $data = $event->getData();
 
-        foreach (AsTwigComponent::preMountMethods($component) as $method) {
-            $newData = $component->{$method->name}($data);
-
-            if (null !== $newData) {
+        $methods = self::$preMountMethods[$component::class] ??= AsTwigComponent::preMountMethods($component::class);
+        foreach ($methods as $method) {
+            if (null !== $newData = $method->invoke($component, $data)) {
                 $data = $newData;
             }
         }
@@ -199,19 +204,17 @@ final class ComponentFactory
         $event = new PostMountEvent($component, $data, $componentMetadata);
         $this->eventDispatcher->dispatch($event);
         $data = $event->getData();
-        $extraMetadata = $event->getExtraMetadata();
 
-        foreach (AsTwigComponent::postMountMethods($component) as $method) {
-            $newData = $component->{$method->name}($data);
-
-            if (null !== $newData) {
+        $methods = self::$postMountMethods[$component::class] ??= AsTwigComponent::postMountMethods($component::class);
+        foreach ($methods as $method) {
+            if (null !== $newData = $method->invoke($component, $data)) {
                 $data = $newData;
             }
         }
 
         return [
             'data' => $data,
-            'extraMetadata' => $extraMetadata,
+            'extraMetadata' => $event->getExtraMetadata(),
         ];
     }
 
