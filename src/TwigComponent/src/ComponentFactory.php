@@ -151,11 +151,12 @@ final class ComponentFactory
             return;
         }
 
-        if (!array_key_exists($component::class, self::$mountMethods)) {
+        if (!\array_key_exists($component::class, self::$mountMethods)) {
             try {
                 $mountMethod = self::$mountMethods[$component::class] = (new \ReflectionClass($component))->getMethod('mount');
             } catch (\ReflectionException) {
                 self::$mountMethods[$component::class] = false;
+
                 return;
             }
         }
@@ -166,14 +167,14 @@ final class ComponentFactory
 
         $parameters = [];
         foreach ($mountMethod->getParameters() as $refParameter) {
-            if (array_key_exists($name = $refParameter->getName(), $data)) {
+            if (\array_key_exists($name = $refParameter->getName(), $data)) {
                 $parameters[] = $data[$name];
                 // remove the data element so it isn't used to set the property directly.
                 unset($data[$name]);
             } elseif ($refParameter->isDefaultValueAvailable()) {
                 $parameters[] = $refParameter->getDefaultValue();
             } else {
-                throw new \LogicException(\sprintf('%s::mount() has a required $%s parameter. Make sure this is passed or make give a default value.', $component::class, $name));
+                throw new \LogicException(\sprintf('"%s"::mount() has a required $%s parameter. Make sure this is passed or make give a default value.', $component::class, $name));
             }
         }
 
