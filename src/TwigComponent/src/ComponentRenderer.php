@@ -31,6 +31,12 @@ final class ComponentRenderer implements ComponentRendererInterface
         private ComponentProperties $componentProperties,
         private ComponentStack $componentStack,
     ) {
+        $this->dispatcher = new class implements EventDispatcherInterface {
+            public function dispatch(object $event, ?string $eventName = null): object
+            {
+                return $event;
+            }
+        };
     }
 
     /**
@@ -38,6 +44,7 @@ final class ComponentRenderer implements ComponentRendererInterface
      */
     public function preCreateForRender(string $name, array $props = []): ?string
     {
+        return null;
         $event = new PreCreateForRenderEvent($name, $props);
         $this->dispatcher->dispatch($event);
 

@@ -26,7 +26,7 @@ final class BlockStack
     /**
      * @var array<string, array<int, array<int, string>>>
      */
-    private array $stack;
+    private static array $stack = [];
 
     /**
      * @var array<class-string, int>
@@ -43,6 +43,9 @@ final class BlockStack
                 $newBlocks[$blockName] = $block;
                 continue;
             }
+            
+            // We compute _once_ the random suffix for the block name
+            $randomSuffix ??= $blockName.'_'.mt_rand();
 
             // Determine the location of the block where it is defined in the host Template.
             // Each component has its own embedded template. That template's index uniquely
@@ -51,13 +54,13 @@ final class BlockStack
 
             // Change the name of outer blocks to something unique so blocks of nested components aren't overridden,
             // which otherwise might cause a recursion loop when nesting components.
-            $newName = self::OUTER_BLOCK_PREFIX.$blockName.'_'.mt_rand();
+            $newName = self::OUTER_BLOCK_PREFIX.$blockName.'_'.$randomSuffix;
             $newBlocks[$newName] = $block;
 
             // The host index combined with the index of the embedded template where the block can be used (target)
             // allows us to remember the link between the original name and the new randomized name.
             // That way we can map a call like `block(outerBlocks.block_name)` to the randomized name.
-            $this->stack[$blockName][$targetEmbeddedTemplateIndex][$hostEmbeddedTemplateIndex] = $newName;
+            self::$stack[$blockName][$targetEmbeddedTemplateIndex][$hostEmbeddedTemplateIndex] = $newName;
         }
 
         return $newBlocks;
