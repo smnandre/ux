@@ -14,6 +14,7 @@ namespace Symfony\UX\TwigComponent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Symfony\Contracts\Service\ResetInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Event\PostMountEvent;
 use Symfony\UX\TwigComponent\Event\PreMountEvent;
@@ -23,7 +24,7 @@ use Symfony\UX\TwigComponent\Event\PreMountEvent;
  *
  * @internal
  */
-final class ComponentFactory
+final class ComponentFactory implements ResetInterface
 {
     private static $mountMethods = [];
     private static $preMountMethods = [];
@@ -251,5 +252,12 @@ final class ComponentFactory
         }
 
         throw new \InvalidArgumentException($message);
+    }
+
+    public function reset(): void
+    {
+        self::$mountMethods = [];
+        self::$preMountMethods = [];
+        self::$postMountMethods = [];
     }
 }
