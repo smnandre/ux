@@ -39,7 +39,7 @@ class MainController extends AbstractController
             throw $this->createNotFoundException();
         }
         
-        $iterations = [10, 50, 100, 500, 1000, 5000];
+        $iterations = [1, 5, 10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000];
         if (!\in_array($nb, $iterations, true)) {
             throw $this->createNotFoundException();
         }
