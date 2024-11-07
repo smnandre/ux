@@ -64,11 +64,13 @@ final class ComponentNode extends Node implements NodeOutputInterface
                ->string(ComponentRuntime::class)
                ->raw(");\n");
 
-        /*
+        /**
          * Block 1) PreCreateForRender handling
          *
          * We call code to trigger the PreCreateForRender event. If the event returns
          * a string, we return that string and skip the rest of the rendering process.
+         * 
+         * @see ComponentRuntime::preRender
          */
         $compiler
             ->write(\sprintf('$preRendered = $%s->preRender(', $componentRuntime))
@@ -95,12 +97,14 @@ final class ComponentNode extends Node implements NodeOutputInterface
             ->raw("\n")
             ->indent();
 
-        /*
+        /**
          * Block 2) Create the component & return render info
          *
          * We call code that creates the component and dispatches the
          * PreRender event. The result $preRenderEvent variable holds
          * the final template, template index & variables.
+         * 
+         * @see ComponentRuntime::startEmbedComponent
          */
         $compiler
             ->write(\sprintf('$preRenderEvent = $%s->startEmbedComponent(', $componentRuntime))
@@ -174,6 +178,11 @@ final class ComponentNode extends Node implements NodeOutputInterface
             ->raw('$embeddedContext, $embeddedBlocks')
             ->raw(");\n");
 
+        /**
+         * Block 5) Finish the embedded component
+         *
+         * @see ComponentRuntime::finishEmbedComponent
+         */
         $compiler->write(\sprintf('$%s->finishEmbedComponent();', $componentRuntime))
             ->raw("\n")
         ;
