@@ -37,6 +37,7 @@ use Symfony\UX\TwigComponent\ComponentRendererInterface;
 use Symfony\UX\TwigComponent\ComponentStack;
 use Symfony\UX\TwigComponent\ComponentTemplateFinder;
 use Symfony\UX\TwigComponent\DependencyInjection\Compiler\TwigComponentPass;
+use Symfony\UX\TwigComponent\EventDispatcher\ComponentEventDispatcher;
 use Symfony\UX\TwigComponent\Twig\ComponentExtension;
 use Symfony\UX\TwigComponent\Twig\ComponentLexer;
 use Symfony\UX\TwigComponent\Twig\ComponentRuntime;
@@ -76,6 +77,12 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
                 $config['anonymous_template_directory'],
             ]);
         $container->setAlias(ComponentRendererInterface::class, 'ux.twig_component.component_renderer');
+        
+        $container->register('ux.twig_component.event_dispatcher', ComponentEventDispatcher::class)
+            ->setArguments([
+                new Reference('event_dispatcher'),
+                new AbstractArgument(\sprintf('Added in %s.', TwigComponentPass::class)),
+            ]);
 
         $container->registerAttributeForAutoconfiguration(
             AsTwigComponent::class,
@@ -89,7 +96,7 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
                 new Reference('ux.twig_component.component_template_finder'),
                 new AbstractArgument(\sprintf('Added in %s.', TwigComponentPass::class)),
                 new Reference('property_accessor'),
-                new Reference('event_dispatcher'),
+                new Reference('ux.twig_component.event_dispatcher'),
                 new AbstractArgument(\sprintf('Added in %s.', TwigComponentPass::class)),
             ])
             ->addTag('kernel.reset', ['method' => 'reset'])
@@ -108,7 +115,7 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
         $container->register('ux.twig_component.component_renderer', ComponentRenderer::class)
             ->setArguments([
                 new Reference('twig'),
-                new Reference('event_dispatcher'),
+                new Reference('ux.twig_component.event_dispatcher'),
                 new Reference('ux.twig_component.component_factory'),
                 new Reference('ux.twig_component.component_properties'),
                 new Reference('ux.twig_component.component_stack'),
@@ -215,6 +222,9 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
                 ->booleanNode('profiler')
                     ->info('Enables the profiler for Twig Component (in debug mode)')
                     ->defaultValue('%kernel.debug%')
+                ->end()
+                ->booleanNode('outerblocks')
+                    ->info('TODO')
                 ->end()
                 ->scalarNode('controllers_json')
                     ->setDeprecated('symfony/ux-twig-component', '2.18', 'The "twig_component.controllers_json" config option is deprecated, and will be removed in 3.0.')

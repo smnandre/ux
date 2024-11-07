@@ -12,6 +12,7 @@
 namespace Symfony\UX\TwigComponent;
 
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\UX\TwigComponent\EventDispatcher\ComponentEventDispatcher;
 use Symfony\UX\TwigComponent\Event\PostRenderEvent;
 use Symfony\UX\TwigComponent\Event\PreCreateForRenderEvent;
 use Symfony\UX\TwigComponent\Event\PreRenderEvent;
@@ -26,17 +27,12 @@ final class ComponentRenderer implements ComponentRendererInterface
 {
     public function __construct(
         private Environment $twig,
-        private EventDispatcherInterface $dispatcher,
+        EventDispatcherInterface $dispatcher,
         private ComponentFactory $factory,
         private ComponentProperties $componentProperties,
         private ComponentStack $componentStack,
     ) {
-        $this->dispatcher = new class implements EventDispatcherInterface {
-            public function dispatch(object $event, ?string $eventName = null): object
-            {
-                return $event;
-            }
-        };
+        $this->dispatcher = new ComponentEventDispatcher($dispatcher);
     }
 
     /**
@@ -44,7 +40,6 @@ final class ComponentRenderer implements ComponentRendererInterface
      */
     public function preCreateForRender(string $name, array $props = []): ?string
     {
-        return null;
         $event = new PreCreateForRenderEvent($name, $props);
         $this->dispatcher->dispatch($event);
 

@@ -77,16 +77,23 @@ final class TwigComponentPass implements CompilerPassInterface
             }
         }
 
-        $factoryDefinition = $container->findDefinition('ux.twig_component.component_factory');
-        $factoryDefinition->setArgument(1, ServiceLocatorTagPass::register($container, $componentReferences));
-        $factoryDefinition->setArgument(4, $componentConfig);
-        $factoryDefinition->setArgument(5, $componentClassMap);
+        $container->findDefinition('ux.twig_component.component_factory')
+                ->setArgument(1, ServiceLocatorTagPass::register($container, $componentReferences))
+                ->setArgument(4, $componentConfig)
+                ->setArgument(5, $componentClassMap);
 
-        $componentPropertiesDefinition = $container->findDefinition('ux.twig_component.component_properties');
-        $componentPropertiesDefinition->setArgument(1, array_fill_keys(array_keys($componentClassMap), null));
+        $container->findDefinition('ux.twig_component.component_properties')
+            ->setArgument(1, array_fill_keys(array_keys($componentClassMap), null));
 
-        $debugCommandDefinition = $container->findDefinition('ux.twig_component.command.debug');
-        $debugCommandDefinition->setArgument(3, $componentClassMap);
+        $container->findDefinition('ux.twig_component.command.debug')
+            ->setArgument(3, $componentClassMap);
+        
+        if ($container->has('event_dispatcher')) {
+            $container->findDefinition('ux.twig_component.event_dispatcher')
+                ->setArgument(0, $container->getDefinition('event_dispatcher'))
+                ->setArgument(1, $componentConfig);
+        }
+        
     }
 
     private function findMatchingDefaults(string $className, array $componentDefaults): ?array
