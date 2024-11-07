@@ -1,4 +1,6 @@
-<div class="PackageBox" style="--gradient: {{ package.gradient }};--color: {{ package.color }};">
+<div class="PackageBox {{ package.route }}"
+    {#     style="--gradient: {{ package.gradient }};--color: {{ package.color }};" #}
+>
 
     <div class="PackageBox_logo">
         <img width="36" height="36" src="{{ asset('images/ux_packages/' ~ package.imageFilename) }}"
@@ -7,11 +9,78 @@
 
     <div class="PackageBox_content">
         <{{ titleTag }} class="PackageBox_title">
-            <a href="{{ path(package.route) }}" class="PackageBox_link">{{ package.humanName }}</a>
-            <twig:ux:icon name="arrow-right" class="PackageBox_arrow Icon" />
-        </{{ titleTag }}>
-        <div class="PackageBox_description">
-            {{ package.description|markdown_to_html }}
-        </div>
+        <a href="{{ path(package.route) }}" class="PackageBox_link">{{ package.humanName }}</a>
+        <twig:ux:icon name="arrow-right" class="PackageBox_arrow Icon"/>
+    </{{ titleTag }}>
+    <div class="PackageBox_description">
+        {{ package.description|markdown_to_html }}
     </div>
 </div>
+</div>
+
+{% if package.route == 'app_icons' %}
+    <style>
+      div.PackageBox {
+
+        --base-color: var(--color-base);
+        --color: var(--color-base);
+
+        --color-darker: hsl(from var(--color-base) h 80 80);
+        
+        --color-darker: hsl(from var(--color-base) h 60 60);
+
+        --color-alt: hsl(from var(--color-base) calc(h + 180) s l));
+
+        --color-alter: hsl(from var(--color-base) calc(h - 120) s l);
+        --color-altis: hsl(from var(--color-base) calc(h + 120) s l);
+
+        --tint-30: color-mix(in srgb, var(--base-color), white 30%);
+        --tint-50: color-mix(in srgb, var(--base-color), white 50%);
+
+        --shade-30: color-mix(in srgb, var(--base-color), black 30%);
+        --shade-50: color-mix(in srgb, var(--base-color), black 50%);
+
+        --package-color: var(--color-base);
+
+
+        background: var(--gradient);
+        background-color: var(--color-base);
+
+        --angle: 135deg;
+        --color-light: color-mix(in oklch, var(--color-base), white 20%);
+        --color-dark: color-mix(in oklch, var(--color-base), black 20%);
+        --gradient: linear-gradient(
+            135deg,
+            var(--color-darker),
+            var(--shade-50)
+        );
+      }
+
+      .PackageBox_logo {
+        --gradient: linear-gradient( 130deg, var(--shade-30), var(--tint-30) );
+        /*background-blend-mode: multiply;*/
+    
+        box-shadow: -2px -2px 8px -3px color-mix(in oklab, var(--color-0) 40%, #0008), 
+            4px -2px 5px -5px var(--shade-50);
+        
+        border: 0.5px solid hsl(var(--color-0), calc(h + 20deg) s l);
+      }
+
+      /*div.PackageBox::after {*/
+      /*  display: none !important;*/
+      /*}*/
+      /*div.PackageBox::before {*/
+      /*  display: none !important;*/
+      /*}*/
+    </style>
+{% endif %}
+
+<style>
+  div.PackageBox.{{ package.route }}:not(:hover) {
+
+    --color-base: {{ package.colorBase }};
+    --color-0: {{ package.color0 }};
+    --color-1: {{ package.color1 }};
+    --color-2: {{ package.color2 }};
+  }
+</style>
