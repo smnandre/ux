@@ -27,6 +27,8 @@ class ComponentEventDispatcher implements EventDispatcherInterface
             return $this->dispatcher->dispatch($event, $eventName);
         }
         
+        return $this->symfonyDispatcher->dispatch($event, $eventName);
+        
         $eventListeners = $this->symfonyDispatcher->getListeners($event::class);
         if (empty($eventListeners)) {
             return $this->dispatcher->dispatch($event, $eventName);

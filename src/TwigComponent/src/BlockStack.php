@@ -26,7 +26,7 @@ final class BlockStack
     /**
      * @var array<string, array<int, array<int, string>>>
      */
-    private static array $stack = [];
+    private array $stack = [];
 
     /**
      * @var array<class-string, int>
@@ -60,7 +60,7 @@ final class BlockStack
             // The host index combined with the index of the embedded template where the block can be used (target)
             // allows us to remember the link between the original name and the new randomized name.
             // That way we can map a call like `block(outerBlocks.block_name)` to the randomized name.
-            self::$stack[$blockName][$targetEmbeddedTemplateIndex][$hostEmbeddedTemplateIndex] = $newName;
+            $this->stack[$blockName][$targetEmbeddedTemplateIndex][$hostEmbeddedTemplateIndex] = $newName;
         }
 
         return $newBlocks;
