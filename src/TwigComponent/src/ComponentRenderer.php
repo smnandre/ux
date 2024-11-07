@@ -27,12 +27,12 @@ final class ComponentRenderer implements ComponentRendererInterface
 {
     public function __construct(
         private Environment $twig,
-        EventDispatcherInterface $dispatcher,
+        private EventDispatcherInterface $dispatcher,
         private ComponentFactory $factory,
         private ComponentProperties $componentProperties,
         private ComponentStack $componentStack,
     ) {
-        $this->dispatcher = new ComponentEventDispatcher($dispatcher);
+        dump($this->dispatcher);
     }
 
     /**
