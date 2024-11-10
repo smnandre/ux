@@ -117,7 +117,11 @@ final class ComponentTokenParser extends AbstractTokenParser
         if (!isset($this->lineAndFileCounts[$fileAndLine])) {
             $this->lineAndFileCounts[$fileAndLine] = 0;
         }
+        
+        $prefixedTime = str_pad($this->lineAndFileCounts[$fileAndLine], 4, '0', STR_PAD_LEFT);
+        
+        return $line.$prefixedTime;
 
-        return crc32($fileAndLine).++$this->lineAndFileCounts[$fileAndLine];
+        // return crc32($fileAndLine).++$this->lineAndFileCounts[$fileAndLine];
     }
 }

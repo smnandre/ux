@@ -94,6 +94,9 @@ final class ComponentNode extends Node implements NodeOutputInterface
             ->write('} else {')
             ->raw("\n")
             ->indent();
+        
+        // $context = $runtime->startEmbedComponent();
+        // $context['__parent__'] = $preRenderEvent->getTemplate();
 
         /*
          * Block 2) Create the component & return render info
@@ -139,11 +142,18 @@ final class ComponentNode extends Node implements NodeOutputInterface
          * Then add them to the block stack and get the converted embedded blocks.
          */
         $compiler
-            ->write(\sprintf('$embeddedContext["outerBlocks"] ??= new \%s();', BlockStack::class))
+            ->write(\sprintf('$embeddedContext["outerBlocks"] ??= new \%s(__CLASS__, $this->blocks, $embeddedContext);', BlockStack::class))
             ->raw("\n");
+        
+        $compiler
+            ->write(sprintf('$embeddedContext["em_template"] = "%s";', $this->getAttribute('embedded_template')))
+            ->write(sprintf('$embeddedContext["em_index"] = %s;', $this->getAttribute('embedded_index')))
+            ;
 
         $compiler->write('$embeddedBlocks = $embeddedContext["outerBlocks"]->convert($blocks, ')
             ->raw($this->getAttribute('embedded_index'))
+            ->raw(", ")
+            ->string($this->getAttribute('embedded_template'))
             ->raw(");\n");
 
         /*

@@ -32,8 +32,17 @@ final class BlockStack
      * @var array<class-string, int>
      */
     private static array $templateIndexStack = [];
+    
+    private readonly int $templateIndex;
+    public function __construct(
+        private readonly string $templateClass,
+        private readonly array $blocks,
+        private readonly array $embeddedContext,
+    ){
+        $this->templateIndex = self::getTemplateIndexFromTemplateClassname($this->templateClass);
+    }
 
-    public function convert(array $blocks, int $targetEmbeddedTemplateIndex): array
+    public function convert(array $blocks, int $targetEmbeddedTemplateIndex, string $embeddedTemplate): array
     {
         $newBlocks = [];
         $hostEmbeddedTemplateIndex = null;
@@ -48,10 +57,11 @@ final class BlockStack
             // Each component has its own embedded template. That template's index uniquely
             // identifies the block definition.
             $hostEmbeddedTemplateIndex ??= $this->findHostEmbeddedTemplateIndex();
+            dump(hostEmbeddedTemplateIndex: $hostEmbeddedTemplateIndex);
 
             // Change the name of outer blocks to something unique so blocks of nested components aren't overridden,
             // which otherwise might cause a recursion loop when nesting components.
-            $newName = self::OUTER_BLOCK_PREFIX.$blockName.'_'.mt_rand();
+            $newName = self::OUTER_BLOCK_PREFIX.$blockName.'_a'.$hostEmbeddedTemplateIndex.'_a'.$targetEmbeddedTemplateIndex;
             $newBlocks[$newName] = $block;
 
             // The host index combined with the index of the embedded template where the block can be used (target)
@@ -59,22 +69,62 @@ final class BlockStack
             // That way we can map a call like `block(outerBlocks.block_name)` to the randomized name.
             $this->stack[$blockName][$targetEmbeddedTemplateIndex][$hostEmbeddedTemplateIndex] = $newName;
         }
+        
+        $trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+        dump($trace[1]['class'] ?? 'no class');
+        
+        dump(
+            class: $this->templateClass,
+            index: $this->templateIndex,
+            blocks: $this->blocks,
+            embeddedContext: $this->embeddedContext,
+            newBlocks: $newBlocks,
+            hostEmbeddedTemplateIndex: $hostEmbeddedTemplateIndex,
+            targetEmbeddedTemplateIndex: $targetEmbeddedTemplateIndex,
+            targetEmbeddedTemplate: $embeddedTemplate,
+        );
 
         return $newBlocks;
     }
 
     public function __call(string $name, array $arguments)
     {
+        dump(sprintf('call block %s ', $name));
+        dump($this->stack[$name]);
+        
+        $trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+        dump($trace[1]['class'] ?? 'no class');
+        
+        dump($this->templateClass, $this->templateIndex);
+        dump($name, $arguments);
+        
+        $trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+        if (null === $classname = $trace[1]['class'] ?? null) {
+            throw new \LogicException('Unable to guess the block name.');
+        }
+        
         $callingEmbeddedTemplateIndex = $this->findCallingEmbeddedTemplateIndex();
         $hostEmbeddedTemplateIndex = $this->findHostEmbeddedTemplateIndexFromCaller();
+        
+        dump($callingEmbeddedTemplateIndex, $hostEmbeddedTemplateIndex);
+        dump($this->stack[$name][$callingEmbeddedTemplateIndex] ?? []);
 
         return $this->stack[$name][$callingEmbeddedTemplateIndex][$hostEmbeddedTemplateIndex] ?? self::OUTER_BLOCK_FALLBACK_NAME;
     }
 
     private function findHostEmbeddedTemplateIndex(): int
     {
+        // $trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+        // if (isset($trace[1]['class']) && $trace[1]['class'] instanceof Template) {
+        //     $classname = $trace[1]['class']::class;
+        //     return self::getTemplateIndexFromTemplateClassname($classname);
+        // }
+        //
+        // return 0;
+        //
         $backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS | \DEBUG_BACKTRACE_PROVIDE_OBJECT);
 
+        
         foreach ($backtrace as $trace) {
             if (isset($trace['object']) && $trace['object'] instanceof Template) {
                 $classname = $trace['object']::class;
@@ -87,7 +137,7 @@ final class BlockStack
                 }
             }
         }
-
+        
         return 0;
     }
 

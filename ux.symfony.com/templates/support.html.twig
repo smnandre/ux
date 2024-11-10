@@ -8,12 +8,59 @@
 
 {% block content %}
 
-    <div class="hero">
-        <div class="container-fluid container-xxl px-4 pt-4 px-md-5">
-            <h1 class="text-center mt-5"><a href="{{ url('app_support') }}">Support</a></h1>
-            <p class="text-center mt-2 mb-5">Ask questions about Symfony UX and find the answers you need.</p>
+    <div class="container-xl">
+        
+    {% block bar %}
+        bar
+    {% endblock %}
+    
+    {% set b = 'bb' %}
+    {% set c = 'CC' %}
+    
+{#    <h2>No content</h2>#}
+{#    <twig:Foo a="AA"  />#}
+{#    #}
+{#    <h2>Content</h2>#}
+{#    <twig:Foo  a="AA">CONTENT</twig:Foo>#}
+    
+    <h2>OuterBlock</h2>
+    <twig:Foo a="AA1">
+        {{ outerBlocks.bar }}
+    </twig:Foo>
+    
+        <hr style="margin: 4rem; border: 0; border-top: 2px solid #ddd;">
+        
+    <h2>Nested</h2>
+    <twig:Foo a="AA1">
+        AA1 inner
+        <twig:Foo a="AA1.1">
+            AA1.1 innder
+        </twig:Foo>
+        {{ outerBlocks.bar }}
+    </twig:Foo>
+        
+        <hr style="margin: 4rem; border: 0; border-top: 2px solid #ddd;">
+    
+    <h2>Nested Twice</h2>
+    <twig:Foo a="AA2">
+        {{ dump({'aaa2': [em_index ??'', em_template ??'']}) }}
+        AA2 inner
+        <twig:Foo a="AA2.1">
+            {{ dump({'aaa2.1': [em_index ??'', em_template ??'']}) }}
+            AA2.1 innder
+            {{ outerBlocks.bar }}
+        </twig:Foo>
+        <twig:Foo a="AA2.2">
+            {{ dump({'aaa2.2': [em_index ??'', em_template ??'']}) }}
+            AA2.2 innder
+            {{ outerBlocks.bar }}
+        </twig:Foo>
+{#        {{ outerBlocks.bar }}#}
+    </twig:Foo>
+        
+        {{ dump('foo') }}
+        
         </div>
-    </div>
 
     <section style="--padding:0;">
         <div class="container-fluid container px-4 pt-4 px-md-5" style="max-width: 1000px;">
