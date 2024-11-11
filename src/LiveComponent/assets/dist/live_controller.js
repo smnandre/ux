@@ -2665,13 +2665,34 @@ class PollingPlugin {
 
 class SetValueOntoModelFieldsPlugin {
     attachToComponent(component) {
+        console.log('synchronizing');
+        console.log(component.valueStore);
         this.synchronizeValueOfModelFields(component);
+        console.log(component.valueStore);
+        console.log('synchronized');
+        
         component.on('render:finished', () => {
+            console.log('render:finishing');
+            console.log(component.valueStore);
             this.synchronizeValueOfModelFields(component);
+            console.log(component.valueStore);
+            console.log('render:finished');
         });
     }
     synchronizeValueOfModelFields(component) {
-        component.element.querySelectorAll('[data-model]').forEach((element) => {
+        
+        
+        const elements = [...component.element.querySelectorAll("[data-model], :is(input,checkbox,select,textarea)[name]")];
+        elements.forEach((element) => {
+        
+        // component.element.querySelectorAll('[data-model]').forEach((element) => {
+            
+            console.log(component.valueStore);
+            // console.log(component.getUnsyncedModelNames());
+            // console.log(component.getUnsyncedInputs());
+            console.log(component.getUnsyncedModels());
+            
+            
             if (!(element instanceof HTMLElement)) {
                 throw new Error('Invalid element using data-model.');
             }
@@ -2681,7 +2702,7 @@ class SetValueOntoModelFieldsPlugin {
             if (!elementBelongsToThisComponent(element, component)) {
                 return;
             }
-            const modelDirective = getModelDirectiveFromElement(element);
+            const modelDirective = getModelDirectiveFromElement(element, false);
             if (!modelDirective) {
                 return;
             }
@@ -2690,9 +2711,28 @@ class SetValueOntoModelFieldsPlugin {
                 return;
             }
             if (component.valueStore.has(modelName)) {
-                setValueOnElement(element, component.valueStore.get(modelName));
+                const storeValue = component.valueStore.get(modelName);
+                console.log('Store value: ' + storeValue + '  # ' + modelName);
+                
+                const domValue = getValueFromElement(element, component.valueStore);
+                console.log('DOM value: ' + domValue + '  # ' + modelName);
+                
+                if (domValue) {
+                    console.log('Setting value on store: ' + domValue);
+                    component.valueStore.set(modelName, domValue);
+                    return;
+                }
+                
+                if (storeValue) {
+                    console.log('Setting value on element: ' + storeValue);
+                    setValueOnElement(element, storeValue);
+                    
+                    return;
+                }
+
             }
             if (element instanceof HTMLSelectElement && !element.multiple) {
+                // setValueOnElement(element, component.valueStore.get(modelName));
                 component.valueStore.set(modelName, getValueFromElement(element, component.valueStore));
             }
         });
