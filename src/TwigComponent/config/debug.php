@@ -14,6 +14,7 @@ namespace Symfony\UX\TwigComponent\DependencyInjection\Loader\Configurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\UX\TwigComponent\DataCollector\TwigComponentDataCollector;
 use Symfony\UX\TwigComponent\EventListener\TwigComponentLoggerListener;
+use Symfony\UX\TwigComponent\Renderer\TraceableComponentRenderer;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
@@ -32,5 +33,12 @@ return static function (ContainerConfigurator $container) {
             'template' => '@TwigComponent/Collector/twig_component.html.twig',
             'id' => 'twig_component',
             'priority' => 256,
-        ]);
+        ])
+
+    ->set('ux.twig_component.traceable_renderer', TraceableComponentRenderer::class)
+        ->args([
+            service('ux.twig_component.renderer'),
+        ])
+        ->tag('kernel.reset', ['method' => 'reset'])
+    ;
 };

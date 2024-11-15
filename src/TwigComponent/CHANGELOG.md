@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2.22.0
+
+-  Add new `ComponentRendererInterface` with a `render` method
+-  Deprecate `Symfony\UX\TwigComponent\ComponentRendererInterface`. Use 
+   `Symfony\UX\TwigComponent\Renderer\ComponentRendererInterface` instead
+-  Deprecate `PreCreateForRenderEvent` in favor of `PreRenderEvent`
+
 ## 2.20.0
 
 -  Add Anonymous Component support for 3rd-party bundles #2019

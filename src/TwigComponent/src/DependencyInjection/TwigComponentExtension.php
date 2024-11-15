@@ -27,6 +27,8 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Parameter;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\UX\Icons\IconRendererInterface;
+use Symfony\UX\LiveComponent\LiveComponentRenderer;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\CacheWarmer\TwigComponentCacheWarmer;
 use Symfony\UX\TwigComponent\Command\TwigComponentDebugCommand;
@@ -37,6 +39,7 @@ use Symfony\UX\TwigComponent\ComponentRendererInterface;
 use Symfony\UX\TwigComponent\ComponentStack;
 use Symfony\UX\TwigComponent\ComponentTemplateFinder;
 use Symfony\UX\TwigComponent\DependencyInjection\Compiler\TwigComponentPass;
+use Symfony\UX\TwigComponent\Renderer\AnonymousComponentRenderer;
 use Symfony\UX\TwigComponent\Twig\ComponentExtension;
 use Symfony\UX\TwigComponent\Twig\ComponentLexer;
 use Symfony\UX\TwigComponent\Twig\ComponentRuntime;
@@ -113,6 +116,23 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
                 new Reference('ux.twig_component.component_properties'),
                 new Reference('ux.twig_component.component_stack'),
             ])
+            ->addTag('ux.twig_component.twig_renderer', ['key' => 'ux'])
+            ->addTag('kernel.reset', ['method' => 'reset'])
+        ;
+        
+        $container->register('ux.twig_component.renderer.anonymous_renderer', AnonymousComponentRenderer::class)
+            ->addTag('ux.twig_component.twig_renderer', ['key' => 'ux:anonymous'])
+            ->addTag('kernel.reset', ['method' => 'reset'])
+        ;
+        
+        $container->register('ux.live_component.live_component_renderer', LiveComponentRenderer::class)
+            ->setArguments([
+                new Reference('twig'),
+                new Reference('event_dispatcher'),
+                // new Reference('ux.live_component.component_factory'),
+                // new Reference('ux.live_component.component_stack'),
+            ])
+            ->addTag('ux.twig_component.twig_renderer', ['key' => 'ux:live'])
             ->addTag('kernel.reset', ['method' => 'reset'])
         ;
 

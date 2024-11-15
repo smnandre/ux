@@ -17,6 +17,8 @@ use Symfony\Contracts\EventDispatcher\Event;
  * Dispatched at the start of the component rendering process.
  *
  * This event occurs before the component is created & mounted.
+ * 
+ * @deprecated since UX 2.22. Register a listener on PreRenderEvent instead. 
  */
 final class PreCreateForRenderEvent extends Event
 {

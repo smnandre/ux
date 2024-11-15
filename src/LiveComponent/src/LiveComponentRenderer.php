@@ -32,6 +32,21 @@ class LiveComponentRenderer implements ComponentRendererInterface
     {
         $this->inner->createAndRender($name, $props);
     }
+    
+    public function render(string $name, array $props = []): string
+    {
+        
+        
+        
+        $this->inner->render($name, $props);
+        
+        
+        // reset deterministic id
+        
+    }
+    
+    
+    
 
     protected function onPreRender(PreRenderEvent $event): ?string
     {

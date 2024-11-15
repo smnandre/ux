@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\UX\Icons\IconRendererInterface;
 use Symfony\UX\TwigComponent\Attribute\PostMount;
 use Symfony\UX\TwigComponent\Attribute\PreMount;
 
@@ -28,6 +29,15 @@ final class TwigComponentPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
+        $container->findDefinition(IconRendererInterface::class)
+            ->addTag('ux.twig_component.component_renderer', ['key' => 'ux:icon'])
+        ;
+        
+            if ($container->hasDefinition('.ux_icons.renderer')) {
+            $container->getDefinition('ux_icons.renderer')
+                    ->addTag('ux.twig_component.component_renderer', ['key' => 'ux:icon']);
+        }
+        
         $componentConfig = [];
 
         $componentReferences = [];
@@ -77,16 +87,20 @@ final class TwigComponentPass implements CompilerPassInterface
             }
         }
 
-        $factoryDefinition = $container->findDefinition('ux.twig_component.component_factory');
-        $factoryDefinition->setArgument(1, ServiceLocatorTagPass::register($container, $componentReferences));
-        $factoryDefinition->setArgument(4, $componentConfig);
-        $factoryDefinition->setArgument(5, $componentClassMap);
+        $container->findDefinition('ux.twig_component.component_factory')
+            ->setArgument(1, ServiceLocatorTagPass::register($container, $componentReferences))
+            ->setArgument(4, $componentConfig)
+            ->setArgument(5, $componentClassMap)
+        ;
 
-        $componentPropertiesDefinition = $container->findDefinition('ux.twig_component.component_properties');
-        $componentPropertiesDefinition->setArgument(1, array_fill_keys(array_keys($componentClassMap), null));
+        $container->findDefinition('ux.twig_component.component_properties')
+            ->setArgument(1, array_fill_keys(array_keys($componentClassMap), null));
 
-        $debugCommandDefinition = $container->findDefinition('ux.twig_component.command.debug');
-        $debugCommandDefinition->setArgument(3, $componentClassMap);
+        $container->findDefinition('ux.twig_component.command.debug')
+            ->setArgument(3, $componentClassMap);
+        
+        $container->findDefinition('ux.twig_component.twig.component_runtime')
+            ->setArgument(2, array_flip($componentClassMap));
     }
 
     private function findMatchingDefaults(string $className, array $componentDefaults): ?array

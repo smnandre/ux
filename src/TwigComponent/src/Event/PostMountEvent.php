@@ -15,6 +15,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\UX\TwigComponent\ComponentMetadata;
 
 /**
+ * @deprecated since UX 2.22, to be removed in 3.0.
+ * 
  * @author Ryan Weaver <ryan@symfonycasts.com>
  */
 final class PostMountEvent extends Event

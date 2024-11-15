@@ -16,6 +16,8 @@ use Symfony\UX\TwigComponent\ComponentMetadata;
 use Symfony\UX\TwigComponent\MountedComponent;
 
 /**
+ * @deprecated since UX 2.22, to be removed in 3.0.
+ * 
  * @author Kevin Bond <kevinbond@gmail.com>
  */
 final class PreRenderEvent extends Event
