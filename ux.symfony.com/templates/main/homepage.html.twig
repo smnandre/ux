@@ -23,16 +23,16 @@
         </div>
     </div>
 </div>
+    
+{% set use_sprite = false %}
 
 <div class="container-fluid container-xxl px-4 py-4 px-md-5 py-md-5">
-    <h2 class="ubuntu">Install it</h2>
+    <h2 class="ubuntu">Install it: {{ use_sprite ? 'SPRITE' : ' NO' }}</h2>
 
     <div class="arrow mb-3 d-none d-md-block"></div>
 
 
     <div class="row-cols-auto">
-
-        {% set use_sprite = true %}
 
         {% if use_sprite %}
             {{ ux_icon_sprite([
@@ -52,31 +52,65 @@
             }
         </style>
 
-        {% for i in 0..50 %}
-            <div class="row row-cols-auto border border-black p-2">
-                <div>
-                    {{ ux_icon('lucide:circle-play', {foo: use_sprite}) }}
+        
+        {% if use_sprite %}
+            {% for i in 0..50 %}
+                <div class="row row-cols-auto border border-black p-2">
+                    <div>
+                        {{ ux_icon('lucide:circle-play', {foo: use_sprite}) }}
+                    </div>
+                    <div>
+                        {{ ux_icon('lucide:circle-pause', {foo: use_sprite}) }}
+                        {{ ux_icon_symbol('lucide:circle-pause', {foo: use_sprite}) }}
+                        {{ ux_icon_sprite([
+                            'lu:square',
+                            'lu:circle',
+                        ]) }}
+                    </div>
+                    <div>
+                        {{ ux_icon('solar:eye-outline', {foo: use_sprite}) }}
+                    </div>
+                    <div>
+                        {{ ux_icon('fluent:share-48-regular', {foo: use_sprite}) }}
+                        composer require  symfony/stimulus-bundle
+                    </div>
+                    <div>
+                        {{ ux_icon('arcticons:settings', {foo: use_sprite}) }}
+                        symfony/asset-mapper
+                    </div>
+                    <div>
+                        {{ ux_icon('grommet-icons:validate', {foo: use_sprite}) }}
+                        symfony/stimulus-bundle
+                    </div>
                 </div>
-                <div>
-                    {{ ux_icon('lucide:circle-pause', {foo: use_sprite}) }}
+            {% endfor %}
+        {% else %}
+            {% for i in 0..50 %}
+                <div class="row row-cols-auto border border-black p-2">
+                    <div>
+                        {{ ux_icon('lucide:circle-play', {use: true}) }}
+                    </div>
+                    <div>
+                        {{ ux_icon('lucide:circle-pause', {foo: use_sprite}) }}
+                    </div>
+                    <div>
+                        {{ ux_icon('solar:eye-outline', {foo: use_sprite}) }}
+                    </div>
+                    <div>
+                        {{ ux_icon('fluent:share-48-regular', {foo: use_sprite}) }}
+                        composer require  symfony/stimulus-bundle
+                    </div>
+                    <div>
+                        {{ ux_icon('arcticons:settings', {foo: use_sprite}) }}
+                        symfony/asset-mapper
+                    </div>
+                    <div>
+                        {{ ux_icon('grommet-icons:validate', {foo: use_sprite}) }}
+                        symfony/stimulus-bundle
+                    </div>
                 </div>
-                <div>
-                    {{ ux_icon('solar:eye-outline', {foo: use_sprite}) }}
-                </div>
-                <div>
-                    {{ ux_icon('fluent:share-48-regular', {foo: use_sprite}) }}
-                    composer require  symfony/stimulus-bundle
-                </div>
-                <div>
-                    {{ ux_icon('arcticons:settings', {foo: use_sprite}) }}
-                    symfony/asset-mapper
-                </div>
-                <div>
-                    {{ ux_icon('grommet-icons:validate', {foo: use_sprite}) }}
-                    symfony/stimulus-bundle
-                </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
 
 
 {#                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" visibility="hidden">#}

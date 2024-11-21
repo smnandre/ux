@@ -3,6 +3,9 @@ ux_icons:
         class: 'Icon'
 
     icon_sets:
+        
+        lu: # Lucide icons
+            alias: 'lucide'
 
         # FeatureBox icons
         feature:

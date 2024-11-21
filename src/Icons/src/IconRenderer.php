@@ -57,7 +57,7 @@ final class IconRenderer implements IconRendererInterface
             $icon = $preRenderer($icon);
         }
 
-        if ($attributes['foo'] ?? false) {
+        if ($attributes['use'] ?? false) {
             return \sprintf(
             '<svg xmlns="http://www.w3.org/2000/svg" %s>%s</svg>',
             $icon->htmlAttributes(),

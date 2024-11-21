@@ -38,13 +38,10 @@ final class UXIconRuntime implements RuntimeExtensionInterface
         try {
             return $this->iconRenderer->renderIcon($name, $attributes);
         } catch (IconNotFoundException $e) {
-            if ($this->ignoreNotFound) {
-                $this->logger?->warning($e->getMessage());
-
-                return '';
+            $this->logger?->warning($e->getMessage());
+            if (!$this->ignoreNotFound) {
+                throw $e;
             }
-
-            throw $e;
         }
     }
 
@@ -53,13 +50,10 @@ final class UXIconRuntime implements RuntimeExtensionInterface
         try {
             return $this->iconRenderer->renderSprite($names);
         } catch (IconNotFoundException $e) {
-            if ($this->ignoreNotFound) {
-                $this->logger?->warning($e->getMessage());
-
-                return '';
+            $this->logger?->warning($e->getMessage());
+            if (!$this->ignoreNotFound) {
+                throw $e;
             }
-
-            throw $e;
         }
     }
 
@@ -68,13 +62,10 @@ final class UXIconRuntime implements RuntimeExtensionInterface
         try {
             return $this->iconRenderer->renderSymbol($name);
         } catch (IconNotFoundException $e) {
-            if ($this->ignoreNotFound) {
-                $this->logger?->warning($e->getMessage());
-
-                return '';
+            $this->logger?->warning($e->getMessage());
+            if (!$this->ignoreNotFound) {
+                throw $e;
             }
-
-            throw $e;
         }
     }
 
