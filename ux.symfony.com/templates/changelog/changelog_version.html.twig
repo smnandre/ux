@@ -17,7 +17,7 @@
     </div>
     
     <div class="container--large container-xxl px-4 pt-4 px-md-5">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div style="display: grid; grid-template-columns: 2fr 7fr; gap: 20px;">
             <div>
                 <h2>Versions</h2>
                 <ul>
@@ -32,18 +32,12 @@
                 </ul>
             </div>
             <div>
-                <twig:Turbo:Frame id="version">
-                    ...
-                </twig:Turbo:Frame>
+                {% block version %}
+                    <turbo-frame id="version">
+                        <twig:ChangelogItem item="{{ version }}" isOpen />
+                    </turbo-frame>
+                {% endblock %}
             </div>
-        </div>
-    </div>
-
-    <div class="container-fluid container-xxl px-4 pt-4 px-md-5">
-        <div class="Changelog">
-            {% for entry in changelog %}
-                <twig:ChangelogItem item="{{ entry }}" isOpen="{{ loop.index < 4 }}" />
-            {% endfor %}
         </div>
     </div>
 
