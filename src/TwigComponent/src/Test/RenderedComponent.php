@@ -33,6 +33,25 @@ final class RenderedComponent implements \Stringable
 
         return new Crawler($this->html);
     }
+    
+    public function html(): string
+    {
+        return $this->html;
+    }
+    
+    public function text(): string
+    {
+        return $this->crawler()->text();
+    }
+    
+    public function attribute(string $name): ?string
+    {
+        if (null !== $attr = $this->crawler()->attr($name)) {
+            return $attr;
+        }
+        
+        return null;
+    }
 
     public function toString(): string
     {
