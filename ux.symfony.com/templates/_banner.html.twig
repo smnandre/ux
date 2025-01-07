@@ -1,15 +1,22 @@
-<aside class="Banner">
-    <div class="container-xxl">
-        <div class="BannerInner">
-            <div class="BannerContent">
-                <p class="BannerText">
-                    Ryan is the lead maintainer of Symfony UX. Now he <em>needs your help</em>.
+<aside class="Banner" style="--color-back: {{ color_back ?? '#D5054EFF' }}; --color-front: #ffffffdd;">
+    <div class="container-xxl px-4 px-md-5">
+        <div class="Banner_inner">
+            <div class="Banner_content">
+                <p class="Banner_text">
+                    <span>
+                        Get ready for an unforgettable
+                        <a href="https://live.symfony.com/2025-chicago/" class="Banner_link"><strong>SymfonyDay Chicago 2025</strong></a>!
+                        <twig:ux:icon name="si:heart-fill" />
+                    </span>
+                    <span class="more">
+                        Join us for a full day dedicated to
+                        <a href="https://gofund.me/44ecdba2" rel="external" class="Banner_link">Ryan Weaver</a>
+                        & Symfony UX!
+                    </span>
                 </p>
-            </div>
-            <div class="BannerAction">
-                <a href="https://gofund.me/44ecdba2" class="BannerButton" rel="external">
-                    <twig:ux:icon name="heart" aria-hidden="true"/>
-                    Donate
+                <a href="https://live.symfony.com/2025-chicago/" class="Banner_cta" rel="external">
+                    <twig:ux:icon name="ion:ticket" />
+                    <span>Get Your Tickets!</span>
                 </a>
             </div>
         </div>

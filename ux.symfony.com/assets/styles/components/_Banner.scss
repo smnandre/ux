@@ -3,10 +3,26 @@
 // -----------------------------------------------------------------
 
 .Banner {
-  background: #0A0A0A;
-  color: #fff;
-  transition: transform 250ms linear;
+  --color-front: #fff;
+  --color-back: #0A0A0A;
+  --color-text: color-mix(in oklab, var(--color-front) 80%, var(--color-back) 20%);
+  --color-light: color-mix(in oklab, var(--color-front) 50%, var(--color-back) 50%);
+  
+  --space-block: .5rem;
+  --space-inline: 2rem;
+  --font-size: .8rem;
+
+  @media screen and (min-width: 768px) {
+    --font-size: .9rem;
+    --space-inline: 1rem;
+  }
+
+  background: var(--color-back);
+  color: var(--color-front);
+  z-index: 10;
+  position: relative;
 }
+
 .Banner + .App {
   position: relative;
 }
@@ -15,84 +31,102 @@
   transform: translateY(-100%);
 }
 
-.BannerInner {
+.Banner_inner {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  padding-block: .5rem;
-  gap: 1rem;
+  padding-block: var(--space-block);
+  gap: var(--space-inline);
   position: relative;
 }
 
-.BannerContent {
+.Banner::after {
+  height: 2px;
+  backdrop-filter: blur(4px);
+  width: 100%;
+  content: "";
+  background: rgb(255 255 255 / .1);
+}
+
+.Banner_content {
   flex: 1;
   display: flex;
-  flex-direction: column;
-  place-content: center;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   gap: 0.25rem;
   text-wrap: balance;
 }
 
-.BannerText {
-  text-align: center;
+.Banner_text {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: var(--font-size);
   line-height: 1.3;
-  font-weight: 400;
-  color: #fffd;
-}
-.BannerText em {
-  text-decoration: underline;
-  text-underline-offset: .25rem;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.BannerAction {
-  display: grid;
-  place-content: center;
-  justify-content: center;
-}
-
-.BannerButton {
-  display: flex;
-  align-items: center;
-  padding: .15em .5em;
-  align-self: center;
-  color: #fffc;
-  font-size: .9em;
-  font-family: var(--font-family-title);
-  gap: .35em;
-  justify-content: center;
-  background: linear-gradient(#000e, #000d) padding-box,
-  linear-gradient(90deg, #D65831 0%, #D2D631 36.52%, #31D673 71.83%, #3aa3ff 100%) border-box;
-  border-radius: 2em;
-  border: 2px solid transparent;
-  transition: all 250ms linear;
-}
-.BannerButton:hover {
-  color: #fff;
-}
-.BannerButton:after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-.BannerButton svg {
-  width: 1em;
-  height: 1em;
-  color: currentColor;
-  transition: all 250ms linear;
-}
-.BannerButton:hover svg {
-  transform: scale(1.1);
-}
-@media screen and (min-width: 768px) {
-  .BannerInner {
-    padding: .5rem 2rem;
+  font-weight: 300;
+  color: var(--color-text, var(--color-front));
+  .Icon {
+    transform: translateY(-12%);
+    margin-inline: calc(var(--space-inline) / 2);
   }
-  .BannerText {
-    font-size: .9rem;
+}
+
+.Banner_link {
+  color: var(--color-front);
+  font-weight: 400;
+  transition: all 300ms ease-out;
+  transform: none;
+  display: inline-flex;
+  text-decoration: underline 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--color-back);
+  
+  &:hover {
+    transition: all 150ms ease-out;
+    transform: translateY(-6%);
+    text-decoration-color: var(--color-text);
+    text-underline-offset: 0.3em;
+  }
+  
+  strong {
+    font-weight: 600;
+  }
+}
+
+.Banner_cta {
+  display: flex;
+  flex-direction: row;
+  gap: .75em;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+
+  span {
+    transition: all 350ms ease-out;
+  }
+
+  &:hover {
+    span {
+      transition: all 150ms linear;
+      transform: translateY(-0.1em);
+    }
+  }
+
+  .Icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .Banner_text .Icon,
+  .Banner_text .more, 
+  .Banner_cta span {
+    display: none;
+  }
+  .Banner_cta:after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 100;
   }
 }
