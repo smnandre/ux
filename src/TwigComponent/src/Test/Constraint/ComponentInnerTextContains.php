@@ -11,20 +11,19 @@
 
 namespace Symfony\UX\TwigComponent\Test\Constraint;
 
-use PHPUnit\Framework\Constraint\Constraint as PHPUnitConstraint;
+use PHPUnit\Framework\Constraint\Constraint as PhpUnitConstraint;
 use Symfony\UX\TwigComponent\Test\RenderedComponent;
 
-final class ComponentAttributeValueSame extends PHPUnitConstraint
+final class ComponentInnerTextContains extends PhpUnitConstraint
 {
     public function __construct(
-        private readonly string $name,
-        private readonly string $value,
+        private readonly string $text,
     ) {
     }
 
     public function toString(): string
     {
-        return \sprintf('has attribute "%s" with value "%s"', $this->name, $this->value);
+        return \sprintf('inner text contains "%s"', $this->text);
     }
 
     /**
@@ -32,11 +31,6 @@ final class ComponentAttributeValueSame extends PHPUnitConstraint
      */
     protected function matches($component): bool
     {
-        return $this->value === (string) $component->crawler()->attr($this->name);
-    }
-
-    protected function failureDescription($other): string
-    {
-        return 'the Request '.$this->toString();
+        return str_contains($component->crawler()->innerText(), $this->text);
     }
 }

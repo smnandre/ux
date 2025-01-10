@@ -12,7 +12,6 @@
 namespace Symfony\UX\TwigComponent\Test\Constraint;
 
 use PHPUnit\Framework\Constraint\Constraint as PHPUnitConstraint;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\UX\TwigComponent\Test\RenderedComponent;
 
 final class ComponentClassSame extends PHPUnitConstraint
@@ -33,13 +32,5 @@ final class ComponentClassSame extends PHPUnitConstraint
     protected function matches($component): bool
     {
         return $this->value === (string) $component->crawler()->first()->attr('class');
-    }
-
-    /**
-     * @param Request $request
-     */
-    protected function failureDescription($request): string
-    {
-        return 'the Request '.$this->toString();
     }
 }

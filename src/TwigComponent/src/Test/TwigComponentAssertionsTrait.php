@@ -13,11 +13,6 @@ namespace Symfony\UX\TwigComponent\Test;
 
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\LogicalNot;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\UX\TwigComponent\ComponentFactory;
-use Symfony\UX\TwigComponent\ComponentRenderer;
-use Symfony\UX\TwigComponent\ComponentRendererInterface;
-use Symfony\UX\TwigComponent\MountedComponent;
 use Symfony\UX\TwigComponent\Test\Constraint as ComponentConstraint;
 
 /**
@@ -25,7 +20,6 @@ use Symfony\UX\TwigComponent\Test\Constraint as ComponentConstraint;
  */
 trait TwigComponentAssertionsTrait
 {
-
     public function assertComponentHasClass(string $class, string $message = ''): void
     {
         $this->assertThatForComponent(new ComponentConstraint\ComponentHasClass($class), $message);
@@ -63,7 +57,7 @@ trait TwigComponentAssertionsTrait
 
     public function assertComponentTextContentContains(string $text, string $message = ''): void
     {
-        $this->assertThatForComponent(new ComponentConstraint\ComponentTextContains($text), $text);
+        $this->assertThatForComponent(new ComponentConstraint\ComponentTextContains($text), $message);
     }
 
     public function assertComponentTextContentNotContains(string $text, string $message = ''): void
@@ -96,15 +90,15 @@ trait TwigComponentAssertionsTrait
         $this->assertThatForComponent(new LogicalNot(new ComponentConstraint\ComponentTextContains($html)), $message);
     }
 
-    public function assertComponentTemplateSame(string $template, string $message = ''): void
-    {
-        //
-    }
-
-    public function assertComponentTemplateNotSame(string $template, string $message = ''): void
-    {
-        //
-    }
+    // public function assertComponentTemplateSame(string $template, string $message = ''): void
+    // {
+    //     //
+    // }
+    //
+    // public function assertComponentTemplateNotSame(string $template, string $message = ''): void
+    // {
+    //     //
+    // }
 
     abstract protected static function getRenderedComponent(): ?RenderedComponent;
 
@@ -116,53 +110,53 @@ trait TwigComponentAssertionsTrait
             throw new \LogicException('The "assertThatForComponent" method can only be used on classes that implement "ComponentInterface".');
         }
 
-        $this->assert($component, $constraint, $message);
+        self::assertThat($component, $constraint, $message);
     }
 
-    private function getRenderer(): ComponentRendererInterface
-    {
-        if (!$this instanceof KernelTestCase) {
-            throw new \LogicException('The "getRenderer" method can only be used on classes that implement "KernelTestCase".');
-        }
+    // private function getRenderer(): ComponentRendererInterface
+    // {
+    //     if (!$this instanceof KernelTestCase) {
+    //         throw new \LogicException('The "getRenderer" method can only be used on classes that implement "KernelTestCase".');
+    //     }
+    //
+    //     $inner = static::getContainer()->get('ux.twig_component.renderer');
+    //
+    //     $mountedComponent = null;
+    //
+    //     $renderer = new class($inner) implements ComponentRendererInterface {
+    //         private MountedComponent $component;
+    //
+    //         public function __construct(
+    //             private readonly ComponentRenderer $inner,
+    //             private readonly ComponentFactory $factory,
+    //         )
+    //         {
+    //         }
+    //
+    //         public function createAndRender(string $name, array $props = []): string
+    //         {
+    //             $this->component = $this->factory->create($name, $props);
+    //
+    //             return $this->html = $this->inner->render($this->component);
+    //         }
+    //
+    //         public function getComponent(): string
+    //         {
+    //             return $this->inner->getComponent();
+    //         }
+    //     };
+    //
+    //     static::getContainer()->get('ux.twig_component.renderer');
+    // }
 
-        $inner = static::getContainer()->get('ux.twig_component.renderer');
+    // private function getComponent(): RenderedComponent
+    // {
+    //     $html = $this->renderer->getComponent();
+    //
+    //     //
+    //     return new RenderedComponent($html);
+    // }
 
-        $mountedComponent = null;
-
-        $renderer = new class($inner) implements ComponentRendererInterface {
-            private MountedComponent $component;
-
-            public function __construct(
-                private readonly ComponentRenderer $inner,
-                private readonly ComponentFactory $factory,
-            )
-            {
-            }
-
-            public function createAndRender(string $name, array $props = []): string
-            {
-                $this->component = $this->factory->create($name, $props);
-
-                return $this->html = $this->inner->render($this->component);
-            }
-
-            public function getComponent(): string
-            {
-                return $this->inner->getComponent();
-            }
-        };
-
-        static::getContainer()->get('ux.twig_component.renderer');
-    }
-
-    private function getComponent(): RenderedComponent
-    {
-        $html = $this->renderer->getComponent();
-
-        //
-        return new RenderedComponent($html);
-    }
-
-    abstract private function renderComponent(string $name, array $data = [], ?string $content = null, array $blocks = []): RenderedComponent;
+    // abstract private function renderComponent(string $name, array $data = [], ?string $content = null, array $blocks = []): RenderedComponent;
 
 }
