@@ -38,6 +38,21 @@
             </div>
         </div>
     {% endblock %}
+    
+    
+    <div class="container container-xl x-4 pt-4 px-md-5 pt-md-5">
+        <h2>Demo files</h2>
+        
+        <twig:Demo:FileTree files="{{ demo.files }}" />
+{#        <ul>#}
+{#            {% for file in demo.files %}#}
+{#                <li>#}
+{#                    {{ file }}#}
+{#                </li>#}
+{#            {% endfor %}#}
+{#        </ul>   #}
+        
+    </div>
 
     {% set messages = app.flashes('live_demo_success') %}
     {% if messages %}
@@ -70,7 +85,7 @@
             {% endblock %}
         </div>
     {% endblock %}
-
+    
     <div class="container container-xl x-4 pt-4 px-md-5 pt-md-5">
         <div class="cluster">
             <twig:Badge:Github label="Author" username="{{ demo.author }}" />

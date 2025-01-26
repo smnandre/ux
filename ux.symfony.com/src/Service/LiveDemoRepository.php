@@ -15,6 +15,8 @@ use App\Model\LiveDemo;
 
 class LiveDemoRepository
 {
+    private const string ROOT_DIR = __DIR__.'/../../';
+    
     /**
      * @return array<LiveDemo>
      */
@@ -32,6 +34,12 @@ class LiveDemoRepository
 The second and final part of the **Infinite Scroll Serie**, with a new range of (lovely) T-Shirts!
 Now with `automatic loading on scroll`, a new trick and amazing `loading animations`!
 EOF,
+                files: [
+                    'assets/controllers/appear-controller.js',
+                    'src/Twig/Components/ProductGrid2.php',
+                    'templates/components/ProductGrid2.html.twig',
+                    'templates/demos/live_component/infinite_scroll_2.html.twig',
+                ],
             ),
             new LiveDemo(
                 'infinite-scroll',

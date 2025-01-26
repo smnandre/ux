@@ -1,0 +1,43 @@
+<div {{ attributes }}>
+    
+    {% macro file(file) %}
+        {% if file.isFile %}
+            <twig:ux:icon name="lucide:file" />
+        {% elseif file.children|default %}
+            <twig:ux:icon name="folder-open" />
+        {% else  %}
+            <twig:ux:icon name="folder" />
+        {% endif %}
+        
+        {{ file.filename }}    
+    {% endmacro %}
+    
+    <style>
+        .FileTree_Node {
+            list-style-type: none;
+        }
+        details summary {
+            list-style: none;
+        }
+        </style>
+    
+    {% macro fileTree(files, expanded = false) %}
+        <ul class="FileTree">
+            {% for file in files %}
+                <li class="FileTree_Node">
+                    <details {{ expanded ? 'open' }}>
+                        <summary>
+                            <span>{{ _self.file(file) }}</span>
+                        </summary>
+                        {% if file.children|default%}
+                            {{ _self.fileTree(file.children, expanded) }}
+                        {% endif %}
+                    </details>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endmacro %}
+    
+    {{ _self.fileTree(this.getFileTree(), true) }}
+    
+</div>

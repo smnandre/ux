@@ -21,8 +21,14 @@ final class LiveDemo extends Demo
         string $publishedAt,
         array $tags,
         private string $longDescription,
+        private array $files = [],
     ) {
         parent::__construct($identifier, $name, $description, $author, $publishedAt, $tags);
+    }
+    
+    public function getFiles(): array
+    {
+        return $this->files;
     }
 
     public function getRoute(): string

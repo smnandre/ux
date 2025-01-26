@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    {% block javascripts %}
+        {{ importmap('app') }}
+    {% endblock %}
+</head>
+<body>
+    <header>
+        Header NavBar + Back UX website + Social / shares / etc
+    </header>
+    <main>
+        <twig:Browser url="/foo" class="shadow-blur shadow-blur--rainbow" id="browser">
+            <div class="grid" style="grid-template-columns: 1fr 5fr; height: 100%; overflow: hidden; position: relative;">
+                <div>
+                    <div class="bg-body p-4">
+                        <h2>Demo files</h2>
+                    </div>
+                    <twig:Demo:FileTree files="{{ demo.files }}" expanded />
+                </div>
+                <div>
+                    <twig:Code:TabbedCodeBlocks files="{{ demo.files }}" />
+                </div>
+            </div>
+        </twig:Browser>
+        
+            <div>
+                Browser
+            </div>
+        <nav>
+            <div>
+                Nav Header
+            </div>
+            <div>
+                
+            </div>
+        </nav>
+        <article>
+            
+        </article>
+    </main>
+    <footer>
+        
+    </footer>
+</body>
+</html>

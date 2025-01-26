@@ -108,4 +108,15 @@ class LiveDemoController extends AbstractController
 
         return $this->render($demo->getTemplate(), ['demo' => $demo]);
     }
+    
+    #[Route('/{demo}/files', name: 'app_demo_live_component_demo_files')]
+    public function demoFiles(
+        LiveDemoRepository $liveDemoRepository,
+        string $demo,
+    ): Response
+    {
+        $demo = $liveDemoRepository->find($demo);
+
+        return $this->render('demos/files.html.twig', ['demo' => $demo]);
+    }
 }
