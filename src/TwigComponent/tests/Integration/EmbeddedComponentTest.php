@@ -12,6 +12,7 @@
 namespace Symfony\UX\TwigComponent\Tests\Integration;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\UX\TwigComponent\ComponentFactory;
 use Twig\Environment;
 
 /**

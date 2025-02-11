@@ -12,6 +12,8 @@
 namespace Symfony\UX\TwigComponent;
 
 use Symfony\UX\StimulusBundle\Dto\StimulusAttributes;
+use Symfony\UX\TwigComponent\Escaper\HtmlAttributeEscaperInterface;
+use Symfony\UX\TwigComponent\Escaper\TwigHtmlAttributeEscaper;
 use Symfony\WebpackEncoreBundle\Dto\AbstractStimulusDto;
 
 /**
@@ -28,11 +30,18 @@ final class ComponentAttributes implements \Stringable, \IteratorAggregate, \Cou
     /** @var array<string,true> */
     private array $rendered = [];
 
+    private readonly HtmlAttributeEscaperInterface $escaper;
+
     /**
      * @param array<string, string|bool> $attributes
      */
-    public function __construct(private array $attributes)
-    {
+    public function __construct(
+        private array $attributes,
+        ?HtmlAttributeEscaperInterface $escaper = null,
+    ) {
+        if (null === $this->escaper = $escaper) {
+            trigger_deprecation('symfony/ux-twig-component', '2.24', 'Not passing an "%s" to "%s" is deprecated and will throw in 3.0.', HtmlAttributeEscaperInterface::class, self::class);
+        }
     }
 
     public function __toString(): string
@@ -67,9 +76,9 @@ final class ComponentAttributes implements \Stringable, \IteratorAggregate, \Cou
             }
 
             $attributes .= match ($value) {
-                true => ' '.$key,
+                true => ' '.$this->escaper->escapeName($key) ?? $key,
                 false => '',
-                default => \sprintf(' %s="%s"', $key, $value),
+                default => \sprintf(' %s="%s"', $this->escaper->escapeName($key) ?? $key, $this->escaper->escapeValue($value) ?? $value),
             };
         }
 
@@ -143,7 +152,7 @@ final class ComponentAttributes implements \Stringable, \IteratorAggregate, \Cou
             unset($attributes[$attribute]);
         }
 
-        return new self($attributes);
+        return new self($attributes, $this->escaper);
     }
 
     /**
@@ -159,7 +168,7 @@ final class ComponentAttributes implements \Stringable, \IteratorAggregate, \Cou
             }
         }
 
-        return new self($attributes);
+        return new self($attributes, $this->escaper);
     }
 
     /**
@@ -197,7 +206,7 @@ final class ComponentAttributes implements \Stringable, \IteratorAggregate, \Cou
         )));
         unset($controllersAttributes['data-controller']);
 
-        $clone = new self($attributes);
+        $clone = new self($attributes, $this->escaper);
 
         // add the remaining attributes for values/classes
         return $clone->defaults($controllersAttributes);
@@ -209,7 +218,7 @@ final class ComponentAttributes implements \Stringable, \IteratorAggregate, \Cou
 
         unset($attributes[$key]);
 
-        return new self($attributes);
+        return new self($attributes, $this->escaper);
     }
 
     public function nested(string $namespace): self
@@ -225,7 +234,7 @@ final class ComponentAttributes implements \Stringable, \IteratorAggregate, \Cou
             }
         }
 
-        return new self($attributes);
+        return new self($attributes, $this->escaper);
     }
 
     public function getIterator(): \Traversable

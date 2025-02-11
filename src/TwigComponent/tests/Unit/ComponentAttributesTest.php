@@ -14,6 +14,7 @@ namespace Symfony\UX\TwigComponent\Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use Symfony\UX\StimulusBundle\Dto\StimulusAttributes;
 use Symfony\UX\TwigComponent\ComponentAttributes;
+use Symfony\UX\TwigComponent\Escaper\HtmlAttributeEscaperInterface;
 use Symfony\WebpackEncoreBundle\Dto\AbstractStimulusDto;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -27,7 +28,7 @@ final class ComponentAttributesTest extends TestCase
     {
         $attributes = new ComponentAttributes([
             'class' => 'foo',
-            'style' => new class {
+            'style' => new class () {
                 public function __toString(): string
                 {
                     return 'color:black;';
@@ -35,14 +36,14 @@ final class ComponentAttributesTest extends TestCase
             },
             'value' => '',
             'autofocus' => true,
-        ]);
+        ], $this->createEscaper());
 
-        $this->assertSame(' class="foo" style="color:black;" value="" autofocus', (string) $attributes);
+        $this->assertSame(' class="foo" style="color:black;" value="" autofocus', (string)$attributes);
     }
 
     public function testCanSetDefaults(): void
     {
-        $attributes = new ComponentAttributes(['class' => 'foo', 'style' => 'color:black;']);
+        $attributes = new ComponentAttributes(['class' => 'foo', 'style' => 'color:black;'], $this->createEscaper());
 
         $this->assertSame(
             ['class' => 'bar foo', 'style' => 'color:black;'],
@@ -50,22 +51,22 @@ final class ComponentAttributesTest extends TestCase
         );
         $this->assertSame(
             ' class="bar foo" style="color:black;"',
-            (string) $attributes->defaults(['class' => 'bar', 'style' => 'font-size: 10;'])
+            (string)$attributes->defaults(['class' => 'bar', 'style' => 'font-size: 10;'])
         );
 
-        $this->assertSame(['class' => 'foo'], (new ComponentAttributes([]))->defaults(['class' => 'foo'])->all());
+        $this->assertSame(['class' => 'foo'], (new ComponentAttributes([], $this->createEscaper()))->defaults(['class' => 'foo'])->all());
     }
 
     public function testCanGetOnly(): void
     {
-        $attributes = new ComponentAttributes(['class' => 'foo', 'style' => 'color:black;']);
+        $attributes = new ComponentAttributes(['class' => 'foo', 'style' => 'color:black;'], $this->createEscaper());
 
         $this->assertSame(['class' => 'foo'], $attributes->only('class')->all());
     }
 
     public function testCanGetWithout(): void
     {
-        $attributes = new ComponentAttributes(['class' => 'foo', 'style' => 'color:black;']);
+        $attributes = new ComponentAttributes(['class' => 'foo', 'style' => 'color:black;'], $this->createEscaper());
 
         $this->assertSame(['class' => 'foo'], $attributes->without('style')->all());
     }
@@ -79,7 +80,7 @@ final class ComponentAttributesTest extends TestCase
             'class' => 'foo',
             'data-controller' => 'live',
             'data-live-data-value' => '{}',
-        ]);
+        ], $this->createEscaper());
 
         $controllerDto = $this->createMock(AbstractStimulusDto::class);
         $controllerDto->expects(self::once())
@@ -106,7 +107,7 @@ final class ComponentAttributesTest extends TestCase
     {
         $attributes = new ComponentAttributes([
             'class' => 'foo',
-        ]);
+        ], $this->createEscaper());
 
         $controllerDto = $this->createMock(AbstractStimulusDto::class);
         $controllerDto->expects(self::once())
@@ -136,7 +137,7 @@ final class ComponentAttributesTest extends TestCase
             'class' => 'foo',
             'data-controller' => 'live',
             'data-live-data-value' => '{}',
-        ]);
+        ], $this->createEscaper());
 
         $stimulusAttributes = new StimulusAttributes(new Environment(new ArrayLoader()));
         $stimulusAttributes->addController('foo', ['name' => 'ryan', 'some_array' => ['a', 'b']]);
@@ -161,7 +162,7 @@ final class ComponentAttributesTest extends TestCase
         $attributes = new ComponentAttributes([
             'class' => 'foo',
             'data-action' => 'live#foo',
-        ]);
+        ], $this->createEscaper());
 
         $stimulusAttributes = new StimulusAttributes(new Environment(new ArrayLoader()));
         $stimulusAttributes->addAction('foo', 'barMethod');
@@ -175,15 +176,15 @@ final class ComponentAttributesTest extends TestCase
 
     public function testBooleanBehaviour(): void
     {
-        $attributes = new ComponentAttributes(['disabled' => true]);
+        $attributes = new ComponentAttributes(['disabled' => true], $this->createEscaper());
 
         $this->assertSame(['disabled' => true], $attributes->all());
-        $this->assertSame(' disabled', (string) $attributes);
+        $this->assertSame(' disabled', (string)$attributes);
 
-        $attributes = new ComponentAttributes(['disabled' => false]);
+        $attributes = new ComponentAttributes(['disabled' => false], $this->createEscaper());
 
         $this->assertSame(['disabled' => false], $attributes->all());
-        $this->assertSame('', (string) $attributes);
+        $this->assertSame('', (string)$attributes);
     }
 
     /**
@@ -191,15 +192,15 @@ final class ComponentAttributesTest extends TestCase
      */
     public function testNullBehaviour(): void
     {
-        $attributes = new ComponentAttributes(['disabled' => null]);
+        $attributes = new ComponentAttributes(['disabled' => null], $this->createEscaper());
 
         $this->assertSame(['disabled' => null], $attributes->all());
-        $this->assertSame(' disabled', (string) $attributes);
+        $this->assertSame(' disabled', (string)$attributes);
     }
 
     public function testIsTraversableAndCountable(): void
     {
-        $attributes = new ComponentAttributes(['foo' => 'bar']);
+        $attributes = new ComponentAttributes(['foo' => 'bar'], $this->createEscaper());
 
         $this->assertSame($attributes->all(), iterator_to_array($attributes));
         $this->assertCount(1, $attributes);
@@ -207,7 +208,7 @@ final class ComponentAttributesTest extends TestCase
 
     public function testRenderSingleAttribute(): void
     {
-        $attributes = new ComponentAttributes(['attr1' => 'value1', 'attr2' => 'value2']);
+        $attributes = new ComponentAttributes(['attr1' => 'value1', 'attr2' => 'value2'], $this->createEscaper());
 
         $this->assertSame('value1', $attributes->render('attr1'));
         $this->assertNull($attributes->render('attr3'));
@@ -216,22 +217,22 @@ final class ComponentAttributesTest extends TestCase
     public function testRenderingSingleAttributeExcludesFromString(): void
     {
         $attributes = new ComponentAttributes([
-            'attr1' => new class {
+            'attr1' => new class () {
                 public function __toString(): string
                 {
                     return 'value1';
                 }
             },
             'attr2' => 'value2',
-        ]);
+        ], $this->createEscaper());
 
         $this->assertSame('value1', $attributes->render('attr1'));
-        $this->assertSame(' attr2="value2"', (string) $attributes);
+        $this->assertSame(' attr2="value2"', (string)$attributes);
     }
 
     public function testCannotRenderNonStringAttribute(): void
     {
-        $attributes = new ComponentAttributes(['attr1' => false]);
+        $attributes = new ComponentAttributes(['attr1' => false], $this->createEscaper());
 
         $this->expectException(\LogicException::class);
 
@@ -240,7 +241,7 @@ final class ComponentAttributesTest extends TestCase
 
     public function testCanCheckIfAttributeExists(): void
     {
-        $attributes = new ComponentAttributes(['foo' => 'bar']);
+        $attributes = new ComponentAttributes(['foo' => 'bar'], $this->createEscaper());
 
         $this->assertTrue($attributes->has('foo'));
     }
@@ -251,12 +252,12 @@ final class ComponentAttributesTest extends TestCase
             'class' => 'foo',
             'title:class' => 'bar',
             'title:span:class' => 'baz',
-        ]);
+        ], $this->createEscaper());
 
-        $this->assertSame(' class="foo"', (string) $attributes);
-        $this->assertSame(' class="bar"', (string) $attributes->nested('title'));
-        $this->assertSame(' class="baz"', (string) $attributes->nested('title')->nested('span'));
-        $this->assertSame('', (string) $attributes->nested('invalid'));
+        $this->assertSame(' class="foo"', (string)$attributes);
+        $this->assertSame(' class="bar"', (string)$attributes->nested('title'));
+        $this->assertSame(' class="baz"', (string)$attributes->nested('title')->nested('span'));
+        $this->assertSame('', (string)$attributes->nested('invalid'));
     }
 
     public function testPrefixedAttributes(): void
@@ -264,12 +265,12 @@ final class ComponentAttributesTest extends TestCase
         $attributes = new ComponentAttributes([
             'x-click' => 'x+',
             'title:x-click' => 'title:x+',
-        ]);
+        ], $this->createEscaper());
 
-        $this->assertSame(' x-click="x+"', (string) $attributes);
-        $this->assertSame(' x-click="title:x+"', (string) $attributes->nested('title'));
-        $this->assertSame('', (string) $attributes->nested('title')->nested('span'));
-        $this->assertSame('', (string) $attributes->nested('invalid'));
+        $this->assertSame(' x-click="x+"', (string)$attributes);
+        $this->assertSame(' x-click="title:x+"', (string)$attributes->nested('title'));
+        $this->assertSame('', (string)$attributes->nested('title')->nested('span'));
+        $this->assertSame('', (string)$attributes->nested('invalid'));
     }
 
     public function testConvertTrueAriaAttributeValue(): void
@@ -281,14 +282,14 @@ final class ComponentAttributesTest extends TestCase
             'aria-false' => 'false',
             'aria-foobar' => 'foobar',
             'aria-number' => '1',
-        ]);
+        ], $this->createEscaper());
 
-        $this->assertStringNotContainsString('aria-bar', (string) $attributes);
-        $this->assertStringContainsString('aria-foo="true"', (string) $attributes);
-        $this->assertStringContainsString('aria-true="true"', (string) $attributes);
-        $this->assertStringContainsString('aria-false="false"', (string) $attributes);
-        $this->assertStringContainsString('aria-foobar="foobar"', (string) $attributes);
-        $this->assertStringContainsString('aria-number="1"', (string) $attributes);
+        $this->assertStringNotContainsString('aria-bar', (string)$attributes);
+        $this->assertStringContainsString('aria-foo="true"', (string)$attributes);
+        $this->assertStringContainsString('aria-true="true"', (string)$attributes);
+        $this->assertStringContainsString('aria-false="false"', (string)$attributes);
+        $this->assertStringContainsString('aria-foobar="foobar"', (string)$attributes);
+        $this->assertStringContainsString('aria-number="1"', (string)$attributes);
 
         $this->assertSame('true', $attributes->render('aria-foo'));
         $this->assertSame('true', $attributes->render('aria-true'));
@@ -298,5 +299,40 @@ final class ComponentAttributesTest extends TestCase
 
         $this->expectException(\LogicException::class);
         $attributes->render('aria-bar');
+    }
+
+    public function testTransmitsEscaper(): void
+    {
+        $escaper = new class () implements HtmlAttributeEscaperInterface {
+            public function escapeName(string $name, string $charset = 'UTF-8'): string
+            {
+                return '##'.$name.'##';
+            }
+
+            public function escapeValue(string $value, string $charset = 'UTF-8'): string
+            {
+                return '$$'.$value.'$$';
+            }
+        };
+        $attributes = new ComponentAttributes(['foo' => 'bar', 'key' => 'value'], $escaper);
+
+        $this->assertSame('##foo##="$$bar$$" ##key##="$$value$$"', trim($attributes));
+        $this->assertSame('##foo##="$$bar$$" ##key##="$$value$$"', trim($attributes->defaults([])));
+        $this->assertSame('##key##="$$value$$"', trim($attributes->without('foo')));
+        $this->assertSame('##foo##="$$bar$$"', trim($attributes->only('foo')));
+    }
+
+    private function createEscaper(): HtmlAttributeEscaperInterface
+    {
+        return new class () implements HtmlAttributeEscaperInterface {
+            public function escapeName(string $name, string $charset = 'UTF-8'): string
+            {
+                return $name;
+            }
+            public function escapeValue(string $value, string $charset = 'UTF-8'): string
+            {
+                return $value;
+            }
+        };
     }
 }

@@ -437,6 +437,13 @@ final class ComponentExtensionTest extends KernelTestCase
         $this->assertStringContainsString('I have an empty props tag', $output);
     }
 
+    public function testDynamicSyntaxIsSafe(): void
+    {
+        $output = self::getContainer()->get(Environment::class)->render('anonymous_component_with_dynamic_syntax.html.twig');
+
+        $this->assertStringNotContainsString('<script', $output);
+    }
+
     /**
      * @group legacy
      */
