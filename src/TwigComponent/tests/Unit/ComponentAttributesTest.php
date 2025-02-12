@@ -12,6 +12,7 @@
 namespace Symfony\UX\TwigComponent\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 use Symfony\UX\StimulusBundle\Dto\StimulusAttributes;
 use Symfony\UX\TwigComponent\ComponentAttributes;
 use Symfony\UX\TwigComponent\Escaper\HtmlAttributeEscaperInterface;
@@ -24,6 +25,8 @@ use Twig\Loader\ArrayLoader;
  */
 final class ComponentAttributesTest extends TestCase
 {
+    use ExpectDeprecationTrait;
+    
     public function testCanConvertToString(): void
     {
         $attributes = new ComponentAttributes([
@@ -320,6 +323,15 @@ final class ComponentAttributesTest extends TestCase
         $this->assertSame('##foo##="$$bar$$" ##key##="$$value$$"', trim($attributes->defaults([])));
         $this->assertSame('##key##="$$value$$"', trim($attributes->without('foo')));
         $this->assertSame('##foo##="$$bar$$"', trim($attributes->only('foo')));
+    }
+    
+    /**
+    * @group legacy
+    */
+    public function testTriggersDeprecationWithoutEscaper(): void
+    {
+        $this->expectDeprecation('Since symfony/ux-twig-component 2.24: Not passing an "Symfony\UX\TwigComponent\Escaper\HtmlAttributeEscaperInterface" to "Symfony\UX\TwigComponent\ComponentAttributes" is deprecated and will throw in 3.0.');
+        new ComponentAttributes([]);
     }
 
     private function createEscaper(): HtmlAttributeEscaperInterface

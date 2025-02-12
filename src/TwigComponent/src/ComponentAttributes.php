@@ -13,7 +13,6 @@ namespace Symfony\UX\TwigComponent;
 
 use Symfony\UX\StimulusBundle\Dto\StimulusAttributes;
 use Symfony\UX\TwigComponent\Escaper\HtmlAttributeEscaperInterface;
-use Symfony\UX\TwigComponent\Escaper\TwigHtmlAttributeEscaper;
 use Symfony\WebpackEncoreBundle\Dto\AbstractStimulusDto;
 
 /**
@@ -30,7 +29,7 @@ final class ComponentAttributes implements \Stringable, \IteratorAggregate, \Cou
     /** @var array<string,true> */
     private array $rendered = [];
 
-    private readonly HtmlAttributeEscaperInterface $escaper;
+    private readonly ?HtmlAttributeEscaperInterface $escaper;
 
     /**
      * @param array<string, string|bool> $attributes
@@ -76,9 +75,9 @@ final class ComponentAttributes implements \Stringable, \IteratorAggregate, \Cou
             }
 
             $attributes .= match ($value) {
-                true => ' '.$this->escaper->escapeName($key) ?? $key,
+                true => ' '.$this->escaper?->escapeValue($key) ?? $key,
                 false => '',
-                default => \sprintf(' %s="%s"', $this->escaper->escapeName($key) ?? $key, $this->escaper->escapeValue($value) ?? $value),
+                default => \sprintf(' %s="%s"', $this->escaper?->escapeName($key) ?? $key, $this->escaper?->escapeValue($value) ?? $value),
             };
         }
 
