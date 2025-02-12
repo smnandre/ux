@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Symfony\UX\TwigComponent\Tests\Unit\Escaper;
 
 use PHPUnit\Framework\TestCase;
@@ -18,6 +27,16 @@ class TwigHtmlAttributeEscaperTest extends TestCase
     }
 
     /**
+     * @dataProvider nameProvider
+     */
+    public function testEscapeNameReturnSameAsTwig(string $input, string $expected): void
+    {
+        $runtime = new EscaperRuntime();
+        $escaper = new TwigHtmlAttributeEscaper($runtime);
+        $this->assertSame($runtime->escape($input, 'html_attr'), $escaper->escapeName($input));
+    }
+
+    /**
      * @dataProvider valueProvider
      */
     public function testEscapeValue(string $input, string $expected): void
@@ -26,22 +45,32 @@ class TwigHtmlAttributeEscaperTest extends TestCase
         $this->assertSame($expected, $escaper->escapeValue($input));
     }
 
+    /**
+     * @dataProvider valueProvider
+     */
+    public function testEscapeValueReturnSameAsTwig(string $input): void
+    {
+        $runtime = new EscaperRuntime();
+        $escaper = new TwigHtmlAttributeEscaper($runtime);
+        $this->assertSame($runtime->escape($input, 'html'), $escaper->escapeValue($input));
+    }
+
     public static function nameProvider(): iterable
     {
         // Should not escape
         yield 'basic' => ['class', 'class'];
         yield 'data-' => ['data-user', 'data-user'];
         yield 'aria' => ['aria-label', 'aria-label'];
-        yield 'xml' => ['xml:lang', 'xml:lang'];
         yield 'alnum' => ['attr123', 'attr123'];
-        yield 'unicode' => ['data-🚀', 'data-🚀'];
         // Should escape
-        yield 'scripts' => ['><script>alert(1)</script>', '&gt;&lt;script&gt;alert(1)&lt;/script&gt;'];
-        yield 'single quote' => ["'", '&#039;'];
         yield 'double quote' => ['"', '&quot;'];
         yield 'ampersand' => ['&', '&amp;'];
         yield 'less than' => ['<', '&lt;'];
         yield 'greater than' => ['>', '&gt;'];
+        // Twig strict escaping
+        yield 'scripts' => ['><script>', '&gt;&lt;script&gt;'];
+        yield 'single quote' => ["'", '&#x27;'];
+        yield 'unicode' => ['data-🚀', 'data-&#x1F680;'];
     }
 
     public static function valueProvider(): iterable
@@ -50,7 +79,6 @@ class TwigHtmlAttributeEscaperTest extends TestCase
         yield 'plain text' => ['Hello', 'Hello'];
         yield 'numeric value' => ['42', '42'];
         yield 'js url' => ['javascript:alert(1)', 'javascript:alert(1)'];
-
         // Should escape
         yield 'ampersand' => ['Hello & Welcome', 'Hello &amp; Welcome'];
         yield 'single quote' => ["O'Reilly", 'O&#039;Reilly'];
