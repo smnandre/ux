@@ -1,14 +1,21 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Symfony\UX\TwigComponent\Escaper;
 
 use Symfony\UX\TwigComponent\Exception\RuntimeException;
 use Twig\Runtime\EscaperRuntime;
 
 /**
- * HTML attribute escaper using Twig's EscaperRuntime.
- *
- * @author Simon André <smn.andre@gmail.com>
+ * HTML attribute escaper using Twig EscaperRuntime.
  *
  * @internal
  */
@@ -26,7 +33,7 @@ final class TwigHtmlAttributeEscaper implements HtmlAttributeEscaperInterface
         }
 
         try {
-            return $this->escaper->escape($name, 'html', $charset);
+            return $this->escaper->escape($name, 'html_attr', $charset);
         } catch (\Throwable $e) {
             throw new RuntimeException(\sprintf('An error occurred while escaping the attribute name "%s".', $name), 0, $e);
         }
