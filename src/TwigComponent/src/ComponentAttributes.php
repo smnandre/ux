@@ -52,6 +52,10 @@ final class ComponentAttributes implements \Stringable, \IteratorAggregate, \Cou
                 continue;
             }
 
+            if (false === $value) {
+                continue;
+            }
+
             if (
                 str_contains($key, ':')
                 && preg_match(self::NESTED_REGEX, $key)
@@ -74,11 +78,22 @@ final class ComponentAttributes implements \Stringable, \IteratorAggregate, \Cou
                 $value = 'true';
             }
 
-            $attributes .= match ($value) {
-                true => ' '.$this->escaper?->escapeValue($key) ?? $key,
-                false => '',
-                default => \sprintf(' %s="%s"', $this->escaper?->escapeName($key) ?? $key, $this->escaper?->escapeValue($value) ?? $value),
-            };
+            // Allowed characters in attribute names:
+            // - common attribute names (HTML 5):
+            //      id, class, style, title, lang, dir, role,...
+            //      data-*, aria-*,
+            //      xml:*, xmlns:*,
+            // - special syntax names (Vue.js, Svelte, Alpine.js, ...)
+            //      v-*, x-*, @*, :*
+            if (!ctype_alpha(str_replace(['-', '_', ':', '@', '.'], '', $key))) {
+                $key = $this->escaper?->escapeName($key) ?? $key;
+            }
+
+            if (true === $value) {
+                $attributes .= ' '.$key;
+            } else {
+                $attributes .= ' '.\sprintf('%s="%s"', $key, $this->escaper?->escapeValue($value) ?? $value);
+            }
         }
 
         return $attributes;
