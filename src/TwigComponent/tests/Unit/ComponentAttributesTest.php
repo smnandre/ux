@@ -26,12 +26,12 @@ use Twig\Loader\ArrayLoader;
 final class ComponentAttributesTest extends TestCase
 {
     use ExpectDeprecationTrait;
-    
+
     public function testCanConvertToString(): void
     {
         $attributes = new ComponentAttributes([
             'class' => 'foo',
-            'style' => new class () {
+            'style' => new class {
                 public function __toString(): string
                 {
                     return 'color:black;';
@@ -41,7 +41,7 @@ final class ComponentAttributesTest extends TestCase
             'autofocus' => true,
         ], $this->createEscaper());
 
-        $this->assertSame(' class="foo" style="color:black;" value="" autofocus', (string)$attributes);
+        $this->assertSame(' class="foo" style="color:black;" value="" autofocus', (string) $attributes);
     }
 
     public function testCanSetDefaults(): void
@@ -54,7 +54,7 @@ final class ComponentAttributesTest extends TestCase
         );
         $this->assertSame(
             ' class="bar foo" style="color:black;"',
-            (string)$attributes->defaults(['class' => 'bar', 'style' => 'font-size: 10;'])
+            (string) $attributes->defaults(['class' => 'bar', 'style' => 'font-size: 10;'])
         );
 
         $this->assertSame(['class' => 'foo'], (new ComponentAttributes([], $this->createEscaper()))->defaults(['class' => 'foo'])->all());
@@ -182,12 +182,12 @@ final class ComponentAttributesTest extends TestCase
         $attributes = new ComponentAttributes(['disabled' => true], $this->createEscaper());
 
         $this->assertSame(['disabled' => true], $attributes->all());
-        $this->assertSame(' disabled', (string)$attributes);
+        $this->assertSame(' disabled', (string) $attributes);
 
         $attributes = new ComponentAttributes(['disabled' => false], $this->createEscaper());
 
         $this->assertSame(['disabled' => false], $attributes->all());
-        $this->assertSame('', (string)$attributes);
+        $this->assertSame('', (string) $attributes);
     }
 
     /**
@@ -198,7 +198,7 @@ final class ComponentAttributesTest extends TestCase
         $attributes = new ComponentAttributes(['disabled' => null], $this->createEscaper());
 
         $this->assertSame(['disabled' => null], $attributes->all());
-        $this->assertSame(' disabled', (string)$attributes);
+        $this->assertSame(' disabled', (string) $attributes);
     }
 
     public function testIsTraversableAndCountable(): void
@@ -220,7 +220,7 @@ final class ComponentAttributesTest extends TestCase
     public function testRenderingSingleAttributeExcludesFromString(): void
     {
         $attributes = new ComponentAttributes([
-            'attr1' => new class () {
+            'attr1' => new class {
                 public function __toString(): string
                 {
                     return 'value1';
@@ -230,7 +230,7 @@ final class ComponentAttributesTest extends TestCase
         ], $this->createEscaper());
 
         $this->assertSame('value1', $attributes->render('attr1'));
-        $this->assertSame(' attr2="value2"', (string)$attributes);
+        $this->assertSame(' attr2="value2"', (string) $attributes);
     }
 
     public function testCannotRenderNonStringAttribute(): void
@@ -257,10 +257,10 @@ final class ComponentAttributesTest extends TestCase
             'title:span:class' => 'baz',
         ], $this->createEscaper());
 
-        $this->assertSame(' class="foo"', (string)$attributes);
-        $this->assertSame(' class="bar"', (string)$attributes->nested('title'));
-        $this->assertSame(' class="baz"', (string)$attributes->nested('title')->nested('span'));
-        $this->assertSame('', (string)$attributes->nested('invalid'));
+        $this->assertSame(' class="foo"', (string) $attributes);
+        $this->assertSame(' class="bar"', (string) $attributes->nested('title'));
+        $this->assertSame(' class="baz"', (string) $attributes->nested('title')->nested('span'));
+        $this->assertSame('', (string) $attributes->nested('invalid'));
     }
 
     public function testPrefixedAttributes(): void
@@ -270,10 +270,10 @@ final class ComponentAttributesTest extends TestCase
             'title:x-click' => 'title:x+',
         ], $this->createEscaper());
 
-        $this->assertSame(' x-click="x+"', (string)$attributes);
-        $this->assertSame(' x-click="title:x+"', (string)$attributes->nested('title'));
-        $this->assertSame('', (string)$attributes->nested('title')->nested('span'));
-        $this->assertSame('', (string)$attributes->nested('invalid'));
+        $this->assertSame(' x-click="x+"', (string) $attributes);
+        $this->assertSame(' x-click="title:x+"', (string) $attributes->nested('title'));
+        $this->assertSame('', (string) $attributes->nested('title')->nested('span'));
+        $this->assertSame('', (string) $attributes->nested('invalid'));
     }
 
     public function testConvertTrueAriaAttributeValue(): void
@@ -287,12 +287,12 @@ final class ComponentAttributesTest extends TestCase
             'aria-number' => '1',
         ], $this->createEscaper());
 
-        $this->assertStringNotContainsString('aria-bar', (string)$attributes);
-        $this->assertStringContainsString('aria-foo="true"', (string)$attributes);
-        $this->assertStringContainsString('aria-true="true"', (string)$attributes);
-        $this->assertStringContainsString('aria-false="false"', (string)$attributes);
-        $this->assertStringContainsString('aria-foobar="foobar"', (string)$attributes);
-        $this->assertStringContainsString('aria-number="1"', (string)$attributes);
+        $this->assertStringNotContainsString('aria-bar', (string) $attributes);
+        $this->assertStringContainsString('aria-foo="true"', (string) $attributes);
+        $this->assertStringContainsString('aria-true="true"', (string) $attributes);
+        $this->assertStringContainsString('aria-false="false"', (string) $attributes);
+        $this->assertStringContainsString('aria-foobar="foobar"', (string) $attributes);
+        $this->assertStringContainsString('aria-number="1"', (string) $attributes);
 
         $this->assertSame('true', $attributes->render('aria-foo'));
         $this->assertSame('true', $attributes->render('aria-true'));
@@ -325,28 +325,28 @@ final class ComponentAttributesTest extends TestCase
 
     public function testTransmitsEscaper(): void
     {
-        $escaper = new class () implements HtmlAttributeEscaperInterface {
+        $escaper = new class implements HtmlAttributeEscaperInterface {
             public function escapeName(string $name, string $charset = 'UTF-8'): string
             {
-                return '##'.$name.'##';
+                return 'N('.$name.')';
             }
 
             public function escapeValue(string $value, string $charset = 'UTF-8'): string
             {
-                return '$$'.$value.'$$';
+                return 'V('.$value.')';
             }
         };
-        $attributes = new ComponentAttributes(['foo' => 'bar', 'key' => 'value'], $escaper);
+        $attributes = new ComponentAttributes(['f"oo' => 'b"ar', 'ke"y' => true], $escaper);
 
-        $this->assertSame('##foo##="$$bar$$" ##key##="$$value$$"', trim($attributes));
-        $this->assertSame('##foo##="$$bar$$" ##key##="$$value$$"', trim($attributes->defaults([])));
-        $this->assertSame('##key##="$$value$$"', trim($attributes->without('foo')));
-        $this->assertSame('##foo##="$$bar$$"', trim($attributes->only('foo')));
+        $this->assertSame('N(f"oo)="V(b"ar)" N(ke"y)', trim($attributes));
+        $this->assertSame('N(f"oo)="V(b"ar)" N(ke"y)', trim($attributes->defaults([])));
+        $this->assertSame('N(ke"y)', trim($attributes->without('f"oo')));
+        $this->assertSame('N(f"oo)="V(b"ar)"', trim($attributes->only('f"oo')));
     }
-    
+
     /**
-    * @group legacy
-    */
+     * @group legacy
+     */
     public function testTriggersDeprecationWithoutEscaper(): void
     {
         $this->expectDeprecation('Since symfony/ux-twig-component 2.24: Not passing an "Symfony\UX\TwigComponent\Escaper\HtmlAttributeEscaperInterface" to "Symfony\UX\TwigComponent\ComponentAttributes" is deprecated and will throw in 3.0.');
@@ -355,11 +355,12 @@ final class ComponentAttributesTest extends TestCase
 
     private function createEscaper(): HtmlAttributeEscaperInterface
     {
-        return new class () implements HtmlAttributeEscaperInterface {
+        return new class implements HtmlAttributeEscaperInterface {
             public function escapeName(string $name, string $charset = 'UTF-8'): string
             {
                 return $name;
             }
+
             public function escapeValue(string $value, string $charset = 'UTF-8'): string
             {
                 return $value;
