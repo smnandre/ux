@@ -11,10 +11,8 @@
 
 namespace Symfony\UX\TwigComponent;
 
-use Symfony\UX\StimulusBundle\Dto\StimulusAttributes;
 use Symfony\UX\TwigComponent\Escaper\HtmlAttributeEscaperInterface;
 use Symfony\UX\TwigComponent\Escaper\TwigHtmlAttributeEscaper;
-use Symfony\WebpackEncoreBundle\Dto\AbstractStimulusDto;
 use Twig\Environment;
 use Twig\Runtime\EscaperRuntime;
 
@@ -23,7 +21,7 @@ use Twig\Runtime\EscaperRuntime;
  *
  * @internal
  */
-class ComponentAttributesFactory
+final class ComponentAttributesFactory
 {
     private readonly HtmlAttributeEscaperInterface $escaper;
 
@@ -39,16 +37,7 @@ class ComponentAttributesFactory
 
     private function getEscaper(): HtmlAttributeEscaperInterface
     {
-        if (class_exists(EscaperRuntime::class)) {
-            $escaper = $this->twig->getRuntime(EscaperRuntime::class);
-            if (null !== $escaper) {
-                return new TwigHtmlAttributeEscaper($escaper);
-            }
-
-            throw new \LogicException(sprintf('The "%s" runtime is not available.', EscaperRuntime::class));
-        }
-
-        throw new \LogicException(sprintf('Class "%s" does not exist.', EscaperRuntime::class));
+        return $this->escaper ??= new TwigHtmlAttributeEscaper($this->twig->getRuntime(EscaperRuntime::class));
     }
 
 }

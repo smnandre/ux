@@ -18,6 +18,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\UX\TwigComponent\ComponentAttributesFactory;
 use Symfony\UX\TwigComponent\ComponentFactory;
 use Symfony\UX\TwigComponent\ComponentTemplateFinderInterface;
+use Twig\Environment;
 
 /**
  * @author Simon André <smn.andre@gmail.com>
@@ -33,7 +34,7 @@ class ComponentFactoryTest extends TestCase
             $this->createMock(EventDispatcherInterface::class),
             ['foo' => ['key' => 'foo', 'template' => 'bar.html.twig']],
             [],
-            $this->createMock(ComponentAttributesFactory::class),
+            new ComponentAttributesFactory($this->createMock(Environment::class)),
         );
 
         $metadata = $factory->metadataFor('foo');
@@ -54,7 +55,7 @@ class ComponentFactoryTest extends TestCase
                 'foo' => ['key' => 'foo', 'template' => 'foo.html.twig'],
             ],
             ['Foo\\Bar' => 'bar'],
-            $this->createMock(ComponentAttributesFactory::class),
+            new ComponentAttributesFactory($this->createMock(Environment::class)),
         );
 
         $metadata = $factory->metadataFor('Foo\\Bar');
@@ -78,7 +79,7 @@ class ComponentFactoryTest extends TestCase
             $this->createMock(EventDispatcherInterface::class),
             [],
             [],
-            $this->createMock(ComponentAttributesFactory::class),
+            new ComponentAttributesFactory($this->createMock(Environment::class)),
         );
 
         $metadata = $factory->metadataFor('foo');
