@@ -21,7 +21,7 @@ final class TwigHtmlAttributeEscaper implements HtmlAttributeEscaperInterface
 
     public function escapeName(string $name, string $charset = 'UTF-8'): string
     {
-        if (ctype_alpha($name)) {
+        if (ctype_alpha(\str_replace(['-', '_'], '', $name))) {
             return $name;
         }
 
@@ -34,10 +34,10 @@ final class TwigHtmlAttributeEscaper implements HtmlAttributeEscaperInterface
 
     public function escapeValue(string $value, string $charset = 'UTF-8'): string
     {
-        if (ctype_alnum($value)) {
+        if (ctype_alnum(\str_replace(['-', '_',], '', $value))) {
             return $value;
         }
-        
+
         try {
             return $this->escaper->escape($value, 'html', $charset);
         } catch (\Throwable $e) {
