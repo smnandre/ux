@@ -304,6 +304,25 @@ final class ComponentAttributesTest extends TestCase
         $attributes->render('aria-bar');
     }
 
+    /**
+     * @dataProvider provideSpecialSyntaxAttributeNames
+     */
+    public function testAllowsSpecialSyntaxAttributeNames(string $name): void
+    {
+        $attributes = new ComponentAttributes([$name => 'value'], $this->createEscaper());
+
+        $this->assertSame(' '.$name.'="value"', (string) $attributes);
+    }
+
+    public static function provideSpecialSyntaxAttributeNames(): iterable
+    {
+        // Vue.js
+        yield ['v-on:click'];
+        yield ['@click'];
+        // Alpine.js
+        yield ['x-on:click'];
+    }
+
     public function testTransmitsEscaper(): void
     {
         $escaper = new class () implements HtmlAttributeEscaperInterface {
