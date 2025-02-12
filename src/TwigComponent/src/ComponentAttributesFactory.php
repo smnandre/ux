@@ -39,5 +39,4 @@ final class ComponentAttributesFactory
     {
         return $this->escaper ??= new TwigHtmlAttributeEscaper($this->twig->getRuntime(EscaperRuntime::class));
     }
-
 }
