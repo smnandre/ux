@@ -12,6 +12,7 @@
 namespace Symfony\UX\TwigComponent\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\UX\TwigComponent\Twig\HtmlSyntax\HtmlSyntaxTranspiler;
 use Symfony\UX\TwigComponent\Twig\TwigPreLexer;
 use Twig\Error\SyntaxError;
 
@@ -23,7 +24,10 @@ final class TwigPreLexerTest extends TestCase
     public function testPreLex(string $input, string $expectedOutput): void
     {
         $lexer = new TwigPreLexer();
-        $this->assertSame($expectedOutput, $lexer->preLexComponents($input));
+
+        $transpiler = new HtmlSyntaxTranspiler();
+
+        $this->assertSame($expectedOutput, $transpiler->transpile($input));
     }
 
     /**
