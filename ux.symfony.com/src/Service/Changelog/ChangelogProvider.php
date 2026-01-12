@@ -30,20 +30,48 @@ final class ChangelogProvider
     {
         $changelog = [];
 
-        foreach ($this->getReleases($page) as $release) {
+        foreach ($this->getReleases('ux', $page) as $release) {
             $changelog[] = $release;
         }
 
         return $changelog;
     }
 
-    private function getReleases(int $page = 1): array
+    public function getPackageChangelog(string $repo,  int $page = 1): array
     {
-        return $this->cache->get('releases-symfony-ux-'.$page, function (CacheItemInterface $item) use ($page) {
+        $changelogMd = $this->cache->get('changelog-symfony-'.$repo.'-'.$page, function (CacheItemInterface $item) use ($repo, $page) {
             $item->expiresAfter(604800); // 1 week
 
-            return $this->fetchReleases('symfony', 'ux', $page);
+            return $this->fetchPackageChangelog('symfony', $repo, $page);
         });
+
+        $changelog = [];
+        $changelogMarkdown = explode("\n## ", $changelogMd);
+
+        return $changelogMarkdown;
+    }
+
+    private function getReleases(string $repo, int $page = 1): array
+    {
+        return $this->cache->get('releases-symfony-'.$repo.'-'.$page, function (CacheItemInterface $item) use ($repo, $page) {
+            $item->expiresAfter(604800); // 1 week
+
+            return $this->fetchReleases('symfony', $repo, $page);
+        });
+    }
+
+     /**
+     * @return string
+     *
+     * @internal
+     */
+    private function fetchPackageChangelog(string $owner, string $repo): string
+    {
+        // https://github.com/symfony/ux-twig-component/blob/2.x/CHANGELOG.md
+        // https://raw.githubusercontent.com/symfony/ux-twig-component/2.x/CHANGELOG.md
+        $response = $this->httpClient->request('GET', sprintf('https://raw.githubusercontent.com/%s/%s/2.x/CHANGELOG.md', $owner, $repo));
+
+        return $response->getContent();
     }
 
     /**

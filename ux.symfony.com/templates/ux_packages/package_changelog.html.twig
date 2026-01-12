@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% set meta = {
+    title: package.humanName,
+    description: package.description,
+    canonical: url(package.route),
+} %}
+
+{% block header %}
+    {{ include('_header.html.twig', {
+        theme: 'white'
+    }) }}
+{% endblock %}
+
+{% block content %}
+
+<article>
+
+    {% block package_header %}
+        {{ block('package_header', 'ux_packages/%s.html.twig'|format(package.name|u.snake)) }}
+
+        <nav style="display: flex; align-items: center; justify-content: center; background: #0A0A0A; color:#fff; padding: 1rem; gap: 2rem;">
+            <a href="{{ url(package.route) }}" style="color:#fff;">{{ package.humanName }}</a>
+
+            <a href="{{ url('app_packageapp_package_requirements', {package: package.name}) }}" style="color:#fff;">Requirements</a>
+            <a href="{{ url('app_packageapp_package_changelog', {package: package.name}) }}" style="color:#fff;">Install</a>
+
+            <a href="{{ url('app_packageapp_package_changelog', {package: package.name}) }}" style="color:#fff;">Install</a>
+
+            <a href="{{ url('app_packageapp_package_changelog', {package: package.name}) }}" style="color:#fff;">Doc</a>
+            <a href="{{ url('app_packageapp_package_changelog', {package: package.name}) }}" style="color:#fff;">Demos</a>
+
+            <a href="{{ url('app_packageapp_package_changelog', {package: package.name}) }}" style="color:#fff;">Changelog</a>
+            <a href="{{ url('app_packageapp_package_changelog', {package: package.name}) }}" style="color:#fff;">Issue</a>
+        </nav>
+    {% endblock %}
+
+    {% block package_content %}
+
+    <div class="hero">
+        <div class="container-fluid container-xxl px-4 pt-4 px-md-5">
+            <h1 class="text-center mt-5"><a href="{{ url('app_changelog') }}">Changelog</a></h1>
+            <p class="text-center mt-2 mb-5">New features, bug fixes, performances and security improvements.</p>
+        </div>
+    </div>
+
+    <div class="container-fluid container-xxl px-4 pt-4 px-md-5">
+        <div class="Changelog">
+            {% for entry in changelog %}
+                <twig:ChangelogItem item="{{ entry }}" isOpen="{{ loop.index < 4 }}" />
+            {% endfor %}
+        </div>
+    </div>
+
+    {% endblock %}
+</article>
+
+{% endblock %}
