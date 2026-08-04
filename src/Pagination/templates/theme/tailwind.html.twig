@@ -1,0 +1,93 @@
+{% block pagination %}
+    {% set linkClass = 'px-3 py-2 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 transition-colors duration-150' %}
+    {% set userClass = attributes.class|default('') %}
+    {% set rootAttributes = {
+        'aria-label': 'Pagination'|trans({}, 'UXPaginationBundle'),
+    }|merge(attributes)|merge({
+        class: ('ux-pagination-tailwind ' ~ userClass)|trim,
+    }) %}
+    {% set userNavigationClass = navigationAttributes.class|default('') %}
+    {% set navigationAttributes = navigationAttributes|merge({
+        class: ('flex flex-wrap items-center justify-center gap-1 sm:gap-2 ' ~ userNavigationClass)|trim,
+    }) %}
+    {% if pagination.hasPrevious() or pagination.hasNext() %}
+        {% set attr = rootAttributes %}
+        <nav{{ block('attr') }}>
+            {% block info %}
+                {% if showInfo %}
+                    <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">{{ pagination.info }}</p>
+                {% endif %}
+            {% endblock %}
+
+            {% block navigation %}
+                {% set attr = navigationAttributes %}
+                <ul{{ block('attr') }}>
+                    {% block previous %}
+                        <li>
+                            {% if pagination.hasPrevious() %}
+                                {% set attr = {
+                                    class: linkClass,
+                                    'aria-label': 'Previous page'|trans({}, 'UXPaginationBundle'),
+                                    rel: 'prev',
+                                }|merge(linkAttributes.previous)|merge({
+                                    class: (linkClass ~ ' ' ~ linkAttributes.previous.class|default(''))|trim,
+                                }) %}
+                                <a href="{{ pagination.previousUrl }}"{{ block('attr') }}>{{ block('previous_label') }}</a>
+                            {% else %}
+                                <span class="px-3 py-2 text-sm font-medium rounded-lg text-gray-400 dark:text-gray-600">{{ block('previous_label') }}</span>
+                            {% endif %}
+                        </li>
+                    {% endblock %}
+
+                    {% block pages %}
+                        {% if numbered %}
+                            {% for link in pagination.pages %}
+                                <li>
+                                    {% if link.isGap %}
+                                        <span class="px-2 text-gray-400 dark:text-gray-500" aria-hidden="true">&hellip;</span>
+                                    {% elseif link.isCurrent %}
+                                        <span class="px-3 py-2 text-sm font-bold rounded-lg text-white bg-blue-600 dark:bg-blue-500" aria-current="page">{{ block('page_label') }}</span>
+                                    {% else %}
+                                        {% set pageLinkAttributes = linkAttributes.pages[link.page]|default({}) %}
+                                        {% set attr = {
+                                            class: linkClass,
+                                            'aria-label': 'Go to page %page%'|trans({'%page%': link.page}, 'UXPaginationBundle'),
+                                        }|merge(pageLinkAttributes)|merge({
+                                            class: (linkClass ~ ' ' ~ pageLinkAttributes.class|default(''))|trim,
+                                        }) %}
+                                        <a href="{{ link.url }}"{{ block('attr') }}>{{ block('page_label') }}</a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                    {% endblock %}
+
+                    {% block next %}
+                        <li>
+                            {% if pagination.hasNext() %}
+                                {% set attr = {
+                                    class: linkClass,
+                                    'aria-label': 'Next page'|trans({}, 'UXPaginationBundle'),
+                                    rel: 'next',
+                                }|merge(linkAttributes.next)|merge({
+                                    class: (linkClass ~ ' ' ~ linkAttributes.next.class|default(''))|trim,
+                                }) %}
+                                <a href="{{ pagination.nextUrl }}"{{ block('attr') }}>{{ block('next_label') }}</a>
+                            {% else %}
+                                <span class="px-3 py-2 text-sm font-medium rounded-lg text-gray-400 dark:text-gray-600">{{ block('next_label') }}</span>
+                            {% endif %}
+                        </li>
+                    {% endblock %}
+                </ul>
+            {% endblock %}
+        </nav>
+    {% endif %}
+{% endblock %}
+
+{% block previous_label %}<span aria-hidden="true">&larr;</span> {{ 'Previous'|trans({}, 'UXPaginationBundle') }}{% endblock %}
+
+{% block next_label %}{{ 'Next'|trans({}, 'UXPaginationBundle') }} <span aria-hidden="true">&rarr;</span>{% endblock %}
+
+{% block page_label %}{{ link.page }}{% endblock %}
+
+{% block attr %}{% for name, value in attr %}{% if value === true %} {{ name }}{% elseif value !== false and value is not null %} {{ name }}="{{ value }}"{% endif %}{% endfor %}{% endblock %}
