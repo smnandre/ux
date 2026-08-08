@@ -22,7 +22,7 @@ use Symfony\UX\Pagination\Exception\OffsetLimitExceededException;
 #[CoversClass(OffsetLimitExceededException::class)]
 final class ExceptionValueTest extends TestCase
 {
-    public function testInvalidCursorPreservesMessageAndPreviousException(): void
+    public function testInvalidCursorPreservesMessageAndPreviousException()
     {
         $previous = new \RuntimeException('decoder failed');
         $exception = new InvalidCursorException('Bad cursor.', $previous);
@@ -32,7 +32,7 @@ final class ExceptionValueTest extends TestCase
         self::assertSame(400, $exception->getStatusCode());
     }
 
-    public function testOffsetLimitPreservesContext(): void
+    public function testOffsetLimitPreservesContext()
     {
         $exception = new OffsetLimitExceededException(51, 20, 1000);
 
@@ -43,7 +43,7 @@ final class ExceptionValueTest extends TestCase
         self::assertSame(400, $exception->getStatusCode());
     }
 
-    public function testNavigationTooLargeExplainsTheLimit(): void
+    public function testNavigationTooLargeExplainsTheLimit()
     {
         $exception = new NavigationTooLargeException(500, 100);
 

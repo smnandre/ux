@@ -32,12 +32,12 @@ final class PaginatorTest extends TestCase
         $this->paginator = new Paginator([new ArrayPaginationAdapter()], cursorCodec: new \Symfony\UX\Pagination\Cursor\CursorCodec('test-secret'));
     }
 
-    public function testImplementsInterface(): void
+    public function testImplementsInterface()
     {
         self::assertInstanceOf(PaginatorInterface::class, $this->paginator);
     }
 
-    public function testPaginateArray(): void
+    public function testPaginateArray()
     {
         $result = $this->paginator->paginate(range(1, 100), 1, 10);
 
@@ -49,7 +49,7 @@ final class PaginatorTest extends TestCase
         self::assertCount(10, $result);
     }
 
-    public function testPaginateSecondPage(): void
+    public function testPaginateSecondPage()
     {
         $result = $this->paginator->paginate(range(1, 100), 3, 20);
 
@@ -58,7 +58,7 @@ final class PaginatorTest extends TestCase
         self::assertSame([41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60], $result->getItems());
     }
 
-    public function testPaginateUsesConfiguredDefaultPerPage(): void
+    public function testPaginateUsesConfiguredDefaultPerPage()
     {
         $paginator = new Paginator(
             [new ArrayPaginationAdapter()],
@@ -72,7 +72,7 @@ final class PaginatorTest extends TestCase
         self::assertSame(4, $result->getTotalPages());
     }
 
-    public function testPaginateUsesConfiguredMaximumOffset(): void
+    public function testPaginateUsesConfiguredMaximumOffset()
     {
         $paginator = new Paginator(
             [new ArrayPaginationAdapter()],
@@ -84,7 +84,7 @@ final class PaginatorTest extends TestCase
         $paginator->paginate(range(1, 100), page: 3, perPage: 20);
     }
 
-    public function testFromCallbacksUsesConfiguredDefaultPerPage(): void
+    public function testFromCallbacksUsesConfiguredDefaultPerPage()
     {
         $paginator = new Paginator(
             [new ArrayPaginationAdapter()],
@@ -103,7 +103,7 @@ final class PaginatorTest extends TestCase
         self::assertCount(15, $result);
     }
 
-    public function testFromCallbacksExposesTheCompleteNumberedBuilder(): void
+    public function testFromCallbacksExposesTheCompleteNumberedBuilder()
     {
         $items = range(1, 5);
         $countCalls = 0;
@@ -126,7 +126,7 @@ final class PaginatorTest extends TestCase
         self::assertSame(0, $countCalls);
     }
 
-    public function testFromCallbacksAcceptsInvokableServices(): void
+    public function testFromCallbacksAcceptsInvokableServices()
     {
         $items = range(1, 10);
         $slicer = new class($items) {
@@ -162,7 +162,7 @@ final class PaginatorTest extends TestCase
         self::assertSame(10, $result->getTotalItems());
     }
 
-    public function testCursorBuilderUsesConfiguredDefaultPerPage(): void
+    public function testCursorBuilderUsesConfiguredDefaultPerPage()
     {
         $paginator = new Paginator(
             [new ArrayPaginationAdapter()],
@@ -185,7 +185,7 @@ final class PaginatorTest extends TestCase
         self::assertCount(5, $result);
     }
 
-    public function testPaginateExplicitPerPageOverridesDefault(): void
+    public function testPaginateExplicitPerPageOverridesDefault()
     {
         $paginator = new Paginator(
             [new ArrayPaginationAdapter()],
@@ -198,33 +198,33 @@ final class PaginatorTest extends TestCase
         self::assertCount(10, $result);
     }
 
-    public function testPaginateThrowsForInvalidPage(): void
+    public function testPaginateThrowsForInvalidPage()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->paginator->paginate(range(1, 10), 0);
     }
 
-    public function testPaginateThrowsForInvalidPerPage(): void
+    public function testPaginateThrowsForInvalidPerPage()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->paginator->paginate(range(1, 10), 1, 0);
     }
 
-    public function testPaginateThrowsForUnsupportedSource(): void
+    public function testPaginateThrowsForUnsupportedSource()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessageMatches('/No offset pagination adapter/');
+        $this->expectExceptionMessageMatches('/No "offset" pagination adapter/');
         $this->paginator->paginate(new \stdClass());
     }
 
-    public function testQueryReturnsBuilder(): void
+    public function testQueryReturnsBuilder()
     {
         $builder = $this->paginator->query(range(1, 50));
 
         self::assertInstanceOf(PaginationBuilder::class, $builder);
     }
 
-    public function testCursorRequiresConfiguredCodec(): void
+    public function testCursorRequiresConfiguredCodec()
     {
         $paginator = new Paginator([new ArrayPaginationAdapter()]);
 
@@ -233,7 +233,7 @@ final class PaginatorTest extends TestCase
         $paginator->cursor([]);
     }
 
-    public function testCursorBuilderPaginatesAnArray(): void
+    public function testCursorBuilderPaginatesAnArray()
     {
         $source = [];
         for ($i = 1; $i <= 50; ++$i) {
@@ -253,7 +253,7 @@ final class PaginatorTest extends TestCase
         self::assertNotNull($result->getNextCursor());
     }
 
-    public function testCursorBuilderRequiresAStableApplicationContextForArrays(): void
+    public function testCursorBuilderRequiresAStableApplicationContextForArrays()
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('requires an explicit context()');
@@ -264,7 +264,7 @@ final class PaginatorTest extends TestCase
             ->paginate();
     }
 
-    public function testCursorBuilderContextRemainsValidWhenTheSourceMutates(): void
+    public function testCursorBuilderContextRemainsValidWhenTheSourceMutates()
     {
         $source = array_map(static fn (int $id): array => ['id' => $id], range(1, 15));
 
@@ -290,7 +290,7 @@ final class PaginatorTest extends TestCase
         self::assertSame([6, 8, 9, 10, 11], array_column($second->getItems(), 'id'));
     }
 
-    public function testCursorBuilderSupportsACustomField(): void
+    public function testCursorBuilderSupportsACustomField()
     {
         $source = [];
         for ($i = 1; $i <= 30; ++$i) {
@@ -323,7 +323,7 @@ final class PaginatorTest extends TestCase
         self::assertTrue($page2->hasNext());
     }
 
-    public function testCursorBuilderSupportsADirection(): void
+    public function testCursorBuilderSupportsADirection()
     {
         $source = [];
         for ($i = 1; $i <= 25; ++$i) {
@@ -341,7 +341,7 @@ final class PaginatorTest extends TestCase
         self::assertTrue($result->hasNext());
     }
 
-    public function testCursorBuilderAllowsAnAdapterOwnedOrder(): void
+    public function testCursorBuilderAllowsAnAdapterOwnedOrder()
     {
         $source = new \stdClass();
         $adapter = new class implements \Symfony\UX\Pagination\Adapter\CursorAdapterInterface {
@@ -383,26 +383,26 @@ final class PaginatorTest extends TestCase
         self::assertSame([42], $pagination->getItems());
     }
 
-    public function testCursorBuilderThrowsForInvalidDirection(): void
+    public function testCursorBuilderThrowsForInvalidDirection()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('direction must be "ASC" or "DESC"');
         $this->paginator->cursor([['id' => 1]])->orderBy('id', 'INVALID');
     }
 
-    public function testCursorBuilderThrowsForInvalidPerPage(): void
+    public function testCursorBuilderThrowsForInvalidPerPage()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->paginator->cursor([['id' => 1]])->perPage(0);
     }
 
-    public function testCursorBuilderThrowsForUnsupportedSource(): void
+    public function testCursorBuilderThrowsForUnsupportedSource()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->paginator->cursor(new \stdClass())->paginate();
     }
 
-    public function testFromCallbacksThrowsForInvalidPage(): void
+    public function testFromCallbacksThrowsForInvalidPage()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Page must be >= 1');
@@ -415,7 +415,7 @@ final class PaginatorTest extends TestCase
             ->paginate(0);
     }
 
-    public function testFromCallbacksThrowsForInvalidPerPage(): void
+    public function testFromCallbacksThrowsForInvalidPerPage()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('perPage must be >= 1');
@@ -428,7 +428,7 @@ final class PaginatorTest extends TestCase
             ->perPage(0);
     }
 
-    public function testCursorBuilderThrowsForNonCursorAdapter(): void
+    public function testCursorBuilderThrowsForNonCursorAdapter()
     {
         $adapter = $this->createStub(\Symfony\UX\Pagination\Adapter\PaginationAdapterInterface::class);
         $adapter->method('supports')->willReturn(true);
@@ -441,14 +441,14 @@ final class PaginatorTest extends TestCase
         $paginator->cursor('some source')->paginate();
     }
 
-    public function testPaginateDefaultsToPage1WithoutRequest(): void
+    public function testPaginateDefaultsToPage1WithoutRequest()
     {
         $result = $this->paginator->paginate(range(1, 50));
 
         self::assertSame(1, $result->getCurrentPage());
     }
 
-    public function testPaginateDefaultsToPage1WhenRequestHasNoPageParam(): void
+    public function testPaginateDefaultsToPage1WhenRequestHasNoPageParam()
     {
         $request = new \Symfony\Component\HttpFoundation\Request(query: ['sort' => 'name']);
         $requestStack = new \Symfony\Component\HttpFoundation\RequestStack();
@@ -464,7 +464,7 @@ final class PaginatorTest extends TestCase
         self::assertSame(1, $result->getCurrentPage());
     }
 
-    public function testPaginateResolvesPageFromRequest(): void
+    public function testPaginateResolvesPageFromRequest()
     {
         $request = new \Symfony\Component\HttpFoundation\Request(query: ['page' => '3']);
         $requestStack = new \Symfony\Component\HttpFoundation\RequestStack();
@@ -480,7 +480,7 @@ final class PaginatorTest extends TestCase
         self::assertSame(3, $result->getCurrentPage());
     }
 
-    public function testPaginateResolvesPageFromPathParameter(): void
+    public function testPaginateResolvesPageFromPathParameter()
     {
         $request = new \Symfony\Component\HttpFoundation\Request();
         $request->attributes->set('_route', 'blog_list');
@@ -500,7 +500,7 @@ final class PaginatorTest extends TestCase
         self::assertSame(5, $result->getCurrentPage());
     }
 
-    public function testPaginatePathParameterTakesPriorityOverQueryParameter(): void
+    public function testPaginatePathParameterTakesPriorityOverQueryParameter()
     {
         $request = new \Symfony\Component\HttpFoundation\Request(query: ['page' => '2']);
         $request->attributes->set('_route', 'blog_list');
@@ -520,7 +520,7 @@ final class PaginatorTest extends TestCase
         self::assertSame(7, $result->getCurrentPage());
     }
 
-    public function testPaginateExplicitPageOverridesPathParameter(): void
+    public function testPaginateExplicitPageOverridesPathParameter()
     {
         $requestStack = $this->createMock(\Symfony\Component\HttpFoundation\RequestStack::class);
         $requestStack->expects(self::never())->method('getCurrentRequest');
@@ -535,7 +535,7 @@ final class PaginatorTest extends TestCase
         self::assertSame(3, $result->getCurrentPage());
     }
 
-    public function testCursorBuilderReadsCursorFromRequest(): void
+    public function testCursorBuilderReadsCursorFromRequest()
     {
         $source = [];
         for ($i = 1; $i <= 30; ++$i) {
@@ -564,7 +564,7 @@ final class PaginatorTest extends TestCase
         self::assertSame(11, $result->getItems()[0]['id']);
     }
 
-    public function testCursorBuilderExplicitCursorWinsOverRequest(): void
+    public function testCursorBuilderExplicitCursorWinsOverRequest()
     {
         $source = [];
         for ($i = 1; $i <= 30; ++$i) {
@@ -594,7 +594,7 @@ final class PaginatorTest extends TestCase
         self::assertSame(21, $result->getItems()[0]['id']);
     }
 
-    public function testCursorBuilderUsesConfiguredCursorParameter(): void
+    public function testCursorBuilderUsesConfiguredCursorParameter()
     {
         $source = [];
         for ($i = 1; $i <= 30; ++$i) {
@@ -625,7 +625,7 @@ final class PaginatorTest extends TestCase
         self::assertStringContainsString('after=', (string) $result->getNextUrl());
     }
 
-    public function testPaginateAllowsExplicitPerPageAboveBuilderGuard(): void
+    public function testPaginateAllowsExplicitPerPageAboveBuilderGuard()
     {
         $paginator = new Paginator([new ArrayPaginationAdapter()]);
 

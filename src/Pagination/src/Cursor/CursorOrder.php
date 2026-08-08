@@ -22,16 +22,17 @@ use Symfony\UX\Pagination\Exception\InvalidArgumentException;
  *
  * @author Simon André <smn.andre@gmail.com>
  */
-final readonly class CursorOrder
+final class CursorOrder
 {
     /**
-     * @param non-empty-string  $identity
+     * @param non-empty-string  $fingerprintInput
      * @param list<string>|null $fields
+     * @param 'ASC'|'DESC'|null $direction
      */
     private function __construct(
-        private string $identity,
-        private ?array $fields = null,
-        private ?string $direction = null,
+        private readonly string $fingerprintInput,
+        private readonly ?array $fields = null,
+        private readonly ?string $direction = null,
     ) {
     }
 
@@ -84,6 +85,9 @@ final readonly class CursorOrder
         return $this->fields;
     }
 
+    /**
+     * @return 'ASC'|'DESC'|null
+     */
     public function getDirection(): ?string
     {
         return $this->direction;
@@ -91,6 +95,6 @@ final readonly class CursorOrder
 
     public function getFingerprint(): string
     {
-        return hash('sha256', $this->identity);
+        return hash('sha256', $this->fingerprintInput);
     }
 }

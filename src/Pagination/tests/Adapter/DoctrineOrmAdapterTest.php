@@ -64,7 +64,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         }
     }
 
-    public function testCountUsesDistinctForArbitraryClassJoins(): void
+    public function testCountUsesDistinctForArbitraryClassJoins()
     {
         $qb = $this->entityManager->createQueryBuilder()
             ->select('a')
@@ -74,7 +74,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         self::assertSame(0, $this->adapter->count($qb));
     }
 
-    public function testCountFallsBackToDistinctForNonAssociationJoins(): void
+    public function testCountFallsBackToDistinctForNonAssociationJoins()
     {
         $qb = $this->entityManager->createQueryBuilder()
             ->select('a')
@@ -87,7 +87,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->count($qb);
     }
 
-    public function testCountFallsBackToDistinctForUnresolvableJoinAliases(): void
+    public function testCountFallsBackToDistinctForUnresolvableJoinAliases()
     {
         $qb = $this->entityManager->createQueryBuilder()
             ->select('a')
@@ -98,7 +98,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->count($qb);
     }
 
-    public function testSupportsQueryBuilder(): void
+    public function testSupportsQueryBuilder()
     {
         $qb = $this->entityManager->createQueryBuilder()
             ->select('a')
@@ -110,7 +110,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         self::assertFalse($this->adapter->supports(new \stdClass()));
     }
 
-    public function testCursorContextFingerprintsDqlParametersAndApplicationContext(): void
+    public function testCursorContextFingerprintsDqlParametersAndApplicationContext()
     {
         $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select('a')
@@ -143,7 +143,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         );
     }
 
-    public function testCursorContextNormalizesMappedEntityIdentifiers(): void
+    public function testCursorContextNormalizesMappedEntityIdentifiers()
     {
         $author = new Author();
         $author->setName('Alice');
@@ -163,7 +163,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         );
     }
 
-    public function testCursorContextRejectsAnUnsavedMappedEntity(): void
+    public function testCursorContextRejectsAnUnsavedMappedEntity()
     {
         $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select('a')
@@ -175,7 +175,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->getCursorContext($queryBuilder, null);
     }
 
-    public function testCursorContextRejectsATransientObject(): void
+    public function testCursorContextRejectsATransientObject()
     {
         $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select('a')
@@ -187,7 +187,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->getCursorContext($queryBuilder, null);
     }
 
-    public function testCursorContextRejectsAnUnsupportedParameterType(): void
+    public function testCursorContextRejectsAnUnsupportedParameterType()
     {
         $resource = fopen('php://memory', 'r');
         \assert(false !== $resource);
@@ -206,7 +206,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         }
     }
 
-    public function testCursorContextRejectsUnsupportedSourcesAndMultipleRoots(): void
+    public function testCursorContextRejectsUnsupportedSourcesAndMultipleRoots()
     {
         try {
             $this->adapter->getCursorContext([], null);
@@ -224,7 +224,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->getCursorContext($queryBuilder, null);
     }
 
-    public function testBasicCountWithoutJoin(): void
+    public function testBasicCountWithoutJoin()
     {
         // Create test data
         for ($i = 1; $i <= 5; ++$i) {
@@ -241,7 +241,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         self::assertSame(5, $this->adapter->count($qb));
     }
 
-    public function testCountRejectsGroupByWithActionableAlternative(): void
+    public function testCountRejectsGroupByWithActionableAlternative()
     {
         $qb = $this->entityManager->createQueryBuilder()
             ->select('a.name')
@@ -253,7 +253,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->count($qb);
     }
 
-    public function testCountRejectsHavingWithActionableAlternative(): void
+    public function testCountRejectsHavingWithActionableAlternative()
     {
         $qb = $this->entityManager->createQueryBuilder()
             ->select('a.name')
@@ -265,7 +265,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->count($qb);
     }
 
-    public function testBasicSlice(): void
+    public function testBasicSlice()
     {
         // Create test data
         for ($i = 1; $i <= 20; ++$i) {
@@ -290,7 +290,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         self::assertCount(5, $results); // Only 5 left
     }
 
-    public function testSliceWithToOneJoinExecutesOneQuery(): void
+    public function testSliceWithToOneJoinExecutesOneQuery()
     {
         $author = new Author();
         $author->setName('Author');
@@ -317,7 +317,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         self::assertCount(1, $this->queryCollector->queries());
     }
 
-    public function testCountWithToOneJoinDoesNotUseDistinct(): void
+    public function testCountWithToOneJoinDoesNotUseDistinct()
     {
         $author = new Author();
         $author->setName('Author');
@@ -351,7 +351,7 @@ final class DoctrineOrmAdapterTest extends TestCase
      * - Without DISTINCT, COUNT would return 15 (5 authors × 3 books each)
      * - With DISTINCT, COUNT correctly returns 5 (unique authors)
      */
-    public function testCountWithOneToManyJoin(): void
+    public function testCountWithOneToManyJoin()
     {
         // Create 5 authors, each with 3 books
         for ($i = 1; $i <= 5; ++$i) {
@@ -390,7 +390,7 @@ final class DoctrineOrmAdapterTest extends TestCase
      * This tests the scenario where books have multiple categories and
      * categories have multiple books.
      */
-    public function testCountWithManyToManyJoin(): void
+    public function testCountWithManyToManyJoin()
     {
         // Create categories
         $fiction = new Category();
@@ -438,7 +438,7 @@ final class DoctrineOrmAdapterTest extends TestCase
      * - Pagination works correctly
      * - The same entity doesn't appear multiple times due to JOIN
      */
-    public function testSliceWithJoin(): void
+    public function testSliceWithJoin()
     {
         // Create authors with books
         for ($i = 1; $i <= 10; ++$i) {
@@ -471,7 +471,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         self::assertIsArray($results);
     }
 
-    public function testSliceWithFetchJoinCollectionReturnsCompleteRootEntities(): void
+    public function testSliceWithFetchJoinCollectionReturnsCompleteRootEntities()
     {
         for ($i = 1; $i <= 8; ++$i) {
             $author = new Author();
@@ -505,7 +505,7 @@ final class DoctrineOrmAdapterTest extends TestCase
     /**
      * Test lookahead pagination with JOINs.
      */
-    public function testLookaheadWithJoin(): void
+    public function testLookaheadWithJoin()
     {
         // Create test data
         for ($i = 1; $i <= 25; ++$i) {
@@ -537,7 +537,7 @@ final class DoctrineOrmAdapterTest extends TestCase
     /**
      * Test cursor-based pagination.
      */
-    public function testCursorPagination(): void
+    public function testCursorPagination()
     {
         // Create test data
         for ($i = 1; $i <= 20; ++$i) {
@@ -564,7 +564,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         self::assertNotNull($result->next);
     }
 
-    public function testCursorDoesNotOverwriteApplicationParameters(): void
+    public function testCursorDoesNotOverwriteApplicationParameters()
     {
         for ($i = 1; $i <= 12; ++$i) {
             $author = new Author();
@@ -605,7 +605,7 @@ final class DoctrineOrmAdapterTest extends TestCase
      * For precise pagination with JOINs, consider using DISTINCT in your query
      * or using lookahead pagination.
      */
-    public function testCursorPaginationWithJoin(): void
+    public function testCursorPaginationWithJoin()
     {
         // Create authors with books
         for ($i = 1; $i <= 15; ++$i) {
@@ -636,14 +636,14 @@ final class DoctrineOrmAdapterTest extends TestCase
         self::assertCount(5, $result->items);
     }
 
-    public function testCountThrowsForNonQueryBuilder(): void
+    public function testCountThrowsForNonQueryBuilder()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Source must be a Doctrine ORM QueryBuilder.');
         $this->adapter->count('not a query builder');
     }
 
-    public function testCountRejectsMultipleRootEntities(): void
+    public function testCountRejectsMultipleRootEntities()
     {
         $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select('a', 'c')
@@ -655,28 +655,28 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->count($queryBuilder);
     }
 
-    public function testSliceThrowsForNonQueryBuilder(): void
+    public function testSliceThrowsForNonQueryBuilder()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Source must be a Doctrine ORM QueryBuilder.');
         $this->adapter->slice('not a query builder', 0, 10);
     }
 
-    public function testLookaheadThrowsForNonQueryBuilder(): void
+    public function testLookaheadThrowsForNonQueryBuilder()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Source must be a Doctrine ORM QueryBuilder.');
         $this->adapter->sliceWithLookahead('not a query builder', 0, 10);
     }
 
-    public function testCursorThrowsForNonQueryBuilder(): void
+    public function testCursorThrowsForNonQueryBuilder()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Source must be a Doctrine ORM QueryBuilder.');
         $this->adapter->sliceWithCursor('not a query builder', null, 10, CursorOrder::byFields(['id'], 'ASC'));
     }
 
-    public function testCursorFieldResolutionRejectsNonQueryBuilders(): void
+    public function testCursorFieldResolutionRejectsNonQueryBuilders()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Source must be a Doctrine ORM QueryBuilder.');
@@ -684,7 +684,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->resolveCursorFields([], 'id');
     }
 
-    public function testCursorFieldsMustBeNonEmptyStrings(): void
+    public function testCursorFieldsMustBeNonEmptyStrings()
     {
         $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select('a')
@@ -696,7 +696,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->resolveCursorFields($queryBuilder, []);
     }
 
-    public function testCursorOrderMustBeExplicit(): void
+    public function testCursorOrderMustBeExplicit()
     {
         $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select('a')
@@ -708,7 +708,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->resolveCursorOrder($queryBuilder, null, null);
     }
 
-    public function testCursorRejectsAnOpaqueOrder(): void
+    public function testCursorRejectsAnOpaqueOrder()
     {
         $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select('a')
@@ -720,7 +720,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->sliceWithCursor($queryBuilder, null, 10, CursorOrder::byIdentity('remote-order'));
     }
 
-    public function testCursorRejectsInvalidDirection(): void
+    public function testCursorRejectsInvalidDirection()
     {
         $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select('a')
@@ -731,7 +731,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->resolveCursorOrder($queryBuilder, ['id'], 'sideways');
     }
 
-    public function testCursorRejectsMissingFromClause(): void
+    public function testCursorRejectsMissingFromClause()
     {
         $queryBuilder = $this->entityManager->createQueryBuilder()->select('1');
 
@@ -740,7 +740,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->resolveCursorOrder($queryBuilder, ['id'], 'ASC');
     }
 
-    public function testCursorRejectsUnknownField(): void
+    public function testCursorRejectsUnknownField()
     {
         $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select('a')
@@ -754,7 +754,7 @@ final class DoctrineOrmAdapterTest extends TestCase
     /**
      * Test that COUNT works with WHERE clauses.
      */
-    public function testCountWithWhereClause(): void
+    public function testCountWithWhereClause()
     {
         // Create test data
         for ($i = 1; $i <= 10; ++$i) {
@@ -777,7 +777,7 @@ final class DoctrineOrmAdapterTest extends TestCase
     /**
      * Test COUNT with complex WHERE and JOIN.
      */
-    public function testCountWithWhereAndJoin(): void
+    public function testCountWithWhereAndJoin()
     {
         // Create authors, some active and some not
         for ($i = 1; $i <= 10; ++$i) {
@@ -811,7 +811,7 @@ final class DoctrineOrmAdapterTest extends TestCase
     /**
      * Test single-field cursor pagination (backward compatibility).
      */
-    public function testSingleFieldCursorPagination(): void
+    public function testSingleFieldCursorPagination()
     {
         // Create test data with sequential IDs
         for ($i = 1; $i <= 20; ++$i) {
@@ -851,7 +851,7 @@ final class DoctrineOrmAdapterTest extends TestCase
      * Test backward navigation: the previousCursor of page 2 must
      * return the items of page 1, in display order.
      */
-    public function testCursorBackwardNavigationReturnsPreviousPage(): void
+    public function testCursorBackwardNavigationReturnsPreviousPage()
     {
         for ($i = 1; $i <= 20; ++$i) {
             $author = new Author();
@@ -888,7 +888,7 @@ final class DoctrineOrmAdapterTest extends TestCase
     /**
      * Test backward navigation from a middle page keeps a previousCursor.
      */
-    public function testCursorBackwardNavigationFromMiddlePage(): void
+    public function testCursorBackwardNavigationFromMiddlePage()
     {
         for ($i = 1; $i <= 20; ++$i) {
             $author = new Author();
@@ -920,7 +920,7 @@ final class DoctrineOrmAdapterTest extends TestCase
      * (price) could cause duplicates or skips. Using a composite cursor
      * with ID as tie-breaker ensures deterministic ordering.
      */
-    public function testCompositeCursorWithTwoFields(): void
+    public function testCompositeCursorWithTwoFields()
     {
         // Create books with duplicate prices
         $prices = [10.0, 10.0, 10.0, 20.0, 20.0, 30.0, 30.0, 30.0, 40.0, 50.0];
@@ -981,7 +981,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         self::assertCount(9, array_unique($allIds));
     }
 
-    public function testSingleNonUniqueCursorFieldAutomaticallyUsesIdentifierTieBreaker(): void
+    public function testSingleNonUniqueCursorFieldAutomaticallyUsesIdentifierTieBreaker()
     {
         $names = ['Alice', 'Alice', 'Alice', 'Bob', 'Bob', 'Charlie', 'Charlie', 'Charlie'];
 
@@ -1014,7 +1014,7 @@ final class DoctrineOrmAdapterTest extends TestCase
     /**
      * Test composite cursor with DESC direction.
      */
-    public function testCompositeCursorWithDescDirection(): void
+    public function testCompositeCursorWithDescDirection()
     {
         // Create books with prices in ascending order
         for ($i = 1; $i <= 10; ++$i) {
@@ -1060,7 +1060,7 @@ final class DoctrineOrmAdapterTest extends TestCase
     /**
      * Test composite cursor with 3 fields.
      */
-    public function testCompositeCursorWithThreeFields(): void
+    public function testCompositeCursorWithThreeFields()
     {
         // Create authors with duplicate names for testing
         $names = ['Alice', 'Alice', 'Alice', 'Bob', 'Bob', 'Charlie'];
@@ -1099,7 +1099,7 @@ final class DoctrineOrmAdapterTest extends TestCase
     /**
      * Test encoding and decoding of composite cursors.
      */
-    public function testCompositeCursorBoundaryRoundTrip(): void
+    public function testCompositeCursorBoundaryRoundTrip()
     {
         // Create test data
         for ($i = 1; $i <= 5; ++$i) {
@@ -1133,7 +1133,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         self::assertNotEmpty($result2->items);
     }
 
-    public function testCursorRejectsNullableScalarField(): void
+    public function testCursorRejectsNullableScalarField()
     {
         $qb = $this->entityManager->createQueryBuilder()
             ->select('b')
@@ -1144,7 +1144,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->resolveCursorOrder($qb, ['rating'], 'ASC');
     }
 
-    public function testCursorRejectsUnsupportedDoctrineFieldTypes(): void
+    public function testCursorRejectsUnsupportedDoctrineFieldTypes()
     {
         $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select('b')
@@ -1157,7 +1157,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         $this->adapter->sliceWithCursor($queryBuilder, new CursorBoundary(['{}', 1]), 10, $order);
     }
 
-    public function testCursorNormalizesValidDateValues(): void
+    public function testCursorNormalizesValidDateValues()
     {
         $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select('b')
@@ -1174,7 +1174,7 @@ final class DoctrineOrmAdapterTest extends TestCase
         self::assertSame([], $result->items);
     }
 
-    public function testCursorRejectsInvalidDateValues(): void
+    public function testCursorRejectsInvalidDateValues()
     {
         $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select('b')
@@ -1190,7 +1190,7 @@ final class DoctrineOrmAdapterTest extends TestCase
     /**
      * Test error handling: cursor values count mismatch.
      */
-    public function testCompositeCursorMismatchThrowsException(): void
+    public function testCompositeCursorMismatchThrowsException()
     {
         $author = new Author();
         $author->setName('Author 1');

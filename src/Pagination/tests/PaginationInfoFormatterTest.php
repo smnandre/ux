@@ -25,7 +25,7 @@ use Symfony\UX\Pagination\PaginationInfoFormatter;
 #[CoversClass(PaginationInfoFormatter::class)]
 final class PaginationInfoFormatterTest extends TestCase
 {
-    public function testEnglishFallbackForEmptyNumberedPaginationWithTotal(): void
+    public function testEnglishFallbackForEmptyNumberedPaginationWithTotal()
     {
         $formatter = new PaginationInfoFormatter();
         $pagination = $this->createPagination([], 1, 10);
@@ -33,21 +33,21 @@ final class PaginationInfoFormatterTest extends TestCase
         self::assertSame('No items', $formatter->format($pagination));
     }
 
-    public function testEnglishFallbackForEmptyCursorPagination(): void
+    public function testEnglishFallbackForEmptyCursorPagination()
     {
         $formatter = new PaginationInfoFormatter();
 
         self::assertSame('No items', $formatter->formatCursor($this->createCursorPagination([], false)));
     }
 
-    public function testEnglishFallbackForNumberedPaginationWithTotal(): void
+    public function testEnglishFallbackForNumberedPaginationWithTotal()
     {
         $formatter = new PaginationInfoFormatter();
 
         self::assertSame('Showing 11-20 of 30', $formatter->format($this->createPagination(range(1, 30), 2, 10)));
     }
 
-    public function testEnglishFallbackForNumberedPaginationWithoutTotal(): void
+    public function testEnglishFallbackForNumberedPaginationWithoutTotal()
     {
         $formatter = new PaginationInfoFormatter();
         $pagination = new Pagination(
@@ -62,7 +62,7 @@ final class PaginationInfoFormatterTest extends TestCase
         self::assertSame('Showing 11-20', $formatter->format($pagination));
     }
 
-    public function testEnglishFallbackForCursorPaginationWithMore(): void
+    public function testEnglishFallbackForCursorPaginationWithMore()
     {
         $formatter = new PaginationInfoFormatter();
 
@@ -72,7 +72,7 @@ final class PaginationInfoFormatterTest extends TestCase
         );
     }
 
-    public function testEnglishFallbackPluralizesASingleItem(): void
+    public function testEnglishFallbackPluralizesASingleItem()
     {
         $formatter = new PaginationInfoFormatter();
 
@@ -86,7 +86,7 @@ final class PaginationInfoFormatterTest extends TestCase
         );
     }
 
-    public function testEnglishFallbackForLastCursorPage(): void
+    public function testEnglishFallbackForLastCursorPage()
     {
         $formatter = new PaginationInfoFormatter();
 
@@ -96,7 +96,7 @@ final class PaginationInfoFormatterTest extends TestCase
         );
     }
 
-    public function testFormatWithTotal(): void
+    public function testFormatWithTotal()
     {
         $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects(self::once())
@@ -116,7 +116,7 @@ final class PaginationInfoFormatterTest extends TestCase
         self::assertSame('Showing 11-20 of 100', $result);
     }
 
-    public function testFormatWithoutTotal(): void
+    public function testFormatWithoutTotal()
     {
         $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects(self::once())
@@ -143,7 +143,7 @@ final class PaginationInfoFormatterTest extends TestCase
         self::assertSame('Showing 11-20', $result);
     }
 
-    public function testFormatFirstPage(): void
+    public function testFormatFirstPage()
     {
         $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects(self::once())
@@ -163,7 +163,7 @@ final class PaginationInfoFormatterTest extends TestCase
         self::assertSame('Showing 1-10 of 50', $result);
     }
 
-    public function testFormatLastPage(): void
+    public function testFormatLastPage()
     {
         $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects(self::once())
@@ -183,7 +183,7 @@ final class PaginationInfoFormatterTest extends TestCase
         self::assertSame('Showing 21-25 of 25', $result);
     }
 
-    public function testFormatCursorNoItems(): void
+    public function testFormatCursorNoItems()
     {
         $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects(self::once())
@@ -203,7 +203,7 @@ final class PaginationInfoFormatterTest extends TestCase
         self::assertSame('No items', $result);
     }
 
-    public function testFormatCursorWithMore(): void
+    public function testFormatCursorWithMore()
     {
         $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects(self::once())
@@ -223,7 +223,7 @@ final class PaginationInfoFormatterTest extends TestCase
         self::assertSame('Showing 10 items', $result);
     }
 
-    public function testFormatNoItems(): void
+    public function testFormatNoItems()
     {
         $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects(self::once())
@@ -244,7 +244,7 @@ final class PaginationInfoFormatterTest extends TestCase
         self::assertSame('No results', $result);
     }
 
-    public function testFormatCursorLastPage(): void
+    public function testFormatCursorLastPage()
     {
         $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects(self::once())

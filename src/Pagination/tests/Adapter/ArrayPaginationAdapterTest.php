@@ -28,7 +28,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         $this->defaultOrder = CursorOrder::byFields(['id'], 'ASC');
     }
 
-    public function testSupportsArrays(): void
+    public function testSupportsArrays()
     {
         self::assertTrue($this->adapter->supports([1, 2, 3]));
         self::assertTrue($this->adapter->supports([]));
@@ -37,50 +37,50 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertFalse($this->adapter->supports(new \stdClass()));
     }
 
-    public function testCount(): void
+    public function testCount()
     {
         self::assertSame(0, $this->adapter->count([]));
         self::assertSame(3, $this->adapter->count([1, 2, 3]));
         self::assertSame(100, $this->adapter->count(range(1, 100)));
     }
 
-    public function testCursorContextUsesTheExplicitApplicationContext(): void
+    public function testCursorContextUsesTheExplicitApplicationContext()
     {
         self::assertSame('tenant-a:products', $this->adapter->getCursorContext([], 'tenant-a:products'));
     }
 
-    public function testCursorContextRequiresAnArraySource(): void
+    public function testCursorContextRequiresAnArraySource()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->adapter->getCursorContext(new \stdClass(), 'products');
     }
 
-    public function testCursorContextRequiresAnExplicitContext(): void
+    public function testCursorContextRequiresAnExplicitContext()
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('requires an explicit context()');
         $this->adapter->getCursorContext([], null);
     }
 
-    public function testCursorFieldsRequireAnArraySource(): void
+    public function testCursorFieldsRequireAnArraySource()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->adapter->resolveCursorFields(new \stdClass(), 'id');
     }
 
-    public function testCursorFieldsRejectAnEmptyOrder(): void
+    public function testCursorFieldsRejectAnEmptyOrder()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('At least one non-empty cursor field');
         $this->adapter->resolveCursorFields([], []);
     }
 
-    public function testCursorFieldsAreNormalizedToAList(): void
+    public function testCursorFieldsAreNormalizedToAList()
     {
         self::assertSame(['id'], $this->adapter->resolveCursorFields([], 'id'));
     }
 
-    public function testCursorOrderMustBeExplicit(): void
+    public function testCursorOrderMustBeExplicit()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('requires an explicit orderBy()');
@@ -88,7 +88,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         $this->adapter->resolveCursorOrder([], null, null);
     }
 
-    public function testCursorOrderIsResolvedFromFieldsAndDirection(): void
+    public function testCursorOrderIsResolvedFromFieldsAndDirection()
     {
         $order = $this->adapter->resolveCursorOrder([], ['id'], 'desc');
 
@@ -96,7 +96,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertSame('DESC', $order->getDirection());
     }
 
-    public function testSlice(): void
+    public function testSlice()
     {
         $items = range(1, 50);
 
@@ -105,7 +105,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertSame([46, 47, 48, 49, 50], $this->adapter->slice($items, 45, 5));
     }
 
-    public function testSliceBeyondEnd(): void
+    public function testSliceBeyondEnd()
     {
         $items = [1, 2, 3];
 
@@ -113,7 +113,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertSame([], $this->adapter->slice($items, 10, 5));
     }
 
-    public function testSliceWithLookahead(): void
+    public function testSliceWithLookahead()
     {
         $items = range(1, 50);
 
@@ -133,25 +133,25 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertFalse($hasMore);
     }
 
-    public function testCountThrowsForNonArray(): void
+    public function testCountThrowsForNonArray()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->adapter->count('not an array');
     }
 
-    public function testSliceThrowsForNonArray(): void
+    public function testSliceThrowsForNonArray()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->adapter->slice('not an array', 0, 10);
     }
 
-    public function testSliceWithLookaheadThrowsForNonArray(): void
+    public function testSliceWithLookaheadThrowsForNonArray()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->adapter->sliceWithLookahead('not an array', 0, 10);
     }
 
-    public function testSliceWithCursorFirstPage(): void
+    public function testSliceWithCursorFirstPage()
     {
         $source = [];
         for ($i = 1; $i <= 30; ++$i) {
@@ -167,14 +167,14 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertNull($result->previous);
     }
 
-    public function testSliceWithCursorRejectsInvalidDirection(): void
+    public function testSliceWithCursorRejectsInvalidDirection()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('direction must be "ASC" or "DESC"');
         CursorOrder::byFields(['id'], 'sideways');
     }
 
-    public function testSliceWithCursorSecondPage(): void
+    public function testSliceWithCursorSecondPage()
     {
         $source = [];
         for ($i = 1; $i <= 30; ++$i) {
@@ -196,7 +196,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertNotSame($cursor, $page2->previous);
     }
 
-    public function testSliceWithCursorBackwardReturnsPreviousPage(): void
+    public function testSliceWithCursorBackwardReturnsPreviousPage()
     {
         $source = [];
         for ($i = 1; $i <= 30; ++$i) {
@@ -221,7 +221,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertSame(11, $forwardAgain->items[0]['id']);
     }
 
-    public function testSliceWithCursorBackwardFromMiddleKeepsPreviousCursor(): void
+    public function testSliceWithCursorBackwardFromMiddleKeepsPreviousCursor()
     {
         $source = [];
         for ($i = 1; $i <= 30; ++$i) {
@@ -241,7 +241,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertNotNull($back->previous);
     }
 
-    public function testSliceWithCursorDateTimeField(): void
+    public function testSliceWithCursorDateTimeField()
     {
         $source = [
             ['id' => 1, 'createdAt' => new \DateTimeImmutable('2024-01-01 10:00:00')],
@@ -262,7 +262,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertSame(3, $page2->items[0]['id']);
     }
 
-    public function testCursorDateTimesAreOrderedByInstantAcrossTimezones(): void
+    public function testCursorDateTimesAreOrderedByInstantAcrossTimezones()
     {
         $source = [
             // 22:30 UTC: lexicographically later before UTC normalization.
@@ -280,7 +280,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertSame([2], array_column($second->items, 'id'));
     }
 
-    public function testSliceWithCursorLastPage(): void
+    public function testSliceWithCursorLastPage()
     {
         $source = [];
         for ($i = 1; $i <= 15; ++$i) {
@@ -295,7 +295,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertNull($page2->next);
     }
 
-    public function testSliceWithCursorDescDirection(): void
+    public function testSliceWithCursorDescDirection()
     {
         $source = [];
         for ($i = 1; $i <= 20; ++$i) {
@@ -310,7 +310,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertTrue($result->hasNext);
     }
 
-    public function testSliceWithCursorMultipleFields(): void
+    public function testSliceWithCursorMultipleFields()
     {
         $source = [
             ['id' => 1, 'price' => 10.0],
@@ -326,7 +326,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         self::assertTrue($result->hasNext);
     }
 
-    public function testSliceWithCursorMismatchedFieldsThrows(): void
+    public function testSliceWithCursorMismatchedFieldsThrows()
     {
         $source = [['id' => 1, 'price' => 10.0]];
 
@@ -338,13 +338,13 @@ final class ArrayPaginationAdapterTest extends TestCase
         $this->adapter->sliceWithCursor($source, $cursor, 10, CursorOrder::byFields(['price', 'id'], 'ASC'));
     }
 
-    public function testSliceWithCursorThrowsForNonArray(): void
+    public function testSliceWithCursorThrowsForNonArray()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->adapter->sliceWithCursor('not an array', null, 10, $this->defaultOrder);
     }
 
-    public function testSliceWithCursorRejectsAnOpaqueOrder(): void
+    public function testSliceWithCursorRejectsAnOpaqueOrder()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('requires a field-based cursor order');
@@ -352,7 +352,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         $this->adapter->sliceWithCursor([], null, 10, CursorOrder::byIdentity('remote-order'));
     }
 
-    public function testCursorRejectsDuplicateTuplesWithoutUniqueTieBreaker(): void
+    public function testCursorRejectsDuplicateTuplesWithoutUniqueTieBreaker()
     {
         $source = [
             ['id' => 1, 'category' => 'same'],
@@ -364,7 +364,7 @@ final class ArrayPaginationAdapterTest extends TestCase
         $this->adapter->sliceWithCursor($source, null, 10, CursorOrder::byFields(['category'], 'ASC'));
     }
 
-    public function testSliceWithCursorEmptySource(): void
+    public function testSliceWithCursorEmptySource()
     {
         $result = $this->adapter->sliceWithCursor([], null, 10, $this->defaultOrder);
 

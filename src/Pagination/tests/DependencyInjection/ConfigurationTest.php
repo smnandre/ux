@@ -23,7 +23,7 @@ use Symfony\UX\Pagination\UXPaginationBundle;
 #[CoversClass(UXPaginationBundle::class)]
 final class ConfigurationTest extends TestCase
 {
-    public function testDefaultConfiguration(): void
+    public function testDefaultConfiguration()
     {
         $config = $this->processConfiguration([]);
 
@@ -40,7 +40,7 @@ final class ConfigurationTest extends TestCase
         self::assertSame([], $config['paginators']);
     }
 
-    public function testCustomConfiguration(): void
+    public function testCustomConfiguration()
     {
         $config = $this->processConfiguration([
             'items_per_page' => 50,
@@ -79,21 +79,21 @@ final class ConfigurationTest extends TestCase
         ], $config['paginators']);
     }
 
-    public function testItemsPerPageMinimum(): void
+    public function testItemsPerPageMinimum()
     {
         $this->expectException(InvalidConfigurationException::class);
 
         $this->processConfiguration(['items_per_page' => 0]);
     }
 
-    public function testItemsPerPageMustBePositive(): void
+    public function testItemsPerPageMustBePositive()
     {
         $this->expectException(InvalidConfigurationException::class);
 
         $this->processConfiguration(['items_per_page' => -5]);
     }
 
-    public function testMaximumOffsetCannotBeNegative(): void
+    public function testMaximumOffsetCannotBeNegative()
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -101,14 +101,14 @@ final class ConfigurationTest extends TestCase
     }
 
     #[DataProvider('emptyStringOptions')]
-    public function testStringOptionsCannotBeEmpty(array $config): void
+    public function testStringOptionsCannotBeEmpty(array $config)
     {
         $this->expectException(InvalidConfigurationException::class);
 
         $this->processConfiguration($config);
     }
 
-    public function testThemeMustBeASingleValue(): void
+    public function testThemeMustBeASingleValue()
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -120,7 +120,7 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testTemplateIsNotAConfigurationOption(): void
+    public function testTemplateIsNotAConfigurationOption()
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('Unrecognized option "template"');
@@ -130,7 +130,7 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testThemeIsNotNestedUnderTwig(): void
+    public function testThemeIsNotNestedUnderTwig()
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('Unrecognized option "twig"');
@@ -155,7 +155,7 @@ final class ConfigurationTest extends TestCase
     }
 
     #[DataProvider('nonStringOptions')]
-    public function testStringOptionsRejectNonStringScalars(array $config): void
+    public function testStringOptionsRejectNonStringScalars(array $config)
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -171,14 +171,14 @@ final class ConfigurationTest extends TestCase
         yield 'named cursor parameter' => [['paginators' => ['blog' => ['cursor_parameter' => false]]]];
     }
 
-    public function testItemsPerPageRejectsLookaheadOverflow(): void
+    public function testItemsPerPageRejectsLookaheadOverflow()
     {
         $this->expectException(InvalidConfigurationException::class);
 
         $this->processConfiguration(['items_per_page' => \PHP_INT_MAX]);
     }
 
-    public function testNamedItemsPerPageRejectsLookaheadOverflow(): void
+    public function testNamedItemsPerPageRejectsLookaheadOverflow()
     {
         $this->expectException(InvalidConfigurationException::class);
 
@@ -189,21 +189,21 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testNavigationModeMustBeSupported(): void
+    public function testNavigationModeMustBeSupported()
     {
         $this->expectException(InvalidConfigurationException::class);
 
         $this->processConfiguration(['navigation' => ['mode' => 'unknown']]);
     }
 
-    public function testNamedPaginatorValuesAreValidated(): void
+    public function testNamedPaginatorValuesAreValidated()
     {
         $this->expectException(InvalidConfigurationException::class);
 
         $this->processConfiguration(['paginators' => ['blog' => ['navigation' => ['size' => 0]]]]);
     }
 
-    public function testPaginatorNameMustBeAValidAutowiringTarget(): void
+    public function testPaginatorNameMustBeAValidAutowiringTarget()
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('Invalid paginator name "1blog"');
@@ -211,7 +211,7 @@ final class ConfigurationTest extends TestCase
         $this->processConfiguration(['paginators' => ['1blog' => []]]);
     }
 
-    public function testPaginatorNamesMustNotResolveToTheSameAutowiringTarget(): void
+    public function testPaginatorNamesMustNotResolveToTheSameAutowiringTarget()
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('Paginator names "blog-posts" and "blog_posts" resolve to the same autowiring target "blogPosts".');
@@ -224,7 +224,7 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testTreeBuilderName(): void
+    public function testTreeBuilderName()
     {
         $bundle = new UXPaginationBundle();
         $extension = $bundle->getContainerExtension();

@@ -55,7 +55,7 @@ final class DoctrineDbalCursorInvariantTest extends TestCase
         $this->connection->close();
     }
 
-    public function testForwardWalkPartitionsDataset(): void
+    public function testForwardWalkPartitionsDataset()
     {
         $seen = [];
         $cursor = null;
@@ -68,7 +68,7 @@ final class DoctrineDbalCursorInvariantTest extends TestCase
         self::assertSame(range(1, 15), $seen);
     }
 
-    public function testBackwardWalkIsExactInverseOfForwardWalk(): void
+    public function testBackwardWalkIsExactInverseOfForwardWalk()
     {
         $forwardPages = [];
         $cursor = null;
@@ -94,7 +94,7 @@ final class DoctrineDbalCursorInvariantTest extends TestCase
         self::assertSame(\array_slice($forwardPages, 0, -1), array_reverse($backwardPages));
     }
 
-    public function testDeletionBetweenPagesDoesNotSkipSurvivingRows(): void
+    public function testDeletionBetweenPagesDoesNotSkipSurvivingRows()
     {
         $first = $this->adapter->sliceWithCursor($this->query(), null, 5, $this->ascendingIdOrder);
         self::assertSame(range(1, 5), array_column($first->items, 'id'));
@@ -107,7 +107,7 @@ final class DoctrineDbalCursorInvariantTest extends TestCase
         self::assertSame([6, 8, 9, 10, 11], array_column($second->items, 'id'));
     }
 
-    public function testInsertionBetweenPagesDoesNotDuplicateRows(): void
+    public function testInsertionBetweenPagesDoesNotDuplicateRows()
     {
         $first = $this->adapter->sliceWithCursor($this->query(), null, 5, $this->ascendingIdOrder);
         $this->connection->insert('items', ['name' => 'Inserted']);
@@ -124,7 +124,7 @@ final class DoctrineDbalCursorInvariantTest extends TestCase
         self::assertSame(range(1, 16), $seen);
     }
 
-    public function testNonTotalOrderIsRejected(): void
+    public function testNonTotalOrderIsRejected()
     {
         $this->connection->executeStatement('UPDATE items SET name = ?', ['duplicate']);
 

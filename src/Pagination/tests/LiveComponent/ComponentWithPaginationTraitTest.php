@@ -33,12 +33,12 @@ use Symfony\UX\Pagination\Paginator;
 #[CoversTrait(ComponentWithPaginationTrait::class)]
 final class ComponentWithPaginationTraitTest extends TestCase
 {
-    public function testDefaultState(): void
+    public function testDefaultState()
     {
         self::assertSame(1, $this->createComponent([1, 2, 3])->page);
     }
 
-    public function testPageIsWritableAndSynchronizedWithTheUrl(): void
+    public function testPageIsWritableAndSynchronizedWithTheUrl()
     {
         $property = new \ReflectionProperty(ComponentWithPaginationTrait::class, 'page');
         $attributes = $property->getAttributes(LiveProp::class);
@@ -52,7 +52,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
     }
 
     #[DataProvider('liveActions')]
-    public function testNavigationMethodsAreLiveActions(string $method): void
+    public function testNavigationMethodsAreLiveActions(string $method)
     {
         $attributes = new \ReflectionMethod(ComponentWithPaginationTrait::class, $method)
             ->getAttributes(LiveAction::class);
@@ -70,7 +70,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
         yield 'previous page' => ['previousPage'];
     }
 
-    public function testBuilderOwnsTheSourceAndPageSize(): void
+    public function testBuilderOwnsTheSourceAndPageSize()
     {
         $component = $this->createComponent(range(1, 50));
         $component->page = 2;
@@ -82,7 +82,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
         self::assertSame(10, $pagination->getItemsPerPage());
     }
 
-    public function testGetPaginationCachesResultForTheCurrentPage(): void
+    public function testGetPaginationCachesResultForTheCurrentPage()
     {
         $callCount = 0;
         $component = $this->createComponent(range(1, 50), $callCount);
@@ -91,7 +91,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
         self::assertSame(1, $callCount);
     }
 
-    public function testChangingThePublicPageInvalidatesTheCachedResult(): void
+    public function testChangingThePublicPageInvalidatesTheCachedResult()
     {
         $callCount = 0;
         $component = $this->createComponent(range(1, 100), $callCount);
@@ -103,7 +103,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
         self::assertSame(2, $callCount);
     }
 
-    public function testGoToPageChangesStateAndClearsCache(): void
+    public function testGoToPageChangesStateAndClearsCache()
     {
         $callCount = 0;
         $component = $this->createComponent(range(1, 100), $callCount);
@@ -116,7 +116,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
         self::assertSame(2, $callCount);
     }
 
-    public function testGoToPageRejectsInvalidState(): void
+    public function testGoToPageRejectsInvalidState()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Page must be greater than or equal to 1.');
@@ -124,7 +124,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
         $this->createComponent(range(1, 100))->goToPage(0);
     }
 
-    public function testNextAndPreviousPageRespectAvailableNavigation(): void
+    public function testNextAndPreviousPageRespectAvailableNavigation()
     {
         $component = $this->createComponent(range(1, 25));
 
@@ -142,7 +142,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
         self::assertSame(3, $component->page);
     }
 
-    public function testResetPageIsAvailableForFilterChanges(): void
+    public function testResetPageIsAvailableForFilterChanges()
     {
         $component = $this->createComponent(range(1, 100));
         $component->page = 4;
@@ -152,7 +152,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
         self::assertSame(1, $component->page);
     }
 
-    public function testPaginationLinkAttributesBridgeLinksToTheLiveAction(): void
+    public function testPaginationLinkAttributesBridgeLinksToTheLiveAction()
     {
         $attributes = $this->createComponent(range(1, 50))
             ->getPaginationLinkAttributes()([
@@ -169,7 +169,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
         ], $attributes);
     }
 
-    public function testPagePropUrlParameterFollowsTheConfiguredPageParameter(): void
+    public function testPagePropUrlParameterFollowsTheConfiguredPageParameter()
     {
         $paginator = new Paginator([new ArrayPaginationAdapter()]);
         $component = new class($paginator) {
@@ -193,7 +193,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
         self::assertFalse($url->mapPath);
     }
 
-    public function testCapturesThePageRouteAndKeepsItDuringLiveRequests(): void
+    public function testCapturesThePageRouteAndKeepsItDuringLiveRequests()
     {
         $routes = new RouteCollection();
         $routes->add('demo_page', new Route('/demo'));
@@ -222,7 +222,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
         self::assertSame('/demo?page=3', $component->getPagination()->getNextUrl());
     }
 
-    public function testAnAlreadyCapturedRouteIsNeverOverwritten(): void
+    public function testAnAlreadyCapturedRouteIsNeverOverwritten()
     {
         $stack = new RequestStack();
         $otherPageRequest = Request::create('/other');
@@ -238,7 +238,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
         self::assertSame('captured_page', $component->paginationRoute);
     }
 
-    public function testNeverCapturesTheInternalLiveComponentRoute(): void
+    public function testNeverCapturesTheInternalLiveComponentRoute()
     {
         $stack = new RequestStack();
         $liveRequest = Request::create('/_components/foo');
@@ -276,7 +276,7 @@ final class ComponentWithPaginationTraitTest extends TestCase
         };
     }
 
-    public function testGoToPageArgumentIsExplicitlyMapped(): void
+    public function testGoToPageArgumentIsExplicitlyMapped()
     {
         $parameter = new \ReflectionMethod(ComponentWithPaginationTrait::class, 'goToPage')->getParameters()[0];
         $attributes = $parameter->getAttributes(LiveArg::class);

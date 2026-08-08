@@ -58,7 +58,7 @@ final class CallablePaginationAdapter implements OffsetAdapterInterface, Lookahe
     {
         $count = ($this->counter)();
         if (!\is_int($count) || $count < 0) {
-            throw new RuntimeException(\sprintf('Counter callback must return a non-negative integer, got %s.', get_debug_type($count)));
+            throw new RuntimeException(\sprintf('Counter callback must return a non-negative integer, got "%s".', get_debug_type($count)));
         }
 
         return $count;

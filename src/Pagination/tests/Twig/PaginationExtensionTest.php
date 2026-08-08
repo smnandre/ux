@@ -25,7 +25,7 @@ use Twig\Loader\ArrayLoader;
 #[CoversClass(PaginationExtension::class)]
 final class PaginationExtensionTest extends TestCase
 {
-    public function testRenderPaginationUsesDefaultTheme(): void
+    public function testRenderPaginationUsesDefaultTheme()
     {
         $pagination = $this->createPagination();
 
@@ -36,7 +36,7 @@ final class PaginationExtensionTest extends TestCase
         self::assertSame('default-theme:'.$pagination->getInfo(), $extension->renderPagination($pagination));
     }
 
-    public function testRenderPaginationPassesExplicitArgumentsToTheme(): void
+    public function testRenderPaginationPassesExplicitArgumentsToTheme()
     {
         $pagination = $this->createPagination();
 
@@ -55,7 +55,7 @@ final class PaginationExtensionTest extends TestCase
         self::assertSame('bootstrap-theme:info-off:my-nav', $result);
     }
 
-    public function testRenderDispatchesToRenderPagination(): void
+    public function testRenderDispatchesToRenderPagination()
     {
         $pagination = $this->createPagination();
 
@@ -72,7 +72,7 @@ final class PaginationExtensionTest extends TestCase
         self::assertSame('tailwind-theme:no-theme', $result);
     }
 
-    public function testRenderRequiresPaginationArgument(): void
+    public function testRenderRequiresPaginationArgument()
     {
         $extension = new PaginationExtension(new PaginationRenderer($this->createTwig()));
 
@@ -82,7 +82,7 @@ final class PaginationExtensionTest extends TestCase
         $extension->render();
     }
 
-    public function testRenderRejectsInvalidTheme(): void
+    public function testRenderRejectsInvalidTheme()
     {
         $extension = new PaginationExtension(new PaginationRenderer($this->createTwig()));
 
@@ -92,7 +92,7 @@ final class PaginationExtensionTest extends TestCase
         $extension->render(['pagination' => $this->createPagination(), 'theme' => false]);
     }
 
-    public function testRenderRejectsEmptyTheme(): void
+    public function testRenderRejectsEmptyTheme()
     {
         $extension = new PaginationExtension(
             new PaginationRenderer($this->createTwig()),
@@ -109,7 +109,7 @@ final class PaginationExtensionTest extends TestCase
         ]);
     }
 
-    public function testRenderRejectsInvalidShowInfo(): void
+    public function testRenderRejectsInvalidShowInfo()
     {
         $extension = new PaginationExtension(new PaginationRenderer($this->createTwig()));
 
@@ -119,7 +119,7 @@ final class PaginationExtensionTest extends TestCase
         $extension->render(['pagination' => $this->createPagination(), 'showInfo' => 'yes']);
     }
 
-    public function testRenderAcceptsAttributeGroups(): void
+    public function testRenderAcceptsAttributeGroups()
     {
         $pagination = $this->createPagination();
         $linkAttributes = static fn (array $link): array => ['data-page' => $link['page']];
@@ -139,7 +139,7 @@ final class PaginationExtensionTest extends TestCase
         self::assertSame('product-pages:product-pagination:controls:2', $result);
     }
 
-    public function testRenderRejectsInvalidLinkAttributes(): void
+    public function testRenderRejectsInvalidLinkAttributes()
     {
         $extension = new PaginationExtension(new PaginationRenderer($this->createTwig()));
 
@@ -149,7 +149,7 @@ final class PaginationExtensionTest extends TestCase
         $extension->render(['pagination' => $this->createPagination(), 'linkAttributes' => 'unsafe']);
     }
 
-    public function testRenderRejectsInvalidRootAttributes(): void
+    public function testRenderRejectsInvalidRootAttributes()
     {
         $extension = new PaginationExtension(new PaginationRenderer($this->createTwig()));
 
@@ -159,7 +159,7 @@ final class PaginationExtensionTest extends TestCase
         $extension->render(['pagination' => $this->createPagination(), 'attributes' => 'invalid']);
     }
 
-    public function testRenderRejectsInvalidNavigationAttributes(): void
+    public function testRenderRejectsInvalidNavigationAttributes()
     {
         $extension = new PaginationExtension(new PaginationRenderer($this->createTwig()));
 

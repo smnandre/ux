@@ -75,11 +75,11 @@ application-provided total; invokable Symfony services work directly.
 - PHP, Twig, JSON and LiveComponent integration
 - Real test helpers for page, URL and signed-cursor behavior
 
-| Need | Strategy |
-| - | - |
-| Resist offset shifts while ordered values stay stable | Cursor |
-| Page numbers and an exact total | Offset |
-| Previous/next without a total | Lookahead |
+| Need                                                  | Strategy  |
+| ----------------------------------------------------- | --------- |
+| Resist offset shifts while ordered values stay stable | Cursor    |
+| Page numbers and an exact total                       | Offset    |
+| Previous/next without a total                         | Lookahead |
 
 ## Documentation
 

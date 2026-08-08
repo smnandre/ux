@@ -18,7 +18,7 @@ use Symfony\UX\Pagination\Navigation\PageLink;
 #[CoversClass(PageLink::class)]
 final class PageLinkTest extends TestCase
 {
-    public function testConstructorSetsProperties(): void
+    public function testConstructorSetsProperties()
     {
         $link = new PageLink(
             page: 5,
@@ -37,7 +37,7 @@ final class PageLinkTest extends TestCase
         self::assertFalse($link->isGap());
     }
 
-    public function testGapLink(): void
+    public function testGapLink()
     {
         $link = new PageLink(
             page: 0,
@@ -50,7 +50,7 @@ final class PageLinkTest extends TestCase
         self::assertFalse($link->isCurrent);
     }
 
-    public function testRegularLink(): void
+    public function testRegularLink()
     {
         $link = new PageLink(
             page: 3,

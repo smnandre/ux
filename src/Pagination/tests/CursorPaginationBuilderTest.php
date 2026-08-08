@@ -36,13 +36,13 @@ use Symfony\UX\Pagination\Paginator;
 #[CoversClass(CursorPaginationBuilder::class)]
 final class CursorPaginationBuilderTest extends TestCase
 {
-    public function testArraySourceRequiresExplicitContext(): void
+    public function testArraySourceRequiresExplicitContext()
     {
         $this->expectException(RuntimeException::class);
         $this->paginator()->cursor($this->source())->paginate();
     }
 
-    public function testBuildsSignedBidirectionalPagination(): void
+    public function testBuildsSignedBidirectionalPagination()
     {
         $page1 = $this->paginator()->cursor($this->source())
             ->orderBy('id', 'ASC')
@@ -65,7 +65,7 @@ final class CursorPaginationBuilderTest extends TestCase
     }
 
     #[DataProvider('invalidOrderByArguments')]
-    public function testRejectsInvalidOrderByArguments(string|array $fields, string $direction): void
+    public function testRejectsInvalidOrderByArguments(string|array $fields, string $direction)
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -79,7 +79,7 @@ final class CursorPaginationBuilderTest extends TestCase
         yield 'invalid direction' => ['id', 'sideways'];
     }
 
-    public function testRejectsInvalidPageSize(): void
+    public function testRejectsInvalidPageSize()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('perPage must be >= 1');
@@ -87,7 +87,7 @@ final class CursorPaginationBuilderTest extends TestCase
         $this->paginator()->cursor($this->source())->perPage(0);
     }
 
-    public function testRejectsPageSizeThatWouldOverflowLookahead(): void
+    public function testRejectsPageSizeThatWouldOverflowLookahead()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('less than PHP_INT_MAX');
@@ -95,7 +95,7 @@ final class CursorPaginationBuilderTest extends TestCase
         $this->paginator()->cursor($this->source())->perPage(\PHP_INT_MAX);
     }
 
-    public function testRejectsEmptyCursorParameter(): void
+    public function testRejectsEmptyCursorParameter()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Cursor parameter name must not be empty');
@@ -103,7 +103,7 @@ final class CursorPaginationBuilderTest extends TestCase
         $this->paginator()->cursor($this->source())->cursorParameter('');
     }
 
-    public function testConstructorRejectsPerPageOverflow(): void
+    public function testConstructorRejectsPerPageOverflow()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('less than PHP_INT_MAX');
@@ -116,7 +116,7 @@ final class CursorPaginationBuilderTest extends TestCase
         );
     }
 
-    public function testRejectsEmptyContext(): void
+    public function testRejectsEmptyContext()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Cursor context must not be empty');
@@ -124,7 +124,7 @@ final class CursorPaginationBuilderTest extends TestCase
         $this->paginator()->cursor($this->source())->context('');
     }
 
-    public function testTokenIsBoundToBusinessContext(): void
+    public function testTokenIsBoundToBusinessContext()
     {
         $token = $this->paginator()->cursor($this->source())
             ->orderBy('id', 'ASC')
@@ -143,7 +143,7 @@ final class CursorPaginationBuilderTest extends TestCase
         $builder->paginate();
     }
 
-    public function testUrlCompositionPreservesFiltersAndCustomCursorParameter(): void
+    public function testUrlCompositionPreservesFiltersAndCustomCursorParameter()
     {
         $stack = new RequestStack();
         $stack->push(Request::create('/catalog', 'GET', ['q' => 'phone', 'sort' => 'price']));
@@ -167,7 +167,7 @@ final class CursorPaginationBuilderTest extends TestCase
         self::assertStringNotContainsString('cursor=', $url);
     }
 
-    public function testRouteAndQueryStringPoliciesAreImmutable(): void
+    public function testRouteAndQueryStringPoliciesAreImmutable()
     {
         $routes = new RouteCollection();
         $routes->add('catalog', new Route('/{section}'));
@@ -203,7 +203,7 @@ final class CursorPaginationBuilderTest extends TestCase
         self::assertStringNotContainsString('debug=', $preservedUrl);
     }
 
-    public function testReadsAValidCursorFromTheRequest(): void
+    public function testReadsAValidCursorFromTheRequest()
     {
         $firstPage = $this->paginator()->cursor($this->source())
             ->orderBy('id', 'ASC')
@@ -226,7 +226,7 @@ final class CursorPaginationBuilderTest extends TestCase
     }
 
     #[DataProvider('invalidRequestCursors')]
-    public function testRejectsInvalidRequestCursor(mixed $value): void
+    public function testRejectsInvalidRequestCursor(mixed $value)
     {
         $stack = new RequestStack();
         $stack->push(new Request(['cursor' => $value]));
@@ -244,7 +244,7 @@ final class CursorPaginationBuilderTest extends TestCase
         yield 'oversized' => [str_repeat('a', 4097)];
     }
 
-    public function testTamperedRequestCursorFailsAtPaginateTime(): void
+    public function testTamperedRequestCursorFailsAtPaginateTime()
     {
         $token = $this->paginator()->cursor($this->source())
             ->orderBy('id', 'ASC')
@@ -265,7 +265,7 @@ final class CursorPaginationBuilderTest extends TestCase
             ->paginate();
     }
 
-    public function testMalformedSignedTokenUsesDomainException(): void
+    public function testMalformedSignedTokenUsesDomainException()
     {
         $builder = $this->paginator()->cursor($this->source())
             ->orderBy('id')
@@ -276,7 +276,7 @@ final class CursorPaginationBuilderTest extends TestCase
         $builder->paginate();
     }
 
-    public function testDoctrineDbalSourceDerivesContextFromSqlAndParameters(): void
+    public function testDoctrineDbalSourceDerivesContextFromSqlAndParameters()
     {
         if (!class_exists(\Doctrine\DBAL\DriverManager::class)) {
             self::markTestSkipped('Doctrine DBAL is not installed.');
@@ -316,7 +316,7 @@ final class CursorPaginationBuilderTest extends TestCase
         $changedQuery->paginate();
     }
 
-    public function testExcludedQueryParameterNameCannotBeEmpty(): void
+    public function testExcludedQueryParameterNameCannotBeEmpty()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('must not be empty');
@@ -324,7 +324,7 @@ final class CursorPaginationBuilderTest extends TestCase
         $this->paginator()->cursor($this->source())->excludeQueryParameters('');
     }
 
-    public function testRejectsAnAdapterWithoutCursorSupport(): void
+    public function testRejectsAnAdapterWithoutCursorSupport()
     {
         $adapter = $this->createStub(PaginationAdapterInterface::class);
         $adapter->method('supports')->willReturn(true);
@@ -339,7 +339,7 @@ final class CursorPaginationBuilderTest extends TestCase
         $paginator->cursor($this->source())->context('products')->paginate();
     }
 
-    public function testRejectsAnUnsupportedSource(): void
+    public function testRejectsAnUnsupportedSource()
     {
         $paginator = new Paginator(
             [new ArrayPaginationAdapter()],
@@ -352,7 +352,7 @@ final class CursorPaginationBuilderTest extends TestCase
         $paginator->cursor(new \stdClass())->context('products')->paginate();
     }
 
-    public function testAdapterOwnedOrderDoesNotRequireOrderBy(): void
+    public function testAdapterOwnedOrderDoesNotRequireOrderBy()
     {
         $source = new \stdClass();
         $adapter = new class implements CursorAdapterInterface {
@@ -390,7 +390,7 @@ final class CursorPaginationBuilderTest extends TestCase
         self::assertSame([['number' => 1]], $pagination->getItems());
     }
 
-    public function testCursorResolutionSkipsAMatchingAdapterWithoutCursorCapability(): void
+    public function testCursorResolutionSkipsAMatchingAdapterWithoutCursorCapability()
     {
         $source = new \stdClass();
         $genericAdapter = $this->createStub(PaginationAdapterInterface::class);

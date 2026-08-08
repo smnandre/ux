@@ -26,7 +26,7 @@ use Symfony\UX\Pagination\UXPaginationBundle;
 #[CoversClass(UXPaginationBundle::class)]
 final class UXPaginationExtensionTest extends TestCase
 {
-    public function testLoadInjectsDefaultConfigurationWithoutExposingParameters(): void
+    public function testLoadInjectsDefaultConfigurationWithoutExposingParameters()
     {
         $container = $this->createContainer();
         $extension = $this->getExtension();
@@ -48,7 +48,7 @@ final class UXPaginationExtensionTest extends TestCase
         self::assertSame('%kernel.secret%', $cursorSecret);
     }
 
-    public function testLoadInjectsCustomConfiguration(): void
+    public function testLoadInjectsCustomConfiguration()
     {
         $container = $this->createContainer();
         $container->setParameter('kernel.bundles', ['TwigBundle' => TwigBundle::class]);
@@ -82,7 +82,7 @@ final class UXPaginationExtensionTest extends TestCase
         );
     }
 
-    public function testLoadWithCustomThemeName(): void
+    public function testLoadWithCustomThemeName()
     {
         $container = $this->createContainer();
         $container->setParameter('kernel.bundles', ['TwigBundle' => TwigBundle::class]);
@@ -100,7 +100,7 @@ final class UXPaginationExtensionTest extends TestCase
         );
     }
 
-    public function testLoadWithApplicationThemePath(): void
+    public function testLoadWithApplicationThemePath()
     {
         $container = $this->createContainer();
         $container->setParameter(
@@ -120,7 +120,7 @@ final class UXPaginationExtensionTest extends TestCase
         );
     }
 
-    public function testNamedPaginatorsInheritRootConfigurationAndOverrideSelectedValues(): void
+    public function testNamedPaginatorsInheritRootConfigurationAndOverrideSelectedValues()
     {
         $container = $this->createContainer();
 
@@ -150,7 +150,7 @@ final class UXPaginationExtensionTest extends TestCase
         self::assertSame(PaginatorInterface::class.' $blogPaginator', (string) $container->getAlias('.'.PaginatorInterface::class.' $blog'));
     }
 
-    public function testNamedPaginatorInjectionSupportsEveryPublicEntryPoint(): void
+    public function testNamedPaginatorInjectionSupportsEveryPublicEntryPoint()
     {
         $container = $this->createContainer();
         $bundle = new UXPaginationBundle();
@@ -194,7 +194,7 @@ final class UXPaginationExtensionTest extends TestCase
         self::assertSame([1, 2], array_column($cursor->getItems(), 'id'));
     }
 
-    public function testAdapterIteratorUsesTheSymfonyDefaultPriorityConvention(): void
+    public function testAdapterIteratorUsesTheSymfonyDefaultPriorityConvention()
     {
         $container = $this->createContainer();
 
@@ -205,7 +205,7 @@ final class UXPaginationExtensionTest extends TestCase
         self::assertSame('getDefaultPriority', $adapters->getDefaultPriorityMethod());
     }
 
-    public function testAdapterDefaultPriorityMethodControlsResolutionOrder(): void
+    public function testAdapterDefaultPriorityMethodControlsResolutionOrder()
     {
         $container = $this->createContainerWithAdapters([
             'app.adapter.explicit' => [TaggedTestPaginationAdapter::class, ['explicit'], 10],
@@ -218,7 +218,7 @@ final class UXPaginationExtensionTest extends TestCase
         self::assertSame(['static'], $paginator->paginate(new PriorityTestSource())->getItems());
     }
 
-    public function testExplicitAdapterTagPriorityTakesPrecedence(): void
+    public function testExplicitAdapterTagPriorityTakesPrecedence()
     {
         $container = $this->createContainerWithAdapters([
             'app.adapter.static' => [DefaultPriorityTestPaginationAdapter::class, [], null],
@@ -231,7 +231,7 @@ final class UXPaginationExtensionTest extends TestCase
         self::assertSame(['explicit'], $paginator->paginate(new PriorityTestSource())->getItems());
     }
 
-    public function testEqualAdapterPrioritiesKeepRegistrationOrder(): void
+    public function testEqualAdapterPrioritiesKeepRegistrationOrder()
     {
         $container = $this->createContainerWithAdapters([
             'app.adapter.first' => [TaggedTestPaginationAdapter::class, ['first'], 10],
@@ -244,14 +244,14 @@ final class UXPaginationExtensionTest extends TestCase
         self::assertSame(['first'], $paginator->paginate(new PriorityTestSource())->getItems());
     }
 
-    public function testGetAlias(): void
+    public function testGetAlias()
     {
         $extension = $this->getExtension();
 
         self::assertSame('ux_pagination', $extension->getAlias());
     }
 
-    public function testLoadRegistersDoctrineOrmAdapter(): void
+    public function testLoadRegistersDoctrineOrmAdapter()
     {
         if (!class_exists(\Doctrine\ORM\QueryBuilder::class)) {
             self::markTestSkipped('Doctrine ORM is not installed.');
@@ -265,7 +265,7 @@ final class UXPaginationExtensionTest extends TestCase
         self::assertTrue($container->hasDefinition('ux_pagination.adapter.doctrine_orm'));
     }
 
-    public function testLoadRegistersDoctrineDbalAdapter(): void
+    public function testLoadRegistersDoctrineDbalAdapter()
     {
         if (!class_exists(\Doctrine\DBAL\Query\QueryBuilder::class)) {
             self::markTestSkipped('Doctrine DBAL is not installed.');
@@ -278,7 +278,7 @@ final class UXPaginationExtensionTest extends TestCase
         self::assertTrue($container->hasDefinition('ux_pagination.adapter.doctrine_dbal'));
     }
 
-    public function testTwigServicesAreNotRegisteredWhenTwigBundleIsInstalledButInactive(): void
+    public function testTwigServicesAreNotRegisteredWhenTwigBundleIsInstalledButInactive()
     {
         self::assertTrue(class_exists(TwigBundle::class));
 
@@ -291,7 +291,7 @@ final class UXPaginationExtensionTest extends TestCase
         self::assertFalse($container->hasDefinition('ux_pagination.renderer'));
     }
 
-    public function testTwigServicesAreRegisteredWhenTwigBundleIsActive(): void
+    public function testTwigServicesAreRegisteredWhenTwigBundleIsActive()
     {
         $container = $this->createContainer();
         $container->setParameter('kernel.bundles', ['TwigBundle' => TwigBundle::class]);
@@ -303,7 +303,7 @@ final class UXPaginationExtensionTest extends TestCase
         self::assertTrue($container->hasDefinition('ux_pagination.renderer'));
     }
 
-    public function testCustomAdaptersAreAutoconfigured(): void
+    public function testCustomAdaptersAreAutoconfigured()
     {
         $container = $this->createContainer();
         new UXPaginationBundle()->build($container);
@@ -322,7 +322,7 @@ final class UXPaginationExtensionTest extends TestCase
         return $bundle->getContainerExtension();
     }
 
-    public function testMissingKernelSecretFallsBackToAnEmptyCursorSecret(): void
+    public function testMissingKernelSecretFallsBackToAnEmptyCursorSecret()
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.project_dir', sys_get_temp_dir());

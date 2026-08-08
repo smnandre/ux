@@ -1,17 +1,17 @@
 {% block pagination %}
-    {% set linkClass = 'px-3 py-2 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 transition-colors duration-150' %}
-    {% set userClass = attributes.class|default('') %}
-    {% set rootAttributes = {
+    {% set link_class = 'px-3 py-2 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 transition-colors duration-150' %}
+    {% set user_class = attributes.class|default('') %}
+    {% set root_attributes = {
         'aria-label': 'Pagination'|trans({}, 'UXPaginationBundle'),
     }|merge(attributes)|merge({
-        class: ('ux-pagination-tailwind ' ~ userClass)|trim,
+        class: ('ux-pagination-tailwind ' ~ user_class)|trim,
     }) %}
-    {% set userNavigationClass = navigationAttributes.class|default('') %}
+    {% set user_navigation_class = navigationAttributes.class|default('') %}
     {% set navigationAttributes = navigationAttributes|merge({
-        class: ('flex flex-wrap items-center justify-center gap-1 sm:gap-2 ' ~ userNavigationClass)|trim,
+        class: ('flex flex-wrap items-center justify-center gap-1 sm:gap-2 ' ~ user_navigation_class)|trim,
     }) %}
     {% if pagination.hasPrevious() or pagination.hasNext() %}
-        {% set attr = rootAttributes %}
+        {% set attr = root_attributes %}
         <nav{{ block('attr') }}>
             {% block info %}
                 {% if showInfo %}
@@ -26,11 +26,11 @@
                         <li>
                             {% if pagination.hasPrevious() %}
                                 {% set attr = {
-                                    class: linkClass,
+                                    class: link_class,
                                     'aria-label': 'Previous page'|trans({}, 'UXPaginationBundle'),
                                     rel: 'prev',
                                 }|merge(linkAttributes.previous)|merge({
-                                    class: (linkClass ~ ' ' ~ linkAttributes.previous.class|default(''))|trim,
+                                    class: (link_class ~ ' ' ~ linkAttributes.previous.class|default(''))|trim,
                                 }) %}
                                 <a href="{{ pagination.previousUrl }}"{{ block('attr') }}>{{ block('previous_label') }}</a>
                             {% else %}
@@ -48,12 +48,12 @@
                                     {% elseif link.isCurrent %}
                                         <span class="px-3 py-2 text-sm font-bold rounded-lg text-white bg-blue-600 dark:bg-blue-500" aria-current="page">{{ block('page_label') }}</span>
                                     {% else %}
-                                        {% set pageLinkAttributes = linkAttributes.pages[link.page]|default({}) %}
+                                        {% set page_link_attributes = linkAttributes.pages[link.page]|default({}) %}
                                         {% set attr = {
-                                            class: linkClass,
+                                            class: link_class,
                                             'aria-label': 'Go to page %page%'|trans({'%page%': link.page}, 'UXPaginationBundle'),
-                                        }|merge(pageLinkAttributes)|merge({
-                                            class: (linkClass ~ ' ' ~ pageLinkAttributes.class|default(''))|trim,
+                                        }|merge(page_link_attributes)|merge({
+                                            class: (link_class ~ ' ' ~ page_link_attributes.class|default(''))|trim,
                                         }) %}
                                         <a href="{{ link.url }}"{{ block('attr') }}>{{ block('page_label') }}</a>
                                     {% endif %}
@@ -66,11 +66,11 @@
                         <li>
                             {% if pagination.hasNext() %}
                                 {% set attr = {
-                                    class: linkClass,
+                                    class: link_class,
                                     'aria-label': 'Next page'|trans({}, 'UXPaginationBundle'),
                                     rel: 'next',
                                 }|merge(linkAttributes.next)|merge({
-                                    class: (linkClass ~ ' ' ~ linkAttributes.next.class|default(''))|trim,
+                                    class: (link_class ~ ' ' ~ linkAttributes.next.class|default(''))|trim,
                                 }) %}
                                 <a href="{{ pagination.nextUrl }}"{{ block('attr') }}>{{ block('next_label') }}</a>
                             {% else %}

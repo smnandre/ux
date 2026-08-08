@@ -80,10 +80,10 @@ final class Pagination implements NumberedPaginationInterface
             throw new InvalidArgumentException('maxOffset must be >= 0.');
         }
         if ($lookahead && !$adapter instanceof LookaheadAdapterInterface) {
-            throw new InvalidArgumentException(\sprintf('Lookahead pagination requires an adapter implementing %s.', LookaheadAdapterInterface::class));
+            throw new InvalidArgumentException(\sprintf('Lookahead pagination requires an adapter implementing "%s".', LookaheadAdapterInterface::class));
         }
         if (!$lookahead && !$adapter instanceof OffsetAdapterInterface) {
-            throw new InvalidArgumentException(\sprintf('Offset pagination requires an adapter implementing %s.', OffsetAdapterInterface::class));
+            throw new InvalidArgumentException(\sprintf('Offset pagination requires an adapter implementing "%s".', OffsetAdapterInterface::class));
         }
 
         $pageIndex = $currentPage - 1;
@@ -230,7 +230,7 @@ final class Pagination implements NumberedPaginationInterface
         if ($this->total instanceof \Closure) {
             $total = ($this->total)();
             if (!\is_int($total)) {
-                throw new InvalidArgumentException(\sprintf('Total callable must return an int, got %s.', get_debug_type($total)));
+                throw new InvalidArgumentException(\sprintf('Total callable must return an int, got "%s".', get_debug_type($total)));
             }
 
             $total = $this->validateCount($total);

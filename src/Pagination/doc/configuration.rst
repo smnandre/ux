@@ -211,23 +211,23 @@ one URL policy for the complete pagination lifecycle::
 Cursor builder reference
 ------------------------
 
-================================== ================================================
-Method                             Effect
-================================== ================================================
-``orderBy(string|array, string)``  Field order for array/Doctrine adapters;
-                                   optional for adapter-owned remote orders
-``perPage(int)``                   Set the page size
-``cursor(?string)``                Override automatic Request resolution
-``cursorParameter(string)``        Override the cursor request parameter
-``context(string)``                Bind tokens to an application boundary
-``route(string, array)``           Generate links for another route
-``queryParameters(array)``         Append parameters to links
-``preserveQueryString()``          Preserve Request query parameters (default)
-``discardQueryString()``           Discard Request query parameters
-``excludeQueryParameters(...)``    Exclude named parameters
-``fragment(string)``               Add a fragment
-``path(string)``                   Use a custom path
-================================== ================================================
+=================================== ================================================
+Method                              Effect
+=================================== ================================================
+``orderBy(string|array, string)``   Field order for array/Doctrine adapters;
+                                    optional for adapter-owned remote orders
+``perPage(int)``                    Set the page size
+``cursor(?string)``                 Override automatic Request resolution
+``cursorParameter(string)``         Override the cursor request parameter
+``context(string)``                 Bind tokens to an application boundary
+``route(string, array)``            Generate links for another route
+``queryParameters(array)``          Append parameters to links
+``preserveQueryString()``           Preserve Request query parameters (default)
+``discardQueryString()``            Discard Request query parameters
+``excludeQueryParameters(...)``     Exclude named parameters
+``fragment(string)``                Add a fragment
+``path(string)``                    Use a custom path
+=================================== ================================================
 
 Result reference
 ----------------

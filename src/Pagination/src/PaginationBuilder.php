@@ -373,7 +373,7 @@ final class PaginationBuilder
 
         if (null !== $this->adapter) {
             if (!$this->adapter instanceof $capability) {
-                throw new InvalidArgumentException(\sprintf('The adapter "%s" does not support %s pagination. Implement %s.', $this->adapter::class, $this->lookahead ? 'lookahead' : 'offset', $capability));
+                throw new InvalidArgumentException(\sprintf('The adapter "%s" does not support "%s" pagination. Implement "%s".', $this->adapter::class, $this->lookahead ? 'lookahead' : 'offset', $capability));
             }
 
             return $this->adapter;
@@ -385,6 +385,6 @@ final class PaginationBuilder
             }
         }
 
-        throw new InvalidArgumentException(\sprintf('No %s pagination adapter found for source of type "%s". Register an adapter implementing %s.', $this->lookahead ? 'lookahead' : 'offset', get_debug_type($this->source), $capability));
+        throw new InvalidArgumentException(\sprintf('No "%s" pagination adapter found for source of type "%s". Register an adapter implementing "%s".', $this->lookahead ? 'lookahead' : 'offset', get_debug_type($this->source), $capability));
     }
 }

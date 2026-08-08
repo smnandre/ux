@@ -20,7 +20,7 @@ use Symfony\UX\Pagination\UXPaginationBundle;
 #[CoversClass(UXPaginationBundle::class)]
 final class UXPaginationBundleTest extends TestCase
 {
-    public function testGetContainerExtensionReturnsExtensionWithCorrectAlias(): void
+    public function testGetContainerExtensionReturnsExtensionWithCorrectAlias()
     {
         $bundle = new UXPaginationBundle();
         $extension = $bundle->getContainerExtension();
@@ -29,7 +29,7 @@ final class UXPaginationBundleTest extends TestCase
         self::assertSame('ux_pagination', $extension->getAlias());
     }
 
-    public function testGetPathReturnsParentDirectory(): void
+    public function testGetPathReturnsParentDirectory()
     {
         $bundle = new UXPaginationBundle();
         $path = $bundle->getPath();
@@ -39,7 +39,7 @@ final class UXPaginationBundleTest extends TestCase
         self::assertFileExists($path.'/composer.json');
     }
 
-    public function testPrependsAssetMapperPathOnlyWhenAvailable(): void
+    public function testPrependsAssetMapperPathOnlyWhenAvailable()
     {
         $container = new ContainerBuilder();
         $configurator = new \ReflectionClass(ContainerConfigurator::class)->newInstanceWithoutConstructor();

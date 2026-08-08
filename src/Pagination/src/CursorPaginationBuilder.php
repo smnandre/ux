@@ -254,6 +254,6 @@ final class CursorPaginationBuilder
             }
         }
 
-        throw new InvalidArgumentException(\sprintf('No cursor pagination adapter found for source of type "%s". Register an adapter implementing %s.', get_debug_type($this->source), CursorAdapterInterface::class));
+        throw new InvalidArgumentException(\sprintf('No cursor pagination adapter found for source of type "%s". Register an adapter implementing "%s".', get_debug_type($this->source), CursorAdapterInterface::class));
     }
 }

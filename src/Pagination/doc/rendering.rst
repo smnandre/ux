@@ -295,7 +295,7 @@ Override a ``*_label`` block for a small content change. This replaces the
 left arrow with a chevron on every previous control, links and disabled
 state alike:
 
-.. code-block:: html+twig
+.. code-block:: twig
 
     {# templates/bundles/UXPaginationBundle/theme/default.html.twig #}
     {% extends '@!UXPagination/theme/default.html.twig' %}

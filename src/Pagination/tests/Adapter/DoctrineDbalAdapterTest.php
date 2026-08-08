@@ -58,13 +58,13 @@ final class DoctrineDbalAdapterTest extends TestCase
         $this->connection->close();
     }
 
-    public function testSupportsDbalQueryBuilder(): void
+    public function testSupportsDbalQueryBuilder()
     {
         self::assertTrue($this->adapter->supports($this->query()));
         self::assertFalse($this->adapter->supports([]));
     }
 
-    public function testSlicesWithoutMutatingTheSource(): void
+    public function testSlicesWithoutMutatingTheSource()
     {
         $source = $this->query()->orderBy('id', 'ASC');
 
@@ -74,7 +74,7 @@ final class DoctrineDbalAdapterTest extends TestCase
         self::assertCount(25, $source->executeQuery()->fetchAllAssociative());
     }
 
-    public function testCountsAFilteredQueryAndIgnoresOrderingAndLimits(): void
+    public function testCountsAFilteredQueryAndIgnoresOrderingAndLimits()
     {
         $source = $this->query()
             ->where('category = :category')
@@ -86,7 +86,7 @@ final class DoctrineDbalAdapterTest extends TestCase
         self::assertSame(12, $this->adapter->count($source));
     }
 
-    public function testCursorContextFingerprintsSqlParametersTypesAndApplicationContext(): void
+    public function testCursorContextFingerprintsSqlParametersTypesAndApplicationContext()
     {
         $source = $this->query()
             ->where('category = :category')
@@ -117,13 +117,13 @@ final class DoctrineDbalAdapterTest extends TestCase
         );
     }
 
-    public function testCursorContextRejectsUnsupportedSources(): void
+    public function testCursorContextRejectsUnsupportedSources()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->adapter->getCursorContext([], null);
     }
 
-    public function testCursorContextRejectsUnstableParameterValues(): void
+    public function testCursorContextRejectsUnstableParameterValues()
     {
         $source = $this->query()->setParameter('invalid', new \stdClass());
 
@@ -132,7 +132,7 @@ final class DoctrineDbalAdapterTest extends TestCase
         $this->adapter->getCursorContext($source, null);
     }
 
-    public function testSlicesWithLookahead(): void
+    public function testSlicesWithLookahead()
     {
         [$items, $hasMore] = $this->adapter->sliceWithLookahead($this->query()->orderBy('id', 'ASC'), 10, 10);
 
@@ -140,7 +140,7 @@ final class DoctrineDbalAdapterTest extends TestCase
         self::assertTrue($hasMore);
     }
 
-    public function testCursorPaginatesForwardAndBackward(): void
+    public function testCursorPaginatesForwardAndBackward()
     {
         $source = $this->query();
         $order = CursorOrder::byFields(['id'], 'ASC');
@@ -161,7 +161,7 @@ final class DoctrineDbalAdapterTest extends TestCase
         self::assertNotNull($back->next);
     }
 
-    public function testCursorDoesNotOverwriteApplicationParameters(): void
+    public function testCursorDoesNotOverwriteApplicationParameters()
     {
         $source = $this->query()
             ->where('id > :ux_pagination_cursor_0')
@@ -177,7 +177,7 @@ final class DoctrineDbalAdapterTest extends TestCase
         self::assertSame([9, 10], array_column($result->items, 'id'));
     }
 
-    public function testCursorBackwardFromThirdPageKeepsBothDirections(): void
+    public function testCursorBackwardFromThirdPageKeepsBothDirections()
     {
         $source = $this->query();
         $order = CursorOrder::byFields(['id'], 'ASC');
@@ -191,7 +191,7 @@ final class DoctrineDbalAdapterTest extends TestCase
         self::assertNotNull($back->next);
     }
 
-    public function testCursorBackwardBeforeFirstItemReturnsAnEmptySlice(): void
+    public function testCursorBackwardBeforeFirstItemReturnsAnEmptySlice()
     {
         $result = $this->adapter->sliceWithCursor(
             $this->query(),
@@ -206,7 +206,7 @@ final class DoctrineDbalAdapterTest extends TestCase
         self::assertFalse($result->hasNext);
     }
 
-    public function testCursorSupportsCompositeQualifiedFields(): void
+    public function testCursorSupportsCompositeQualifiedFields()
     {
         $source = $this->connection->createQueryBuilder()
             ->select('i.id', 'i.category', 'i.name')
@@ -222,7 +222,7 @@ final class DoctrineDbalAdapterTest extends TestCase
         self::assertNotSame(array_column($first->items, 'id'), array_column($second->items, 'id'));
     }
 
-    public function testCursorRejectsUnsafeFieldNamesAndExistingOrder(): void
+    public function testCursorRejectsUnsafeFieldNamesAndExistingOrder()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid DBAL cursor field');
@@ -230,21 +230,21 @@ final class DoctrineDbalAdapterTest extends TestCase
         $this->adapter->resolveCursorOrder($this->query(), ['id DESC; DELETE'], 'ASC');
     }
 
-    public function testCursorRejectsInvalidDirection(): void
+    public function testCursorRejectsInvalidDirection()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('direction must be "ASC" or "DESC"');
         $this->adapter->resolveCursorOrder($this->query(), ['id'], 'sideways');
     }
 
-    public function testCursorRejectsAnEmptyFieldList(): void
+    public function testCursorRejectsAnEmptyFieldList()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('At least one cursor field');
         $this->adapter->resolveCursorOrder($this->query(), [], 'ASC');
     }
 
-    public function testCursorRejectsANonStringField(): void
+    public function testCursorRejectsANonStringField()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('must be non-empty strings');
@@ -252,7 +252,7 @@ final class DoctrineDbalAdapterTest extends TestCase
         $this->adapter->resolveCursorFields($this->query(), [42]); // @phpstan-ignore argument.type
     }
 
-    public function testCursorOrderMustBeExplicit(): void
+    public function testCursorOrderMustBeExplicit()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('requires an explicit orderBy()');
@@ -260,14 +260,14 @@ final class DoctrineDbalAdapterTest extends TestCase
         $this->adapter->resolveCursorOrder($this->query(), null, null);
     }
 
-    public function testCursorRejectsAnExistingOrder(): void
+    public function testCursorRejectsAnExistingOrder()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('owns ORDER BY');
         $this->adapter->sliceWithCursor($this->query()->orderBy('id'), null, 10, CursorOrder::byFields(['id'], 'ASC'));
     }
 
-    public function testCursorRejectsMismatchedBoundary(): void
+    public function testCursorRejectsMismatchedBoundary()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Cursor values count does not match');
@@ -275,7 +275,7 @@ final class DoctrineDbalAdapterTest extends TestCase
         $this->adapter->sliceWithCursor($this->query(), new CursorBoundary([1]), 10, CursorOrder::byFields(['category', 'id'], 'ASC'));
     }
 
-    public function testCursorRejectsAnOpaqueOrder(): void
+    public function testCursorRejectsAnOpaqueOrder()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('requires a field-based cursor order');

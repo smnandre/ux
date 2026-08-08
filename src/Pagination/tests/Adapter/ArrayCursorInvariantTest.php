@@ -37,7 +37,7 @@ final class ArrayCursorInvariantTest extends TestCase
         $this->ascendingIdOrder = CursorOrder::byFields(['id'], 'ASC');
     }
 
-    public function testForwardWalkPartitionsDatasetAsc(): void
+    public function testForwardWalkPartitionsDatasetAsc()
     {
         $source = $this->makeSource(23);
 
@@ -46,7 +46,7 @@ final class ArrayCursorInvariantTest extends TestCase
         self::assertSame(range(1, 23), $ids);
     }
 
-    public function testForwardWalkPartitionsDatasetDesc(): void
+    public function testForwardWalkPartitionsDatasetDesc()
     {
         $source = $this->makeSource(23);
 
@@ -55,7 +55,7 @@ final class ArrayCursorInvariantTest extends TestCase
         self::assertSame(range(23, 1), $ids);
     }
 
-    public function testForwardWalkPartitionsDatasetWithCompositeCursor(): void
+    public function testForwardWalkPartitionsDatasetWithCompositeCursor()
     {
         // Non-unique first field: 23 items sharing only 3 distinct prices
         $source = [];
@@ -75,7 +75,7 @@ final class ArrayCursorInvariantTest extends TestCase
         self::assertSame(array_column($expected, 'id'), $ids);
     }
 
-    public function testBackwardWalkIsExactInverseOfForwardWalk(): void
+    public function testBackwardWalkIsExactInverseOfForwardWalk()
     {
         $source = $this->makeSource(23);
 
@@ -105,7 +105,7 @@ final class ArrayCursorInvariantTest extends TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function testDeletionBetweenPagesNeverSkipsSurvivors(): void
+    public function testDeletionBetweenPagesNeverSkipsSurvivors()
     {
         $source = $this->makeSource(15);
 
@@ -121,7 +121,7 @@ final class ArrayCursorInvariantTest extends TestCase
         self::assertSame([6, 8, 9, 10, 11], array_column($page2->items, 'id'));
     }
 
-    public function testInsertionBetweenPagesNeverDuplicates(): void
+    public function testInsertionBetweenPagesNeverDuplicates()
     {
         $source = $this->makeSource(15);
 

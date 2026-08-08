@@ -1,16 +1,16 @@
 {% block pagination %}
-    {% set userClass = attributes.class|default('') %}
-    {% set rootAttributes = {
+    {% set user_class = attributes.class|default('') %}
+    {% set root_attributes = {
         'aria-label': 'Pagination'|trans({}, 'UXPaginationBundle'),
     }|merge(attributes)|merge({
-        class: ('ux-pagination-bootstrap ' ~ userClass)|trim,
+        class: ('ux-pagination-bootstrap ' ~ user_class)|trim,
     }) %}
-    {% set userNavigationClass = navigationAttributes.class|default('') %}
+    {% set user_navigation_class = navigationAttributes.class|default('') %}
     {% set navigationAttributes = navigationAttributes|merge({
-        class: ('pagination ' ~ userNavigationClass)|trim,
+        class: ('pagination ' ~ user_navigation_class)|trim,
     }) %}
     {% if pagination.hasPrevious() or pagination.hasNext() %}
-        {% set attr = rootAttributes %}
+        {% set attr = root_attributes %}
         <nav{{ block('attr') }}>
             {% block info %}
                 {% if showInfo %}
@@ -47,12 +47,12 @@
                                     {% elseif link.isCurrent %}
                                         <span class="page-link" aria-current="page">{{ block('page_label') }}</span>
                                     {% else %}
-                                        {% set pageLinkAttributes = linkAttributes.pages[link.page]|default({}) %}
+                                        {% set page_link_attributes = linkAttributes.pages[link.page]|default({}) %}
                                         {% set attr = {
                                             class: 'page-link',
                                             'aria-label': 'Go to page %page%'|trans({'%page%': link.page}, 'UXPaginationBundle'),
-                                        }|merge(pageLinkAttributes)|merge({
-                                            class: ('page-link ' ~ pageLinkAttributes.class|default(''))|trim,
+                                        }|merge(page_link_attributes)|merge({
+                                            class: ('page-link ' ~ page_link_attributes.class|default(''))|trim,
                                         }) %}
                                         <a href="{{ link.url }}"{{ block('attr') }}>{{ block('page_label') }}</a>
                                     {% endif %}
