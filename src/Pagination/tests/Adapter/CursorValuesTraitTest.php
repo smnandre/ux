@@ -31,8 +31,6 @@ final class CursorValuesTraitTest extends TestCase
         };
     }
 
-    // ======== VALUE EXTRACTION ========
-
     public function testExtractFromObjectGetter(): void
     {
         $item = new class {
@@ -135,8 +133,6 @@ final class CursorValuesTraitTest extends TestCase
 
         $this->encoder->extractCursorValues(['field' => new \stdClass()], ['field']);
     }
-
-    // ======== TUPLE COMPARISON ========
 
     public function testCompareTuplesEqual(): void
     {

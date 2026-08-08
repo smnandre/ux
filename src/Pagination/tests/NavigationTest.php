@@ -22,7 +22,6 @@ use Symfony\UX\Pagination\Navigation\PaginationUrlGenerator;
 #[CoversClass(Navigation::class)]
 final class NavigationTest extends TestCase
 {
-    // ======== Sliding Mode ========
 
     public function testSlidingDefault(): void
     {
@@ -78,8 +77,6 @@ final class NavigationTest extends TestCase
         $this->navigation(10, 20, NavigationMode::Sliding, 0);
     }
 
-    // ======== Fixed Mode ========
-
     public function testFixedMode(): void
     {
         $nav = $this->navigation(3, 20, NavigationMode::Fixed, 5);
@@ -100,8 +97,6 @@ final class NavigationTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->navigation(3, 20, NavigationMode::Fixed, 0);
     }
-
-    // ======== Full Mode ========
 
     public function testFullMode(): void
     {
@@ -137,8 +132,6 @@ final class NavigationTest extends TestCase
         self::assertCount(501, $nav);
     }
 
-    // ======== Null Total Pages ========
-
     public function testNullTotalPagesYieldsNothing(): void
     {
         $paginationUrlGenerator = new PaginationUrlGenerator(basePath: '/items');
@@ -155,8 +148,6 @@ final class NavigationTest extends TestCase
         self::assertCount(0, $nav);
         self::assertSame([], $this->toArray($nav));
     }
-
-    // ======== Count ========
 
     public function testCountSlidingMode(): void
     {
@@ -230,8 +221,6 @@ final class NavigationTest extends TestCase
         self::assertSame(0, $nav->count());
     }
 
-    // ======== Fixed Mode Edge Cases ========
-
     public function testFixedModeMiddleBlock(): void
     {
         // Page 12 of 30 with block size 5: current block is [11-15]
@@ -271,8 +260,6 @@ final class NavigationTest extends TestCase
         self::assertInstanceOf(PageLink::class, $last);
         self::assertSame(20, $last->page);
     }
-
-    // ======== Sliding Edge Cases ========
 
     public function testSlidingNearStartNoGapBefore(): void
     {
@@ -329,8 +316,6 @@ final class NavigationTest extends TestCase
         self::assertFalse($last->isGap);
         self::assertSame(20, $last->page);
     }
-
-    // ======== Helper ========
 
     private function navigation(
         int $current,

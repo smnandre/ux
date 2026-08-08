@@ -24,30 +24,44 @@ use Symfony\UX\Pagination\Navigation\Navigation;
  */
 interface NumberedPaginationInterface extends PaginationInterface
 {
+    /**
+     * @return int<1, max>
+     */
     public function getCurrentPage(): int;
 
     public function getPageParameterName(): string;
 
     /**
      * Return the exact total, or null for lookahead pagination.
+     *
+     * @return int<0, max>|null
      */
     public function getTotalItems(): ?int;
 
     /**
      * Return the exact number of pages, or null for lookahead pagination.
+     *
+     * @return int<1, max>|null
      */
     public function getTotalPages(): ?int;
 
     /**
      * Return the one-based position of the first item on this page.
+     *
+     * @return int<1, max>|null
      */
     public function getFirstItemNumber(): ?int;
 
     /**
      * Return the one-based position of the last item on this page.
+     *
+     * @return int<1, max>|null
      */
     public function getLastItemNumber(): ?int;
 
+    /**
+     * @param int<1, max> $page
+     */
     public function getUrl(int $page): string;
 
     public function getFirstUrl(): string;

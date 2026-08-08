@@ -80,10 +80,11 @@ final class PaginationBuilder
         );
     }
 
-    // ======== NAVIGATION MODE ========
-
     /**
      * Display a window containing at most $size consecutive pages.
+     */
+    /**
+     * @param int<1, max> $size
      */
     public function sliding(int $size = 5): self
     {
@@ -98,6 +99,9 @@ final class PaginationBuilder
         return $clone;
     }
 
+    /**
+     * @param int<1, max> $size
+     */
     public function fixed(int $size = 10): self
     {
         if ($size < 1) {
@@ -111,6 +115,9 @@ final class PaginationBuilder
         return $clone;
     }
 
+    /**
+     * @param int<1, max> $maxPages
+     */
     public function full(int $maxPages = 500): self
     {
         if ($maxPages < 1) {
@@ -124,8 +131,9 @@ final class PaginationBuilder
         return $clone;
     }
 
-    // ======== PAGINATION ========
-
+    /**
+     * @param int<1, max> $items
+     */
     public function perPage(int $items): self
     {
         if ($items < 1) {
@@ -146,6 +154,9 @@ final class PaginationBuilder
      *
      * Prefer cursor pagination for large, stably ordered datasets.
      */
+    /**
+     * @param int<0, max> $max
+     */
     public function maxOffset(int $max): self
     {
         if ($max < 0) {
@@ -157,8 +168,6 @@ final class PaginationBuilder
 
         return $clone;
     }
-
-    // ======== URL GENERATION ========
 
     public function pageParameter(string $name): self
     {
@@ -243,8 +252,6 @@ final class PaginationBuilder
         return $clone;
     }
 
-    // ======== PERFORMANCE ========
-
     public function lookahead(): self
     {
         $clone = clone $this;
@@ -273,8 +280,6 @@ final class PaginationBuilder
         return $clone;
     }
 
-    // ======== BOUNDARIES ========
-
     /**
      * Throw a 404 if the current page exceeds total pages.
      *
@@ -287,8 +292,6 @@ final class PaginationBuilder
 
         return $clone;
     }
-
-    // ======== BUILD ========
 
     /**
      * @return Pagination<mixed>

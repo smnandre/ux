@@ -151,8 +151,6 @@ final class ArrayPaginationAdapterTest extends TestCase
         $this->adapter->sliceWithLookahead('not an array', 0, 10);
     }
 
-    // ======== sliceWithCursor ========
-
     public function testSliceWithCursorFirstPage(): void
     {
         $source = [];

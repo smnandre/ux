@@ -55,6 +55,7 @@ final class CursorPagination implements CursorPaginationInterface
         private readonly mixed $source,
         private readonly CursorAdapterInterface $adapter,
         private readonly ?string $cursor,
+        /** @param int<1, max> $perPage */
         private readonly int $perPage,
         private readonly CursorOrder $order,
         private readonly CursorCodecInterface $cursorCodec,
@@ -74,8 +75,6 @@ final class CursorPagination implements CursorPaginationInterface
         $this->cachedItems = $items;
         $this->fetched = null !== $items;
     }
-
-    // ======== ITERATE YOUR ITEMS ========
 
     /**
      * @return \Traversable<array-key, T>
@@ -127,8 +126,6 @@ final class CursorPagination implements CursorPaginationInterface
         return $this->withItems(array_map($fn, $this->getItems()));
     }
 
-    // ======== METADATA ========
-
     public function getItemsPerPage(): int
     {
         return $this->perPage;
@@ -147,8 +144,6 @@ final class CursorPagination implements CursorPaginationInterface
         return 0 === $this->count();
     }
 
-    // ======== NAVIGATION STATE ========
-
     public function hasNext(): bool
     {
         $this->ensureFetched();
@@ -160,8 +155,6 @@ final class CursorPagination implements CursorPaginationInterface
     {
         return null !== $this->getPreviousCursor();
     }
-
-    // ======== CURSORS ========
 
     /**
      * Cursor for fetching the next page.
@@ -182,8 +175,6 @@ final class CursorPagination implements CursorPaginationInterface
 
         return $this->cachedPreviousCursor;
     }
-
-    // ======== URLS ========
 
     public function getNextUrl(): ?string
     {
@@ -212,8 +203,6 @@ final class CursorPagination implements CursorPaginationInterface
     {
         return $this->paginationUrlGenerator->getCursorUrl($cursor);
     }
-
-    // ======== API RESPONSE ========
 
     /**
      * @return array{prev: string|null, next: string|null}
@@ -252,14 +241,10 @@ final class CursorPagination implements CursorPaginationInterface
         ];
     }
 
-    // ======== DISPLAY ========
-
     public function getInfo(): string
     {
         return ($this->infoFormatter ??= new PaginationInfoFormatter())->formatCursor($this);
     }
-
-    // ======== INTERNAL ========
 
     private function ensureFetched(): void
     {

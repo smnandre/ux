@@ -26,8 +26,6 @@ use Symfony\UX\Pagination\Navigation\PaginationUrlGenerator;
 #[CoversClass(CursorPagination::class)]
 final class CursorPaginationTest extends TestCase
 {
-    // ======== Items ========
-
     public function testItemsFirstPage(): void
     {
         $source = $this->createSource(50);
@@ -130,8 +128,6 @@ final class CursorPaginationTest extends TestCase
         self::assertSame(2, $failures);
     }
 
-    // ======== Metadata ========
-
     public function testPerPage(): void
     {
         $pagination = $this->createCursorPagination($this->createSource(50), null, 25);
@@ -168,8 +164,6 @@ final class CursorPaginationTest extends TestCase
 
         self::assertTrue($pagination->isEmpty());
     }
-
-    // ======== Navigation ========
 
     public function testHasNextWhenMoreItemsExist(): void
     {
@@ -208,8 +202,6 @@ final class CursorPaginationTest extends TestCase
         $page2 = $this->createCursorPagination($source, $nextCursor, 10);
         self::assertTrue($page2->hasPrevious());
     }
-
-    // ======== Cursors ========
 
     public function testNextCursorProvided(): void
     {
@@ -251,8 +243,6 @@ final class CursorPaginationTest extends TestCase
         self::assertNull($page3->getNextCursor());
     }
 
-    // ======== URLs ========
-
     public function testNextUrlProvided(): void
     {
         $source = $this->createSource(50);
@@ -281,8 +271,6 @@ final class CursorPaginationTest extends TestCase
         self::assertStringContainsString('cursor=', $page2->getPreviousUrl());
     }
 
-    // ======== JSON Serialization ========
-
     public function testJsonSerialize(): void
     {
         $source = $this->createSource(50);
@@ -301,8 +289,6 @@ final class CursorPaginationTest extends TestCase
         self::assertNull($json['links']['prev']);
         self::assertNotNull($json['links']['next']);
     }
-
-    // ======== Info ========
 
     public function testInfo(): void
     {
@@ -327,10 +313,6 @@ final class CursorPaginationTest extends TestCase
         self::assertSame('No items', $pagination->getInfo());
     }
 
-    // ======== __toString ========
-
-    // ======== Lazy Execution ========
-
     public function testItemsAreLazyLoaded(): void
     {
         $source = $this->createSource(50);
@@ -350,8 +332,6 @@ final class CursorPaginationTest extends TestCase
 
         self::assertStringContainsString('cursor=abc123', $url);
     }
-
-    // ======== Helpers ========
 
     /**
      * @return list<array{id: int, name: string}>

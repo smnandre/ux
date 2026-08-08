@@ -509,8 +509,6 @@ final class PaginationBuilderTest extends TestCase
         self::assertSame(1, $callCount);
     }
 
-    // ======== Sorting ========
-
     public function testConstructorRejectsPerPageOverflow(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -534,8 +532,6 @@ final class PaginationBuilderTest extends TestCase
         self::assertFalse($builder->hasRoute());
         self::assertTrue($builder->route('items_list')->hasRoute());
     }
-
-    // ======== preserveQueryString ========
 
     public function testWithQueryStringPreservesRequestParams(): void
     {
@@ -594,8 +590,6 @@ final class PaginationBuilderTest extends TestCase
         $this->builder([])->excludeQueryParameters('');
     }
 
-    // ======== route ========
-
     public function testRouteWithUrlGenerator(): void
     {
         $urlGenerator = $this->createStub(\Symfony\Component\Routing\Generator\UrlGeneratorInterface::class);
@@ -616,8 +610,6 @@ final class PaginationBuilderTest extends TestCase
         self::assertStringContainsString('item_list', $url);
         self::assertStringContainsString('category=books', $url);
     }
-
-    // ======== Page from request ========
 
     public function testPaginateResolvesPageFromRequest(): void
     {
@@ -686,8 +678,6 @@ final class PaginationBuilderTest extends TestCase
         self::assertSame(5, $result->getCurrentPage());
     }
 
-    // ======== Path parameter resolution ========
-
     public function testPaginateResolvesPageFromPathParameter(): void
     {
         $request = new \Symfony\Component\HttpFoundation\Request();
@@ -751,8 +741,6 @@ final class PaginationBuilderTest extends TestCase
         self::assertSame(6, $result->getCurrentPage());
     }
 
-    // ======== throwOnOutOfRange ========
-
     public function testThrowOnOutOfRangeThrowsFromBuilder(): void
     {
         $this->expectException(OutOfRangePageException::class);
@@ -770,8 +758,6 @@ final class PaginationBuilderTest extends TestCase
 
         self::assertSame(3, $result->getCurrentPage());
     }
-
-    // ======== Helpers ========
 
     private function builder(array $source): PaginationBuilder
     {

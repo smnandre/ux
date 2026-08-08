@@ -67,6 +67,9 @@ final class Pagination implements NumberedPaginationInterface
         if ($currentPage < 1) {
             throw new InvalidArgumentException('currentPage must be >= 1.');
         }
+        if (null !== $total && \is_int($total) && $total < 0) {
+            throw new InvalidArgumentException('Pagination total must be greater than or equal to 0.');
+        }
         if ($perPage < 1) {
             throw new InvalidArgumentException('perPage must be >= 1.');
         }
@@ -94,8 +97,6 @@ final class Pagination implements NumberedPaginationInterface
             throw new OffsetLimitExceededException($currentPage, $perPage, $maxOffset);
         }
     }
-
-    // ======== ITERATE YOUR ITEMS ========
 
     /**
      * @return \Traversable<array-key, T>
@@ -146,10 +147,13 @@ final class Pagination implements NumberedPaginationInterface
         return $this->withItems(array_map($fn, $this->getItems()));
     }
 
-    // ======== METADATA ========
-
+    /**
+     * @return int<1, max>
+     */
     public function getCurrentPage(): int
     {
+        \assert($this->currentPage >= 1);
+
         return $this->currentPage;
     }
 
@@ -158,20 +162,35 @@ final class Pagination implements NumberedPaginationInterface
         return $this->perPage;
     }
 
+    /**
+     * @return int<1, max>|null
+     */
     public function getFirstItemNumber(): ?int
     {
         if (0 === $this->count()) {
             return null;
         }
 
-        return ($this->currentPage - 1) * $this->perPage + 1;
+        $firstItemNumber = ($this->currentPage - 1) * $this->perPage + 1;
+        \assert($firstItemNumber >= 1);
+
+        return $firstItemNumber;
     }
 
+    /**
+     * @return int<1, max>|null
+     */
     public function getLastItemNumber(): ?int
     {
         $first = $this->getFirstItemNumber();
+        if (null === $first) {
+            return null;
+        }
 
-        return null === $first ? null : $first + $this->count() - 1;
+        $lastItemNumber = $first + $this->count() - 1;
+        \assert($lastItemNumber >= 1);
+
+        return $lastItemNumber;
     }
 
     /**
@@ -185,6 +204,8 @@ final class Pagination implements NumberedPaginationInterface
     /**
      * Total number of items across all pages.
      * Returns null in lookahead mode.
+     *
+     * @return int<0, max>|null
      */
     public function getTotalItems(): ?int
     {
@@ -193,11 +214,17 @@ final class Pagination implements NumberedPaginationInterface
         }
 
         if (null !== $this->cachedCount) {
-            return $this->cachedCount;
+            $total = $this->cachedCount;
+            \assert($total >= 0);
+
+            return $total;
         }
 
         if (\is_int($this->total)) {
-            return $this->cachedCount = $this->total;
+            $total = $this->validateCount($this->total);
+            $this->cachedCount = $total;
+
+            return $total;
         }
 
         if ($this->total instanceof \Closure) {
@@ -206,18 +233,26 @@ final class Pagination implements NumberedPaginationInterface
                 throw new InvalidArgumentException(\sprintf('Total callable must return an int, got %s.', get_debug_type($total)));
             }
 
-            return $this->cachedCount = $this->validateCount($total);
+            $total = $this->validateCount($total);
+            $this->cachedCount = $total;
+
+            return $total;
         }
 
         /** @var OffsetAdapterInterface $adapter Guaranteed by the constructor outside lookahead mode. */
         $adapter = $this->adapter;
 
-        return $this->cachedCount = $this->validateCount($adapter->count($this->source));
+        $total = $this->validateCount($adapter->count($this->source));
+        $this->cachedCount = $total;
+
+        return $total;
     }
 
     /**
      * Total number of pages.
      * Returns null in lookahead mode.
+     *
+     * @return int<1, max>|null
      */
     public function getTotalPages(): ?int
     {
@@ -230,15 +265,16 @@ final class Pagination implements NumberedPaginationInterface
             return 1;
         }
 
-        return intdiv($total, $this->perPage) + (int) (0 !== $total % $this->perPage);
+        $totalPages = intdiv($total, $this->perPage) + (int) (0 !== $total % $this->perPage);
+        \assert($totalPages >= 1);
+
+        return $totalPages;
     }
 
     public function isEmpty(): bool
     {
         return 0 === $this->count();
     }
-
-    // ======== NAVIGATION STATE ========
 
     public function hasNext(): bool
     {
@@ -305,8 +341,9 @@ final class Pagination implements NumberedPaginationInterface
         return $this;
     }
 
-    // ======== URLS ========
-
+    /**
+     * @param int<1, max> $page
+     */
     public function getUrl(int $page): string
     {
         return $this->paginationUrlGenerator->getUrl($page);
@@ -329,7 +366,10 @@ final class Pagination implements NumberedPaginationInterface
             return null;
         }
 
-        return $this->getUrl($this->currentPage + 1);
+        $nextPage = $this->currentPage + 1;
+        \assert($nextPage >= 1);
+
+        return $this->getUrl($nextPage);
     }
 
     public function getPreviousUrl(): ?string
@@ -338,7 +378,10 @@ final class Pagination implements NumberedPaginationInterface
             return null;
         }
 
-        return $this->getUrl($this->currentPage - 1);
+        $previousPage = $this->currentPage - 1;
+        \assert($previousPage >= 1);
+
+        return $this->getUrl($previousPage);
     }
 
     public function getFirstUrl(): string
@@ -353,10 +396,10 @@ final class Pagination implements NumberedPaginationInterface
             return null;
         }
 
+        \assert($totalPages >= 1);
+
         return $this->getUrl($totalPages);
     }
-
-    // ======== PAGE LINKS (navigation controls) ========
 
     public function getPages(): Navigation
     {
@@ -368,8 +411,6 @@ final class Pagination implements NumberedPaginationInterface
             $this->navigationModeParameter,
         );
     }
-
-    // ======== API RESPONSE ========
 
     /**
      * Get pagination metadata without items.
@@ -432,8 +473,6 @@ final class Pagination implements NumberedPaginationInterface
         ];
     }
 
-    // ======== DISPLAY ========
-
     /**
      * Get a human-readable summary like "Showing 1-20 of 100".
      */
@@ -441,8 +480,6 @@ final class Pagination implements NumberedPaginationInterface
     {
         return ($this->infoFormatter ??= new PaginationInfoFormatter())->format($this);
     }
-
-    // ======== INTERNAL ========
 
     /**
      * @return list<T>
@@ -493,6 +530,9 @@ final class Pagination implements NumberedPaginationInterface
         return $pagination;
     }
 
+    /**
+     * @return int<0, max>
+     */
     private function validateCount(int $count): int
     {
         if ($count < 0) {

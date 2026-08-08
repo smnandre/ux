@@ -27,10 +27,13 @@ use Symfony\UX\Pagination\Exception\NavigationTooLargeException;
 final class Navigation implements \IteratorAggregate, \Countable
 {
     public function __construct(
+        /** @param int<1, max> $currentPage */
         private readonly int $currentPage,
+        /** @param int<1, max>|null $totalPages */
         private readonly ?int $totalPages,
         private readonly PaginationUrlGenerator $paginationUrlGenerator,
         private readonly NavigationMode $mode = NavigationMode::Sliding,
+        /** @param int<1, max> $modeParameter */
         private readonly int $modeParameter = 5,
     ) {
         if ($modeParameter < 1) {

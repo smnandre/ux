@@ -103,8 +103,6 @@ final class PaginationTest extends TestCase
         }
     }
 
-    // ======== Iteration ========
-
     public function testIterateReturnsItems(): void
     {
         $pagination = $this->paginate(range(1, 100), 1, 10);
@@ -142,8 +140,6 @@ final class PaginationTest extends TestCase
         self::assertSame([1, 2, 3], $pagination->getItems());
     }
 
-    // ======== Metadata ========
-
     public function testMetadata(): void
     {
         $pagination = $this->paginate(range(1, 100), 3, 10);
@@ -176,8 +172,6 @@ final class PaginationTest extends TestCase
         self::assertSame(21, $pagination->getFirstItemNumber());
         self::assertSame(25, $pagination->getLastItemNumber());
     }
-
-    // ======== Navigation State ========
 
     public function testNavigationStateFirstPage(): void
     {
@@ -219,8 +213,6 @@ final class PaginationTest extends TestCase
         self::assertTrue($pagination->isLast());
     }
 
-    // ======== URLs ========
-
     public function testUrls(): void
     {
         $pagination = $this->paginate(range(1, 100), 5, 10);
@@ -249,8 +241,6 @@ final class PaginationTest extends TestCase
         self::assertNull($pagination->getNextUrl());
         self::assertNotNull($pagination->getPreviousUrl());
     }
-
-    // ======== Pages Navigation ========
 
     public function testPagesReturnNavigation(): void
     {
@@ -289,8 +279,6 @@ final class PaginationTest extends TestCase
         self::assertInstanceOf(PageLink::class, $currentLink);
         self::assertSame(10, $currentLink->page);
     }
-
-    // ======== Lookahead ========
 
     public function testLookaheadMode(): void
     {
@@ -335,8 +323,6 @@ final class PaginationTest extends TestCase
         self::assertFalse($pagination->hasNext());
         self::assertCount(5, $pagination->getItems());
     }
-
-    // ======== Lazy Execution ========
 
     public function testItemsAreLazyLoaded(): void
     {
@@ -397,8 +383,6 @@ final class PaginationTest extends TestCase
         self::assertSame(1, $sliceCallCount);
     }
 
-    // ======== JSON Serialization ========
-
     public function testJsonSerialize(): void
     {
         $pagination = $this->paginate(range(1, 30), 2, 10);
@@ -413,8 +397,6 @@ final class PaginationTest extends TestCase
         self::assertSame(3, $json['total_pages']);
     }
 
-    // ======== Info ========
-
     public function testInfo(): void
     {
         $pagination = $this->paginate(range(1, 100), 2, 10);
@@ -428,12 +410,6 @@ final class PaginationTest extends TestCase
 
         self::assertSame('Showing 21-25 of 25', $pagination->getInfo());
     }
-
-    // ======== __toString ========
-
-    // ======== Sorting ========
-
-    // ======== Query Param ========
 
     public function testQueryParamReturnsDefault(): void
     {
@@ -455,8 +431,6 @@ final class PaginationTest extends TestCase
 
         self::assertSame('p', $pagination->getPageParameterName());
     }
-
-    // ======== Out of Range ========
 
     public function testIsOutOfRangeTrue(): void
     {
@@ -505,8 +479,6 @@ final class PaginationTest extends TestCase
         self::assertSame($pagination, $result);
     }
 
-    // ======== Meta ========
-
     public function testMeta(): void
     {
         $pagination = $this->paginate(range(1, 50), 2, 10);
@@ -537,8 +509,6 @@ final class PaginationTest extends TestCase
         self::assertArrayNotHasKey('total_pages', $meta);
         self::assertTrue($meta['has_next']);
     }
-
-    // ======== Links ========
 
     public function testLinks(): void
     {
@@ -574,8 +544,6 @@ final class PaginationTest extends TestCase
         self::assertNull($links['next']);
     }
 
-    // ======== LastUrl ========
-
     public function testLastUrl(): void
     {
         $pagination = $this->paginate(range(1, 50), 1, 10);
@@ -600,8 +568,6 @@ final class PaginationTest extends TestCase
         self::assertNull($pagination->getLastUrl());
     }
 
-    // ======== FirstUrl ========
-
     public function testFirstUrlOmitsPageParam(): void
     {
         $pagination = $this->paginate(range(1, 100), 5, 10);
@@ -610,8 +576,6 @@ final class PaginationTest extends TestCase
 
         self::assertStringNotContainsString('page=', $firstUrl);
     }
-
-    // ======== Total ========
 
     public function testTotalInt(): void
     {
@@ -680,8 +644,6 @@ final class PaginationTest extends TestCase
         self::assertSame(55, $pagination->getTotalItems()); // cached
         self::assertSame(1, $callCount);
     }
-
-    // ======== Info Fallback ========
 
     public function testInfoEmptyWithTotal(): void
     {
@@ -753,8 +715,6 @@ final class PaginationTest extends TestCase
 
         $pagination->getTotalItems();
     }
-
-    // ======== Helper ========
 
     public function testPerPageOfOnePaginatesItemByItem(): void
     {
