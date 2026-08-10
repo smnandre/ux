@@ -15,27 +15,90 @@ use Twig\Error\SyntaxError;
 use Twig\Lexer;
 
 /**
- * Rewrites <twig:component> syntaxes to {% component %} syntaxes.
+ * Rewrites <namespace:component> syntaxes to {% component %} syntaxes.
+ *
+ * A namespace resolves to a component name prefix, so that a lexer given
+ * `['ux' => 'ux']` rewrites `<ux:icon />` to `{{ component('ux:icon') }}`. `twig` is
+ * always recognized and resolves to the empty prefix.
  */
 class TwigPreLexer
 {
+    /**
+     * A namespace is alphanumeric and starts with a letter: `ux`, `FooBar`, `ux2`.
+     *
+     * No `-`, `_`, `:`, dot or non-ASCII letter, so that a namespace can never be
+     * confused with a component name, an HTML tag or a Twig identifier.
+     */
+    private const NAMESPACE_PATTERN = '/^[A-Za-z][A-Za-z0-9]*$/';
+
     private string $input;
     private int $length;
     private int $position = 0;
     private int $line;
+
     /**
-     * @var array<array{name: string, hasDefaultBlock: bool}>
+     * @var array<string, string> namespace => component name prefix, without trailing colon
+     */
+    private readonly array $namespaces;
+
+    private readonly string $openingTagRegex;
+    private readonly string $closingTagRegex;
+    private readonly string $blockOpeningRegex;
+    private readonly string $blockClosingRegex;
+
+    /**
+     * @var array<array{name: string, namespace: string, shortName: string, hasDefaultBlock: bool}>
      */
     private array $currentComponents = [];
 
-    public function __construct(int $startingLine = 1)
+    /**
+     * @param array<string, string> $namespaces Extra namespaces, as namespace => component name
+     *                                          prefix, e.g. `['ux' => 'ux']`. `twig` is always
+     *                                          recognized and needs no declaring.
+     *
+     * @throws \InvalidArgumentException if a namespace is malformed
+     *
+     * @experimental the namespace argument
+     */
+    public function __construct(int $startingLine = 1, array $namespaces = [])
     {
         $this->line = $startingLine;
+
+        // `<twig:` is the syntax this lexer exists for, not something to declare
+        $resolved = ['twig' => ''];
+        foreach ($namespaces as $namespace => $prefix) {
+            if (!preg_match(self::NAMESPACE_PATTERN, $namespace = (string) $namespace)) {
+                throw new \InvalidArgumentException(\sprintf('Invalid component namespace "%s": it must start with a letter and contain only letters and digits.', $namespace));
+            }
+
+            $resolved[$namespace] = rtrim((string) $prefix, ':');
+        }
+        $this->namespaces = $resolved;
+
+        // longest namespace first, so that `<uxfoo:` can never be shadowed by `<ux:`
+        $names = array_keys($resolved);
+        usort($names, static fn (string $a, string $b) => \strlen($b) <=> \strlen($a));
+
+        $alternation = implode('|', array_map(preg_quote(...), $names));
+        $this->openingTagRegex = '/\G<('.$alternation.'):/';
+        $this->closingTagRegex = '/\G<\/('.$alternation.'):/';
+
+        // used to track block nesting while scanning raw text
+        $this->blockOpeningRegex = '/\G<('.$alternation.'):block/';
+        $this->blockClosingRegex = '/\G<\/('.$alternation.'):block>/';
     }
 
     public function preLexComponents(string $input): string
     {
-        if (!str_contains($input, '<twig:')) {
+        $found = false;
+        foreach (array_keys($this->namespaces) as $namespace) {
+            if (str_contains($input, '<'.$namespace.':')) {
+                $found = true;
+                break;
+            }
+        }
+
+        if (!$found) {
             return $input;
         }
 
@@ -85,13 +148,17 @@ class TwigPreLexer
                 continue;
             }
 
-            $isTwigHtmlOpening = $this->consume('<twig:');
+            $namespace = $this->consumeOpeningTag();
             $isTraditionalBlockOpening = false;
 
-            if ($isTwigHtmlOpening || (0 !== \count($this->currentComponents) && $isTraditionalBlockOpening = $this->consume('{% block'))) {
-                $componentName = $isTraditionalBlockOpening ? 'block' : $this->consumeComponentName();
+            if (null !== $namespace || (0 !== \count($this->currentComponents) && $isTraditionalBlockOpening = $this->consume('{% block'))) {
+                $componentName = $isTraditionalBlockOpening
+                    ? 'block'
+                    : $this->consumeComponentName(\sprintf('Expected component name when resolving the "<%s:" syntax.', $namespace));
 
-                if ('block' === $componentName) {
+                // `block` is a lexer directive, not a component, under every namespace:
+                // `block` is a Twig keyword, so it is never a sensible component name
+                if ($isTraditionalBlockOpening || 'block' === $componentName) {
                     // if we're already inside the "default" block, let's close it
                     if (!empty($this->currentComponents) && $this->currentComponents[\count($this->currentComponents) - 1]['hasDefaultBlock'] && !$inTwigEmbed) {
                         $output .= '{% endblock %}';
@@ -116,7 +183,7 @@ class TwigPreLexer
                         continue;
                     }
 
-                    $output .= $this->consumeBlock($componentName);
+                    $output .= $this->consumeBlock($namespace, $componentName);
 
                     continue;
                 }
@@ -130,35 +197,46 @@ class TwigPreLexer
                     $this->currentComponents[\count($this->currentComponents) - 1]['hasDefaultBlock'] = true;
                 }
 
-                $attributes = $this->consumeAttributes($componentName);
+                // a null namespace only happens on the `{% block %}` path, which always
+                // continues above
+                \assert(null !== $namespace);
+
+                $resolvedName = $this->resolveComponentName($namespace, $componentName);
+
+                $attributes = $this->consumeAttributes($namespace.':'.$componentName);
                 $isSelfClosing = $this->consume('/>');
                 if (!$isSelfClosing) {
                     $this->consume('>');
-                    $this->currentComponents[] = ['name' => $componentName, 'hasDefaultBlock' => false];
+                    $this->currentComponents[] = [
+                        'name' => $resolvedName,
+                        'namespace' => $namespace,
+                        'shortName' => $componentName,
+                        'hasDefaultBlock' => false,
+                    ];
                 }
 
                 if ($isSelfClosing) {
                     // use the simpler component() format, so that the system doesn't think
                     // this is an "embedded" component with blocks
                     // see https://github.com/symfony/ux/issues/810
-                    $output .= "{{ component('{$componentName}'".($attributes ? ", { {$attributes} }" : '').') }}';
+                    $output .= "{{ component('{$resolvedName}'".($attributes ? ", { {$attributes} }" : '').') }}';
                 } else {
-                    $output .= "{% component '{$componentName}'".($attributes ? " with { {$attributes} }" : '').' %}';
+                    $output .= "{% component '{$resolvedName}'".($attributes ? " with { {$attributes} }" : '').' %}';
                 }
 
                 continue;
             }
 
-            if (!empty($this->currentComponents) && $this->check('</twig:')) {
-                $this->consume('</twig:');
+            if (!empty($this->currentComponents) && null !== $closingNamespace = $this->consumeClosingTag()) {
                 $closingComponentName = $this->consumeComponentName();
                 $this->consume('>');
 
                 $lastComponent = array_pop($this->currentComponents);
-                $lastComponentName = $lastComponent['name'];
 
-                if ($closingComponentName !== $lastComponentName) {
-                    throw new SyntaxError("Expected closing tag '</twig:{$lastComponentName}>' but found '</twig:{$closingComponentName}>'.", $this->line);
+                // compare the literal source pair, not the resolved name, so that
+                // `<admin:Card></app:Card>` fails even when both namespaces resolve alike
+                if ($closingComponentName !== $lastComponent['shortName'] || $closingNamespace !== $lastComponent['namespace']) {
+                    throw new SyntaxError(\sprintf("Expected closing tag '</%s:%s>' but found '</%s:%s>'.", $lastComponent['namespace'], $lastComponent['shortName'], $closingNamespace, $closingComponentName), $this->line);
                 }
 
                 // we've reached the end of this component. If we're inside the
@@ -192,11 +270,46 @@ class TwigPreLexer
         }
 
         if (!empty($this->currentComponents)) {
-            $lastComponent = array_pop($this->currentComponents)['name'];
-            throw new SyntaxError(\sprintf('Expected closing tag "</twig:%s>" not found.', $lastComponent), $this->line);
+            $lastComponent = array_pop($this->currentComponents);
+            throw new SyntaxError(\sprintf('Expected closing tag "</%s:%s>" not found.', $lastComponent['namespace'], $lastComponent['shortName']), $this->line);
         }
 
         return $output;
+    }
+
+    /**
+     * Consumes `<namespace:` for any registered namespace and returns the namespace.
+     */
+    private function consumeOpeningTag(): ?string
+    {
+        if (!preg_match($this->openingTagRegex, $this->input, $matches, 0, $this->position)) {
+            return null;
+        }
+
+        $this->position += \strlen($matches[0]);
+
+        return $matches[1];
+    }
+
+    /**
+     * Consumes `</namespace:` for any registered namespace and returns the namespace.
+     */
+    private function consumeClosingTag(): ?string
+    {
+        if (!preg_match($this->closingTagRegex, $this->input, $matches, 0, $this->position)) {
+            return null;
+        }
+
+        $this->position += \strlen($matches[0]);
+
+        return $matches[1];
+    }
+
+    private function resolveComponentName(string $namespace, string $shortName): string
+    {
+        $prefix = $this->namespaces[$namespace];
+
+        return '' === $prefix ? $shortName : $prefix.':'.$shortName;
     }
 
     private function consumeComponentName(?string $customExceptionMessage = null): string
@@ -211,7 +324,10 @@ class TwigPreLexer
         throw new SyntaxError($customExceptionMessage ?? 'Expected component name when resolving the "<twig:" syntax.', $this->line);
     }
 
-    private function consumeAttributes(string $componentName): string
+    /**
+     * @param string $tagName The tag as written in the source, e.g. `twig:Alert` or `ea:Field`
+     */
+    private function consumeAttributes(string $tagName): string
     {
         $attributes = [];
 
@@ -239,7 +355,7 @@ class TwigPreLexer
                 $isAttributeDynamic = true;
             }
 
-            $message = \sprintf('Expected attribute name when parsing the "<twig:%s" syntax.', $componentName);
+            $message = \sprintf('Expected attribute name when parsing the "<%s" syntax.', $tagName);
             // was called 'consumeAttributeName'
             $key = $this->consumeComponentName($message);
 
@@ -248,7 +364,7 @@ class TwigPreLexer
                 $this->consumeWhitespace();
                 // don't allow "<twig:component :someProp>"
                 if ($isAttributeDynamic) {
-                    throw new SyntaxError(\sprintf('Expected "=" after ":%s" when parsing the "<twig:%s" syntax.', $key, $componentName), $this->line);
+                    throw new SyntaxError(\sprintf('Expected "=" after ":%s" when parsing the "<%s" syntax.', $key, $tagName), $this->line);
                 }
 
                 $attributes[] = \sprintf('%s: true', preg_match('/[-:@]/', $key) ? "'$key'" : $key);
@@ -368,9 +484,9 @@ class TwigPreLexer
             && 0 === substr_compare($this->input, $chars, $this->position, \strlen($chars));
     }
 
-    private function consumeBlock(string $componentName): string
+    private function consumeBlock(string $namespace, string $componentName): string
     {
-        $attributes = $this->consumeAttributes($componentName);
+        $attributes = $this->consumeAttributes($namespace.':'.$componentName);
         $this->consume('>');
 
         $blockName = '';
@@ -388,16 +504,23 @@ class TwigPreLexer
 
         $output = "{% block {$blockName} %}";
 
-        $closingTag = '</twig:block>';
+        $closingTag = \sprintf('</%s:block>', $namespace);
         if (false === strpos($this->input, $closingTag, $this->position)) {
             throw new SyntaxError("Expected closing tag '{$closingTag}' for block '{$blockName}'.", $this->line);
         }
         $blockContents = $this->consumeUntilEndBlock();
 
-        $subLexer = new self($this->line);
+        // the sub-lexer must know the same namespaces, otherwise a `<ea:Field />`
+        // nested inside a `<twig:block>` would silently pass through untouched
+        $subLexer = new self($this->line, $this->namespaces);
         $output .= $subLexer->preLexComponents($blockContents);
 
-        $this->consume($closingTag);
+        // scanning stops at the first `</any:block>`, so it may belong to another
+        // namespace than the one that opened this block
+        if (!$this->consume($closingTag) && preg_match($this->blockClosingRegex, $this->input, $matches, 0, $this->position)) {
+            throw new SyntaxError(\sprintf("Expected closing tag '%s' but found '%s'.", $closingTag, $matches[0]), $this->line);
+        }
+
         $output .= '{% endblock %}';
 
         return $output;
@@ -417,7 +540,9 @@ class TwigPreLexer
                 $inComment = true;
             }
 
-            if (!$inComment && '</twig:block>' === substr($this->input, $this->position, 13)) {
+            // a block opened under one namespace may be closed under another one: stop at
+            // the first `</any:block>` and let consumeBlock() report the mismatch
+            if (!$inComment && '<' === $this->input[$this->position] && preg_match($this->blockClosingRegex, $this->input, $matches, 0, $this->position)) {
                 if (1 === $depth) {
                     break;
                 }
@@ -436,7 +561,7 @@ class TwigPreLexer
                 --$depth;
             }
 
-            if (!$inComment && '<twig:block' === substr($this->input, $this->position, 11)) {
+            if (!$inComment && '<' === $this->input[$this->position] && preg_match($this->blockOpeningRegex, $this->input, $matches, 0, $this->position)) {
                 ++$depth;
             }
 

@@ -11,6 +11,7 @@
 
 namespace Symfony\UX\Map\Tests\Twig;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\UX\Map\Map;
 use Symfony\UX\Map\Point;
@@ -24,7 +25,7 @@ class MapComponentTest extends KernelTestCase
         return TwigComponentKernel::class;
     }
 
-    public function testRenderMapComponent()
+    public function testRenderMapComponent(): void
     {
         $map = new Map()
             ->center(new Point(latitude: 5, longitude: 10))
@@ -46,5 +47,39 @@ class MapComponentTest extends KernelTestCase
             '<div data-controller="@symfony/ux-foobar-map"></div>',
             $template->render(['attributes' => $attributes]),
         );
+    }
+
+    /**
+     * The `ux` HTML namespace resolves to the `ux` component name
+     * prefix, which is the key this package already registers for UXMapComponent.
+     */
+    #[DataProvider('provideUxNamespace')]
+    public function testRenderMapComponentThroughAReservedNamespace(string $template): void
+    {
+        $map = new Map()
+            ->center(new Point(latitude: 5, longitude: 10))
+            ->zoom(4);
+        $attributes = ['data-foo' => 'bar'];
+
+        $renderer = self::createMock(RendererInterface::class);
+        $renderer
+            ->method('renderMap')
+            ->with($map, $attributes)
+            ->willReturn('<div data-controller="@symfony/ux-foobar-map"></div>')
+        ;
+        self::getContainer()->set('test.ux_map.renderers', $renderer);
+
+        $twig = self::getContainer()->get('twig');
+
+        $this->assertSame(
+            '<div data-controller="@symfony/ux-foobar-map"></div>',
+            $twig->createTemplate($template)->render(['attributes' => $attributes]),
+        );
+    }
+
+    public static function provideUxNamespace(): iterable
+    {
+        yield 'ux' => ['<ux:Map center="{{ {lat: 5, lng: 10} }}" zoom="4" data-foo="bar" />'];
+        yield 'ux lowercase name' => ['<ux:map center="{{ {lat: 5, lng: 10} }}" zoom="4" data-foo="bar" />'];
     }
 }

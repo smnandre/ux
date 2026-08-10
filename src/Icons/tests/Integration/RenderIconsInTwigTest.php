@@ -11,6 +11,7 @@
 
 namespace Symfony\UX\Icons\Tests\Integration;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Twig\Environment;
 
@@ -19,7 +20,7 @@ use Twig\Environment;
  */
 final class RenderIconsInTwigTest extends KernelTestCase
 {
-    public function testRenderIcons()
+    public function testRenderIcons(): void
     {
         $output = self::getContainer()->get(Environment::class)->render('template1.html.twig');
 
@@ -41,7 +42,7 @@ final class RenderIconsInTwigTest extends KernelTestCase
         );
     }
 
-    public function testRenderAliasIcons()
+    public function testRenderAliasIcons(): void
     {
         $templateIcon = '<twig:ux:icon name="flowbite:close-outline" />';
         $outputIcon = self::getContainer()->get(Environment::class)->createTemplate($templateIcon)->render();
@@ -52,5 +53,36 @@ final class RenderIconsInTwigTest extends KernelTestCase
         $expected = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L17.94 6M18 18L6.06 6"/></svg>';
         $this->assertSame($outputIcon, $expected);
         $this->assertSame($outputIcon, $outputAlias);
+    }
+
+    /**
+     * The `ux` HTML namespace resolves to the `ux` component
+     * name prefix, which is the key this package already registers.
+     */
+    #[DataProvider('provideUxNamespace')]
+    public function testRenderIconThroughAReservedNamespace(string $template): void
+    {
+        $twig = self::getContainer()->get(Environment::class);
+
+        $this->assertSame(
+            $twig->createTemplate('<twig:ux:icon name="flowbite:x-outline" class="w-4" />')->render(),
+            $twig->createTemplate($template)->render(),
+        );
+    }
+
+    public static function provideUxNamespace(): iterable
+    {
+        yield 'ux' => ['<ux:Icon name="flowbite:x-outline" class="w-4" />'];
+        yield 'ux lowercase name' => ['<ux:icon name="flowbite:x-outline" class="w-4" />'];
+    }
+
+    public function testRenderIconThroughAReservedNamespaceWithAllAttributeSyntaxes(): void
+    {
+        $twig = self::getContainer()->get(Environment::class);
+
+        $this->assertSame(
+            $twig->createTemplate('<twig:ux:icon name="flowbite:x-outline" class="w-4" height="16" />')->render(),
+            $twig->createTemplate('<ux:Icon :name="\'flowbite:x-outline\'" class="w-4" height="16" />')->render(),
+        );
     }
 }

@@ -126,7 +126,10 @@ final class TwigComponentExtension extends Extension implements ConfigurationInt
         ;
 
         $container->register('ux.twig_component.twig.lexer', ComponentLexer::class)
-            ->setArguments([new Reference('twig')]);
+            ->setArguments([
+                new Reference('twig'),
+                ['ux' => 'ux'],
+            ]);
 
         if (class_exists(SafeClassPass::class)) {
             $container->register(ComponentAttributes::class)

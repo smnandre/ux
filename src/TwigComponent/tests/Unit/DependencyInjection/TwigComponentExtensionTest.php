@@ -126,6 +126,21 @@ class TwigComponentExtensionTest extends TestCase
         $this->assertSame(TwigEnvironmentConfigurator::class, $container->getDefinition('ux.twig_component.twig.environment_configurator')->getClass());
     }
 
+    public function testTheLexerReceivesTheHtmlNamespaces()
+    {
+        $container = $this->createContainer();
+        $container->registerExtension(new TwigComponentExtension());
+        $container->loadFromExtension('twig_component', [
+            'defaults' => [],
+            'anonymous_template_directory' => 'components/',
+        ]);
+        $this->compileContainer($container);
+
+        $arguments = $container->getDefinition('ux.twig_component.twig.lexer')->getArguments();
+
+        $this->assertSame(['ux' => 'ux'], $arguments[1]);
+    }
+
     private function createContainer()
     {
         $container = new ContainerBuilder(new ParameterBag([

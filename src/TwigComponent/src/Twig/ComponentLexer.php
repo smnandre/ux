@@ -11,6 +11,7 @@
 
 namespace Symfony\UX\TwigComponent\Twig;
 
+use Twig\Environment;
 use Twig\Lexer;
 use Twig\Source;
 use Twig\TokenStream;
@@ -26,9 +27,24 @@ use Twig\TokenStream;
  */
 class ComponentLexer extends Lexer
 {
+    /**
+     * @var array<string, string>
+     */
+    private readonly array $namespaces;
+
+    /**
+     * @param array<string, string> $namespaces Extra namespaces, as namespace => component name prefix
+     */
+    public function __construct(Environment $env, array $namespaces = [], array $options = [])
+    {
+        parent::__construct($env, $options);
+
+        $this->namespaces = $namespaces;
+    }
+
     public function tokenize(Source $source): TokenStream
     {
-        $preLexer = new TwigPreLexer();
+        $preLexer = new TwigPreLexer(1, $this->namespaces);
         $preparsed = $preLexer->preLexComponents($source->getCode());
 
         return parent::tokenize(
