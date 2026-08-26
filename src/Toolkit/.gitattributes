@@ -2,3 +2,8 @@
 /CONTRIBUTING.md export-ignore
 /phpunit.dist.xml export-ignore
 /tests export-ignore
+
+# Rendered by the functional tests, not hand-written: keep them out of the
+# language statistics. Mirrors the rule in the monorepo root .gitattributes,
+# which the subtree split does not carry.
+/tests/Functional/__snapshots__/** linguist-generated=true
