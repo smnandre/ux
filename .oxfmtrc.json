@@ -15,7 +15,8 @@
         "src/**/var",
         "src/**/tests/**/fixtures/**",
         "src/**/tests/**/Fixtures/**",
-        "src/**/tests/**/__snapshots__/**"
+        "src/**/tests/**/__snapshots__/**",
+        "src/DesignTokens/examples/**"
     ],
     "printWidth": 120,
     "tabWidth": 4,
