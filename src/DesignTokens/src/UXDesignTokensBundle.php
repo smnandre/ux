@@ -24,6 +24,7 @@ use Symfony\UX\DesignTokens\CacheWarmer\StylesheetCache;
 use Symfony\UX\DesignTokens\Exception\InvalidArgumentException;
 use Symfony\UX\DesignTokens\Exception\RuntimeException;
 use Symfony\UX\DesignTokens\Generator\GeneratorInterface;
+use Symfony\UX\DesignTokens\Importer\ImporterInterface;
 
 /**
  * Symfony UX bundle for W3C DTCG 2025.10 design tokens.
@@ -160,11 +161,15 @@ final class UXDesignTokensBundle extends AbstractBundle
             }
         }
 
-        // Any service implementing GeneratorInterface joins ux:design-tokens:export.
-        // Registering the tag here keeps the contract free of container
-        // concerns; a "format" tag attribute names it.
+        // Any service implementing GeneratorInterface joins ux:design-tokens:export,
+        // and any ImporterInterface joins ux:design-tokens:import. Registering
+        // the tags here keeps the contracts free of container concerns; a
+        // "format" tag attribute names them.
         $builder->registerForAutoconfiguration(GeneratorInterface::class)
             ->addTag('ux_design_tokens.generator');
+
+        $builder->registerForAutoconfiguration(ImporterInterface::class)
+            ->addTag('ux_design_tokens.importer');
 
         $container->import('../config/services.php');
 

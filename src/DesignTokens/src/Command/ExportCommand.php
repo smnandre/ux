@@ -22,6 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Yaml;
 use Symfony\Contracts\Service\ServiceProviderInterface;
 use Symfony\UX\DesignTokens\Exception\InvalidArgumentException;
 use Symfony\UX\DesignTokens\Exception\LogicException;
@@ -37,7 +38,7 @@ use Symfony\UX\DesignTokens\TokenRegistryInterface;
  */
 #[AsCommand(
     name: 'ux:design-tokens:export',
-    description: 'Export design tokens to a file (DTCG, CSS, JavaScript)',
+    description: 'Export design tokens to a file (DTCG, CSS, JavaScript, Tailwind, DESIGN.md)',
 )]
 final class ExportCommand extends Command
 {
@@ -67,7 +68,7 @@ final class ExportCommand extends Command
         $this
             ->addArgument('format', InputArgument::REQUIRED, \sprintf('Output format (%s)', implode(', ', $this->generators->names())))
             ->addArgument('output', InputArgument::OPTIONAL, 'Output file path (stdout if omitted)')
-            ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Page title, for formats that have one', 'Design System')
+            ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Page title (for design.md)', 'Design System')
             ->addOption('input', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Resolver input as name=value, repeatable')
             ->addOption('all-permutations', null, InputOption::VALUE_NONE, 'Write one file per Resolver permutation, using the output path as a template')
             ->addOption('css-prefix', null, InputOption::VALUE_REQUIRED, 'Application prefix for CSS variables', $this->cssPrefix)
@@ -102,6 +103,11 @@ final class ExportCommand extends Command
         $format = $this->generators->find($requested);
 
         if (null === $format) {
+            if (0 === strcasecmp('design.md', $requested) && !class_exists(Yaml::class)) {
+                $io->error('The design.md format needs symfony/yaml. Try running "composer require symfony/yaml".');
+
+                return Command::INVALID;
+            }
             $io->error(\sprintf('Unknown format "%s". Available: %s', $requested, implode(', ', $this->generators->names())));
 
             return Command::INVALID;

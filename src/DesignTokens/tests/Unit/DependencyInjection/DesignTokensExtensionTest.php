@@ -28,8 +28,10 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
 use Symfony\Component\Filesystem\Path;
+use Symfony\UX\DesignTokens\Bridge\Tailwind\ThemeImporter;
 use Symfony\UX\DesignTokens\CacheWarmer\StylesheetCache;
 use Symfony\UX\DesignTokens\Generator\GeneratorInterface;
+use Symfony\UX\DesignTokens\Importer\ImporterInterface;
 use Symfony\UX\DesignTokens\Resolver\DocumentLoaderInterface;
 use Symfony\UX\DesignTokens\Resolver\TokenResolverInterface;
 use Symfony\UX\DesignTokens\TokenRegistry;
@@ -117,7 +119,7 @@ final class DesignTokensExtensionTest extends TestCase
         foreach ([TokenRegistryInterface::class, TokenResolverInterface::class, DocumentLoaderInterface::class] as $id) {
             self::assertTrue($container->hasAlias($id), \sprintf('"%s" should be aliased.', $id));
         }
-        foreach ([TokenRegistry::class, DtcgValidator::class] as $id) {
+        foreach ([TokenRegistry::class, DtcgValidator::class, ThemeImporter::class] as $id) {
             self::assertFalse($container->hasAlias($id), \sprintf('"%s" is internal and should not be aliased.', $id));
         }
     }
@@ -138,6 +140,7 @@ final class DesignTokensExtensionTest extends TestCase
         yield 'Twig extension' => ['.ux_design_tokens.twig_extension', 'twig.extension', [[]]];
         yield 'Twig runtime' => ['.ux_design_tokens.twig_runtime', 'twig.runtime', [[]]];
         yield 'AssetMapper compile listener' => ['.ux_design_tokens.asset_compile_listener', 'kernel.event_listener', [['event' => PreAssetsCompileEvent::class, 'method' => '__invoke']]];
+        yield 'Tailwind importer' => ['.ux_design_tokens.importer.tailwind', 'ux_design_tokens.importer', [['format' => 'tailwind']]];
     }
 
     /** @param class-string $class */
@@ -159,6 +162,7 @@ final class DesignTokensExtensionTest extends TestCase
     public static function autoconfiguredImplementationProvider(): iterable
     {
         yield 'generator for the export command' => [ScssGeneratorStub::class, 'ux_design_tokens.generator'];
+        yield 'importer for the import command' => [CssImporterStub::class, 'ux_design_tokens.importer'];
     }
 
     public function testKeepsInternalServicesOutOfReach(): void
@@ -348,5 +352,13 @@ final class ScssGeneratorStub implements GeneratorInterface
     public function generate(array $resolvedTokens, array $context = []): string
     {
         return '';
+    }
+}
+
+final class CssImporterStub implements ImporterInterface
+{
+    public function import(string $contents, array $context = []): array
+    {
+        return [];
     }
 }

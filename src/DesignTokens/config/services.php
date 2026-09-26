@@ -11,10 +11,15 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use Symfony\Component\Yaml\Yaml;
+use Symfony\UX\DesignTokens\Bridge\GoogleDesignMd\DesignMdGenerator;
+use Symfony\UX\DesignTokens\Bridge\Tailwind\ThemeGenerator;
+use Symfony\UX\DesignTokens\Bridge\Tailwind\ThemeImporter;
 use Symfony\UX\DesignTokens\CacheWarmer\DesignTokensCacheWarmer;
 use Symfony\UX\DesignTokens\CacheWarmer\StylesheetCache;
 use Symfony\UX\DesignTokens\Command\DebugTokensCommand;
 use Symfony\UX\DesignTokens\Command\ExportCommand;
+use Symfony\UX\DesignTokens\Command\ImportCommand;
 use Symfony\UX\DesignTokens\Command\LintDesignTokensCommand;
 use Symfony\UX\DesignTokens\Generator\ColorScheme;
 use Symfony\UX\DesignTokens\Generator\CssGenerator;
@@ -90,6 +95,12 @@ return static function (ContainerConfigurator $container): void {
 
         ->alias(TokenRegistryInterface::class, '.ux_design_tokens.registry')
 
+        // Built-in import formats. Any other service implementing
+        // ImporterInterface joins them through the tag the bundle registers
+        // for autoconfiguration.
+        ->set('.ux_design_tokens.importer.tailwind', ThemeImporter::class)
+            ->tag('ux_design_tokens.importer', ['format' => 'tailwind'])
+
         // Built-in export formats. Any other service implementing
         // GeneratorInterface joins them through the tag the bundle registers
         // for autoconfiguration.
@@ -104,6 +115,9 @@ return static function (ContainerConfigurator $container): void {
 
         ->set('.ux_design_tokens.generator.javascript', JavaScriptGenerator::class)
             ->tag('ux_design_tokens.generator', ['format' => 'javascript'])
+
+        ->set('.ux_design_tokens.generator.tailwind', ThemeGenerator::class)
+            ->tag('ux_design_tokens.generator', ['format' => 'tailwind'])
 
         ->set('.ux_design_tokens.color_scheme', ColorScheme::class)
             ->args([
@@ -138,6 +152,13 @@ return static function (ContainerConfigurator $container): void {
             ])
             ->tag('console.command')
 
+        ->set('.ux_design_tokens.command.import', ImportCommand::class)
+            ->args([
+                tagged_locator('ux_design_tokens.importer', 'format'),
+                service('.ux_design_tokens.token_tree_builder'),
+            ])
+            ->tag('console.command')
+
         ->set('.ux_design_tokens.command.lint', LintDesignTokensCommand::class)
             ->args([
                 service('.ux_design_tokens.validator'),
@@ -156,4 +177,11 @@ return static function (ContainerConfigurator $container): void {
             ])
             ->tag('console.command')
     ;
+
+    if (class_exists(Yaml::class)) {
+        $container->services()
+            ->set('.ux_design_tokens.generator.design_md', DesignMdGenerator::class)
+                ->tag('ux_design_tokens.generator', ['format' => 'design.md'])
+        ;
+    }
 };
